@@ -1,0 +1,19 @@
+# Summary: ARTICLE IN PRESS
+
+**Source PDF:** `s41467-026-74207-5_reference.pdf`
+**Relative path:** `s41467-026-74207-5_reference.pdf`
+**Authors:** Thomas A. Buckley and James A. Diao and Cam N. Srivastava and Peter G. Brodeur and Received November and Adam Rodman Arjun K. Manrai and Accepted May
+**Year:** 2026
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+
+## Extracted Abstract / Overview
+Multimodal foundation models have shown compelling but conflicting performance in medical image interpretation. However, the ways in which these models integrate and prioritize different data modalities, including images and text, remain poorly understood. Here we evaluate 8 proprietary and open-source multimodal foundation models using 1090 multimodal medical cases. We show that image predictions are largely driven by text, with accuracy increasing monotonically with the amount of informative text. Exploitation of text is a double-edged sword; even mild suggestions of an incorrect diagnosis in text diminish image-based classification, dramatically reducing performance in cases the model could previously answer using images alone—o3 accuracy fell from 84% to 28% when a misleading clinical vignette was introduced. In physician evaluations of long-form cases, adding images reduces or does not improve performance when text is highly informative (e.g., GPT-4V showed decreased accuracy when images were added to highly informative text across 69 clinicopathological conferences). Our results suggest that multimodal AI models may be useful in medical diagnostic reasoning but that their accuracy is largely driven, for better and worse, by text. ARTICLE IN PRESS ARTICLE IN PRESS
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

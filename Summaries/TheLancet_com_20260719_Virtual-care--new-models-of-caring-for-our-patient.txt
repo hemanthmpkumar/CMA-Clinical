@@ -1,0 +1,18 @@
+# Summary: Virtual care: new models of caring for our patients and workforce
+
+**Source PDF:** `Virtual-care--new-models-of-caring-for-our-patient.pdf`
+**Relative path:** `TheLancet.com_20260719/Virtual-care--new-models-of-caring-for-our-patient.pdf`
+**Authors:** Lee H Schwamm
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+medical management plan, and support serious illness conversations, to name just a few benefits. Some have likened this surge of digital activity to the rural electrification project of the 1930s that extended modern industrial society to even the most remote parts of the USA.10 This digital surge portends the clinical COVID-19 surge, and has faced its own challenges, as internet service providers and videoconferencing platforms struggle under the load and occasionally have service brownouts or blackouts. But the mainstreaming of digital health tools and collaboration software will be one of the few positives to come from this pandemic, and many of the new digital skills and innovations are likely to remain long after the pandemic has resolved. Our health-care system will have taken a giant step towards modernisation, with the potential for greater efficiency in care delivery and increased value in health care. If appropriate reimbursement for virtual care becomes an expectation rather than the exception, it will open up new avenues of care delivery and lay the groundwork for major advances in machine learning and artificial intelligence, and the integration of these advances into routine care delivery. The traditional methodical and cautious roll-out of information technology in medicine must shift overnight to agile implementations of minimum viable products. These new innovations must rapidly embed themselves into existing support structures and then evolve iteratively to ensure medical grade reliability and quality and avoid the chaos of an explosion of small- scale innovations without support or institutional backing. Lives are at stake, and time is of the essence. LHS reports grants from the US National Institute of Neurological Disorders and Stroke and the Patien
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

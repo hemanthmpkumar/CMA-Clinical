@@ -1,0 +1,20 @@
+# Summary: Centralized Interactive Phenomics Resource: an integrated online phenomics knowledgebase for health data users
+
+**Source PDF:** `ocae042.pdf`
+**Relative path:** `ocae042.pdf`
+**Authors:** Francesca Fontin and Jacqueline Honerlaw and Michael Murray and Ashley Galloway and David Heise and Keith Connatser and Laura Davies and Jeffrey Gosian and Monika Maripuri and John Russo and Rahul Sangar and Vidisha Tanukonda and Edward Zielinski and Maureen Dubreuil and Andrew J. Zimolzak
+**Year:** 2024
+**Venue:** Journal of the American Medical Informatics Association
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Objective: Development of clinical phenotypes from electronic health records (EHRs) can be resource intensive. Several phenotype libraries have been created to facilitate reuse of definitions. However, these platforms vary in target audience and utility. We describe the development of the Centralized Interactive Phenomics Resource (CIPHER) knowledgebase, a comprehensive public-facing phenotype library, which aims to facilitate clinical and health services research. Materials and Methods: The platform was designed to collect and catalog EHR-based computable phenotype algorithms from any healthcare system, scale metadata management, facilitate phenotype discovery, and allow for integration of tools and user workflows. Phenomics experts were engaged in the development and testing of the site. Results: The knowledgebase stores phenotype metadata using the CIPHER standard, and definitions are accessible through complex search­ ing. Phenotypes are contributed to the knowledgebase via webform, allowing metadata validation. Data visualization tools linking to the knowl­ edgebase enhance user interaction with content and accelerate phenotype development. Discussion: The CIPHER knowledgebase was developed in the largest healthcare system in the United States and piloted with external part­ ners. The design of the CIPHER website supports a variety of front-end tools and features to facilitate phenotype development and reuse. Health data users are encouraged to contribute their algorithms to the knowledgebase for wider dissemination to the research community, and to use the platform as a springboard for phenotyping. Conclusion: CIPHER is a public resource for all health data users available at https://phenomics.va.ornl.gov/ which facilitates phenotype reuse, development, and dissem
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

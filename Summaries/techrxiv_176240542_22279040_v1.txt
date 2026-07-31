@@ -1,0 +1,24 @@
+# Summary: A Comprehensive Survey of Agentic AI in Healthcare
+
+**Source PDF:** `techrxiv.176240542.22279040_v1.pdf`
+**Relative path:** `techrxiv.176240542.22279040_v1.pdf`
+**Authors:** Xueyang Li and Yixiong Chen and Yuying Duan and Shuqing Wu and Alexander Yu and Ching-Hao Chiu and Juntong Ni and Gelei Xu and Toby Jia-Jun Li and Alan Yuille and Wei Jin and Yiyu Shi and Ningzhi Tang
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- large language models in medicine
+- session-based search, intent, and context drift
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+The rapid advancement of large language models (LLMs) has accelerated the development of agentic AI. This paradigm carries signiﬁcant implications for healthcare, an ecosystem characterized by its knowledge intensity and complex decision-making requirements. At the same time, the high- stakes and safety-critical nature of healthcare poses unique challenges, making general-purpose agentic frameworks often inadequate. The autonomy that deﬁnes these agents introduces additional concerns regarding trust, reliability, and alignment with clinical constraints. With research in this area growing exponentially over the past two years, this comprehensive survey provides a systematic map, analyzing over 200 recent studies. We propose a holistic taxonomy that traces the full lifecycle of healthcare agents, beginning with the Perception of diverse clinical modalities. From there, it examines the core Agentic Capabilities and Architectures that enable autonomous action. We then map the Application Ecosystem by organizing use cases around the key stakeholders they serve (clinicians, patients, researchers, and administrators) and conclude with a review of Evaluation frameworks. Furthermore, we discuss the limitations of existing methods from diverse perspectives and systematically propose future research directions. To facilitate ongoing research, a curated list of all related papers is available at https://github.com/AgenticHealthAI/Awesome- Agentic-AI-for-Healthcare/.
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

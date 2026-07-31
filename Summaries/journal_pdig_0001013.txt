@@ -1,0 +1,18 @@
+# Summary: Beyond overconfidence: Embedding curiosity and humility for ethical medical AI
+
+**Source PDF:** `journal.pdig.0001013.pdf`
+**Relative path:** `journal.pdig.0001013.pdf`
+**Authors:** Sebastián Andrés Cajas Ordóñez
+**Year:** 2026
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Contemporary medical AI systems exhibit a critical vulnerability: they deliver confi­ dent predictions without mechanisms to express uncertainty or acknowledge limita­ tions, leading to dangerous overreliance in clinical settings. This paper introduces the BODHI (Bridging, Open, Discerning, Humble, Inquiring) framework, a dual-reflective architecture grounded in two essential epistemic virtues: curiosity and humility, as foundational design principles for healthcare AI. Curiosity drives systems to actively explore diagnostic uncertainty, seek additional information when faced with ambig­ uous presentations, and recognize when training distributions fail to match clinical reality. Humility provides complementary restraint, enabling uncertainty quantifi­ cation, boundary recognition, and appropriate deference to human expertise. We demonstrate how these virtues function synergistically in a dynamic feedback loop, preventing both reckless exploration and excessive caution while supporting col­ laborative clinical decision-making. Drawing from psychological theories of curiosity and cross-species evidence of epistemic humility, we argue that these capacities represent fundamental biological design principles essential for systems operating in high-stakes, uncertain environments. The BODHI framework addresses systemic failures in medical AI deployment, from biased training data to institutional workflow PLOS Digital Health | https://doi.org/10.1371/journal.pdig.0001013 January 5, 2026 2 / 13 pressures, by embedding uncertainty awareness and collaborative restraint into foun­ dational system architecture. Key implementation features include calibrated confi­ dence measures, out-of-distribution detection, curiosity-driven escalation protocols, and transparency mechanisms that 
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

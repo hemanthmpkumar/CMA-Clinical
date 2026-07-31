@@ -1,0 +1,21 @@
+# Summary: Federated Learning and Differential Privacy Techniques on Multi-hospital Population-scale Electrocardiogram Data
+
+**Source PDF:** `3673971.3673990.pdf`
+**Relative path:** `3673971.3673990.pdf`
+**Authors:** Varma Manthena and of Alberta and of Alberta
+**Year:** 2024
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+This research paper explores ways to apply Federated Learning (FL) and Differential Privacy (DP) techniques to population-scale Electrocardiogram (ECG) data. The study learns a multi-label ECG classification model using FL and DP based on 1,565,849 ECG trac- ings from 7 hospitals in Alberta, Canada. The FL approach al- lowed collaborative model training without sharing raw data be- tween hospitals, while building robust ECG classification models for diagnosing various cardiac conditions. These accurate ECG classification models can facilitate the diagnoses while preserving patient confidentiality using FL and DP techniques. Our results show that the performance achieved using our implementation of the FL approach is comparable to that of the pooled approach, where the model is trained over the aggregating data from all hos- pitals. Furthermore, our findings suggest that hospitals with lim- ited ECGs for training can benefit from adopting the FL model compared to single-site training. In addition, this study show- cases the trade-off between model performance and data privacy by employing DP during model training. Our code is available at https://github.com/vikhyatt/Hospital-FL-DP. CCS Concepts • Applied computing; • Health informatics; Health care infor- mation systems;; • Computing methodologies; • Computer vision tasks;; • Computer systems organization; • Neural net- works.; Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than the author(s) must be honored. Abstracting with credit is p
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

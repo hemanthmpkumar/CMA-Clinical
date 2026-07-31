@@ -1,0 +1,18 @@
+# Summary: Analyzing and Learning from User Interactions for Search Clarification.
+
+**Source PDF:** `3397271.3401160.pdf`
+**Relative path:** `3397271.3401160.pdf`
+**Authors:** Hamed Zamani and Bhaskar Mitra and Everest Chen and Gord Lueck and Fernando Diaz and Paul N. Bennett and Nick Craswell and and Susan T. Dumais
+**Year:** 2020
+**Venue:** SIGIR
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Asking clarifying questions in response to search queries has been recognized as a useful technique for revealing the underlying intent of the query. Clarification has applications in retrieval systems with different interfaces, from the traditional web search interfaces to the limited bandwidth interfaces as in speech-only and small screen devices. Generation and evaluation of clarifying questions have been recently studied in the literature. However, user interaction with clarifying questions is relatively unexplored. In this paper, we conduct a comprehensive study by analyzing large-scale user interactions with clarifying questions in a major web search en- gine. In more detail, we analyze the user engagements received by clarifying questions based on different properties of search queries, clarifying questions, and their candidate answers. We further study click bias in the data, and show that even though reading clarifying questions and candidate answers does not take significant efforts, there still exist some position and presentation biases in the data. We also propose a model for learning representation for clarifying questions based on the user interaction data as implicit feedback. The model is used for re-ranking a number of automatically gen- erated clarifying questions for a given query. Evaluation on both click data and human labeled data demonstrates the high quality of the proposed method. ACM Reference Format: Hamed Zamani, Bhaskar Mitra, Everest Chen, Gord Lueck, Fernando Diaz, Paul N. Bennett, Nick Craswell, and Susan T. Dumais. 2020. Analyzing and Learning from User Interactions for Search Clarification. In Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR ’20), July 25–30, 2020, V
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.

@@ -1,0 +1,18 @@
+# Summary: Deep learning to distinguish pancreatic cancer tissue from non-cancerous pancreatic tissue: a retrospective study with cross-racial external validation
+
+**Source PDF:** `Deep-learning-to-distinguish-pancreatic-cancer-tis.pdf`
+**Relative path:** `TheLancet.com_20260719/Deep-learning-to-distinguish-pancreatic-cancer-tis.pdf`
+**Authors:** Kao-Lang Liu
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+www.thelancet.com/digital-health Vol 2 June 2020 e303 Articles Lancet Digital Health 2020; 2: e303–13 See Comment page e271 *Contributed equally Department of Medical Imaging, National Taiwan University Cancer Center (K-L Liu MD); Department of Medical Imaging, National Taiwan University Hospital, National Taiwan University College of Medicine, Taipei, Taiwan (K-L Liu, P-T Chen MD); NVIDIA, Bethesda, MD, USA (H Roth PhD); and Institute of Applied Mathematical Sciences (T Wu MS, Y M Tsai MS, W Wang PhD), Division of Gastroenterology and Hepatology, Department of Internal Medicine, National Taiwan University Hospital (M-S Wu MD, W-C Liao MD), and Internal Medicine, College of Medicine (M-S Wu, W-C Liao), National Taiwan University, Taipei, Taiwan Correspondence to: Dr Wei-Chih Liao, Department of Internal Medicine, National Taiwan University Hospital, Taipei 10002, Taiwan david.ntuh@gmail.com or Dr Weichung Wang, Institute of Applied Mathematical Sciences, National Taiwan University, Taipei 10617, Taiwan wwang@ntu.edu.tw Deep learning to distinguish pancreatic cancer tissue from non-cancerous pancreatic tissue: a retrospective study with cross-racial external validation Kao-Lang Liu*, Tinghui Wu*, Po-Ting Chen, Yuhsiang M Tsai, Holger Roth, Ming-Shiang Wu, Wei-Chih Liao, Weichung Wang Summary
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

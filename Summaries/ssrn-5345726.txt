@@ -1,0 +1,24 @@
+# Summary: Domain Adaptation and Generalization Using Foundation Models in Healthcare Imaging
+
+**Source PDF:** `ssrn-5345726.pdf`
+**Relative path:** `ssrn-5345726.pdf`
+**Authors:** Haoran Ying and Yijun Lia and Zedong Fu
+**Year:** Not extracted
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- large language models in medicine
+- self-supervised and JEPA-style predictive learning
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+The application of artificial intelligence (AI) in medical imaging has seen remarkable advances in recent years, particularly through the use of deep learning models trained on large-scale datasets. However, despite impressive performance on in-distribution data, such models often struggle to maintain reliability and accuracy when deployed in new clinical environments—a phe- nomenon commonly attributed to domain shift. Domain adaptation (DA) and domain generalization (DG) have thus emerged as critical areas of re- search, aiming to improve model robustness across diverse imaging modali- ties, scanners, patient populations, and institutions. At the same time, the rise of foundation models—large-scale, pre-trained architectures capable of zero-shot or few-shot learning across tasks and domains—has opened up new possibilities for tackling these challenges with unprecedented flexibility and scale. This survey provides an in-depth exploration of the intersec- tion between DA/DG methods and foundation models in medical imag- ing. We begin by outlining the theoretical motivations for domain-robust learning and describe the unique characteristics of medical imaging that intensify the need for generalization, such as high inter-institutional vari- ability, rare disease prevalence, and modality-specific artifacts. We then review foundational techniques for DA and DG, including supervised and unsupervised strategies, self-supervised learning, adversarial alignment, and meta-learning approaches. Building on this foundation, we analyze how recent advancements in foundation models—particularly vision transform- ers, contrastive pretraining, and vision-language models—are reshaping the landscape of domain-robust AI in medicine. Key themes include the reuse of pre-trained representatio
+
+## Relevance to CMA / main.tex
+- Aligns with the JEPA predictor component that forecasts next-intent states for anticipatory prefetch in CMA.
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

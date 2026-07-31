@@ -1,0 +1,21 @@
+# Summary: Precision Drug Repurposing (PDR): Patient-level modeling and prediction combining foundational knowledge graph with biobank data
+
+**Source PDF:** `1-s2.0-S1532046425000152-main.pdf`
+**Relative path:** `1-s2.0-S1532046425000152-main.pdf`
+**Authors:** Çerağ Oğuztüzün
+**Year:** 2025
+**Venue:** Journal of Biomedical Informatics
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Contents lists available at ScienceDirect Journal of Biomedical Informatics journal homepage: www.elsevier.com/locate/yjbin Original Research Precision Drug Repurposing (PDR): Patient-level modeling and prediction combining foundational knowledge graph with biobank data Çerağ Oğuztüzün a,b , Zhenxiang Gao a, Hui Li a , Rong Xu a ,∗ a Center for Artificial Intelligence in Drug Discovery, Case Western Reserve University, 10900 Euclid Ave, Cleveland, 44106, OH, USA b Department of Computer Science, Case Western Reserve University, 10900 Euclid Ave, Cleveland, 44106, OH, USA A R T I C L E I N F O Dataset link: https://www.ukbiobank.ac.uk/ Keywords: Drug repurposing Precision medicine Knowledge graphs Graph convolutional network Alzheimer’s disease Polygenic risk scores A B S T R A C T Objective: Drug repurposing accelerates therapeutic development by finding new indications for approved drugs. However, accounting for individual patient differences is challenging. This study introduces a Precision Drug Repurposing (PDR) framework at single-patient resolution, integrating individual-level data with a foundational biomedical knowledge graph to enable personalized drug discovery. Methods: We developed a framework integrating patient-specific data from the UK Biobank (Polygenic Risk Scores, biomarker expressions, and medical history) with a comprehensive biomedical knowledge graph (61,146 entities, 1,246,726 relations). Using Alzheimer’s Disease as a case study, we compared three diverse patient-specific models with a foundational model through standard link prediction metrics. We evaluated top predicted candidate drugs using patient medication history and literature review. Results: Our framework maintained the robust prediction capabilities of the foundational model. The inte-
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

@@ -1,0 +1,21 @@
+# Summary: Incremental Learning in Medical Imaging: A Comprehensive Survey of Deep Neural Network Advances and Challenges
+
+**Source PDF:** `Incremental_Learning_in_Medical_Imaging_A_Comprehensive_Survey_of_Deep_Neural_Network_Advances_and_Challenges.pdf`
+**Relative path:** `Incremental_Learning_in_Medical_Imaging_A_Comprehensive_Survey_of_Deep_Neural_Network_Advances_and_Challenges.pdf`
+**Authors:** Associate Member and FATMA HARMAN
+**Year:** 2026
+**Venue:** nature
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+institutions, and disease categories emerge, necessitating adaptive models capable of learning incrementally without catastrophic forgetting. While lifelong learning (LL) and continual learning (CL) frameworks broadly target continuous model adaptation, incremental learning (IL) emphasizes structured, phase- wise knowledge acquisition involving new classes, domains, or modalities. Despite increasing attention to CL in computer vision, IL-specific methodologies, evaluation protocols, and benchmarks tailored to medical imaging remain largely underexplored. This paper presents the first systematic survey dedicated to incremental learning in medical imaging. A unified taxonomy is proposed across three complementary axes: i) Learning Mechanisms — including regularization-, replay-, dynamic architecture-, parameter modulation-, and hybrid/meta-based methods; ii) Incremental Scenarios — covering class-, domain-, task-, modality-, and data/online-incremental settings; and iii) Application Dimensions — encompassing task types, imaging modalities, data-access constraints, and challenge-driven factors such as imbalance, forgetting, and privacy. For each axis, representative algorithms, evaluation protocols, and benchmark datasets are synthesized to illustrate how IL strategies extend continual learning principles toward clinically deployable AI systems. Finally, the survey highlights emerging research directions—such as privacy-preserving and federated IL, data-free adaptation, uncertainty calibration, and scalable integration with foundation models—laying the groundwork for robust and sustainable clinical AI development. INDEX TERMS Incremental learning, continual learning, lifelong learning, medical imaging, catastrophic forgetting, deep neural networks, domain adaptation, priva
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

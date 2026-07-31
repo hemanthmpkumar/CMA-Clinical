@@ -1,0 +1,19 @@
+# Summary: A real-time dashboard of clinical trials for COVID-19
+
+**Source PDF:** `A-real-time-dashboard-of-clinical-trials-for-COVID.pdf`
+**Relative path:** `TheLancet.com_20260719/A-real-time-dashboard-of-clinical-trials-for-COVID.pdf`
+**Authors:** Kristian Thorlund
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Correspondence www.thelancet.com/digital-health Vol 2 June 2020 e286 A real-time dashboard of clinical trials for COVID-19 In response to the global coronavirus disease 2019 (COVID-19) emergency, clinical trial research assessing the efficacy and safety of clinical candidate interventions to treat COVID-19 are emerging at an unprecedented rate. As of April 21, 2020, well over 500 clinical trials have been registered at the various international and national clinical trial registry sites. Findings from randomised clinical trials that have been published as of April 21,
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

@@ -1,0 +1,21 @@
+# Summary: A Survey of Large Language Models in Medicine: Progress, Application, and Challenge
+
+**Source PDF:** `2311.05112v7.pdf`
+**Relative path:** `2311.05112v7.pdf`
+**Authors:** Hongjian Zhou and Fenglin Liu and Boyang Gu and Xinyu Zou and Jinfa Huang and Jinge Wu and Yiru Li and Sam Chen and Peilin Zhou and Junling Liu and Yining Hua and Chengfeng Mao and Xian Wu and Yefeng Zheng and Lei Clifton and Zheng Li and Jiebo Luo and David Clifton
+**Year:** Not extracted
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Large language models (LLMs), such as ChatGPT, have received substantial attention due to their capabilities for understanding and generating human language. While there has been a burgeoning trend in research focusing on the employment of LLMs in supporting different medical tasks (e.g., enhancing clinical diagnostics and providing medical education), a comprehensive review of these efforts, particularly their development, practical applications, and outcomes in medicine, remains scarce. Therefore, this review aims to provide a detailed overview of the development and deployment of LLMs in medicine, including the challenges and opportunities they face. In terms of development, we provide a detailed introduction to the principles of existing medical LLMs, including their basic model structures, number of parameters, and sources and scales of data used for model development. It serves as a guide for practitioners in developing medical LLMs tailored to their specific needs. In terms of deployment, we offer a comparison of the performance of different LLMs across various medical tasks, and further compare them with state-of-the-art lightweight models, aiming to provide a clear understanding of the distinct advantages and limitations of LLMs in medicine. Overall, in this review, we address the following study questions: 1) What are the practices for developing medical LLMs? 2) How to measure the medical task performance of LLMs in a medical setting? 3) How have medical LLMs been employed in real-world practice? 4) What challenges arise from the use of medical LLMs? and 5) How to more effectively develop and deploy medical LLMs? By answering these questions, this review aims to provide insights into the opportunities and challenges of LLMs in medicine and serve as a practica
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

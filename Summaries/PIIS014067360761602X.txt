@@ -1,0 +1,17 @@
+# Summary: doi:10.1016/S0140-6736(07)61602-X
+
+**Source PDF:** `PIIS014067360761602X.pdf`
+**Relative path:** `PIIS014067360761602X.pdf`
+**Authors:** Unknown author
+**Year:** 2007
+**Venue:** BMJ
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+
+## Extracted Abstract / Overview
+, introduction, methods, results, and discussion sections of articles. 18 items are common to all three study designs and four are speciﬁ c for cohort, case-control, or cross-sectional studies. A detailed explanation and elaboration document is published separately and is freely available on the websites of PLoS Medicine, Annals of Internal Medicine, and Epidemiology. We hope that the STROBE statement will contribute to improving the quality of reporting of observational studies.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

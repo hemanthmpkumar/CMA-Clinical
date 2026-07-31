@@ -1,0 +1,22 @@
+# Summary: Federated Learning in Multimodal Healthcare Diagnostics: Privacy- Preserving AI for Biomedical Imaging, Electronic Health Records, Wearables, and Clinical Decision Support
+
+**Source PDF:** `s11831-026-10629-0.pdf`
+**Relative path:** `s11831-026-10629-0.pdf`
+**Authors:** Hossam Haick and Received April Revised April Accepted May
+**Year:** 2026
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+The rapid expansion of chemical and biomedical imaging-from Magnetic Resonance Imaging (MRI), Computed Tomog­ raphy (CT), ultrasound, and histopathology to biosensor and wearable outputs-allows unparalleled opportunities for early diagnosis, precision monitoring, and personalized care. Traditional AI pipelines, however, rely on the centralization of sensitive clinical data, which in general is not feasible because privacy regulations, institutional policies, and variable hardware across imaging systems often prohibit it. Federated learning (FL) overcomes such limitations by enabling multi- institutional training of AI without transferring raw images or patient records. Instead, local models learn from site-specific imaging and physiological data, and only model updates are shared across collaborating sites, thereby reducing direct exposure of raw patient data and improving regulatory alignment; however, confidentiality is not automatic and depends on additional safeguards against risks such as gradient leakage, model inversion, and membership inference attacks. In this review, we conduct a literature review of FL in healthcare including practical applications from multiple areas of study, Biomedical Imaging, Electronic Health Records, Physiological/Chemical Signals, Chronic Disease Management, Elder Care, and Clinical Decision Support, among others. In addition to providing insight into the successes, we outline the key barriers to implementing FL including system heterogeneity, data imbalance, communication bottlenecks, and issues related to fairness. Tying together research and practice we also offer actionable advice to regulators, developers, and healthcare systems for how to move forwards towards safe, equitable and cross geographical FL systems in medicine. Receiv
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

@@ -1,0 +1,17 @@
+# Summary: CONSORT 2010 Statement: updated guidelines for
+
+**Source PDF:** `1741-7015-8-18.pdf`
+**Relative path:** `1741-7015-8-18.pdf`
+**Authors:** Unknown author
+**Year:** 2001
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+
+## Extracted Abstract / Overview
+The CONSORT statement is used worldwide to improve the reporting of randomised controlled trials. Kenneth Schulz and colleagues describe the latest version, CONSORT 2010, which updates the reporting guideline based on new methodological evidence and accumulating experience. To encourage dissemination of the CONSORT 2010 Statement, this article is freely accessible on bmj.com and will also be published in the Lancet, Obstetrics and Gynecology, PLoS Medicine, Annals of Internal Medicine, Open Medicine, Journal of Clinical Epidemiology, BMC Medicine, and Trials.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

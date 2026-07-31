@@ -1,0 +1,19 @@
+# Summary: A multi-agent approach to neurological clinical reasoning
+
+**Source PDF:** `journal.pdig.0001106.pdf`
+**Relative path:** `journal.pdig.0001106.pdf`
+**Authors:** Moran Sorka
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+
+## Extracted Abstract / Overview
+Large language models (LLMs) have demonstrated impressive capabilities in medi­ cal domains, yet their ability to handle the specialized reasoning patterns required in clinical neurology warrants systematic evaluation. Neurological assessment pres­ ents distinctive challenges that combine anatomical localization, temporal pattern recognition, and nuanced symptom interpretation—cognitive processes that are specifically tested in board certification examinations. We developed a comprehen­ sive benchmark comprising 305 questions from Israeli Board Certification Exams in Neurology and classified each along three dimensions of complexity: factual knowledge depth, clinical concept integration, and reasoning complexity. We eval­ uated ten LLMs of varying architectures and specializations using this benchmark, testing base models, retrieval-augmented generation (RAG) enhancement, and a novel multi-agent system. Our analysis revealed significant performance variation across models and methodologies. The OpenAI-o1 model achieved the highest base performance (90.9% accuracy), while specialized medical models performed surpris­ ingly poorly (52.9% for Meditron-70B). RAG enhancement provided variable benefits across models; substantial improvements for mid-tier models like GPT-4o (80.5% to 87.3%) and smaller models, but limited effectiveness on the highest complexity questions regardless of model size. In contrast, our multi-agent framework—which decomposes neurological reasoning into specialized cognitive functions including question analysis, knowledge retrieval, answer synthesis, and validation—achieved dramatic improvements, especially for mid-range models. The LLaMA 3.3-70B-based agentic system reached 89.2% accuracy compared to 69.5% for its base model, with particularly subst
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

@@ -1,0 +1,20 @@
+# Summary: Integrating Artificial Intelligence into Perinatal Care Pathways: A Scoping Review of Reviews of Applications, Outcomes, and Equity
+
+**Source PDF:** `nursrep-15-00281-v3.pdf`
+**Relative path:** `nursrep-15-00281-v3.pdf`
+**Authors:** Rabie Adel El Arab and Omayma Abdulaziz Al Moosa and Zahraa Albahrani and Israa Alkhalil and Joel Somerville and Fuad Abuadas
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Background: Artificial intelligence (AI) and machine learning (ML) have been reshaping maternal, fetal, neonatal, and reproductive healthcare by enhancing risk prediction, diag- nostic accuracy, and operational efficiency across the perinatal continuum. However, no comprehensive synthesis has yet been published. Objective: To conduct a scoping review of reviews of AI/ML applications spanning reproductive, prenatal, postpartum, neonatal, and early child-development care. Methods: We searched PubMed, Embase, the Cochrane Library, Web of Science, and Scopus through April 2025. Two reviewers independently screened records, extracted data, and assessed methodological quality using AMSTAR 2 for systematic reviews, ROBIS for bias assessment, SANRA for narrative reviews, and JBI guidance for scoping reviews. Results: Thirty-nine reviews met our inclusion criteria. In preconception and fertility treatment, convolutional neural network-based platforms can identify viable embryos and key sperm parameters with over 90 percent accuracy, and machine-learning models can personalize follicle-stimulating hormone regimens to boost mature oocyte yield while reducing overall medication use. Digital sexual-health chatbots have enhanced patient education, pre-exposure prophylaxis adherence, and safer sexual behaviors, although data-privacy safeguards and bias mitigation remain priorities. During pregnancy, advanced deep-learning models can segment fetal anatomy on ultrasound images with more than 90 percent overlap compared to expert annotations and can detect anomalies with sensitivity exceeding 93 percent. Predictive biometric tools can estimate gestational age within one week with accuracy and fetal weight within approximately 190 g. In the postpartum period, AI-driven decision-support sy
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

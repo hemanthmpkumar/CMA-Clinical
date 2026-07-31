@@ -1,0 +1,18 @@
+# Summary: CHI-Bench: Can AI Agents Automate End-to-End, Long-Horizon, Policy-Rich Healthcare Workflows?
+
+**Source PDF:** `2605.16679v2.pdf`
+**Relative path:** `2605.16679v2.pdf`
+**Authors:** Haolin Chen and Deon Metelski and Leon Qi and Tao Xia and Joonyul Lee and Steve Brown and Kevin Riley and Frank Wang and Hank Capps and Zeyu Tang and Xiangchen Song and Lingjing Kong and Fan Feng and Tianyi Zeng and Zhiwei Liu and Zixian Ma and Hang Jiang and Fangli Geng and Yuan Yuan and Chenyu You and Qingsong Wen and Hua Wei and Yanjie Fu and Yue Zhao and Carl Yang and Biwei Huang and Kun Zhang and Caiming Xiong and Sanmi Koyejo and Eric P. Xing and Philip S. Yu and Weiran Yao
+**Year:** 2026
+**Venue:** arXiv:2605.16679v2
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+End-to-end automation of realistic healthcare operations stresses three capabili- ties underrepresented in current benchmarks: policy density, decisions must be grounded in a large library of medical, insurance, and operational rules; multi-role composition, a single task requires the agent to play multiple roles with handoffs; and multilateral interaction: intermediate workflow steps are multi-turn dialogs, such as peer-to-peer review and patient outreach. We introduce χ-Bench, a bench- mark of long-horizon healthcare workflows across three domains: provider prior authorization, payer utilization management, and care management. Each task hands the agent a clinical case in a high-fidelity simulator of 20 healthcare apps exposed via 87 MCP tools, which it must drive to a terminal status through tool calls and writing the role’s artifacts, guided by a 1,279-document managed-care arXiv:2605.16679v2 [cs.CL] 19 May 2026 operations handbook skill. Across 30 agent harness/model configurations, the best agent resolves only 28.0% of tasks, no agent clears 20% on strict pass^3, and exe- cuting all tasks in a single session slumps the performance to 3.8%. These results raise the hypothesis that similar gaps are likely to surface in other policy-dense, role-composed, irreversible enterprise domains. actava.ai/benchmarks actava-ai/chi-bench actava/chi-bench
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

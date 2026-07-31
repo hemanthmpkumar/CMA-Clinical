@@ -1,0 +1,17 @@
+# Summary: Pandemic versus pandemonium: fighting on two fronts
+
+**Source PDF:** `Pandemic-versus-pandemonium--fighting-on-two-front.pdf`
+**Relative path:** `TheLancet.com_20260719/Pandemic-versus-pandemonium--fighting-on-two-front.pdf`
+**Authors:** The Lancet Digital Health
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- general clinical informatics / machine learning background
+
+## Extracted Abstract / Overview
+No abstract or substantial opening paragraph could be automatically extracted from the PDF.
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

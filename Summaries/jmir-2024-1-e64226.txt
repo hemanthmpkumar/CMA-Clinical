@@ -1,0 +1,19 @@
+# Summary: Economics and Equity of Large Language Models: Health Care Perspective
+
+**Source PDF:** `jmir-2024-1-e64226.pdf`
+**Relative path:** `jmir-2024-1-e64226.pdf`
+**Authors:** Unknown
+**Year:** 2024
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- large language models in medicine
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Large language models (LLMs) continue to exhibit noteworthy capabilities across a spectrum of areas, including emerging proficiencies across the health care continuum. Successful LLM implementation and adoption depend on digital readiness, modern infrastructure, a trained workforce, privacy, and an ethical regulatory landscape. These factors can vary significantly across health care ecosystems, dictating the choice of a particular LLM implementation pathway. This perspective discusses 3 LLM implementation pathways—training from scratch pathway (TSP), fine-tuned pathway (FTP), and out-of-the-box pathway (OBP)—as potential onboarding points for health systems while facilitating equitable adoption. The choice of a particular pathway is governed by needs as well as affordability. Therefore, the risks, benefits, and economics of these pathways across 4 major cloud service providers (Amazon, Microsoft, Google, and Oracle) are presented. While cost comparisons, such as on-demand and spot pricing across the cloud service providers for the 3 pathways, are presented for completeness, the usefulness of managed services and cloud enterprise tools is elucidated. Managed services can complement the traditional workforce and expertise, while enterprise tools, such as federated learning, can overcome sample size challenges when implementing LLMs using health care data. Of the J Med Internet Res 2024 | vol. 26 | e64226 | p. 1 https://www.jmir.org/2024/1/e64226 (page number not for citation purposes) Nagarajan et al JOURNAL OF MEDICAL INTERNET RESEARCH XSL•FO RenderX 3 pathways, TSP is expected to be the most resource-intensive regarding infrastructure and workforce while providing maximum customization, enhanced transparency, and performance. Because TSP trains the LLM using enterprise 
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

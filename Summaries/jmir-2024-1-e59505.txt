@@ -1,0 +1,23 @@
+# Summary: Multimodal Large Language Models in Health Care: Applications, Challenges, and Future Outlook
+
+**Source PDF:** `jmir-2024-1-e59505.pdf`
+**Relative path:** `jmir-2024-1-e59505.pdf`
+**Authors:** Unknown
+**Year:** 2024
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- large language models in medicine
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+In the complex and multidimensional field of medicine, multimodal data are prevalent and crucial for informed clinical decisions. Multimodal data span a broad spectrum of data types, including medical images (eg, MRI and CT scans), time-series data (eg, sensor data from wearable devices and electronic health records), audio recordings (eg, heart and respiratory sounds and patient interviews), text (eg, clinical notes and research articles), videos (eg, surgical procedures), and omics data (eg, genomics and proteomics). While advancements in large language models (LLMs) have enabled new applications for knowledge retrieval and processing in the medical field, most LLMs remain limited to processing unimodal data, typically text-based content, and often overlook the importance of integrating the diverse data modalities encountered in clinical practice. This paper aims to present a detailed, practical, and solution-oriented perspective on the use of multimodal LLMs (M-LLMs) in the medical field. Our investigation spanned M-LLM foundational principles, current and potential applications, technical and ethical challenges, and future research directions. By connecting these elements, we aimed to provide a comprehensive framework that links diverse aspects of M-LLMs, offering a unified vision for their future in health care. This approach aims to guide both future research and practical implementations of M-LLMs in health care, positioning them as a paradigm shift toward integrated, multimodal data–driven medical practice. We anticipate that this work will spark further discussion and inspire the development of innovative approaches in the next generation of medical M-LLM systems. (J Med Internet Res 2024;26:e59505) doi: 10.2196/59505
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

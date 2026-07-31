@@ -1,0 +1,23 @@
+# Summary: Towards accurate differential diagnosis with large language models
+
+**Source PDF:** `s41586-025-08869-4.pdf`
+**Relative path:** `s41586-025-08869-4.pdf`
+**Authors:** Daniel McDuff
+**Year:** 2025
+**Venue:** Nature
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+- session-based search, intent, and context drift
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+Toronto, Ontario, Canada. 6Google DeepMind, Mountain View, CA, USA. 7Google Research, Zurich, Switzerland. 8Google DeepMind, Paris, France. 9Google Research, London, UK. 10These authors contributed equally: Daniel McDuff, Mike Schaekermann, Tao Tu, Anil Palepu. 11These authors jointly supervised this work: Jake Sunshine, Alan Karthikesalingam and Vivek Natarajan. ✉e-mail: dmcduff@google.com; mikeshake@google.com; jakesunshine@google.com; alankarthi@google.com; natviv@google.com 452 | Nature | Vol 642 | 12 June 2025 Article Here we introduce AMIE, an LLM that is optimized for clinical diag- nostic reasoning to generate a DDx for challenging, real-world medical cases. Beyond measuring standalone performance, we integrated this model into an interactive interface to measure how well AMIE could assist clinicians in developing a DDx. Using a set of challenging real-world case reports from the New England Journal of Medicine (NEJM) clinicopatho- logical conferences (CPCs), we compared clinicians’ ability to form a DDx with the assistance of AMIE versus with access to traditional information retrieval tools (such as internet searches and books). AMIE achieved impressive performance in both generating DDx lists that contained the correct diagnosis (top-10 accuracy) and in identifying the correct final diagnosis as the most likely in the list (top-1 accuracy). Under auto- mated model-based evaluation, the quality and the accuracy of the DDx list produced by AMIE was found to be significantly better than the state-of-the-art GPT-4 model available at the time of the experiments1. Perhaps more importantly, AMIE also improved the diagnostic capa- bility of clinicians as measured by the quality of their DDx lists for the evaluated cases. LLMs optimized for the safety-critical medical
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

@@ -1,0 +1,20 @@
+# Summary: FUTURE-AI: international consensus guideline for trustworthy and deployable artificial intelligence in healthcare
+
+**Source PDF:** `bmj-2024-081554.full.pdf`
+**Relative path:** `bmj-2024-081554.full.pdf`
+**Authors:** Karim Lekadir and Ben Glocker and Celia Cintas and Curtis P Langlotz and Eva Weicken and Fred Prior and Georgios Kaissis and Gianna Tsakou and Jayashree Kalpathy-Cramer and John Mongan and Kaisar Kushibar and Katrine Riklund and Kostas Marias and AI training
+**Year:** 2025
+**Venue:** BMJ
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+RESEARCH METHODS AND REPORTING RESEARCH METHODS AND REPORTING For numbered affiliations see end of the article Correspondence to: K Lekadir karim.lekadir@ub.edu (ORCID 0000-0002-9456-1612) Additional material is published online only. To view please visit the journal online. Cite this as: BMJ 2025;388:e081554 http://dx.doi.org/10.1136/ bmj‑2024‑081554 Accepted: 10 January 2025 FUTURE-AI: international consensus guideline for trustworthy and deployable artificial intelligence in healthcare Karim Lekadir,1,2 Alejandro F Frangi,3,4 Antonio R Porras,5 Ben Glocker,6 Celia Cintas,7 Curtis P Langlotz,8 Eva Weicken,9 Folkert W Asselbergs,10,11 Fred Prior,12 Gary S Collins,13 Georgios Kaissis,14 Gianna Tsakou,15 Irène Buvat,16 Jayashree Kalpathy-Cramer,17 John Mongan,18 Julia A Schnabel,19 Kaisar Kushibar,1 Katrine Riklund,20 Kostas Marias,21 Lameck M Amugongo,22 Lauren A Fromont,23 Lena Maier-Hein,24 Leonor Cerdá-Alberich,25 Luis Martí-Bonmatí,26 M Jorge Cardoso,27 Maciej Bobowicz,28 Mahsa Shabani,29 Manolis Tsiknakis,21 Maria A Zuluaga,30 Marie-Christine Fritzsche,31 Marina Camacho,1 Marius George Linguraru,32 Markus Wenzel,9 Marleen De Bruijne,33 Martin G Tolsgaard,34 Melanie Goisauf,35 Mónica Cano Abadía,35 Nikolaos Papanikolaou,36 Noussair Lazrak,1 Oriol Pujol,1 Richard Osuala,1 Sandy Napel,37 Sara Colantonio,38 Smriti Joshi,1 Stefan Klein,33 Susanna Aussó,39 Wendy A Rogers,40 Zohaib Salahuddin,41 Martijn P A Starmans33; on behalf of the FUTURE-AI Consortium Despite major advances in artificial intelligence (AI) research for healthcare, the deployment and adoption of AI technologies remain limited in clinical practice. This paper describes the FUTURE-AI framework, which provides guidance for the development and deployment of trustworthy AI tools in healthcare. The FUTURE-AI
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

@@ -1,0 +1,20 @@
+# Summary: Learning Clinical Representations Under Systematic Distribution Shift
+
+**Source PDF:** `2603.07348v1.pdf`
+**Relative path:** `2603.07348v1.pdf`
+**Authors:** Yuanyun Zhang and Shi Li
+**Year:** 2026
+**Venue:** arXiv:2603.07348v1
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- self-supervised and JEPA-style predictive learning
+
+## Extracted Abstract / Overview
+Clinical machine learning models are increasingly trained using large-scale, multimodal foundation paradigms, yet deployment environments often differ systematically from the data-generating settings used during training. Such shifts arise from heterogeneous measurement policies, documentation practices, and institutional workflows, leading to representation entanglement between physiologic signal and practice-specific artifacts. In this work, we propose a practice-invariant representation learning framework for multimodal clinical prediction. We model clinical observations as arising from latent physiologic factors and environment-dependent processes, and introduce an objective that jointly optimizes predictive performance while suppressing environment-predictive information in the learned embedding. Concretely, we combine supervised risk minimization with adversarial environment regularization and invariant risk penalties across hospitals. Across multiple longitudinal EHR prediction tasks and cross-institution evaluations, our method improves out-of-distribution AUROC by up to 2–3 points relative to masked pretraining and standard supervised baselines, while maintaining in-distribution performance and improving calibration. These results demonstrate that explicitly accounting for systematic distribution shift during representation learning yields more robust and transferable clinical models, highlighting the importance of structural invariance alongside architectural scale in healthcare AI.
+
+## Relevance to CMA / main.tex
+- Aligns with the JEPA predictor component that forecasts next-intent states for anticipatory prefetch in CMA.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

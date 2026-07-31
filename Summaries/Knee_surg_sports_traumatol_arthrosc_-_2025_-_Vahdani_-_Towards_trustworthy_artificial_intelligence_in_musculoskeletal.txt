@@ -1,0 +1,22 @@
+# Summary: Towards trustworthy artificial intelligence in musculoskeletal medicine: A narrative review on uncertainty quantification
+
+**Source PDF:** `Knee surg  sports traumatol  arthrosc - 2025 - Vahdani - Towards trustworthy artificial intelligence in musculoskeletal.pdf`
+**Relative path:** `Knee surg  sports traumatol  arthrosc - 2025 - Vahdani - Towards trustworthy artificial intelligence in musculoskeletal.pdf`
+**Authors:** Amir M. Vahdani and Moein Shariatnia and Pranav Rajpurkar and Ayoosh Pareek
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+Introduction: Deep learning (DL) models have achieved remarkable performance in musculoskeletal (MSK) medical imaging research, yet their clinical integration remains hindered by their black‐box nature and the absence of reliable conﬁdence measures. Uncertainty quantiﬁcation (UQ) seeks to bridge this gap by providing each DL prediction with a calibrated estimate of uncertainty, thereby fostering clinician trust and safer deployment.
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

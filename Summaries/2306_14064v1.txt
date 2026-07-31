@@ -1,0 +1,20 @@
+# Summary: Modeling Graphs Beyond Hyperbolic: Graph Neural Networks in Symmetric Positive Definite Matrices
+
+**Source PDF:** `2306.14064v1.pdf`
+**Relative path:** `2306.14064v1.pdf`
+**Authors:** Wei Zhao and Federico Lopez and Michael Strube and Diaaeldin Taha
+**Year:** 2023
+**Venue:** arXiv:2306.14064v1
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+- geometric / Riemannian / SPD representations
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+. Recent research has shown that alignment between the struc- ture of graph data and the geometry of an embedding space is crucial for learning high-quality representations of the data. The uniform geom- etry of Euclidean and hyperbolic spaces allows for representing graphs with uniform geometric and topological features, such as grids and hi- erarchies, with minimal distortion. However, real-world graph data is characterized by multiple types of geometric and topological features, necessitating more sophisticated geometric embedding spaces. In this work, we utilize the Riemannian symmetric space of symmetric positive definite matrices (SPD) to construct graph neural networks that can robustly handle complex graphs. To do this, we develop an innovative library that leverages the SPD gyrocalculus tools [28] to implement the building blocks of five popular graph neural networks in SPD. Exper- imental results demonstrate that our graph neural networks in SPD substantially outperform their counterparts in Euclidean and hyperbolic spaces, as well as the Cartesian product thereof, on complex graphs for node and graph classification tasks. We release the library and datasets at https://github.com/andyweizhao/SPD4GNNs.
+
+## Relevance to CMA / main.tex
+- Provides geometric or Riemannian machinery related to the SPD intent representations and curvature-aware gating used by CMA.
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.

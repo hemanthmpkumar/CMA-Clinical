@@ -1,0 +1,22 @@
+# Summary: Federated Learning in Healthcare: From Research to Real-World Deployment
+
+**Source PDF:** `annurev-bioeng-080125-041414.pdf`
+**Relative path:** `annurev-bioeng-080125-041414.pdf`
+**Authors:** Spyridon Bakas and Xiaoxiao Li and Prashant Shah and British Columbia
+**Year:** 2026
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Artificial intelligence (AI), including deep and traditional machine learn- ing, holds great promise for advancing biomedical research and healthcare. However, most AI studies remain academic in nature and rarely tran- sition into clinical practice, largely due to limited access to diverse real-world datasets. Centralized learning, the traditional approach to multi- institutional collaboration, is hindered by privacy, legal, and logistical barriers. Federated learning (FL) offers a decentralized alternative, en- abling institutions to collaboratively train models without sharing sensitive patient data. This article reviews key algorithmic, privacy, and practical developments in FL for biomedical engineering, including strategies to handle non-identical data distributions and safeguard privacy through dif- ferential privacy, secure aggregation, and confidential computing. We also discuss current limitations and considerations for the need of scalable, interoperable infrastructures. FL represents a paradigm shift toward build- ing generalizable, equitable, and clinically impactful AI models. Realizing this vision requires continued advances, such as FL-as-a-service platforms 163 Downloaded from www.annualreviews.org. Guest (guest) IP: 216.186.28.90 On: Mon, 20 Jul 2026 02:23:22 AI: artificial intelligence DL: deep learning ML: machine learning and regulatory-aligned workflows that support persistent and trustworthy model deployment to truly realize AI’s promise in patient care. Contents
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

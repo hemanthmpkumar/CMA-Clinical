@@ -1,0 +1,19 @@
+# Summary: Semantic intent weaver: A context-aware search algorithm for ambiguous query resolution.
+
+**Source PDF:** `Semantic_Intent_Weaver_A_Context-Aware_Search_Algorithm_for_Ambiguous_Query_Resolution.pdf`
+**Relative path:** `Semantic_Intent_Weaver_A_Context-Aware_Search_Algorithm_for_Ambiguous_Query_Resolution.pdf`
+**Authors:** Hemanth Manchabale Papachappa
+**Year:** 2026
+**Venue:** ICCIDS
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical NLP and biomedical language models
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Semantic Intent Weaver: A Context-Aware Search Algorithm for Ambiguous Query Resolution Hemanth Manchabale Papachappa Email: hemanthmpkumar123@gmail.com Abstract—Traditional search algorithms struggle with am- biguous queries where context determines meaning, such as distinguishing between beverage, adhesive, and fashion contexts in queries like "scotch." This paper introduces Semantic In- tent Weaver (SIW), a search algorithm that employs multi- dimensional intent modeling and dynamic context weaving to resolve query ambiguity. SIW integrates temporal, personal, cross-modal, and emotional context dimensions through a ﬁve- layer architecture that deconstructs user intent, weaves contex- tual understanding, performs multi-dimensional ranking, adapts result presentation, and continuously learns from interactions. To ensure reproducibility, we evaluate our model on the TREC Web Track’s ambiguity sub-task. The revised experiments, which include a new baseline aware of the session, demonstrate that SIW’s dynamic weaving mechanism achieves a 6.8% improve- ment in nDCG@10 over strong ColBERT models augmented with identical session data. The primary novelty of our work lies in the uniﬁed framework for dynamically weighting and integrating disparate contextual signals, providing a robust solution to a long- standing challenge in information retrieval. Index Terms—Information Retrieval, Query Ambiguity, Context-Aware Search, Neural Ranking, Intent Modeling I. INTRODUCTION The exponential growth of digital information has inten- siﬁed the challenge of query ambiguity in web search. Tra- ditional keyword-based approaches and even modern neural ranking models often fail to capture the nuanced contextual signals that humans naturally use to disambiguate queries. Consider the query "s
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

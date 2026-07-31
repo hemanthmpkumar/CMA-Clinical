@@ -1,0 +1,17 @@
+# Summary: Clinical Trial Design and Regulatory Requirements for Artificial Intelligence as a Medical Device: A PRISMA-ScR–Guided Scoping Review of Global Guidance and Evidence (2017–2025)
+
+**Source PDF:** `jcm-15-01937.pdf`
+**Relative path:** `jcm-15-01937.pdf`
+**Authors:** Umamaheswari Shanmugam and Mohan Kumar Rajendran and Jawahar Natarajan and Veera Venkata Satyanarayana Reddy Karri
+**Year:** 2026
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+
+## Extracted Abstract / Overview
+Background: Artificial Intelligence as a Medical Device (AIaMD) introduces regulatory, methodological, ethical, and clinical challenges that are not fully addressed by traditional device trial frameworks. Given rapidly evolving and jurisdiction-specific guidance, a consolidated mapping of trial design expectations and regulatory requirements is needed.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

@@ -1,0 +1,18 @@
+# Summary: Causal Representation Learning for Predicting Autoimmune Disease Progression From Longitudinal Multimodal Clinical Data
+
+**Source PDF:** `Causal_Representation_Learning_for_Predicting_Autoimmune_Disease_Progression_From_Longitudinal_Multimodal_Clinical_Data.pdf`
+**Relative path:** `Causal_Representation_Learning_for_Predicting_Autoimmune_Disease_Progression_From_Longitudinal_Multimodal_Clinical_Data.pdf`
+**Authors:** HARSHIT SHARMA
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Received 10 June 2025, accepted 6 August 2025, date of publication 13 August 2025, date of current version 2 September 2025. Digital Object Identifier 10.1109/ACCESS.2025.3598276 Causal Representation Learning for Predicting Autoimmune Disease Progression From Longitudinal Multimodal Clinical Data HARSHIT SHARMA 1 AND SIMRAN KAUR
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

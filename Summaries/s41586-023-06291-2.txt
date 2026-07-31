@@ -1,0 +1,19 @@
+# Summary: Large language models encode clinical knowledge.
+
+**Source PDF:** `s41586-023-06291-2.pdf`
+**Relative path:** `s41586-023-06291-2.pdf`
+**Authors:** Karan Singhal and Shekoofeh Azizi and Tao Tu and Jason Wei and Hyung Won Chung and Nathan Scales and Ajay Tanwani and Heather Cole-Lewis and Stephen Pfohl and Received January and Perry Payne and Martin Seneviratne and Paul Gamble and Chris Kelly and Abubakr Babiker
+**Year:** 2023
+**Venue:** Nature
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+
+## Extracted Abstract / Overview
+of 79.0%, outperforming the previous state-of-the-art BioGPT model21 by 0.8% (Fig. 2). Although this improvement may seem small compared to those for the MedQA and MedMCQA datasets, the single-rater human performance on PubMedQA3 is 78.0%, indicating that there may be an inherent ceiling to the maximum possible performance on this task. Performance on MMLU clinical topics The MMLU dataset contains multiple-choice questions from several clinical knowledge, medicine and biology-related topics. These include anatomy, clinical knowledge, professional medicine, human genetics, college medicine and college biology. Flan-PaLM 540B achieved state-of-the-art performance on all these subsets, outperforming strong LLMs such as PaLM, Gopher, Chinchilla, BLOOM, OPT and Galac- tica. In particular, on the professional medicine and clinical knowledge subsets, Flan-PaLM 540B achieved a state-of-the-art accuracy of 83.8% and 80.4%, respectively. Extended Data Fig. 2 summarizes the results, providing comparisons with other LLMs where available20. Ablations We performed several ablations on three of the multiple-choice datasets—MedQA, MedMCQA, and PubMedQA—to better under- stand our results and identify the key components contributing to Flan-PaLM’s performance. Instruction tuning improves performance Across all model sizes, we observed that the instruction-tuned Flan-PaLM model outperformed the baseline PaLM model on MedQA, MedM- CQA and PubMedQA datasets. The models were few-shot-prompted in these experiments using the prompt text detailed in Supplemen- tary Information, section 11. The detailed results are summarized in Supplementary Table 6. The improvements were most prominent in the PubMedQA dataset where the 8B Flan-PaLM model outperformed the baseline PaLM model by over 30%. Simila
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

@@ -1,0 +1,20 @@
+# Summary: Deep learning for pancreatic cancer detection: current challenges and future strategies
+
+**Source PDF:** `Deep-learning-for-pancreatic-cancer-detection--cur.pdf`
+**Relative path:** `TheLancet.com_20260719/Deep-learning-for-pancreatic-cancer-detection--cur.pdf`
+**Authors:** Linda C Chu
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+To streamline the process, the Early Detection Research Network of the National Cancer Institute is in the preliminary stages of organising a centralised repository of pancreatic cancer imaging data. Liu and colleagues showed that a CNN was able to achieve similar or even superior performance compared with that of radiologists. The goal for pancreatic cancer detection will be identifying pancreatic cancer before the subtle visual changes are apparent to a radiologist. One of the challenges in achieving this goal is the paucity of training data with these early subtle pancreatic cancers, because average-risk patients are not routinely screened for pancreatic cancer. The solution might be found with surveillance programmes in which patients at high risk of developing pancreatic cancer, based on family history or germline mutation, undergo serial imaging studies.8 In relation to the patients who eventually developed pancreatic cancer, the imaging exams before the diagnosis was made by the radiologist (pre-diagnostic exams) can be used retrospectively to train the CNN to recognise subtle imaging features that might signal the presence of an early stage pancreatic cancer. Another potential approach is to harness the longitudinal clinical and imaging data in large private or nationalised health systems, which might be able to provide such pre- diagnostic exams for training and testing. Finally, Liu and colleagues’ study, as with previous studies on pancreatic cancer detection,2,3 has been presented as including artificial binary constructs: cancer versus normal. However, radiologists encounter various types of pancreatic tumours in clinical practice, See Articles page e303 Comment e272 www.thelancet.com/digital-health Vol 2 June 2020 and non-neoplastic conditions such as panc
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

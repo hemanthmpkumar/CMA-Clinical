@@ -1,0 +1,19 @@
+# Summary: A Survey on Conversational Recommender Systems DIETMAR JANNACH and AHTSHAM MANZOOR, University of Klagenfurt WANLING CAI and LI CHEN, Hong Kong Baptist University
+
+**Source PDF:** `3453154.pdf`
+**Relative path:** `3453154.pdf`
+**Authors:** reference Surveys and Human-centered computing Interactive syste and Additional Key Words and Phrases Conversational recommendation and ACM Reference format and Dietmar Jannach and Ahtsham Manzoor and Wanling Cai and mender Syste. ACM Comput. Surv. and Article May
+**Year:** 2021
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical NLP and biomedical language models
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+105 A Survey on Conversational Recommender Systems DIETMAR JANNACH and AHTSHAM MANZOOR, University of Klagenfurt WANLING CAI and LI CHEN, Hong Kong Baptist University Recommender systems are software applications that help users to find items of interest in situations of information overload. Current research often assumes a one-shot interaction paradigm, where the users’ preferences are estimated based on past observed behavior and where the presentation of a ranked list of suggestions is the main, one-directional form of user interaction. Conversational recommender systems (CRS) take a different approach and support a richer set of interactions. These interactions can, for example, help to improve the preference elicitation process or allow the user to ask questions about the recommendations and to give feedback. The interest in CRS has significantly increased in the past few years. This development is mainly due to the significant progress in the area of natural language processing, the emergence of new voice-controlled home assistants, and the increased use of chatbot technology. With this article, we provide a detailed survey of existing approaches to conversational recommendation. We categorize these approaches in various dimensions, e.g., in terms of the supported user intents or the knowledge they use in the background. Moreover, we discuss technological approaches, review how CRS are evaluated, and finally identify a number of gaps that deserve more research in the future. CCS Concepts: • Information systems →Recommender systems; • General and reference →Surveys and overviews; • Human-centered computing →Interactive systems and tools; Additional Key Words and Phrases: Conversational recommendation, dialogue systems ACM Reference format: Dietmar Jannach, Ahtsham
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

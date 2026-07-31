@@ -1,0 +1,18 @@
+# Summary: Opportunistic deep learning of retinal photographs: the window to the body revisited
+
+**Source PDF:** `Opportunistic-deep-learning-of-retinal-photographs.pdf`
+**Relative path:** `TheLancet.com_20260719/Opportunistic-deep-learning-of-retinal-photographs.pdf`
+**Authors:** Sebastian M Waldstein
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+of low, medium, or high prevalence. Autonomous screening for diabetic retinopathy has taken this first step, and has been approved as first-in-class by the United States Food and Drug Administration.8 Use of non-invasive photography of the back of the eye to screen for systemic medical conditions is appealing, particularly as the availability of autonomous image analysis software will boost the widespread application of retinal photography in primary care and optometry settings. For this concept to be applied, no logical, or even biologically plausible link need exist between a candidate opportunistic target and the input. A deep learning algorithm could learn the link between retinal photographs and peoples’ taste in cars, if such a link exists. Because of the inherent black box characteristic of deep learning, , establishing exactly how an artificial intelligence algorithm came to its conclusions is still a challenge.9 This phenomenon comes to mind when analysing the results reported by Sabanayagam and colleagues.2 Their image-based deep learning model did not outperform an alternative model based on five simple clinical risk factors (age, sex, ethnicity, diabetes, and hypertension); and the addition of these clinical risk factors to the image-based model did not meaningfully improve overall performance. This calls into question whether the retinal images contain any additional information relevant to chronic kidney disease other than the clinical risk factors themselves. Obviously, diabetic and hypertensive retinopathy leave their trace in the fundus, as do sex and age.3 An open question in Sabanayangam and colleagues’ Article2 remains the degree of correlation between the risk factors and the fundus image. Are deep learning algorithms demonstrating super­ human perf
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

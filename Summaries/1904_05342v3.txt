@@ -1,0 +1,22 @@
+# Summary: ClinicalBERT: Modeling Clinical Notes and Predicting Hospital Readmission.
+
+**Source PDF:** `1904.05342v3.pdf`
+**Relative path:** `1904.05342v3.pdf`
+**Authors:** Kexin Huang and Jaan Altosaar and and Rajesh Ranganath
+**Year:** 2019
+**Venue:** arXiv preprint
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Clinical notes contain information about patients beyond structured data such as lab values or medications. However, clinical notes have been underused relative to structured data, because notes are high- dimensional and sparse. We aim to develop and evaluate a continu- ous representation of clinical notes. Given this representation, our goal is to predict 30-day hospital readmission at various timepoints of admission, including early stages and at discharge. We apply bidi- rectional encoder representations from transformers (bert) to clini- cal text. Publicly-released bert parameters are trained on standard corpora such as Wikipedia and BookCorpus, which differ from clini- cal text. We therefore pre-train bert using clinical notes and fine- tune the network for the task of predicting hospital readmission. This defines ClinicalBERT. ClinicalBERT uncovers high-quality relation- ships between medical concepts, as judged by physicians. Clinical- BERT outperforms various baselines on 30-day hospital readmission prediction using both discharge summaries and the first few days of notes in the intensive care unit on various clinically-motivated met- rics. The attention weights of ClinicalBERT can also be used to in- terpret predictions. To facilitate research, we open-source model pa- rameters, and scripts for training and evaluation. ClinicalBERT is a flexible framework to represent clinical notes. It improves on previ- ous clinical text processing methods and with little engineering can be adapted to other clinical predictive tasks. ACM Reference Format: Kexin Huang, Jaan Altosaar, and Rajesh Ranganath. 2020. ClinicalBERT: Modeling Clinical Notes and Predicting Hospital Readmission. In CHIL ’20: ACM Conference on Health, Inference, and Learning; Workshop Track. April 02–04, 
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

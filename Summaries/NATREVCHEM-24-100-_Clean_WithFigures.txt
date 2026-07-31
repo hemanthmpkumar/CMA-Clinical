@@ -1,0 +1,17 @@
+# Summary: Octahedral Units in Halide Perovskites Yong Wang 1, 2 †*, Yu Wang 3†, Tiarnan A. S. Doherty 4,5, Samuel D. Stranks 4, Feng Gao 3, & Deren Yang 1, 2* 1. State Key Laboratory of Silicon and Advanced Semiconductor Materials, School of Materials Science and Engineering,  Zhejiang University, Hangzhou, Zhejiang, P. R. China. 2. Hangzhou Global Scientific and Technological Innovation Center, Zhejiang University, Hangzhou, Zhejiang, P. R. China 3. Department of Physics, Chemistry, and Biology (IFM), Linköping University, Linköping,
+
+**Source PDF:** `NATREVCHEM-24-100- Clean_WithFigures.pdf`
+**Relative path:** `NATREVCHEM-24-100- Clean_WithFigures.pdf`
+**Authors:** yong wang
+**Year:** 2014
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- general clinical informatics / machine learning background
+
+## Extracted Abstract / Overview
+1 Octahedral Units in Halide Perovskites Yong Wang 1, 2 †*, Yu Wang 3†, Tiarnan A. S. Doherty 4,5, Samuel D. Stranks 4, Feng Gao 3, & Deren Yang 1, 2* 1. State Key Laboratory of Silicon and Advanced Semiconductor Materials, School of Materials Science and Engineering, Zhejiang University, Hangzhou, Zhejiang, P. R. China.
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

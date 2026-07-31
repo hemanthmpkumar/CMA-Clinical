@@ -1,0 +1,19 @@
+# Summary: Beyond images: an integrative multi-modal approach to chest x-ray report generation
+
+**Source PDF:** `fradi-04-1339612.pdf`
+**Relative path:** `fradi-04-1339612.pdf`
+**Authors:** Nurbanu Aksoy and Serge Sharoff and Selcuk Baser and Nishant Ravikumar and Alejandro F. Frangi
+**Year:** 2024
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical NLP and biomedical language models
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+EDITED BY Lei Bi, Shanghai Jiao Tong University, China REVIEWED BY Geng Chen, Northwestern Polytechnical University, China Hongyu Wang, Northwestern Polytechnical University, China *CORRESPONDENCE Nurbanu Aksoy nurbanudemiraksoy@gmail.com †PRESENT ADDRESSES Alejandro F. Frangi, Christabel Pankhurst Institute, The University of Manchester, Manchester, United Kingdom; NIHR Manchester Biomedical Research Centre, Manchester Academic Health Science Centre, Manchester, United Kingdom ‡These authors share last authorship RECEIVED 16 November 2023 ACCEPTED 25 January 2024 PUBLISHED 15 February 2024 CITATION Aksoy N, Sharoff S, Baser S, Ravikumar N and Frangi AF (2024) Beyond images: an integrative multi-modal approach to chest x-ray report generation. Front. Radiol. 4:1339612. doi: 10.3389/fradi.2024.1339612 COPYRIGHT © 2024 Aksoy, Sharoff, Baser, Ravikumar and Frangi. This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms. Beyond images: an integrative multi-modal approach to chest x-ray report generation Nurbanu Aksoy 1*, Serge Sharoff
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

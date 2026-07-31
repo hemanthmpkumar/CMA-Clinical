@@ -1,0 +1,24 @@
+# Summary: Large language models in biomedicine and healthcare
+
+**Source PDF:** `s44387-025-00047-1.pdf`
+**Relative path:** `s44387-025-00047-1.pdf`
+**Authors:** Juexiao Zhou
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+- large language models in medicine
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+innovation in this rapidly evolving ﬁeld. By gaining a comprehensive understanding of the role of LLMs in transforming healthcare, we can better navigate their integration into clinical environments and unlock their full potential to advance biomedical science and patient care. Applications of LLMs in biomedicine LLMs in genomics Genomics, the study of an organism’s complete DNA set, has signiﬁcantly advanced our understanding of biological processes and disease mechanisms29,30. By analyzing DNA sequences, researchers can identify genetic mutations linked to diseases, enabling early diagnosis and the development of targeted therapies. Genomics also plays a pivotal role in personalized medicine, drug discovery, and uncovering evolutionary rela- tionships among species31. As genomic data rapidly increases, there is a growing demand for advanced computational tools to efﬁciently process and interpret this vast amount of information. LLMs have emerged as valuable assets in genomics, leveraging structural parallels between biolo- gical sequences and human language. Here we explore how LLMs are reshaping genomics by predicting genome-wide variant effects, identifying cis-regulatory regions, and modeling DNA–protein interactions. For example, several LLMs related to genomics have been proposed, including Evo32, gLM33, and Caduceus34. Predicting genome-wide variant effects. Predicting genome-wide variant effects is essential for understanding how genetic variations impact gene regulation and contribute to diseases35,36. Accurate predic- tions help identify pathogenic mutations, providing insights for diag- nostics, therapeutics, and personalized medicine37. However, traditional computational methods struggle to capture the complex, long-range interactions within the genome and 
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

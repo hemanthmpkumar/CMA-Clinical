@@ -1,0 +1,22 @@
+# Summary: Alzheimers Disease Progression Prediction Based on Manifold Mapping of Irregularly Sampled Longitudinal Data
+
+**Source PDF:** `2511.20154v1.pdf`
+**Relative path:** `2511.20154v1.pdf`
+**Authors:** Xin Hong and Ying Shi and Yinhao Li and Yen-Wei Chen
+**Year:** 2025
+**Venue:** arXiv:2511.20154v1
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- geometric / Riemannian / SPD representations
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+hong@hqu.edu.cn; 10409035@qq.com). Ying Shi is with the College of Computer Science and Technology, Huaqiao University, Xiamen 361021, China(email:23014083048@stu.hqu.edu.cn). Yinhao Li is with the college of Information Science and Engi- neering,Ritsumeikan University, Ibaraki 525-8577, Japan. (email: yin- li@fc.ritsumei.ac.jp). Yen-Wei Chen is with the college of Information Science and Engineering,Ritsumeikan University, Ibaraki 525-8577, Japan. (email: chen@is.ritsumei.ac.jp). Index Terms— Alzheimer’s disease prediction, irregular time intervals, manifold learning, time series modeling. I. INTRODUCTION A LZHEIMER’S disease (AD) is a neurodegenerative dis- order characterized by progressive cognitive decline, where early detection can delay progression [1]. Owing to its non-invasive and cost-effective nature, structural Magnetic Resonance Imaging (sMRI) is widely used in clinical practice [2]. Longitudinal sMRI scans capture brain changes over time [3], [4], and recent studies have employed deep learning to jointly model imaging and cognitive scores for improved tra- jectory prediction [5]–[7]. However, clinical visits are typically irregular, producing unevenly sampled data that complicate temporal modeling and degrade prediction performance [8]. As shown in Fig. 1, temporal observations t1, t2, . . . , tn are used to predict the disease state and clinical scores at tn+1, making robust temporal fitting under irregular intervals essential. To model AD progression from irregularly sampled longitudinal data, prior studies can be broadly categorized into five research directions: (a) Recurrent Neural Networks (RNN) [9]–[13]; (b) RNN irregular-interval extensions (RNN+) [14]– [19]; (c) Neural Ordinary Differential Equations (NODE) [20]–[23]; (d) NODE–RNN+ [24]–[26]; and 
+
+## Relevance to CMA / main.tex
+- Provides geometric or Riemannian machinery related to the SPD intent representations and curvature-aware gating used by CMA.
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

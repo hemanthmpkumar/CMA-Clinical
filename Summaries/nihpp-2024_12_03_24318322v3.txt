@@ -1,0 +1,19 @@
+# Summary: ClinVec: Unified Embeddings of Clinical Codes Enable Knowledge-Grounded AI in Medicine
+
+**Source PDF:** `nihpp-2024.12.03.24318322v3.pdf`
+**Relative path:** `nihpp-2024.12.03.24318322v3.pdf`
+**Authors:** Ruth Johnson and Galit Shaham and Lihi Eisen and Jacob Waxman and Stav Devons- and Curtis R. Ginder and Peter Hong and Raheel Sayeed and Ben Y. Reis and Noa Dagan and Health Services
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+1 ClinVec: Unified Embeddings of Clinical Codes Enable Knowledge-Grounded AI in Medi- 1 cine 2 Ruth Johnson1,2, Uri Gottlieb3, Galit Shaham3, Lihi Eisen3, Jacob Waxman3, Stav Devons- 3 Sberro3, Curtis R. Ginder4, Peter Hong5,6,7, Raheel Sayeed2, Xiaorui Su2, Ben Y. Reis1,2,8,11, Ran 4 D. Balicer1,3,9, Noa Dagan1,2,3,10,*, and Marinka Zitnik1,2,11,12,13,* 5 6 1 The Ivan and Francesca Berkowitz Family Living Laboratory Collaboration at Harvard Medical School and Clalit 7 Research Institute, Boston, MA, USA 8
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

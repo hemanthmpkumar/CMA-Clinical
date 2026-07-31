@@ -1,0 +1,18 @@
+# Summary: Geometric Deep Learning: Going beyond Euclidean data.
+
+**Source PDF:** `Geometric_Deep_Learning_Going_beyond_Euclidean_data.pdf`
+**Relative path:** `Geometric_Deep_Learning_Going_beyond_Euclidean_data.pdf`
+**Authors:** Geometric Deep Learning and Going beyond Euclidean data and Date of publication July and IEEE Signal Processing Magazine July
+**Year:** 2017
+**Venue:** IEEE Signal Processing Magazine
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+- geometric / Riemannian / SPD representations
+
+## Extracted Abstract / Overview
+­architectures (and thus also the risk of overfitting), without sacrificing the expres- sive capacity of the network. Second, the convolutional architecture itself imposes some priors about the data, which appear very suitable especially for natural images [17]–[19], [21]. While deep-learning models have been particularly successful when dealing with speech, image, and video signals, in which there are an underlying Euclide- an structure, recently there has been a growing interest in trying to apply learning on non-Euclidean geometric data. Such kinds of data arise in numerous applica- tions. For instance, in social networks, the characteristics of users can be modeled as signals on the vertices of the social graph [22]. Sensor networks are graph models of distributed interconnected sensors, whose readings are modeled as time-depen- dent signals on the vertices. In genetics, gene expression data are modeled as signals defined on the regulatory network [23]. In neuroscience, graph models are used to rep- resent anatomical and functional structures of the brain. In computer graphics and vision, three-dimensional (3-D) objects are modeled as Riemannian manifolds (surfaces) endowed with properties such as color texture. The non-Euclidean nature of such data implies that there are no such familiar properties as global parameterization, common system of coordinates, vector space structure, or shift invariance. Consequently, basic operations like convolution that are taken for granted in the Euclidean case are even not well defined on non-Euclidean domains. The purpose of this article is to show different methods of translating the key ingredients of suc- cessful deep-learning methods, such as CNNs, to non-Euclidean data. Geometric learning problems Broadly speaking, we can di
+
+## Relevance to CMA / main.tex
+- Provides geometric or Riemannian machinery related to the SPD intent representations and curvature-aware gating used by CMA.

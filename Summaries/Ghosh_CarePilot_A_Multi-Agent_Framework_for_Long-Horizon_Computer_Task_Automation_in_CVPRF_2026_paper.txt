@@ -1,0 +1,18 @@
+# Summary: CarePilot: A Multi-Agent Framework for Long-Horizon Computer Task Automation in Healthcare
+
+**Source PDF:** `Ghosh_CarePilot_A_Multi-Agent_Framework_for_Long-Horizon_Computer_Task_Automation_in_CVPRF_2026_paper.pdf`
+**Relative path:** `Ghosh_CarePilot_A_Multi-Agent_Framework_for_Long-Horizon_Computer_Task_Automation_in_CVPRF_2026_paper.pdf`
+**Authors:** Akash Ghosh and Tajamul Ashraf and Rishu Kumar Singh and Numan Saeed and Sriparna Saha and Xiuying Chen and Salman Khan
+**Year:** Not extracted
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Multimodal agentic pipelines are advancing hu- man–computer interaction by enabling efficient automation of complex real-world tasks, yet current work largely focuses on short-horizon or general-purpose settings, leaving long-horizon, domain-specific automation, especially in healthcare, underexplored. To address this, we introduce CareFlow, a human-annotated benchmark of complex, long-horizon workflows across medical annotation tools, DICOM viewers, EHR systems, and laboratory information systems, where existing VLMs struggle with multi-step rea- soning. We propose CarePilot, an actor–critic multi-agent framework where the Actor leverages tool grounding and dual-memory (long- and short-term) to predict actions from visual and system context, and the Critic evaluates actions, updates memory, and provides corrective feedback. Through iterative agentic simulation, the Actor learns more robust, reasoning-aware behavior. Experiments show that CarePilot achieves state-of-the-art performance, outperforming strong closed- and open-source multimodal baselines by 15.26% and 3.38% on the benchmark and OOD dataset, respectively. The code and dataset for this project are available at: Carepilot.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

@@ -1,0 +1,18 @@
+# Summary: Exploring automation bias in human–AI collaboration: a review and implications for explainable AI
+
+**Source PDF:** `s00146-025-02422-7.pdf`
+**Relative path:** `s00146-025-02422-7.pdf`
+**Authors:** Giuseppe Romeo
+**Year:** 2015
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+As Artificial Intelligence (AI) becomes increasingly embedded in high-stakes domains such as healthcare, law, and pub- lic administration, automation bias (AB)—the tendency to over-rely on automated recommendations—has emerged as a critical challenge in human–AI collaboration. While previous reviews have examined AB in traditional computer-assisted decision-making, research on its implications in modern AI-driven work environments remains limited. To address this gap, this research systematically investigates how AB manifests in these settings and the cognitive mechanisms that influence it. Following PRISMA 2020 guidelines, we reviewed 35 peer-reviewed studies from SCOPUS, ScienceDirect, PubMed, and Google Scholar. The included literature, published between January 2015 and April 2025, spans fields such as cognitive psychology, human factors engineering, human–computer interaction, and neuroscience, providing an interdisciplinary foun- dation for our analysis. Traditional perspectives attribute AB to over-trust in automation or attentional constraints, resulting in users perceiving AI-generated outputs as reliable. However, our review presents a more nuanced view. While confirming some prior findings, it also sheds light on additional interacting factors such as, AI literacy, level of professional expertise, cognitive profile, developmental trust dynamics, task verification demands, and explanation complexity. Notably, although Explainable AI (XAI) and transparency mechanisms are designed to mitigate AB, overly technical, cognitively demanding, or even simplistic explanations may inadvertently reinforce misplaced trust, especially among less experienced profession- als with low AI literacy. Taken together, these findings suggest that although explanations may increase p
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.

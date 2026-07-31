@@ -1,0 +1,17 @@
+# Summary: Microsoft Word - AACDSA
+
+**Source PDF:** `ssrn-5370077.pdf`
+**Relative path:** `ssrn-5370077.pdf`
+**Authors:** luc gallegos
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+
+## Extracted Abstract / Overview
+AI ACCOUNTABILITY & AUDITABILITY IN CLINICAL DECISION SOFTWARE ACT OF 2025 (AACDSA) TITLE I — SHORT TITLE; FINDINGS; DEFINITIONS SEC. 101. SHORT TITLE. This Act may be cited as the “AI Clinical Safety Act of 2025” or, formally, as the “AI Accountability & Auditability in Clinical Decision Software Act of 2025.” SEC. 102. CONGRESSIONAL FINDINGS. Congress finds the following: 1. Artificial-intelligence and machine-learning systems are increasingly embedded in United States clinical workflows.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

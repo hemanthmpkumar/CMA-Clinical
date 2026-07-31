@@ -1,0 +1,18 @@
+# Summary: ARTICLE IN PRESS
+
+**Source PDF:** `s41746-026-02918-6_reference.pdf`
+**Relative path:** `s41746-026-02918-6_reference.pdf`
+**Authors:** Joshua Strong and Harry Rogers and Emma Sun and Anna Louise Todsen and Jody Ede and Cherry Lumley and Received March and Nick Yeung and Helen Higham J. Alison Noble and Accepted June
+**Year:** 2015
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Artificial intelligence is increasingly embedded in clinical pathways, making effective human-AI collaboration (HAIC) a practical and policy priority in healthcare. We conducted a scoping review of empirical studies of HAIC in healthcare published from January 2015 to October 2025, using Joanna Briggs Institute methodology and PRISMA-ScR reporting. Of 17,463 records identified, 140 studies were included. Evidence was concentrated in diagnostic interpretation, with fewer studies in screening and triage, therapeutic decision-making, and administrative workflows. Effectiveness was defined inconsistently across task contexts and was usually assessed using short-term task-level metrics rather than patient or system outcomes. Most studies, particularly in diagnostic interpretation, reported benefits for human-AI teams. These depended on task fit, workflow integration, training, and appropriately calibrated trust. Ethical and governance issues, including accountability and patient safety, were often discussed but rarely evaluated empirically. These findings provide a foundation for more task-specific, longitudinal, and governance-aware evaluation of HAIC in healthcare.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

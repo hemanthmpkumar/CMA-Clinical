@@ -1,0 +1,24 @@
+# Summary: Revolutionizing Health Care: The Transformative Impact of Large Language Models in Medicine
+
+**Source PDF:** `jmir-2025-1-e59069.pdf`
+**Relative path:** `jmir-2025-1-e59069.pdf`
+**Authors:** Unknown
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+- large language models in medicine
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Large language models (LLMs) are rapidly advancing medical artificial intelligence, offering revolutionary changes in health care. These models excel in natural language processing (NLP), enhancing clinical support, diagnosis, treatment, and medical research. Breakthroughs, like GPT-4 and BERT (Bidirectional Encoder Representations from Transformer), demonstrate LLMs’ evolution through improved computing power and data. However, their high hardware requirements are being addressed through technological advancements. LLMs are unique in processing multimodal data, thereby improving emergency, elder care, and digital medical procedures. Challenges include ensuring their empirical reliability, addressing ethical and societal implications, especially data privacy, and mitigating biases while maintaining privacy and accountability. The paper emphasizes the need for human-centric, bias-free LLMs for personalized medicine and advocates for equitable development and access. LLMs hold promise for transformative impacts in health care. (J Med Internet Res 2025;27:e59069) doi: 10.2196/59069
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

@@ -1,0 +1,19 @@
+# Summary: Wireless skin sensors for physiological monitoring of infants in low-income and middle-income countries
+
+**Source PDF:** `PIIS2589750021000017.pdf`
+**Relative path:** `PIIS2589750021000017.pdf`
+**Authors:** Shuai Xu
+**Year:** 2021
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+
+## Extracted Abstract / Overview
+www.thelancet.com/digital-health Vol 3 April 2021 e266 Viewpoint Lancet Digit Health 2021; 3: e266–73 Published Online February 24, 2021 https://doi.org/10.1016/ S2589-7500(21)00001-7 Querrey Simpson Institute for Bioelectronics (S Xu MD, A Y Rwei PhD, Prof J A Rogers PhD) and Department of Chemistry (Prof J A Rogers), Northwestern University, Evanston, IL, USA; Department of Biomedical Engineering (S Xu, Prof J A Rogers) and Department of Materials Science and Engineering (Prof J A Rogers), McCormick School of Engineering, Northwestern University, Evanston, IL, USA; Department of Dermatology (S Xu), Department of Pediatrics (S Xu), and Department of Neurological Surgery (Prof J A Rogers), Feinberg School of Medicine, Northwestern University, Chicago, IL, USA; Department of Chemical Engineering, Delft University of Technology, Delft, Netherlands (A Y Rwei); University of Zambia School of Medicine, Lusaka, Zambia (B Vwalika MBBS); Women and Newborn Hospital of the University Teaching Hospitals, Lusaka, Zambia (M P Chisembele MBChB); Department of Obstetrics and Gynecology, University of North Carolina School of Medicine, Chapel Hill, NC, USA (Prof J S A Stringer MD); University of Washington Clinical Trial Center, Seattle, WA, USA (A S Ginsburg MD) Correspondence to: Prof John A Rogers, Department of Neurological Surgery, Feinberg School of Medicine, Northwestern University, Chicago, IL 60611, USA jrogers@northwestern.edu Wireless skin sensors for physiological monitoring of infants in low-income and middle-income countries Shuai Xu, Alina Y Rwei, Bellington Vwalika, Maureen P Chisembele, Jeffrey S A Stringer, Amy Sarah Ginsburg, John A Rogers Globally, neonatal mortality remains unacceptability high. Physiological monitoring is foundational to the care of these vulnerab
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

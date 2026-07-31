@@ -1,0 +1,18 @@
+# Summary: Explainability for artificial intelligence in healthcare: a multidisciplinary perspective
+
+**Source PDF:** `s12911-020-01332-6.pdf`
+**Relative path:** `s12911-020-01332-6.pdf`
+**Authors:** Julia Amann
+**Year:** 2020
+**Venue:** BMC Medical Informatics and Decision Making
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Background: Explainability is one of the most heavily debated topics when it comes to the application of artificial intelligence (AI) in healthcare. Even though AI-driven systems have been shown to outperform humans in certain analytical tasks, the lack of explainability continues to spark criticism. Yet, explainability is not a purely technological issue, instead it invokes a host of medical, legal, ethical, and societal questions that require thorough exploration. This paper provides a comprehensive assessment of the role of explainability in medical AI and makes an ethical evalua- tion of what explainability means for the adoption of AI-driven tools into clinical practice.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

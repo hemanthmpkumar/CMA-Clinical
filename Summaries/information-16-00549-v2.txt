@@ -1,0 +1,24 @@
+# Summary: Large Language Models in Medical Chatbots: Opportunities, Challenges, and the Need to Address AI Risks
+
+**Source PDF:** `information-16-00549-v2.pdf`
+**Relative path:** `information-16-00549-v2.pdf`
+**Authors:** James C. L. Chow and Kay Li
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- large language models in medicine
+- session-based search, intent, and context drift
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+Large language models (LLMs) are transforming the capabilities of medical chatbots by enabling more context-aware, human-like interactions. This review presents a compre- hensive analysis of their applications, technical foundations, benefits, challenges, and future directions in healthcare. LLMs are increasingly used in patient-facing roles, such as symptom checking, health information delivery, and mental health support, as well as in clinician-facing applications, including documentation, decision support, and education. However, as a study from 2024 warns, there is a need to manage “extreme AI risks amid rapid progress”. We examine transformer-based architectures, fine-tuning strategies, and evaluation benchmarks specific to medical domains to identify their potential to transfer and mitigate AI risks when using LLMs in medical chatbots. While LLMs offer advantages in scalability, personalization, and 24/7 accessibility, their deployment in healthcare also raises critical concerns. These include hallucinations (the generation of factually incorrect or misleading content by an AI model), algorithmic biases, privacy risks, and a lack of regulatory clarity. Ethical and legal challenges, such as accountability, explainability, and liability, remain unresolved. Importantly, this review integrates broader insights on AI safety, drawing attention to the systemic risks associated with rapid LLM deployment. As highlighted in recent policy research, including work on managing extreme AI risks, there is an urgent need for governance frameworks that extend beyond technical reliability to in- clude societal oversight and long-term alignment. We advocate for responsible innovation and sustained collaboration among clinicians, developers, ethicists, and regulators to en- sure that
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

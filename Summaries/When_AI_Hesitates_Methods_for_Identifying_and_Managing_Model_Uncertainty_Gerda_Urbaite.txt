@@ -1,0 +1,17 @@
+# Summary: When AI Hesitates: Methods for Identifying and Managing Model Uncertainty , Gerda Urbaite Gerda Urbaite
+
+**Source PDF:** `When+AI+Hesitates_+Methods+for+Identifying+and+Managing+Model+Uncertainty,+Gerda+Urbaite.pdf`
+**Relative path:** `When+AI+Hesitates_+Methods+for+Identifying+and+Managing+Model+Uncertainty,+Gerda+Urbaite.pdf`
+**Authors:** Unknown author
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Model uncertainty—often termed epistemic uncertainty—is a critical factor in the reliability of AI systems, especially in safety-critical domains such as healthcare, autonomous vehicles, and legal decision-making. This study examines methods to identify and quantify model uncertainty by combining a systematic literature survey with empirical modeling. We evaluate approaches including Bayesian neural networks (via variational inference), Monte Carlo Dropout, and deep ensembles on benchmark tasks (e.g., CIFAR-10 image recognition and MIMIC-III ICU mortality prediction). We measure performance using metrics such as classification accuracy, expected calibration error (ECE), predictive entropy, and 95% confidence intervals, illustrating results with tables and calibration curves. Key findings include: (1) Deep ensembles consistently produce the most reliable uncertainty estimates, yielding well-calibrated probabilities and superior identification of misclassified or out-of-domain examples. This leads to improved accuracy when decisions are restricted to high-confidence predictions. (2) MC Dropout offers a practical, lightweight proxy for Bayesian inference, but it often underestimates uncertainty for unfamiliar inputs and requires many stochastic forward passes to approximate the posterior. (3) Explicit Bayesian neural networks deliver theoretically grounded uncertainty bounds, but at high computational cost and with mixed empirical gains due to the difficulty of specifying priors. Our results clarify the trade-offs in accuracy, calibration, and computational complexity among these
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

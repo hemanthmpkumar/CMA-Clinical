@@ -1,0 +1,18 @@
+# Summary: End-to-end data-driven weather prediction
+
+**Source PDF:** `s41586-025-08897-0.pdf`
+**Relative path:** `s41586-025-08897-0.pdf`
+**Authors:** Anna Allen
+**Year:** 2025
+**Venue:** Nature
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+- self-supervised and JEPA-style predictive learning
+
+## Extracted Abstract / Overview
+1172 | Nature | Vol 641 | 29 May 2025 Article End-to-end data-driven weather prediction Anna Allen1,11 ✉, Stratis Markou2,11 ✉, Will Tebbutt2,9, James Requeima3, Wessel P. Bruinsma4, Tom R. Andersson5,10, Michael Herzog6, Nicholas D. Lane1, Matthew Chantry7, J. Scott Hosking5,8 & Richard E. Turner2,8 ✉ Weather prediction is critical for a range of human activities, including transportation, agriculture and industry, as well as for the safety of the general public. Machine learning transforms numerical weather prediction (NWP) by replacing the numerical solver with neural networks, improving the speed and accuracy of the forecasting component of the prediction pipeline1–6. However, current models rely on numerical systems at initialization and to produce local forecasts, thereby limiting their achievable gains. Here we show that a single machine learning model can replace the entire NWP pipeline. Aardvark Weather, an end-to-end data-driven weather prediction system, ingests observations and produces global gridded forecasts and local station forecasts. The global forecasts outperform an operational NWP baseline for several variables and lead times. The local station forecasts are skilful for up to ten days of lead time, competing with a post-processed global NWP baseline and a state- of-the-art end-to-end forecasting system with input from human forecasters. End- to-end tuning further improves the accuracy of local forecasts. Our results show that skilful forecasting is possible without relying on NWP at deployment time, which will enable the realization of the full speed and accuracy benefits of data-driven models. We believe that Aardvark Weather will be the starting point for a new generation of end-to-end models that will reduce computational costs by orders of magni
+
+## Relevance to CMA / main.tex
+- Aligns with the JEPA predictor component that forecasts next-intent states for anticipatory prefetch in CMA.

@@ -1,0 +1,17 @@
+# Summary: Continuum memory architectures for long-horizon LLM agents.
+
+**Source PDF:** `2601.09913v1.pdf`
+**Relative path:** `2601.09913v1.pdf`
+**Authors:** Joe Logan
+**Year:** 2026
+**Venue:** arXiv
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- large language models in medicine
+
+## Extracted Abstract / Overview
+Retrieval-augmented generation (RAG) has become the default strategy for providing large language model (LLM) agents with contextual knowledge. Yet RAG treats memory as a stateless lookup table: information persists indefinitely, retrieval is read-only, and temporal continuity is absent. We define the Continuum Memory Architecture (CMA), a class of systems that maintain and update internal state across interactions through persistent storage, selective retention, associative routing, temporal chaining, and consolidation into higher-order abstractions. Rather than disclosing implementation specifics, we specify the architectural requirements CMA imposes and show consistent behavioral advantages on tasks that expose RAG’s structural inability to accumulate, mutate, or disambiguate memory. Preliminary evaluation across four behavioral probes (knowledge updates, temporal association, associative recall, contextual disambiguation) provides initial evidence that CMA-class behaviors yield advantages on tasks that stress memory dynamics, while highlighting open challenges around latency, drift, and interpretability.
+
+## Relevance to CMA / main.tex
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

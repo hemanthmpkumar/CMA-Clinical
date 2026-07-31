@@ -1,0 +1,17 @@
+# Summary: Building trust while influencing online COVID-19 content in the social media world
+
+**Source PDF:** `Building-trust-while-influencing-online-COVID-19-c.pdf`
+**Relative path:** `TheLancet.com_20260719/Building-trust-while-influencing-online-COVID-19-c.pdf`
+**Authors:** Rupali Jayant Limaye
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- general clinical informatics / machine learning background
+
+## Extracted Abstract / Overview
+agencies are responding to the pandemic. We anticipate that critiques will only become louder as citizens increasingly question the overall benefits, for example, of physical distancing. The risk of misinformation spreading will probably increase, as these tensions between public health authorities and the public increase. Social media provides an important platform to ensure that citizens have a voice and promote public trust in the transparency and accountability of policy making.9 As public health practitioners, we must ensure that measures strike an ethically appropriate balance between protecting speech and preserving and promoting public health. Finally, because many are turning to social media for information and advice, the differentiation between individuals who are qualified to provide accurate information online and so-called armchair epidemiologists is increasingly difficult. Members of the lay public might try to identify the most seemingly qualified member of their close network as a trusted resource to vet information. These individuals might feel unequipped to respond effectively to misinformation that individuals are exposed to on social media. To dispel myths, one strategy for the lay public and trusted sources of information (ie, epidemiologists) is inoculation. Inoculation, in this sense, focuses on strengthening a person’s attitudes and opinions to protect them from misinformation.10 For example, a common myth circulating on social media is that COVID-19 was engineered in a lab. By affirming the proliferation of misinformation about COVID-19, one can also point to the use of conspiracy theory rhetoric. Such rhetoric characteristically suggests unsubstantiated links and invokes themes of unseen nefarious networks that act behind the scenes of the pan
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

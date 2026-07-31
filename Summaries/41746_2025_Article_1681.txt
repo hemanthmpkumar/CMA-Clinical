@@ -1,0 +1,17 @@
+# Summary: Synthetic data distillation enables the extraction of clinical information at scale
+
+**Source PDF:** `41746_2025_Article_1681.pdf`
+**Relative path:** `41746_2025_Article_1681.pdf`
+**Authors:** Elizabeth Geena Woo
+**Year:** 2025
+**Venue:** npj Digital Medicine
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+
+## Extracted Abstract / Overview
+Instruct) is described in Fig. 1. We then evaluated the distillation process on three distinct tasks, 1.) a set of synthetic trial criteria questions (1000) which we manually reviewed (Table 2), 2.) real world data from the i2b2 n2c2 clinical trial cohort challenge44 (Fig. 2, Table 3), and 3.) a set of 2,300 questions derived from the MIMIC real world dataset to emulate the elig- ibility criteria of the ARISTOTLE apixaban clinical trial42,43 (Table 4). The knowledge distillation process worked by passing in a discharge summary to Llama 3.1 70B-Instruct along with prompt instructions (Sup- plementary Table 1) to create questions meeting speciﬁc criteria (e.g., yes/ no, numeric, or questions that can not be answered based on the content of the note). In addition to questions, the model was tasked with providing the section of the discharge summary an answer could be found (e.g., Pertinent Results), the source or exact text that allowed the model to answer the question, and anexplanationof whytheanswerwascorrectbased onthe source and rest of the note. The model was also tasked with estimating the difﬁculty of the question it created (Supplementary Table 2). Next, thesequestionswere ﬁltered dependingonwhich modelwasbeing ﬁne-tuned (Table 1). For example, 8B-All includes all of the generated syn- theticquestionandanswerpairs(asdo3B-Alland1B-All),8B-H-25Kincludes only the 25,000 questions the 70B-Instruct model ranked hardest within each category, 8B-NB-Only includes the 25,000 hardest numeric and boolean (yes/ no)questions,and8B-No-Sincludesthe25,000hardestquestionsofeachtype but does not ﬁnetune on any of the supporting information (namely, the explanation,thesectionthemodelbelievedtheanswerwasinwhengenerating thequestion,orthesource,whichistheexacttextwhichallowedforthemod
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

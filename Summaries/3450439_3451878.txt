@@ -1,0 +1,18 @@
+# Summary: An Empirical Framework for Domain Generalization in Clinical Settings
+
+**Source PDF:** `3450439.3451878.pdf`
+**Relative path:** `3450439.3451878.pdf`
+**Authors:** Haoran Zhang and Natalie Dullerud and Laleh Seyyed-Kalantari and Quaid Morris and Shalmali Joshi and Marzyeh Ghassemi
+**Year:** 2021
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Clinical machine learning models experience significantly degraded performance in datasets not seen during training, e.g., new hospi- tals or populations. Recent developments in domain generalization offer a promising solution to this problem by creating models that learn invariances across environments. In this work, we bench- mark the performance of eight domain generalization methods on multi-site clinical time series and medical imaging data. We intro- duce a framework to induce synthetic but realistic domain shifts and sampling bias to stress-test these methods over existing non- healthcare benchmarks. We find that current domain generalization
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

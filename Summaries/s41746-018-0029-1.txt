@@ -1,0 +1,20 @@
+# Summary: Scalable and accurate deep learning with electronic health records.
+
+**Source PDF:** `s41746-018-0029-1.pdf`
+**Relative path:** `s41746-018-0029-1.pdf`
+**Authors:** Alvin Rajkomar
+**Year:** 2018
+**Venue:** npj Digital Medicine
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+ARTICLE OPEN Scalable and accurate deep learning with electronic health records Alvin Rajkomar 1,2, Eyal Oren1, Kai Chen1, Andrew M. Dai1, Nissan Hajaj1, Michaela Hardt1, Peter J. Liu1, Xiaobing Liu1, Jake Marcus1, Mimi Sun1, Patrik Sundberg1, Hector Yee1, Kun Zhang1, Yi Zhang1, Gerardo Flores1, Gavin E. Duggan1, Jamie Irvine1, Quoc Le1, Kurt Litsch1, Alexander Mossin1, Justin Tansuwan1, De Wang1, James Wexler1, Jimbo Wilson1, Dana Ludwig2, Samuel L. Volchenboum3, Katherine Chou1, Michael Pearson1, Srinivasan Madabushi1, Nigam H. Shah4, Atul J. Butte2, Michael D. Howell1, Claire Cui1, Greg S. Corrado1 and Jeffrey Dean1 Predictive modeling with electronic health record (EHR) data is anticipated to drive personalized medicine and improve healthcare quality. Constructing predictive statistical models typically requires extraction of curated predictor variables from normalized EHR data, a labor-intensive process that discards the vast majority of information in each patient’s record. We propose a representation of patients’ entire raw EHR records based on the Fast Healthcare Interoperability Resources (FHIR) format. We demonstrate that deep learning methods using this representation are capable of accurately predicting multiple medical events from multiple centers without site-speciﬁc data harmonization. We validated our approach using de-identiﬁed EHR data from two US academic medical centers with 216,221 adult patients hospitalized for at least 24 h. In the sequential format we propose, this volume of EHR data unrolled into a total of 46,864,534,945 data points, including clinical notes. Deep learning models achieved high accuracy for tasks such as predicting: in-hospital mortality (area under the receiver operator curve [AUROC] across sites 0.93–0.94), 30-day unplanned r
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

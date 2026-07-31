@@ -1,0 +1,22 @@
+# Summary: Riemannian Intent Manifolds for Session-Based Search: A Joint Embedding Predictive Architecture for Intent Forecasting
+
+**Source PDF:** `Riemannian_Intent_Manifolds_for_Session-Based_Search_A_Joint_Embedding_Predictive_Architecture_for_Intent_Forecasting.pdf`
+**Relative path:** `Riemannian_Intent_Manifolds_for_Session-Based_Search_A_Joint_Embedding_Predictive_Architecture_for_Intent_Forecasting.pdf`
+**Authors:** Hemanth Manchabale Papachappa and Ashok Kumar and Narendra Badam
+**Year:** 2026
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+- geometric / Riemannian / SPD representations
+- self-supervised and JEPA-style predictive learning
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+from static, query-response paradigms toward dynamic, session-based interactions where user intent evolves continu- ously across multiple queries [1]–[3]. This shift is particularly pronounced in agentic AI systems, where the goal is proactive anticipation of user needs rather than passive, query-by-query responses [4], [5]. The primary context-drift problem: as users subtly pivot their focus—for instance, moving from “Python programming basics” to “data science applications in biol- ogy”—irrelevant or obsolete pieces of earlier context remain embedded in the system’s memory [6]. Conventional attention mechanisms lack effective mechanisms for selectively evicting outdated elements, which leads to latent pollution (a buildup of noisy, misaligned information). Over time, this accumulation steadily degrades retrieval accuracy and relevance as the conversation extends [7]. The second limitation is reactive latency in traditional retrieval pipelines, which only interpret user intent after a query is fully articulated—introducing noticeable delays that disrupt immersion and flow in real-time conversational experiences. Emerging progress in geometric deep learning and self- supervised predictive models points to effective ways to overcome these issues. Riemannian geometry offers a robust mathematical basis for capturing non-linear, hierarchical rela- tionships in semantic spaces [8], [9], while Joint Embedding Predictive Architectures (JEPA) allow efficient prediction of latent representations without the heavy cost of full generative reconstruction [10], [11]. To date, however, combining these techniques for real-time intent modeling and resolution in search/retrieval systems has received little exploration. This paper introduces the Continuum Memory Architec- ture (CMA), whi
+
+## Relevance to CMA / main.tex
+- Provides geometric or Riemannian machinery related to the SPD intent representations and curvature-aware gating used by CMA.
+- Aligns with the JEPA predictor component that forecasts next-intent states for anticipatory prefetch in CMA.
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.

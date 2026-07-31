@@ -1,0 +1,20 @@
+# Summary: A deep learning algorithm to detect chronic kidney disease from retinal photographs in community-based populations
+
+**Source PDF:** `A-deep-learning-algorithm-to-detect-chronic-kidney.pdf`
+**Relative path:** `TheLancet.com_20260719/A-deep-learning-algorithm-to-detect-chronic-kidney.pdf`
+**Authors:** Charumathi Sabanayagam
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+www.thelancet.com/digital-health Vol 2 June 2020 e295 Articles Lancet Digital Health 2020; 2: e295–302 Published Online May 12, 2020 https://doi.org/10.1016/ S2589-7500(20)30063-7 See Comment page e269 Singapore Eye Research Institute, Singapore National Eye Centre, Singapore (C Sabanayagam PhD, D S W Ting PhD, S Nusinovici PhD, R Banu DipSci, H Hamzah BSc, Y-C Tham PhD, Prof C-Y Cheng PhD, Prof T Y Wong PhD); Ophthalmology and Visual Sciences Academic Clinical Program, Duke-NUS Medical School, Singapore (C Sabanayagam, D S W Ting, Prof C-Y Cheng, Prof T Y Wong); School of Computing, National University of Singapore, Singapore (D Xu PhD, Prof M L Lee PhD, Prof W Hsu PhD); Singapore General Hospital, Singapore (C Lim MBBS); Department of Ophthalmology and Visual Sciences, Chinese University of Hong Kong, Hong Kong (C Y Cheung PhD); Department of Medicine, Yong Loo Lin School of Medicine, National University of Singapore, Singapore (Prof E S Tai PhD); Beijing Institute of Ophthalmology, Beijing Tongren Eye Center, Beijing Tongren Hospital, Capital Medical University, Beijing Ophthalmology & Visual Sciences Key Laboratory, Beijing, China (Y X Wang MD, Prof J B Jonas MD); and Department of Ophthalmology, Medical Faculty Mannheim of the Ruprecht-Karls-University Heidelberg, Mannheim, Germany (Prof J B Jonas) Correspondence to: Prof Tien Y Wong, Singapore National Eye Centre, Singapore 168751 ophwty@nus.edu.sg A deep learning algorithm to detect chronic kidney disease from retinal photographs in community-based populations Charumathi Sabanayagam, Dejiang Xu, Daniel S W Ting, Simon Nusinovici, Riswana Banu, Haslina Hamzah, Cynthia Lim, Yih-Chung Tham, Carol Y Cheung, E Shyong Tai, Ya Xing Wang, Jost B Jonas, Ching-Yu Cheng, Mong Li Lee, Wynne Hsu, Tien Y Wong Summary
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

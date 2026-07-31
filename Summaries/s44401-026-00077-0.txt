@@ -1,0 +1,19 @@
+# Summary: Orchestrated multi agents sustain accuracy under clinical-scale workloads compared to a single agent
+
+**Source PDF:** `s44401-026-00077-0.pdf`
+**Relative path:** `s44401-026-00077-0.pdf`
+**Authors:** Eyal Klang
+**Year:** 2026
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+
+## Extracted Abstract / Overview
+between agent types. For GPT‑4.1‑mini the multi‑agent batch rose only from 3.7 k tokens at ﬁve tasks to 60 k at eighty, whereas the single agent expanded from 25 k to 3.9 M—a 65‑fold gap at the highest load. GPT‑4.1‑nano showed the same direction but at higher totals. Llama‑2‑70B and Qwen‑3‑8B were less consistent; many large single‑agent batches for these models failed early and returned no JSON, confounding direct comparison. Total latency rose with batch size in both modes (Supplementary Figure S3 and Table S2), but the single‑agent curve climbed faster. For 1The Windreich Department of Artiﬁcial Intelligence and Human Health, Mount Sinai Medical Center, New York, NY, USA. 2The Division of Data-Driven and Digital Medicine (D3M), Icahn School of Medicine at Mount Sinai, New York, NY, USA. 3The Hasso Plattner Institute of Digital Health, Icahn School of Medicine at Mount Sinai, New York, NY, USA. 4Ophthalmology Department, Hadassah Medical Center, Jerusalem, Israel. 5Mindich Child Health and Development Institute and the Departments of Pediatrics and Genetics & Genomic Sciences, Icahn School of Medicine at Mount Sinai, New York, NY, USA. 6These authors contributed equally: Eyal Klang, Mahmud Omar. e-mail: Mahmudomar70@gmail.com npj Health Systems | (2026) 3:23 1 1234567890():,; 1234567890():,; GPT‑4.1‑mini, multi‑agent batches grew from 9 728 s at ﬁve tasks to 131 603 s at eighty, whereas single‑agent batches rose from 3 258 s to 361 864 s. The other models showed the same direction: multi‑agent latency increased predictably, while single‑agent runs jumped higher and displayed wider conﬁdence intervals; several large single‑agent batches for Qwen‑3‑8B and Llama‑2‑70B failed and returned no JSON. Delegating each task to its own worker appears to insulate the LLM fromcon
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

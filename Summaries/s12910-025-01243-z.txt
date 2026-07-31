@@ -1,0 +1,18 @@
+# Summary: Evaluating accountability, transparency, and bias in AI-assisted healthcare decision- making: a qualitative study of healthcare professionals’ perspectives in the UK
+
+**Source PDF:** `s12910-025-01243-z.pdf`
+**Relative path:** `s12910-025-01243-z.pdf`
+**Authors:** Saoudi CE Nouis and Victoria Uren and Srushti Jariwala
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Background While artificial intelligence (AI) has emerged as a powerful tool for enhancing diagnostic accuracy and streamlining workflows, key ethical questions remain insufficiently explored—particularly around accountability, transparency, and bias. These challenges become especially critical in domains such as pathology and blood sciences, where opaque AI algorithms and non-representative datasets can impact clinical outcomes. The present work focuses on a single NHS context and does not claim broader generalization.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

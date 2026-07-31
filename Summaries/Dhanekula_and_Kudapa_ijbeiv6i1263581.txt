@@ -1,0 +1,17 @@
+# Summary: INTERNATIONAL
+
+**Source PDF:** `Dhanekula+and+Kudapa_ijbeiv6i1263581.pdf`
+**Relative path:** `Dhanekula+and+Kudapa_ijbeiv6i1263581.pdf`
+**Authors:** Abdur Rauf Shiblu
+**Year:** 2026
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+This quantitative study examined AI-driven diagnostic modeling frameworks for enhancing diagnostic accuracy and privacy protection within U.S. healthcare analytics systems. A structured survey instrument measured five key constructs: AI diagnostic accuracy enhancement, privacy protection effectiveness, governance and compliance alignment, data quality readiness, and multi-site deployment feasibility. A total of 210 valid responses were analyzed. Descriptive results indicated strong respondent agreement for governance and compliance alignment (M = 4.11, SD = 0.55), privacy protection effectiveness (M = 4.02, SD = 0.58), and AI diagnostic accuracy enhancement (M = 3.94, SD = 0.62). Data quality readiness showed a moderate mean (M = 3.62, SD = 0.71), while multi-site deployment feasibility produced the lowest mean (M = 3.48, SD = 0.74), reflecting perceived challenges in cross-institution portability. Reliability analysis demonstrated strong internal consistency across constructs, with Cronbach’s alpha values ranging from 0.82 to 0.91. Multiple regression analysis showed that governance and compliance alignment was the strongest predictor of AI diagnostic accuracy enhancement (β = 0.39, p < .001), followed by data quality readiness (β = 0.31, p < .001) and multi-site deployment feasibility (β = 0.19, p = .003). The accuracy enhancement model explained 56% of variance (R² = 0.56). A second regression model predicting privacy protection effectiveness explained 63% of variance (R² = 0.63) and showed significant effects for governance and compliance alignment (β = 0.34, p < .001), AI diagnostic accuracy enhancement (β = 0.31, p < .001), and data quality readiness (β = 0.18, p = .001), while multi-site deployment feasibility was not significant (β = 0.10, p = .076). Hypothesis 
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

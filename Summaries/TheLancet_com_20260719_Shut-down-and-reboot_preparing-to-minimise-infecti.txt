@@ -1,0 +1,17 @@
+# Summary: Shut down and reboot⠎preparing to minimise infection in a post-COVID-19 era
+
+**Source PDF:** `Shut-down-and-reboot—preparing-to-minimise-infecti.pdf`
+**Relative path:** `TheLancet.com_20260719/Shut-down-and-reboot—preparing-to-minimise-infecti.pdf`
+**Authors:** Becky McCall
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- general clinical informatics / machine learning background
+
+## Extracted Abstract / Overview
+News www.thelancet.com/digital-health Vol 2 June 2020 e293 Shut down and reboot—preparing to minimise infection in a post-COVID-19 era Earlier this month, the European Commission gave its support to exit strategies using mobile phone data, recommending a pan-European app­ roach for the adoption of contact- tracing mobile apps using anonymised and aggregated mobile location data. The endorsement is timely with a number of European countries, for example Italy and Germany, taking ten­ta­tive steps towards lifting COVID-19 lockdowns. Some countries have been using contact-tracing apps for a few months, while others are now developing them to aid the lifting of a lockdown. Further afield in Asia, the city of Wuhan, China, where the pandemic began, recently lifted mass lockdown. With the eyes of the world watching, the city is effectively re-booting the social, cultural, and working lives of its inhabitants in the first example of a city’s resurrection post-pandemic shut down. But wherever their location, cities and countries planning or implementing their so-called exit strategy are faced with a similar issue: how to protect citizens from a second wave of coronavirus infections. It is here that the judicious use of digital technology, including contact-tracing apps on smart phones, has a key role to play. Jon Crowcroft from The Alan Turing Institute, UK, co-developed the FluPhone app that measured and modelled the spread of flu in
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

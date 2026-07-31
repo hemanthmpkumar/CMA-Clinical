@@ -1,0 +1,20 @@
+# Summary: Advancements in Medical Radiology Through Multimodal Machine Learning: A Comprehensive Overview
+
+**Source PDF:** `bioengineering-12-00477.pdf`
+**Relative path:** `bioengineering-12-00477.pdf`
+**Authors:** Imran Ul Haq and Mustafa Mhamed and Mohammed Al-Harbi and Hamid Osman and Zuhal Y. Ha and Zhe Liu
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+The majority of data collected and obtained from various sources over a patient’s lifetime can be assumed to comprise pertinent information for delivering the best possible treatment. Medical data, such as radiographic and histopathology images, electrocardio- grams, and medical records, all guide a physician’s diagnostic approach. Nevertheless, most machine learning techniques in the healthcare field emphasize data analysis from a single modality, which is insufficiently reliable. This is especially evident in radiology, which has long been an essential topic of machine learning in healthcare because of its high data density, availability, and interpretation capability. In the future, computer-assisted diagnostic systems must be intelligent to process a variety of data simultaneously, simi- lar to how doctors examine various resources while diagnosing patients. By extracting novel characteristics from diverse medical data sources, advanced identification techniques known as multimodal learning may be applied, enabling algorithms to analyze data from various sources and eliminating the need to train each modality. This approach enhances the flexibility of algorithms by incorporating diverse data. A growing quantity of current research has focused on the exploration of extracting data from multiple sources and con- structing precise multimodal machine/deep learning models for medical examinations. A comprehensive analysis and synthesis of recent publications focusing on multimodal machine learning in detecting diseases is provided. Potential future research directions are also identified. This review presents an overview of multimodal machine learning (MMML) in radiology, a field at the cutting edge of integrating artificial intelligence into medical imaging. As radiolog
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

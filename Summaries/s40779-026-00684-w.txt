@@ -1,0 +1,20 @@
+# Summary: Prioritizing human-AI collaboration in healthcare: the TRIAD framework for trustworthy governance, real-world, and integrated adaptive deployment
+
+**Source PDF:** `s40779-026-00684-w.pdf`
+**Relative path:** `s40779-026-00684-w.pdf`
+**Authors:** Jia Li
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+Artificial intelligence (AI) and big data are reshaping the healthcare landscape. However, clinical value depends on how well systems augment clinicians and fit into routine workflows. To this end, we introduce the TRIAD frame‑ work: trustworthy governance, real-world clinical value, and integrated adaptive deployment, to guide the develop‑ ment, validation, and deployment of clinical AI. TRIAD requires explicit data provenance and intended use, fairness auditing, and calibrated uncertainty. This framework evaluates the human-AI team in real workflows using team- level metrics, including accuracy, safety, workload, and patterns of acceptance, editing, and overriding. Deployment proceeds via staged rollouts with preregistered guardrails and continuous monitoring of performance and subgroup impact. TRIAD views intelligence as a property of the human-AI team rather than the AI model alone. Aligning gov‑ ernance, evaluation, and deployment around clinicians and patients enables durable gains in safety, equity, efficiency, and experience, thereby elevating clinical value.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

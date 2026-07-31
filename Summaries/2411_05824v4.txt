@@ -1,0 +1,17 @@
+# Summary: Navigating Distribution Shifts in Medical Image Analysis: A Survey
+
+**Source PDF:** `2411.05824v4.pdf`
+**Relative path:** `2411.05824v4.pdf`
+**Authors:** Zixian Su and Jingwei Guo and Xi Yang and Qiufeng Wang and Frans Coenen and Amir Hussain and Kaizhu Huang
+**Year:** 2026
+**Venue:** arXiv:2411.05824v4
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+
+## Extracted Abstract / Overview
+Navigating Distribution Shifts in Medical Image Analysis: A Survey Zixian Su, Jingwei Guo, Xi Yang, Qiufeng Wang, Frans Coenen, Amir Hussain, Kaizhu Huang I: Joint Training (Centralized Data) II: Federated Learning (Privacy-Preserving) III: Fine-tuning (Target Domain Adaptation) IV: Domain Generalization (Towards Unseen Domains) Labeled CT Data Unlabeled MRI Data Rare Disease Data Enhanced Neural Networks Central Data Pool Large-scale Pre-trained Source Model Target Domain Fine- tuning Unseen Future Target Domain(s) (New Devices, Patients, Hospitals) Robust Neural Networks • Settings & Scenarios: Supervised, Semi-supervised (scarce targets), Unsupervised (unlabeled targets) • Difficulty: Low • Pros: Uses complementary info for robustness, and efficient label usage. • Cons: Dependent on data quality, requires direct data centralization. • Settings & Scenarios: Supervised (multi-institutions), Semi-supervised (label scarcity) • Difficulty: Medium/High • Pros: preserve patient data privacy, good for multi- institutional data. • Cons: High communication overhead, slow convergence. • Settings & Scenarios: Supervised (few target labels), Unsupervised (unlabeled targets) • Difficulty: Low/Medium • Pros: Very quick task adaptation, minimal data required. • Cons: Risk of model overfitting, potential performance degradation • Settings & Scenarios: Multi-source (varied sources), single-source (limited diversity) • Difficulty: Medium/High • Pros: Strong model generalization, simple implementation • Cons: Require diverse source data, limited effectiveness across wide shift scenarios Hospital A (Source) Hospital B (Target) Problem Scenario: Tailoring model for Hospital B (Target) using resources from Hospital A (Source). 1. Already have a dataset? 2. Data sharing permitted? 3. Train 
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

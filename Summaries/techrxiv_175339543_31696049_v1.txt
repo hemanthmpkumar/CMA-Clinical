@@ -1,0 +1,20 @@
+# Summary: Domain Shift and Generalization Strategies for Foundation Models in Clinical Imaging
+
+**Source PDF:** `techrxiv.175339543.31696049_v1.pdf`
+**Relative path:** `techrxiv.175339543.31696049_v1.pdf`
+**Authors:** Wei Chen and Fangfang Zhang and Minghao Li and Xiaoyu Wang and Zihan Liu and Ruiqi Huang and Junjie Zhao and Yijun Lia
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- large language models in medicine
+
+## Extracted Abstract / Overview
+The advent of foundation models—large-scale, pretrained deep learning systems—has transformed the landscape of machine learning by enabling general-purpose representations that can be eﬃciently adapted to a wide range of downstream tasks. In the context of medical imaging, these models hold immense promise for addressing longstanding challenges in scalability, generalization, and data scarcity. However, deploying foundation models across the diverse and heterogenous landscape of clinical environments necessitates robust strategies for domain adaptation and generalization. Domain shifts, stemming from variations in patient demographics, imaging devices, acquisition protocols, and disease prevalence, often result in signiﬁcant degradation in model performance when applied out-of-distribution. To bridge this gap, a variety of adaptation techniques—including ﬁne-tuning, prompt engineering, adapter- based learning, test-time training, and semisupervised transfer—have been developed and tailored for high-stakes medical applications. This survey provides a comprehensive overview of domain adaptation and generalization strategies in the era of foundation models, with a speciﬁc focus on their application to medical imaging. We begin by framing the problem of domain shift in clinical settings and reviewing classical theories of generalization and adaptation. We then explore how these ideas extend—or break down—when applied to large pretrained models such as vision transformers (ViTs), contrastive encoders, and multimodal architectures trained on massive medical and non-medical corpora. Next, we examine the practical methods used to adapt foundation models to speciﬁc clinical domains, analyzing their eﬃciency, scalability, and empirical performance across a wide range of imaging m
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

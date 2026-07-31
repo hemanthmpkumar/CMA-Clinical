@@ -1,0 +1,18 @@
+# Summary: Deep learning: a turning point in acute neurology
+
+**Source PDF:** `Deep-learning--a-turning-point-in-acute-neurology_.pdf`
+**Relative path:** `TheLancet.com_20260719/Deep-learning--a-turning-point-in-acute-neurology_.pdf`
+**Authors:** Massimo Filippi
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+axial haemorrhage, intraventricular haemorrhage, and perilesional oedema—and measured their volume with high accuracy. These features are particularly valuable in the TBI context for image-based diagnosis, for assessing injury type, and for quantifying its burden and progression. The capability of the aforementioned algorithm to complete a fine-grained segmentation of lesions and consequently to estimate their volumes allows accurate monitoring of lesion progression, which is a major predictor of clinical evolution and a key target for therapies in acute phases. The study by Monteiro, Newcombe, and colleagues4 stands out also for having dealt with the challenging delineation of hypointense oedema. Although the performance of the CNN for this delineation was suboptimal, automated quantification of perilesional oedema can provide useful additional information for prognosis and for delineation of surrogate outcome variables to facilitate the design of clinical trials aimed at reducing cerebral oedema and contusion growth. One possible limitation of this algorithm is the inability to localise lesions. This would give more strength mainly in the assessment of small haemorrhagic lesions, whose effect depends mostly on number and regional distribution, rather than on the volume of each lesion. Moreover, implementing the algorithm to also distinguish extra-axial haemorrhagic lesions would increase the value of prognostic models. The findings by Monteiro, Newcombe, and colleagues4 highlight the potential gain in applying a CNN to obtain quantitative and objective neuroradiological metrics in patients with TBI. Future multimodal algorithms integrating neuroradiological, clinical, blood, and cerebrospinal fluid data are now needed to make artificial intelligence a precious tool ca
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

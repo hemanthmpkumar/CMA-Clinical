@@ -1,0 +1,20 @@
+# Summary: Evaluating large language models and agents in healthcare: key challenges in clinical applications
+
+**Source PDF:** `chen-et-al-2025-evaluating-large-language-models-and-agents-in-healthcare-key-challenges-in-clinical-applications.pdf`
+**Relative path:** `chen-et-al-2025-evaluating-large-language-models-and-agents-in-healthcare-key-challenges-in-clinical-applications.pdf`
+**Authors:** Xiaolan Chen and Jiayang Xiang and Shanfu Lu and Yexin Liu and Danli Shi
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- large language models in medicine
+
+## Extracted Abstract / Overview
+Intelligent Medicine 5 (2025) 151–163 Contents lists available at ScienceDirect Intelligent Medicine journal homepage: www.elsevier.com/locate/imed Review Evaluating large language models and agents in healthcare: key challenges in clinical applications Xiaolan Chen 1,#, Jiayang Xiang 2,#, Shanfu Lu 3,#, Yexin Liu 4, Mingguang He 1,5,6,∗, Danli Shi 1,2,∗ 1 School of Optometry, The Hong Kong Polytechnic University, Kowloon, Hong Kong, China
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

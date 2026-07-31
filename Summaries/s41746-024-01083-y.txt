@@ -1,0 +1,23 @@
+# Summary: Evaluating large language models as agents in the clinic
+
+**Source PDF:** `s41746-024-01083-y.pdf`
+**Relative path:** `s41746-024-01083-y.pdf`
+**Authors:** Nikita Mehandru
+**Year:** 2024
+**Venue:** npj Digital Medicine
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+- session-based search, intent, and context drift
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+each other and are often also derived from standardized tests or curated clinical text. This information; however, is not a sufﬁcient metric because it fails to capture the full range of capabilities demonstrated by clinical LLM agents24,25. As a result, we call for the development of Artiﬁcial Intelligence Structured Clinical Examinations (AI-SCEs) that can be used to assess the ability for LLMs to aid in real-world clinical workﬂows. These AI-SCE benchmarks, which may be derived from difﬁcult clinical scenarios or from real-world clinical tasks, should be created with input from interdisciplinary teams of clinicians, computer scientists, and medical researchers. OSCEs typically consist of long lists of processes or diagnoses students are graded on. Similarly, AI-SCE benchmarks would extend beyond traditional com- puter science metrics, such as BLEU or ROUGE scores, that often do not accountforsemanticmeaning,andwoulddrawfrompreexistingmulti-turn benchmarks26. The AI-SCE format should be used to evaluate both the outputs of high-ﬁdelity agent simulations, and intermediate steps that capture the agent’s reasoning process, tool usage, data curation, or interactions with other agents or external users. Thus, a valuable contribution of these agents is their ability to provide interpretability throughout the decision-making process, as opposed to at the ﬁnal step27. These evaluations can also capture how systematic addition or removal of LLM agentsaffects overall outcomes. These evaluations should be used to inform guardrails for clinical LLMs, which have been developed for general-purpose models to constrain their behavior28. One added complexity of assessing agents using an AI-SCE format is the complicated nature of many clinical tasks, where there may not be perfect conc
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

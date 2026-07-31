@@ -1,0 +1,21 @@
+# Summary: Digital health at the age of the Anthropocene
+
+**Source PDF:** `Digital-health-at-the-age-of-the-Anthropocene_land.pdf`
+**Relative path:** `TheLancet.com_20260719/Digital-health-at-the-age-of-the-Anthropocene_land.pdf`
+**Authors:** Guillaume Chevance
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- session-based search, intent, and context drift
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+remanufactured, easy to repair, responsibly sourced) within their digital health work and put pressure on manufacturers to prioritise these criteria; this action could accelerate progress towards effective lifecycles of digital health products • Digital health products with more sustainable lifecycles could be highlighted either via labels or as recommended or even required products by funders • Shared resource pools should become the default over buying new; universities, companies, and health- care organisations should develop (or optimise) shared platforms to pool resources with others and share digital health devices; such initiatives already exist (eg, RecycleHealth collects and refurbishes fitness trackers for underserved populations) Complex systems approach instead of reductivism A reductionist approach (ie, investigating a system through its isolated parts) is, arguably, incapable of providing accurate information to address environmental problems, which are highly interconnected, thus requiring a complex systems approach. • Interdisciplinary and cross-sector collaboration is needed to estimate the state and future trends of the digitalisation of the health sector and its direct and indirect environmental effects (ie, beyond its effects on health); such work might help, for example, to estimate potential rebound effects (eg, a situation in which improvements in the technical efficiency of energy use lead to greater direct or indirect energy consumption) or antagonistic effects that might occur through the promotion of digital health technologies • Digital health researchers and clinicians should move to a complex systems approach, seeking out interdisciplinary collaborations and systematically considering both the short-term and long-term effects on health but 
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

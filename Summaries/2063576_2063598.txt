@@ -1,0 +1,17 @@
+# Summary: Improving context-aware query classification via adaptive self-training
+
+**Source PDF:** `2063576.2063598.pdf`
+**Relative path:** `2063576.2063598.pdf`
+**Authors:** Minmin Chen and Jian-Tao Sun and Xiaochuan Ni and Yixin Chen
+**Year:** 2011
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Topical classiﬁcation of user queries is critical for general- purpose web search systems. It is also a challenging task, due to the sparsity of query terms and the lack of labeled queries. On the other hand, search contexts embedded in query sessions and unlabeled queries free on the web have not been fully utilized in most query classiﬁcation systems. In this work, we leverage these information to improve query classiﬁcation accuracy. We ﬁrst incorporate search contexts into our framework using a Conditional Random Field (CRF) model. Discrimi- native training of CRFs is favored over the traditional max- imum likelihood training because of its robustness to noise. We then adapt self-training with our model to exploit the information in unlabeled queries. By investigating diﬀerent conﬁdence measurements and model selection strategies, we eﬀectively avoid the error-reinforcing nature of self-training. In extensive experiments on real search logs, we have av- eraged around 20% improvement in classiﬁcation accuracy over other state-of-the-art baselines. Categories and Subject Descriptors H.3.m [Information Storage and Retrieval]: Miscella- neous; I.5.2 [Pattern Recognition]: Design Methodology – Classiﬁer design and evaluation General Terms Algorithms, Experimentation, Measurement, Performance
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.

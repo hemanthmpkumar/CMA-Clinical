@@ -1,0 +1,21 @@
+# Summary: What can natural language processing do for clinical decision support?
+
+**Source PDF:** `1-s2.0-S1532046409001087-main.pdf`
+**Relative path:** `1-s2.0-S1532046409001087-main.pdf`
+**Authors:** Wendy W. Chapman
+**Year:** 2009
+**Venue:** Journal of Biomedical Informatics
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Methodological Review What can natural language processing do for clinical decision support? Dina Demner-Fushman a,*, Wendy W. Chapman b, Clement J. McDonald a a U.S. National Library of Medicine, National Institutes of Health, Bethesda, MD 20894, USA b Department of Biomedical Informatics, University of Pittsburgh, 200 Meyran Avenue, M-183 VALE, Pittsburgh, PA 15260, USA a r t i c l e i n f o Article history: Received 21 November 2008 Available online 13 August 2009 Keywords: Natural language processing Decision support techniques Clinical decision support systems Review a b s t r a c t Computerized clinical decision support (CDS) aims to aid decision making of health care providers and the public by providing easily accessible health-related information at the point and time it is needed. natural language processing (NLP) is instrumental in using free-text information to drive CDS, represent- ing clinical knowledge and CDS interventions in standardized formats, and leveraging clinical narrative. The early innovative NLP research of clinical narrative was followed by a period of stable research con- ducted at the major clinical centers and a shift of mainstream interest to biomedical NLP. This review pri- marily focuses on the recently renewed interest in development of fundamental NLP methods and advances in the NLP systems for CDS. The current solutions to challenges posed by distinct sublanguages, intended user groups, and support goals are discussed. Published by Elsevier Inc.
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

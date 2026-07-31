@@ -1,0 +1,21 @@
+# Summary: Generative AI-enabled clinical decision support system in primary care: a pragmatic, cluster-randomized trial
+
+**Source PDF:** `s41591-026-04503-6.pdf`
+**Relative path:** `s41591-026-04503-6.pdf`
+**Authors:** Ambrose Agweyu
+**Year:** 2025
+**Venue:** Nature Medicine
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+individual-site intervals were wide. Between-site heterogeneity was low (τ = 0.22, 95% CrI 0.01 to 0.67) (Extended Data Fig. 2). The population-average risk of treatment failure corresponded to five fewer treatment failures per 1,000 patients treated (mean risk difference of −0.005, 95% CrI −0.013 to 0.001). Secondary outcomes Clinical documentation quality. Among the 2,000 encounters reviewed for documentation quality, clinical officers using LLM assis- tance produced higher-quality notes across all domains (Fig. 2a). Com- pared to the control arm, they were more likely to record an appropriate diagnosis (aOR 1.74, 95% CI 1.28 to 2.36, P < 0.001), a comprehensive clinical note (aOR 1.68, 95% CI 1.24 to 2.27, P < 0.001) and an appropriate treatment plan (aOR 1.71, 95% CI 1.25 to 2.34, P < 0.001). Clinical safety. Out of 1,000 LLM outputs associated with red alerts (prompted by the LLM’s interpretation of the documented informa- tion being incorrect/harmful), which were reviewed by the expert panel, 494 (49.4%) were rated as definitely safe and appropriate, and 424 (42.4%) as mostly safe and appropriate. In addition, 40 (4.0%) were considered neutral (neither unsafe nor inappropriate), while 31 (3.1%) were judged somewhat unsafe or inappropriate, and 11 (1.1%) as unsafe and inappropriate. Clinicians fully adhered to the LLM’s advice in 195 encounters (19.5%), partially adhered in 573 encounters (57.3%) and did not adhere in 232 encounters (23.2%). The expert panel judged clinician decisions to be clinically justified in 284 encounters (28.4%) and not justified in 716 encounters (71.6%) (Fig. 2b). Sentinel conditions. There was no evidence of differences between study arms in prescribing outcomes, including correct antibiotic use (aOR 0.86, 95% CI 0.48 to 1.55) and incorr
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

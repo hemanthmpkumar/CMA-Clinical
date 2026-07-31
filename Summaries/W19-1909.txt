@@ -1,0 +1,19 @@
+# Summary: Publicly Available Clinical BERT Embeddings.
+
+**Source PDF:** `W19-1909.pdf`
+**Relative path:** `W19-1909.pdf`
+**Authors:** Emily Alsentzer and John Murphy and William Boag and Wei-Hung Weng and Di Jindi and Tristan Naumann and Matthew McDermott
+**Year:** 2019
+**Venue:** Proceedings of Clinical NLP
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+
+## Extracted Abstract / Overview
+Contextual word embedding models such as ELMo (Peters et al., 2018) and BERT (De- vlin et al., 2018) have dramatically improved performance for many natural language pro- cessing (NLP) tasks in recent months. How- ever, these models have been minimally ex- plored on specialty corpora, such as clini- cal text; moreover, in the clinical domain, no publicly-available pre-trained BERT models yet exist. In this work, we address this need by exploring and releasing BERT models for clinical text: one for generic clinical text and another for discharge summaries speciﬁcally. We demonstrate that using a domain-speciﬁc model yields performance improvements on three common clinical NLP tasks as compared to nonspeciﬁc embeddings. These domain- speciﬁc models are not as performant on two clinical de-identiﬁcation tasks, and argue that this is a natural consequence of the differences between de-identiﬁed source text and synthet- ically non de-identiﬁed task text.
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

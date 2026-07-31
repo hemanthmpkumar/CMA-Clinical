@@ -1,0 +1,18 @@
+# Summary: A Path Towards Autonomous Machine Intelligence.
+
+**Source PDF:** `10356_a_path_towards_autonomous_mach.pdf`
+**Relative path:** `10356_a_path_towards_autonomous_mach.pdf`
+**Authors:** and Yann LeCun
+**Year:** 2022
+**Venue:** OpenReview
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+- self-supervised and JEPA-style predictive learning
+
+## Extracted Abstract / Overview
+How could machines learn as eﬃciently as humans and animals? How could ma- chines learn to reason and plan? How could machines learn representations of percepts and action plans at multiple levels of abstraction, enabling them to reason, predict, and plan at multiple time horizons? This position paper proposes an architecture and training paradigms with which to construct autonomous intelligent agents. It combines concepts such as conﬁgurable predictive world model, behavior driven through intrinsic motivation, and hierarchical joint embedding architectures trained with self-supervised learning.
+
+## Relevance to CMA / main.tex
+- Aligns with the JEPA predictor component that forecasts next-intent states for anticipatory prefetch in CMA.

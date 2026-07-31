@@ -1,0 +1,20 @@
+# Summary: Federated Learning for Privacy-Preserving Healthcare Data Analytics
+
+**Source PDF:** `Federated+Learning+for+Privacy+Preserving+Healthcare+Data+Analytics.pdf`
+**Relative path:** `Federated+Learning+for+Privacy+Preserving+Healthcare+Data+Analytics.pdf`
+**Authors:** Manasy Jayasurya and Article information
+**Year:** 2026
+**Venue:** nature
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+The proliferation of electronic health records (EHRs), medical imaging repositories, and wearable sensor data has created unprecedented opportunities for data-driven healthcare analytics. However, stringent privacy regulations such as the Health Insurance Portability and Accountability Act (HIPAA) and the General Data Protection Regulation (GDPR) fundamentally constrain the centralized aggregation of sensitive patient data across institutional boundaries. Federated learning (FL) has emerged as a transformative paradigm that enables collaborative model training across distributed healthcare institutions without requiring raw data exchange. This paper presents a comprehensive survey of federated learning methodologies applied to privacy-preserving healthcare data analytics. We systematically examine the architectural foundations of FL, including horizontal and vertical federated learning, federated transfer learning, and split learning variants. We provide a detailed taxonomy of privacy-enhancing mechanisms integrated with FL frameworks, encompassing differential privacy, secure multi-party computation, homomorphic encryption, and trusted execution environments. The paper critically evaluates FL applications across diverse healthcare domains, including medical image analysis, electronic health record mining, genomics, drug discovery, and remote patient monitoring. Furthermore, we analyze key challenges related to statistical heterogeneity, communication efficiency, system heterogeneity, and adversarial robustness in healthcare FL deployments. Our analysis demonstrates that federated learning achieves performance within 1.5–3.2% of centralized baselines across multiple healthcare tasks while maintaining rigorous privacy guarantees. We conclude by identifying open research 
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

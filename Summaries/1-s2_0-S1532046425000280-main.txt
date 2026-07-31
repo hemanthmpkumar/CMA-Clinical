@@ -1,0 +1,18 @@
+# Summary: Uncovering hidden subtypes in dementia: An unsupervised machine learning approach to dementia diagnosis and personalization of care
+
+**Source PDF:** `1-s2.0-S1532046425000280-main.pdf`
+**Relative path:** `1-s2.0-S1532046425000280-main.pdf`
+**Authors:** Andrea Campagner
+**Year:** 2025
+**Venue:** Journal of Biomedical Informatics
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+a IRCCS Ospedale Galeazzi Sant’Ambrogio, Milan, Italy b Department of Computer Science, Systems and Communication, University of Milano-Bicocca, Milan, Italy c Department of Clinical Sciences and Community Health, University of Milan, Milan, Italy d General Medicine, Hospital San Leopoldo Mandic, Merate, Italy e Department of Medicine, University of Milano-Bicocca, Milan, Italy f Fondazione IRCCS Ca’ Granda Ospedale Maggiore Policlinico, Milan, Italy A R T I C L E I N F O Keywords: Dementia Unsupervised learning Multimodal data Clustering A B S T R A C T Objective: Dementia represents a growing public health challenge, affecting an increasing number of indi- viduals. It encompasses a broad spectrum of cognitive impairments, ranging from mild to severe stages, each of which demands varying levels of care. Current diagnostic approaches often treat dementia as a uniform condition, potentially overlooking clinically significant subtypes, which limits the effectiveness of treatment and care strategies. This study seeks to address the limitations of traditional diagnostic methods by applying unsupervised machine learning techniques to a large, multi-modal dataset of dementia patients (encompassing multiple data sources including clinical, demographic, gene expression and protein concentrations), with the aim of identifying distinct subtypes within the population. The primary focus is on differentiating between mild and severe stages of dementia to improve diagnostic accuracy and personalize treatment plans. Methods: The dataset analyzed included 911 individuals, described by 157 multi-modal characteristics, encompassing clinical, genomic, proteomic and sociodemographic features. After handling missing data, the dataset was reduced to 561 rows and 135 columns. Various dimensio
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

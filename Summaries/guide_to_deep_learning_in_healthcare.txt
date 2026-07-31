@@ -1,0 +1,17 @@
+# Summary: A guide to deep learning in healthcare.
+
+**Source PDF:** `guide_to_deep_learning_in_healthcare.pdf`
+**Relative path:** `guide_to_deep_learning_in_healthcare.pdf`
+**Authors:** Andre Esteva
+**Year:** 2019
+**Venue:** Nature Medicine
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+cians by offering second opinions and flagging concerning areas in images. Image-level diagnostics have been quite successful at employing CNN-based methods (Fig. 2). This is largely due to the fact that CNNs have achieved human-level performance in object-classifica- tion tasks2, in which a CNN learns to classify the object contained in an image. These same networks have demonstrated strong per- formance in transfer learning22, in which a CNN initially trained on a massive dataset that is unrelated to the task of interest (e.g., ImageNet2, a dataset of millions of common everyday objects) is further fine-tuned on a much smaller dataset related to the task of interest (e.g., medical images). In the first step, the algorithm leverages large amounts of data to learn of the natural statistics in images—straight lines, curves, colorations, etc.—and in the second step, the higher-level layers of the algorithm are retrained to dis- tinguish between diagnostic cases. Similarly, object detection and segmentation algorithms identify specific parts of an image that correspond to particular objects. CNN methods take image data as input and iteratively warp it through a series of convolutional and nonlinear operations until the original raw data matrix is trans- formed into a probability distribution over potential image classes (e.g., medical diagnostic cases) (Fig. 2). Remarkably, deep-learning models have achieved physician-level accuracy at a broad variety of diagnostic tasks, including identifying moles from melanomas9,10, diabetic retinopathy, cardiovascular risk, and referrals from fundus15,16 and optical coherence tomography (OCT)17 images of the eye, breast lesion detection in mammograms13, and spinal analysis with magnetic resonance imaging23. A single deep-learning model
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

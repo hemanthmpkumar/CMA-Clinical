@@ -1,0 +1,17 @@
+# Summary: Preferred reporting items for systematic reviews and meta-analyses: the PRISMA statement
+
+**Source PDF:** `bmj.b2535.full.pdf`
+**Relative path:** `bmj.b2535.full.pdf`
+**Authors:** David Moher and Alessandro Liberati and Jennifer Tetzlaff and Douglas G Altman
+**Year:** 2009
+**Venue:** bmj
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- general clinical informatics / machine learning background
+
+## Extracted Abstract / Overview
+Provide a structured summary including, as applicable, background, objectives, data sources, study eligibility criteria, participants, interventions, study appraisal and synthesis methods, results, limitations, conclusions and implications of key findings, systematic review registration number 2 Structured summary
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

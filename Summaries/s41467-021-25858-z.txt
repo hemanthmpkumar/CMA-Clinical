@@ -1,0 +1,17 @@
+# Summary: Dynamic memory to alleviate catastrophic forgetting in continual learning with medical imaging
+
+**Source PDF:** `s41467-021-25858-z.pdf`
+**Relative path:** `s41467-021-25858-z.pdf`
+**Authors:** Matthias Perkonigg
+**Year:** 2021
+**Venue:** Nature
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+
+## Extracted Abstract / Overview
+domain shifts, without explicit domain knowledge. Results Data sets Cardiac segmentation. Experiments were performed on data from a multi-centre, multi-vendor challenge data set14. The data set included data from four different vendors Siemens, General Electric, Philips, and Canon. We considered each of those ven- dors as one domain. We split the data into Base training, Con- tinual training, validation and test set on a patient level. Table 1a shows the number of individual slices for each domain in those data set splits. Lung nodule detection. For lung nodule detection we used data extracted from the LIDC-database15, with the annotations as provided for the LUNA16-challenge16. In addition, we used the LNDb challenge data set17. For all lung nodule annotations, we constructed bounding boxes around the annotated lesion and extracted 2D slices with lesions. To demonstrate our continual learning with shifting domains, we constructed a data set of the three most common domains, in terms of scanner vendor and reconstruction kernel, in LIDC and as a fourth domain, the LNDb data set. For LIDC, the most commonly used settings including lesions were GE Medical Systems with low-frequency recon- struction algorithm (GE/L, n = 527), GE Medical Systems with high-frequency reconstruction algorithm (GE/H, n = 215) and Siemens with B30f kernel (Siemens, n = 130). The LNDb data set used multiple Siemens scanners. To match the nodule deﬁnition in the LIDC database we excluded nodules with a diameter < 3 mm, resulting in a total of 625 images. Those images were split into base training, continual training, validation and test data set according to Table 1b analogous to the cardiac segmentation experiment. Dynamic memory alleviates catastrophic forgetting for cardiac segmentation. To eval
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

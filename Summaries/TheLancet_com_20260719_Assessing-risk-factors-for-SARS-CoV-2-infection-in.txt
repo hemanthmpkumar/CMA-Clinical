@@ -1,0 +1,17 @@
+# Summary: Assessing risk factors for SARS-CoV-2 infection in patients presenting with symptoms in Shanghai, China: a multicentre, observational cohort study
+
+**Source PDF:** `Assessing-risk-factors-for-SARS-CoV-2-infection-in.pdf`
+**Relative path:** `TheLancet.com_20260719/Assessing-risk-factors-for-SARS-CoV-2-infection-in.pdf`
+**Authors:** Bei Mao
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+
+## Extracted Abstract / Overview
+www.thelancet.com/digital-health Vol 2 June 2020 e323 Articles Lancet Digital Health 2020; 2: e323–30 Published Online May 14, 2020 https://doi.org/10.1016/ S2589-7500(20)30109-6 See Comment page e275 *Contributed equally as co-first authors †Contributed equally Department of Respiratory and Critical Care Medicine, Shanghai Pulmonary Hospital, Tongji University School of Medicine, Shanghai, China (B Mao MD, Y Liu MD, Y-H Chai MD, H-W Lu, J-W Yang MD, Y Hu MD, S Liang MD, Prof J-F Xu MD); Department of Pulmonary and Critical Care Medicine, Tongren Hospital, Shanghai Jiao Tong University School of Medicine, Shanghai, China (X-Y Jin MD); Department of Respiratory and Critical Care Medicine, Minhang Hospital, Fudan University, Shanghai, China (X-W Gao MD); Department of Respiratory and Critical Medicine, Shanghai Tenth People’s Hospital, Shanghai, China (X-L Song MD, Prof C-H Wang MD); Department of Respiratory Medicine, Shanghai Pudong Hospital, Fudan University Pudong Medical Center, Shanghai, China (H Bao MD); Department of Medical Management, Zhoupu Hospital of Pudong New District, Shanghai, China (A Wang MD); Department of Respiratory Medicine, Shanghai Pudong New Area People’s Hospital, Shanghai, China (W-C Gu MD); Department of Pulmonary and Critical Care Medicine, Gongli Hospital, Shanghai, China (L Zhao MD); Department of Infectious Disease, Shanghai Nanhua Hospital of Pudong New District, Shanghai, China Assessing risk factors for SARS-CoV-2 infection in patients presenting with symptoms in Shanghai, China: a multicentre, observational cohort study Bei Mao*, Yang Liu*, Yan-Hua Chai*, Xiao-Yan Jin*, Hai-Wen Lu*, Jia-Wei Yang*, Xi-Wen Gao*, Xiao-Lian Song*, Hong Bao, An Wang, Wen-Chao Gu, Lei Zhao, Jie-Ping Pan, Fan Li, Tie-Feng Zhang, Ye-Chang Qian, Chun-Ling Du, W
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

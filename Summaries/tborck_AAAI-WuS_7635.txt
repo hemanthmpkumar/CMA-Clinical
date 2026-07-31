@@ -1,0 +1,17 @@
+# Summary: Session-based Recommendation with Graph Neural Networks.
+
+**Source PDF:** `tborck,+AAAI-WuS.7635.pdf`
+**Relative path:** `tborck,+AAAI-WuS.7635.pdf`
+**Authors:** Shu Wu and Yuyuan Tang and Yanqiao Zhu and Liang Wang and Xing Xie and Tieniu Tan
+**Year:** 2019
+**Venue:** AAAI
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+The problem of session-based recommendation aims to pre- dict user actions based on anonymous sessions. Previous
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.

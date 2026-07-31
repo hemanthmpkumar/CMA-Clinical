@@ -1,0 +1,18 @@
+# Summary: Clinical applications of continual learning machine learning
+
+**Source PDF:** `Clinical-applications-of-continual-learning-machin.pdf`
+**Relative path:** `TheLancet.com_20260719/Clinical-applications-of-continual-learning-machin.pdf`
+**Authors:** Cecilia S Lee
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Labelled data Train model using labelled data Current state of AI model Traditional locked AI model New clinical data, imaging data, or both Model output: diagnosis Grading using reference standard Continual learning Manual labelling A Labelled data Train model using labelled data Current state of AI model Traditional locked AI model New clinical data, imaging data, or both Model output: prediction Extract true outcome Continual learning Wait for clinical outcome Wait for clinical outcome B Labelled data Implement clinical decision Train model using labelled data Current state of AI model Traditional locked AI model New clinical data, imaging data, or both Model output: treatment decision Extract resulting outcome Continual learning C Comment www.thelancet.com/digital-health Vol 2 June 2020 e281 Second, the regulatory challenges will be substantial. A 2019 white paper from the FDA10 shows that a new framework is needed for allowing AI algorithms that, by their very nature, will continuously update and change after they are approved. Third, the use of these models for clinical applications will require the acceptance of everyone involved in medical care. There is no fail-safe AI model, because the entire premise of continual learning models is that they improve because they make mistakes, and systems must be established to respond when errors occur. Finally, continual learning models will have to merge clinical data from large numbers of patients, which can lead to privacy concerns. There is enormous potential for the use of continual learning AI models in the practice of medicine, but this technology should be implemented cautiously, beginning with lower risk applications. Results from lower risk cases can be used to make regulatory guidelines and establish systems for 
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

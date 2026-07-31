@@ -1,0 +1,17 @@
+# Summary: Decision Support in U.S. Regulated Systems
+
+**Source PDF:** `Rahman+and+Haque_ASRC+Procedia_2023_231-273.pdf`
+**Relative path:** `Rahman+and+Haque_ASRC+Procedia_2023_231-273.pdf`
+**Authors:** A Rauf
+**Year:** 2023
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Machine learning systems are increasingly deployed in U.S. regulated decision-support environments where predictive outputs must be accurate, interpretable, secure, privacy-preserving, and auditable. This study advanced an integrated quantitative assurance framework for evaluating explainable and secure machine learning in regulated contexts. Guided by a structured review of 118 peer-reviewed studies, a multi-phase experimental design was implemented incorporating predictive benchmarking, explanation fidelity and stability testing, adversarial robustness assessment, privacy inference evaluation, and human-in-the-loop experimentation. Baseline predictive accuracy across model families averaged 0.84 (SD = 0.04), with ensemble models reaching 0.86. Calibration error decreased from 0.041 in unconstrained models to 0.028 in constrained configurations. Under adversarial simulation, baseline models experienced a 14.2 percentage-point degradation in performance, whereas robustness-enhanced models limited degradation to 6.5 percentage points. Privacy controls reduced membership inference attack success rates from 0.64 (SD = 0.05) to 0.52 (SD = 0.04), with a modest 1.7% reduction in discrimination performance. Explanation fidelity reached 0.92 (SD = 0.02) for intrinsically interpretable models compared to 0.85 (SD = 0.04) for post hoc methods, and explanation stability variance decreased from 0.08 to 0.03 under enhanced configurations. In human-in-the- loop evaluation (N = 312; 6,240 trials), structured explanations increased decision accuracy from 0.72 (SD = 0.09) to 0.79 (SD = 0.07), improved confidence calibration from 0.74 to 0.82, and increased selective override behavior from 18.4% to 24.7%, while response time rose from 34.1 to 40.8 seconds. Regression models explained 34%
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

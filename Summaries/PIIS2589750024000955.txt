@@ -1,0 +1,20 @@
+# Summary: Medical artificial intelligence for clinicians: the lost cognitive perspective
+
+**Source PDF:** `PIIS2589750024000955.pdf`
+**Relative path:** `PIIS2589750024000955.pdf`
+**Authors:** Lana Tikhomirov BPsych [Hons]
+**Year:** 2024
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+www.thelancet.com/digital-health Vol 6 August 2024 e589 Viewpoint Lancet Digit Health 2024; 6: e589–94 *Contributed equally Australian Institute for Machine Learning, University of Adelaide, Adelaide, SA, Australia (L Tikhomirov BPsych [Hons], M McCradden PhD, L Oakden-Rayner MD PhD); School of Public Health, Hospital for Sick Children, University of Toronto, Toronto, ON, Canada (M McCradden); School of Psychology, University of Adelaide, Adelaide, SA, Australia (Prof C Semmler PhD, R Searston PhD); Department of Electrical Engineering and Computer Science and Institute for Medical and Evaluative Sciences, Massachusetts Institute of Technology, Cambridge, MA, USA (M Ghassemi PhD) Correspondence to: Ms Lana Tikhomirov, Australian Institute for Machine Learning, University of Adelaide, Adelaide, SA 5000, Australia lana.tikhomirov@adelaide. edu.au Medical artificial intelligence for clinicians: the lost cognitive perspective Lana Tikhomirov, Carolyn Semmler*, Melissa McCradden, Rachel Searston, Marzyeh Ghassemi, Lauren Oakden-Rayner* The development and commercialisation of medical decision systems based on artificial intelligence (AI) far outpaces our understanding of their value for clinicians. Although applicable across many forms of medicine, we focus on characterising the diagnostic decisions of radiologists through the concept of ecologically bounded reasoning, review the differences between clinician decision making and medical AI model decision making, and reveal how these differences pose fundamental challenges for integrating AI into radiology. We argue that clinicians are contextually motivated, mentally resourceful decision makers, whereas AI models are contextually stripped, correlational decision makers, and discuss misconceptions about clinician–AI interacti
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

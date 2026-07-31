@@ -1,0 +1,20 @@
+# Summary: Deep EHR: A Survey of Recent Advances in Deep Learning Techniques for Electronic Health Record (EHR) Analysis.
+
+**Source PDF:** `Deep_EHR_A_Survey_of_Recent_Advances_in_Deep_Learning_Techniques_for_Electronic_Health_Record_EHR_Analysis.pdf`
+**Relative path:** `Deep_EHR_A_Survey_of_Recent_Advances_in_Deep_Learning_Techniques_for_Electronic_Health_Record_EHR_Analysis.pdf`
+**Authors:** Benjamin Shickel and Patrick James Tighe and Azra Bihorac
+**Year:** 2017
+**Venue:** IEEE Journal of Biomedical and Health Informatics
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Science, University of Florida, Gainesville, FL 32611 USA (e-mail: shickelb@uﬂ.edu). P. J. Tighe is with the Department of Anesthesiology, College of Medicine, University of Florida, Gainesville, FL 32610 USA (e-mail: ptighe@anest.uﬂ.edu). A. Bihorac is with the Department of Nephrology, College of Medicine, University of Florida, Gainesville, FL 32610 USA (e-mail: Azra.Bihorac@medicine.uﬂ.edu). P. Rashidi is with the J. Crayton Pruitt Department of Biomedical Engineering, University of Florida, Gainesville, FL 32611 USA (e-mail: parisa.rashidi@uﬂ.edu). Digital Object Identiﬁer 10.1109/JBHI.2017.2767063 TABLE I SEVERAL RECENT DEEP EHR PROJECTS Project Deep EHR Task Ref. DeepPatient Multi-outcome Prediction Miotto [15] Deepr Hospital Re-admission Prediction Nguyen [20] DeepCare EHR Concept Representation Pham [21] Doctor AI Heart Failure Prediction Choi [22] Med2Vec EHR Concept Representation Choi [23] eNRBM Suicide risk stratiﬁcation Tran [24] ofﬁce-based physician adoption of basic and certiﬁed EHRs has more than doubled from 42% to 87% [3], [4]. EHR systems store data associated with each patient encounter, including demographic information, diagnoses, laboratory tests and results, prescriptions, radiological images, clinical notes, and more [1]. While primarily designed for im- proving healthcare efﬁciency from an operational standpoint, many studies have found secondary use for clinical informatics applications [5], [6]. In particular, the patient data contained in EHR systems has been used for such tasks as medical concept extraction [7], [8], patient trajectory modeling [9], disease in- ference [10], [11], clinical decision support systems [12], and more (Table I). Until the last few years, most of the techniques for analyzing rich EHR data were based on tradition
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

@@ -1,0 +1,20 @@
+# Summary: Journal of
+
+**Source PDF:** `Alam+et+al_ajisv1i4202654.pdf`
+**Relative path:** `Alam+et+al_ajisv1i4202654.pdf`
+**Authors:** A Rauf
+**Year:** 2020
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- self-supervised and JEPA-style predictive learning
+
+## Extracted Abstract / Overview
+The rapid expansion of healthcare big data—derived from electronic health records (EHRs), medical imaging, genomics, wearable devices, and population-level public health systems—has created unprecedented opportunities to transform chronic disease management and early clinical intervention in the United States. Predictive data-driven models leverage advanced analytics, machine learning, and artificial intelligence to extract actionable insights from these heterogeneous and high-volume datasets, enabling proactive rather than reactive healthcare delivery. This study examines the role of predictive healthcare analytics in strengthening the U.S. national health infrastructure by supporting early disease detection, personalized treatment planning, and long-term management of chronic conditions such as diabetes, cardiovascular diseases, cancer, and respiratory disorders. The abstract emphasizes how data-driven predictive models enhance clinical decision-making, optimize resource allocation, reduce avoidable hospitalizations, and improve population health outcomes. By integrating longitudinal patient data with real-time monitoring systems, these models facilitate risk stratification, disease progression forecasting, and timely interventions across care continuums. Furthermore, the study highlights the strategic significance of scalable, interoperable, and secure health data ecosystems in supporting public health resilience, cost containment, and equitable access to care. The findings underscore that predictive healthcare models are not merely technological innovations but foundational components of a robust, sustainable, and prevention-oriented national health infrastructure. Their effective implementation can substantially advance early intervention strategies, improve chroni
+
+## Relevance to CMA / main.tex
+- Aligns with the JEPA predictor component that forecasts next-intent states for anticipatory prefetch in CMA.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

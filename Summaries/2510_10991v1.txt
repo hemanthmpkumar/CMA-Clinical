@@ -1,0 +1,19 @@
+# Summary: A Survey on Agentic Multimodal Large Language Models
+
+**Source PDF:** `2510.10991v1.pdf`
+**Relative path:** `2510.10991v1.pdf`
+**Authors:** Huanjin Yao and Ruifei Zhang and Jiaxing Huang and Jingyi Zhang and Yibo Wang and Bo Fang and Ruolin Zhu and Yongcheng Jing and Shunyu Liu and Guanbin Li and Dacheng Tao
+**Year:** 2025
+**Venue:** arXiv:2510.10991v1
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- large language models in medicine
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+—With the recent emergence of revolutionary autonomous agentic systems, research community is witnessing a significant shift from traditional static, passive, and domain-specific AI agents toward more dynamic, proactive, and generalizable agentic AI. Motivated by the growing interest in agentic AI and its potential trajectory toward AGI, we present a comprehensive survey on Agentic Multimodal Large Language Models (Agentic MLLMs). In this survey, we explore the emerging paradigm of agentic MLLMs, delineating their conceptual foundations and distinguishing characteristics from conventional MLLM-based agents. We establish a conceptual framework that organizes agentic MLLMs along three fundamental dimensions: (i) Agentic internal intelligence functions as the system’s commander, enabling accurate long-horizon planning through reasoning, reflection, and memory; (ii) Agentic external tool invocation, whereby models proactively use various external tools to extend their problem-solving capabilities beyond their intrinsic knowledge; and (iii) Agentic environment interaction further situates models within virtual or physical environments, allowing them to take actions, adapt strategies, and sustain goal-directed behavior in dynamic real-world scenarios. To further accelerate research in this area for the community, we compile open-source training frameworks, training and evaluation datasets for developing agentic MLLMs. Finally, we review the downstream applications of agentic MLLMs and outline future research directions for this rapidly evolving field. To continuously track developments in this rapidly evolving field, we will also actively update a public repository at https://github.com/HJYao00/Awesome-Agentic-MLLMs. Index Terms—Agentic MLLMs, Reinforcement Learning, Reasonin
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

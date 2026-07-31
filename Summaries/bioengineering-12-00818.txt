@@ -1,0 +1,17 @@
+# Summary: Large Language Models in Medical Image Analysis: A Systematic Survey and Future Directions
+
+**Source PDF:** `bioengineering-12-00818.pdf`
+**Relative path:** `bioengineering-12-00818.pdf`
+**Authors:** Bushra Urooj and Muhammad Fayaz and Shafqat Ali and Kyung Won Kim
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- large language models in medicine
+
+## Extracted Abstract / Overview
+The integration of vision and language processing into a cohesive system has already shown promise with the application of large language models (LLMs) in medical image analysis. Their capabilities encompass the generation of medical reports, disease classi- fication, visual question answering, and segmentation, providing yet another approach to interpreting multimodal data. This survey aims to compile all known applications of LLMs in the medical image analysis field, spotlighting their promises alongside critical challenges and future avenues. We introduce the concept of X-stage tuning which serves as a framework for LLMs fine-tuning across multiple stages: zero stage, one stage, and multi-stage, wherein each stage corresponds to task complexity and available data. The survey describes issues like sparsity of data, hallucination in outputs, privacy issues, and the requirement for dynamic knowledge updating. Alongside these, we cover prospective features including integration of LLMs with decision support systems, multimodal learning, and federated learning for privacy-preserving model training. The goal of this work is to provide structured guidance to the targeted audience, demystifying the prospects of LLMs in medical image analysis.
+
+## Relevance to CMA / main.tex
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

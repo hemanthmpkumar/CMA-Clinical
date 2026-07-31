@@ -1,0 +1,18 @@
+# Summary: Bias recognition and mitigation strategies in artificial intelligence healthcare applications
+
+**Source PDF:** `41746_2025_Article_1503.pdf`
+**Relative path:** `41746_2025_Article_1503.pdf`
+**Authors:** Fereshteh Hasanzadeh
+**Year:** 1993
+**Venue:** npj Digital Medicine
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+and equitable clinical adoption. Fairness, Equality and Equity Fairness, equality, and equity are core principles of healthcare delivery that are directly inﬂuenced by bias. Fairness in healthcare encompasses both distributive justice and socio-relational dimensions, requiring a holistic consideration of each individual’s unique social, cultural, and environ- mental factors, these going beyond the concept of equality - which aims to ensure equal access and outcomes19,20. Equity recognizes that certain groups may require tailored resources or support to attain comparable health beneﬁts9. Navigating these nuances and potential trade-offs between core principles is essential, as blanket approaches to fairness may inadvertently reinforce existing disparities21. Deﬁning and measuring fairness metrics, such as demographic parity, equalized odds, equal opportunity, and counterfactual fairness, is a complex challenge that requires a deep understanding of the healthcare context as well as the lived experiences of diverse patient populations. Failure to apply these metrics appropriately can lead to unintended consequences that may undermine the ethical foundations of equitable care, such as perpetuating healthcare disparities, misallocating resources, or reinforcing systemic bia- ses that disproportionately impact vulnerable populations22. Differentiating equality from equity is essential to understanding the inﬂuences that AI bias can impose on healthcare disparities. These often- competing principles, as illustrated in Fig. 2, must be iteratively considered to achieve the best possible balance9,23. Types of Bias In the following sections, we explore the various forms of bias commonly encountered in healthcare AI. Our discussion, supplemented by relevant Fig. 1 | Study selection
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

@@ -1,0 +1,23 @@
+# Summary: Large Language Models Are Clinical Reasoners: Reasoning-Aware Diagnosis Framework with Prompt-Generated Rationales
+
+**Source PDF:** `13210-AAAI24.KwonT.pdf`
+**Relative path:** `13210-AAAI24.KwonT.pdf`
+**Authors:** Taeyoon Kwon and Kai Tzu-iunn Ong and Dongjin Kang and Seungjun Moon and Jeong Ryong Lee and Dosik Hwang and Beomseok Sohn and Yongsik Sim and Dongha Lee and Jinyoung Yeo
+**Year:** 2024
+**Venue:** AAAI
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+- session-based search, intent, and context drift
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+Machine reasoning has made great progress in recent years owing to large language models (LLMs). In the clinical do- main, however, most NLP-driven projects mainly focus on clinical classification or reading comprehension, and under- explore clinical reasoning for disease diagnosis due to the ex- pensive rationale annotation with clinicians. In this work, we present a “reasoning-aware” diagnosis framework that ratio- nalizes the diagnostic process via prompt-based learning in a time- and labor-efficient manner, and learns to reason over the prompt-generated rationales. Specifically, we address the clinical reasoning for disease diagnosis, where the LLM gen- erates diagnostic rationales providing its insight on presented patient data and the reasoning path towards the diagnosis, namely Clinical Chain-of-Thought (Clinical CoT). We em- pirically demonstrate LLMs/LMs’ ability of clinical reason- ing via extensive experiments and analyses on both rationale generation and disease diagnosis in various settings. We fur- ther propose a novel set of criteria for evaluating machine- generated rationales’ potential for real-world clinical settings, facilitating and benefiting future research in this area.
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

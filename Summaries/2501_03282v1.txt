@@ -1,0 +1,18 @@
+# Summary: From Aleatoric to Epistemic: Exploring Uncertainty Quantiﬁcation Techniques in Artiﬁcial Intelligence
+
+**Source PDF:** `2501.03282v1.pdf`
+**Relative path:** `2501.03282v1.pdf`
+**Authors:** Tianyang Wanga and Yunze Wangb and Jun Zhouc and Benji Peng and Xinyuan Songe and Charles Zhangd and Xintian Sunf and Qian Niug and Junyu Liug and Silin Chenh and Keyu Chend and Ming Lid and Pohsun Fengi and Ziqian Bij and Ming Liuk and Yichao Zhangc and Cheng Feim and Caitlyn Heqi Yinm and Lawrence KQ Yann
+**Year:** 2025
+**Venue:** arXiv:2501.03282v1
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+—Uncertainty quantiﬁcation (UQ) is a critical aspect of artiﬁcial intelligence (AI) systems, particularly in high-risk domains such as healthcare, autonomous systems, and ﬁnancial technology, where decision-making processes must account for uncertainty. This review explores the evolution of uncertainty quantiﬁcation techniques in AI, distinguishing between aleatoric and epistemic uncertainties, and discusses the mathematical foun- dations and methods used to quantify these uncertainties. We provide an overview of advanced techniques, including probabilis- tic methods, ensemble learning, sampling-based approaches, and generative models, while also highlighting hybrid approaches that integrate domain-speciﬁc knowledge. Furthermore, we examine the diverse applications of UQ across various ﬁelds, emphasizing its impact on decision-making, predictive accuracy, and system robustness. The review also addresses key challenges such as scalability, efﬁciency, and integration with explainable AI, and outlines future directions for research in this rapidly developing area. Through this comprehensive survey, we aim to provide a deeper understanding of UQ’s role in enhancing the reliability, safety, and trustworthiness of AI systems. I. INTRODUCTION The widespread application of artiﬁcial intelligence (AI) in high-risk ﬁelds such as healthcare, autonomous driving, and ﬁnancial analysis has raised increasing concerns regarding its reliability and safety. AI systems typically operate based on complex models and large amounts of data, and the inherent noise, incompleteness, and limitations of these models lead to unavoidable uncertainty in the system’s outputs. In many application scenarios, failing to effectively quantify and man- age this uncertainty may result in severe consequences.
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.

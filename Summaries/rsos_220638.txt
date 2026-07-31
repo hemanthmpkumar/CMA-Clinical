@@ -1,0 +1,18 @@
+# Summary: Causal machine learning for healthcare and precision
+
+**Source PDF:** `rsos.220638.pdf`
+**Relative path:** `rsos.220638.pdf`
+**Authors:** Pedro Sanchez and Jeremy P. Voisey and Tian Xia and Alison Q. ONeil and Sotirios A. Tsaftaris and Voisey JP and ONeil AQ and Tsaftaris SA. Causal and Received May and Accepted July and Subject Category and Computer science and Subject Areas
+**Year:** 2022
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+royalsocietypublishing.org/journal/rsos Review Cite this article: Sanchez P, Voisey JP, Xia T, Watson HI, O’Neil AQ, Tsaftaris SA. 2022 Causal machine learning for healthcare and precision medicine. R. Soc. Open Sci. 9: 220638. https://doi.org/10.1098/rsos.220638 Received: 13 May 2022 Accepted: 15 July 2022 Subject Category: Computer science and artificial intelligence Subject Areas: medical computing/artificial intelligence/image processing Keywords: causal machine learning, causal representation learning, precision medicine Author for correspondence: Pedro Sanchez e-mail: pedro.sanchez@ed.ac.uk Causal machine learning for healthcare and precision medicine Pedro Sanchez1, Jeremy P. Voisey2, Tian Xia1, Hannah I. Watson2, Alison Q. O’Neil1,2 and Sotirios A. Tsaftaris1 1School of Engineering, University of Edinburgh, Edinburgh, UK
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

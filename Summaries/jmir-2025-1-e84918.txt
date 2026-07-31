@@ -1,0 +1,17 @@
+# Summary: Factors Influencing Adoption of Large Language Models in Health Care: Multicenter Cross-Sectional Mixed Methods Observational Study
+
+**Source PDF:** `jmir-2025-1-e84918.pdf`
+**Relative path:** `jmir-2025-1-e84918.pdf`
+**Authors:** Xiongwen Yang and Yi Xiao and Di Liu and Huiyin Deng and Jian Huang and Maoli Liang and Longyan Dong and Zihao Yuan and Jing Yao and Wankai Guo and Chuan Xu and Xiongwen Yang and Zhongshan East Road
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- large language models in medicine
+
+## Extracted Abstract / Overview
+Background: Large language models (LLMs) such as ChatGPT are transforming how health information is accessed, communicated, and applied. However, their adoption in health care remains limited by uncertainties surrounding trust, privacy, and digital readiness, particularly in low- and middle-income contexts.
+
+## Relevance to CMA / main.tex
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

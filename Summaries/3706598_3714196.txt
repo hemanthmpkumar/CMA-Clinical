@@ -1,0 +1,22 @@
+# Summary: Scaffolded Turns and Logical Conversations: Designing Humanized LLM-Powered Conversational Agents for Hospital Admission Interviews
+
+**Source PDF:** `3706598.3714196.pdf`
+**Relative path:** `3706598.3714196.pdf`
+**Authors:** Dingdong Liu
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- large language models in medicine
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+Hospital admission interviews are critical for patient care but strain nurses’ capacity due to time constraints and staffing shortages. While LLM-powered conversational agents (CAs) offer automation potential, their rigid sequencing and lack of humanized commu­ nication skills risk misunderstandings and incomplete data cap­ ture. Through participatory design with clinicians and volunteers, we identified essential communication strategies and developed a novel CA that implements these strategies through: (1) dynamic topic management using graph-based conversation flows, and (2) context-aware scaffolding with few-shot prompt tuning. Technical evaluation on an admission interview dataset showed our system achieving performance comparable to or surpassing human-written ground truth, while outperforming prompt-engineered baselines. A between-subject study (N=44) demonstrated significantly improved user experience and data collection accuracy compared to exist­ ing solutions. We contribute a framework for humanizing medical CAs by translating clinician expertise into algorithmic strategies, alongside empirical insights for balancing efficiency and empathy in healthcare interactions, and considerations for generalizability. CCS Concepts • Human-centered computing → Empirical studies in HCI; Empirical studies in interaction design; User studies; Partic­ ipatory design; • Applied computing → Health care infor­ mation systems; • Computing methodologies → Discourse, dialogue and pragmatics. ∗Corresponding Author Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the firs
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

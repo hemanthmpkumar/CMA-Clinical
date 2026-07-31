@@ -1,0 +1,20 @@
+# Summary: Multiclass semantic segmentation and quantification of traumatic brain injury lesions on head CT using deep learning: an algorithm development and multicentre validation study
+
+**Source PDF:** `Multiclass-semantic-segmentation-and-quantificatio.pdf`
+**Relative path:** `TheLancet.com_20260719/Multiclass-semantic-segmentation-and-quantificatio.pdf`
+**Authors:** Miguel Monteiro
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+www.thelancet.com/digital-health Vol 2 June 2020 e314 Articles Lancet Digital Health 2020; 2: e314–22 Published Online May 14, 2020 https://doi.org/10.1016/ S2589-7500(20)30085-6 See Comment page e273 *Equal first authors †Equal senior authors Biomedical Image Analysis Group, Department of Computing, Imperial College London, London, UK (M Monteiro MSc, K Kamnitsas PhD, Prof D Rueckert PhD, B Glocker PhD); Division of Anaesthesia, Department of Medicine, University of Cambridge, Cambridge, UK (V F J Newcombe PhD, F Mathieu MD, K Adatia MD, T Das PhD, D Whitehouse MD, Prof D K Menon PhD); and sinc(i), FICH-Universidad Nacional del Litoral, CONICET, Santa Fe, Argentina (E Ferrante PhD) Correspondence to: Mr Miguel Monteiro, Department of Computing, Imperial College London, London SW7 2AZ, UK miguel.monteiro@imperial. ac.uk Multiclass semantic segmentation and quantification of traumatic brain injury lesions on head CT using deep learning: an algorithm development and multicentre validation study Miguel Monteiro*, Virginia F J Newcombe*, Francois Mathieu, Krishma Adatia, Konstantinos Kamnitsas, Enzo Ferrante, Tilak Das, Daniel Whitehouse, Daniel Rueckert, David K Menon†, Ben Glocker† Summary
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

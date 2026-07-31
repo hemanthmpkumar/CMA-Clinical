@@ -1,0 +1,19 @@
+# Summary: Addressing Distribution Shift for Robust and Trustworthy Prediction and Causal Inference in Clinical AI Settings
+
+**Source PDF:** `han_2025_ic_250107_1748437545.14825.pdf`
+**Relative path:** `han_2025_ic_250107_1748437545.14825.pdf`
+**Authors:** American Medical Association
+**Year:** 2025
+**Venue:** JAMA
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Ongoing advancements in federated causal survival analysis, semisupervised learning, and prediction-powered or surrogate-assisted estimation of long-term treatment effects hold particular promise. As multicenter research networks become increasingly common in clinical research, federated approaches will play an essential role in producing robust and generalizable causal inferences. Finally, conformal inference is an exciting and rapidly evolving area of modern statistical methodology that is particularly well-suited for quantifying uncertainty in predictions from black-box ML and AI models in multienvironment settings. These methods provide distribution-free, finite- sample valid prediction sets or intervals, ensuring reliable uncertainty quantification regardless of the underlying data distribution. Originally developed under the assumption of exchangeability between test and calibration data, conformal prediction has since been extended to handle covariate shift. Recent methodologic advancements have further expanded its applicability. Yang et al6 established connections between conformal prediction, missing data, and semiparametric efficiency theory, broadening its theoretical foundation. In multisource data settings, Liu et al7 introduced methods that explicitly account for both covariate shift and conditional shift, addressing key limitations of existing approaches. Conformal inference under distribution shift continues to advance rapidly, extending into novel settings such as multivariate outcomes, time-to-event data, time-series analysis, and online learning. These developments highlight its growing importance in ensuring robust, generalizable inference across heterogeneous data environments. Despite significant methodologic progress, practical adoption of clinic
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

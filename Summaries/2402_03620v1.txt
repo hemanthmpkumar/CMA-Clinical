@@ -1,0 +1,17 @@
+# Summary: Self-Discover: Large Language Models Self-Compose Reasoning Structures
+
+**Source PDF:** `2402.03620v1.pdf`
+**Relative path:** `2402.03620v1.pdf`
+**Authors:** Pei Zhou and Jay Pujara and Xiang Ren and Xinyun Chen and Heng-Tze Cheng and Quoc V. Le and Ed H. Chi and Denny Zhou and Swaroop Mishra and Huaixiu Steven Zheng
+**Year:** 2022
+**Venue:** Proceedings of the
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- large language models in medicine
+
+## Extracted Abstract / Overview
+We introduce SELF-DISCOVER, a general frame- work for LLMs to self-discover the task-intrinsic reasoning structures to tackle complex reasoning problems that are challenging for typical prompt- ing methods. Core to the framework is a self- discovery process where LLMs select multiple atomic reasoning modules such as critical think- ing and step-by-step thinking, and compose them into an explicit reasoning structure for LLMs to follow during decoding. SELF-DISCOVER sub- stantially improves GPT-4 and PaLM 2’s per- formance on challenging reasoning benchmarks such as BigBench-Hard, grounded agent reason- ing, and MATH, by as much as 32% compared to Chain of Thought (CoT). Furthermore, SELF- DISCOVER outperforms inference-intensive meth- ods such as CoT-Self-Consistency by more than 20%, while requiring 10-40x fewer inference com- pute. Finally, we show that the self-discovered reasoning structures are universally applicable across model families: from PaLM 2-L to GPT-4, and from GPT-4 to Llama2, and share commonal- ities with human reasoning patterns.
+
+## Relevance to CMA / main.tex
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.

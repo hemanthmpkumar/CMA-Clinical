@@ -1,0 +1,18 @@
+# Summary: Unmasking bias in artificial intelligence: a systematic review of bias detection and mitigation strategies in electronic health record-based models
+
+**Source PDF:** `ocae060.pdf`
+**Relative path:** `ocae060.pdf`
+**Authors:** Feng Chen and Liqin Wang and Julie Hong and Jiaqi Jiang and Li Zhou
+**Year:** 2024
+**Venue:** Journal of the American Medical Informatics Association
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Objectives: Leveraging artificial intelligence (AI) in conjunction with electronic health records (EHRs) holds transformative potential to improve healthcare. However, addressing bias in AI, which risks worsening healthcare disparities, cannot be overlooked. This study reviews methods to handle various biases in AI models developed using EHR data. Materials and Methods: We conducted a systematic review following the Preferred Reporting Items for Systematic Reviews and Meta- analyses guidelines, analyzing articles from PubMed, Web of Science, and IEEE published between January 01, 2010 and December 17, 2023. The review identified key biases, outlined strategies for detecting and mitigating bias throughout the AI model development, and analyzed met­ rics for bias assessment. Results: Of the 450 articles retrieved, 20 met our criteria, revealing 6 major bias types: algorithmic, confounding, implicit, measurement, selec­ tion, and temporal. The AI models were primarily developed for predictive tasks, yet none have been deployed in real-world healthcare settings. Five studies concentrated on the detection of implicit and algorithmic biases employing fairness metrics like statistical parity, equal opportunity, and predictive equity. Fifteen studies proposed strategies for mitigating biases, especially targeting implicit and selection biases. These strat­ egies, evaluated through both performance and fairness metrics, predominantly involved data collection and preprocessing techniques like resampling and reweighting. Discussion: This review highlights evolving strategies to mitigate bias in EHR-based AI models, emphasizing the urgent need for both standar­ dized and detailed reporting of the methodologies and systematic real-world testing and evaluation. Such measures are esse
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

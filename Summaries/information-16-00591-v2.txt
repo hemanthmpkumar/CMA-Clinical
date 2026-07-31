@@ -1,0 +1,22 @@
+# Summary: Multimodal Artificial Intelligence in Medical Diagnostics
+
+**Source PDF:** `information-16-00591-v2.pdf`
+**Relative path:** `information-16-00591-v2.pdf`
+**Authors:** Bassem Jandoubi and Moulay A. Akhloufi
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+The integration of artificial intelligence into healthcare has advanced rapidly in recent years, with multimodal approaches emerging as promising tools for improving diagnostic accuracy and clinical decision making. These approaches combine heterogeneous data sources such as medical images, electronic health records, physiological signals, and clinical notes to better capture the complexity of disease processes. Despite this progress, only a limited number of studies offer a unified view of multimodal AI applications in medicine. In this review, we provide a comprehensive and up-to-date analysis of machine learning and deep learning-based multimodal architectures, fusion strategies, and their performance across a range of diagnostic tasks. We begin by summarizing publicly available datasets and examining the preprocessing pipelines required for harmonizing heterogeneous med- ical data. We then categorize key fusion strategies used to integrate information from multiple modalities and overview representative model architectures, from hybrid designs and transformer-based vision-language models to optimization-driven and EHR-centric frameworks. Finally, we highlight the challenges present in existing works. Our analysis shows that multimodal approaches tend to outperform unimodal systems in diagnostic per- formance, robustness, and generalization. This review provides a unified view of the field and opens up future research directions aimed at building clinically usable, interpretable, and scalable multimodal diagnostic systems.
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

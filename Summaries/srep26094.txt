@@ -1,0 +1,20 @@
+# Summary: Deep Patient: An Unsupervised Representation to Predict the Future of Patients from the Electronic Health Records.
+
+**Source PDF:** `srep26094.pdf`
+**Relative path:** `srep26094.pdf`
+**Authors:** Riccardo Miotto
+**Year:** 2016
+**Venue:** Scientific Reports
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+patient”. We evaluated this representation as broadly predictive of health states by assessing the probability of patients to develop various diseases. We performed evaluation using 76,214 test patients comprising 78 diseases from diverse clinical domains and temporal windows. Our results significantly outperformed those achieved using representations based on raw EHR data and alternative feature learning strategies. Prediction performance for severe diabetes, schizophrenia, and various cancers were among the top performing. These findings indicate that deep learning applied to EHRs can derive patient representations that offer improved clinical predictions, and could provide a machine learning framework for augmenting clinical decision systems. A primary goal of precision medicine is to develop quantitative models for patients that can be used to predict health status, as well as to help prevent disease or disability. In this context, electronic health records (EHRs) offer great promise for accelerating clinical research and predictive analysis1. Recent studies have shown that secondary use of EHRs has enabled data-driven prediction of drug effects and interactions2, identification of type 2 diabetes subgroups3, discovery of comorbidity clusters in autism spectrum disorders4, and improvements in recruiting patients for clinical trials5. However, predictive models and tools based on modern machine learning techniques have not been widely and reliably used in clinical decision support systems or workflows6–9. EHR data is challenging to represent and model due to its high dimensionality, noise, heterogeneity, sparse- ness, incompleteness, random errors, and systematic biases7,10,11. Moreover, the same clinical phenotype can be expressed using different codes and terminolo
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

@@ -1,0 +1,22 @@
+# Summary: Representation learning for electronic health records.
+
+**Source PDF:** `1909.09248v1.pdf`
+**Relative path:** `1909.09248v1.pdf`
+**Authors:** Wei-Hung Weng and Peter Szolovits
+**Year:** 2019
+**Venue:** arXiv preprint
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+arXiv:1909.09248v1 [cs.LG] 19 Sep 2019 Representation Learning for Electronic Health Records Wei-Hung Weng 1 Peter Szolovits 1 Abstract Information in electronic health records (EHR), such as clinical narratives, examination reports, lab measurements, demographics, and other pa- tient encounter entries, can be transformed into appropriate data representations that can be used for downstream clinical machine learning tasks using representation learning. Learning better representations is critical to improve the perfor- mance of downstream tasks. Due to the advances in machine learning, we now can learn better and meaningful representations from EHR through disentangling the underlying factors inside data and distilling large amounts of information and knowledge from heterogeneous EHR sources. In this chapter, we ﬁrst introduce the background of learning representations and reasons why we need good EHR representations in machine learn- ing for medicine and healthcare in Section 1. Next, we explain the commonly-used machine learning and evaluation methods for representa- tion learning using a deep learning approach in Section 2. Following that, we review recent re- lated studies of learning patient state represen- tation from EHR for clinical machine learning tasks in Section 3. Finally, in Section 4 we dis- cuss more techniques, studies, and challenges for learning natural language representations when free texts, such as clinical notes, examination reports, or biomedical literature are used. We also discuss challenges and opportunities in these rapidly growing research ﬁelds. 1. Learning Representations for Medicine and Healthcare Medicine and healthcare has become one of the key applied machine learning research domains due to increasing adop- tion of electronic health 
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

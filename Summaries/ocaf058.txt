@@ -1,0 +1,18 @@
+# Summary: Improving clinical decision support through interpretable machine learning and error handling in electronic health records
+
+**Source PDF:** `ocaf058.pdf`
+**Relative path:** `ocaf058.pdf`
+**Authors:** Mehak Arora and Hassan Mortagy and Nathan Dwarshuis and Jeffrey Wang and Andre L. Holder and Swati Gupta and Rishikesan Kamaleswaran and Philip Yang
+**Year:** 2025
+**Venue:** Journal of the American Medical Informatics Association
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Objective: To develop an electronic medical record (EMR) data processing tool that confers clinical context to machine learning (ML) algorithms for error handling, bias mitigation, and interpretability. Materials and Methods: We present Trust-MAPS, an algorithm that translates clinical domain knowledge into high-dimensional, mixed-integer programming models that capture physiological and biological constraints on clinical measurements. EMR data are projected onto this con­ strained space, effectively bringing outliers to fall within a physiologically feasible range. We then compute the distance of each data point from the constrained space modeling healthy physiology to quantify deviation from the norm. These distances, termed “trust-scores,” are integrated into the feature space for downstream ML applications. We demonstrate the utility of Trust-MAPS by training a binary classifier for early sepsis prediction on data from the 2019 PhysioNet Computing in Cardiology Challenge, using the XGBoost algorithm and applying SMOTE for over­ coming class-imbalance. Results: The Trust-MAPS framework shows desirable behavior in handling potential errors and boosting predictive performance. We achieve an area under the receiver operating characteristic curve of 0.91 (95% CI, 0.89-0.92) for predicting sepsis 6 hours before onset—a marked 15% improvement over a baseline model trained without Trust-MAPS. Discussions: Downstream classification performance improves after Trust-MAPS preprocessing, highlighting the bias reducing capabilities of the error-handling projections. Trust-scores emerge as clinically meaningful features that not only boost predictive performance for clinical deci­ sion support tasks but also lend interpretability to ML models. Conclusion: This work is the first to
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

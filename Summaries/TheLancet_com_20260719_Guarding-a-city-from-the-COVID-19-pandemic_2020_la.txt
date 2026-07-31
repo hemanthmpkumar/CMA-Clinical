@@ -1,0 +1,17 @@
+# Summary: Guarding a city from the COVID-19 pandemic
+
+**Source PDF:** `Guarding-a-city-from-the-COVID-19-pandemic_2020_la.pdf`
+**Relative path:** `TheLancet.com_20260719/Guarding-a-city-from-the-COVID-19-pandemic_2020_la.pdf`
+**Authors:** Jiuyang Xu
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+
+## Extracted Abstract / Overview
+indicating the necessity for close monitoring and follow-up in clinically suspected cases. Shanghai, a large city with more than 25 million permanent residents and nearly 10 million non- permanent residents, has shown efficient control Published Online May 14, 2020 https://doi.org/10.1016/ S2589-7500(20)30111-4 See Articles page e323 Comment e276 www.thelancet.com/digital-health Vol 2 June 2020 of the epidemic during this outbreak thus far. Only 655 confirmed cases have been reported in Shanghai as of May 3, 2020, and the local transmission of the virus has remained low.8 The fever clinic screening strategy is not the only guardian of the city. The defence included joint public health interventions from the government, hospitals, and the community. Although at large social and economic costs, these public health interventions (eg, intercity travel restrictions, early identification and isolation of cases, contact restrictions, and social distancing) were modelled to have reduced confirmed case numbers by more than 100 times.9,10 There were also additional measures, including daily reports on the epidemic situation, a QR code for citizens to report their travel history and health information, reduction of crowding and mass gatherings, no contact deliveries, community management, and designated hospitals, among others, which were all believed to provide the city with an extra layer of protection. Controlling the COVID-19 epidemic in a densely populated city is a difficult task. This is especially true in winter and spring when other respiratory pathogens are co-circulating in community. What we have learned from the experience in Shanghai is that standardised screening (early recognition) and sufficient nucleic acid tests (early diagnosis) were prerequisites for the effec
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

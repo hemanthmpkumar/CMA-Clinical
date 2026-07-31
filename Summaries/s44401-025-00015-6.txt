@@ -1,0 +1,21 @@
+# Summary: Explainable differential diagnosis with dual-inference large language models
+
+**Source PDF:** `s44401-025-00015-6.pdf`
+**Relative path:** `s44401-025-00015-6.pdf`
+**Authors:** Shuang Zhou
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- large language models in medicine
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+SC-CoT, which scored 0.366 and 0.408, respectively. On the other metrics, Dual-Inf consistently surpassed SC-CoT, with differences of 0.083, 0.064, and 0.08. Similarly, with Llama3-70B and BioLlama3-70B, Dual-Inf exceeded SC-CoT by over 17% across all metrics. In detail, the perfor- mance improvement on digestive, respiratory, and endocrine diseases exceeded 25% over the baselines w.r.t interpretation accuracy (Supple- mentary Appendix 5). The interpretations were also manually examined by clinicians on three qualitative metrics: Correctness, Completeness, and Usefulness (Supplementary Appendix 2). Figure 2b presents the results for 100 ran- domly selected notes, using GPT-4 as the base LLM. We observed that the Correctness score of Dual-Inf predominantly ranged from 3 to 4, whereas SC-CoT scoresmainly fell between 2 and 3. In terms of Completeness score, Dual-Inf achieved 38 scores of 3 and 21 scores of 4, compared to SC-CoT’s 19 and 3, respectively. Regarding the Usefulness score, Dual-Inf had 33 scores of 3 and 25 scores of 4, while SC-CoT had 26 and 10, respectively. Case study We further provided case studies to demonstrate the superior explainability ofDual-Infoverthebaselines.TheexampleinFig.3showcasedthatSC-CoT only provided three correct explanations for a differential, i.e., Pneu- mothorax, while Dual-Inf generated more accurate explanations. Besides, Dual-Inf had one more correct differential, i.e., Hemothorax, with three correct explanations than the baselines. See more examples and detailed illustrations in Supplementary Appendices 7 and 8. Error analysis on explanation We analyzed error types in generated explanations by comparing Dual-Inf with the baselines on 100 randomly selected samples with incorrect outputs. Errors were categorized as missing content
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Provides context on contemporary generative clinical AI and decision-support safety considerations relevant to CMA deployment.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.

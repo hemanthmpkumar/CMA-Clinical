@@ -1,0 +1,18 @@
+# Summary: What makes clinical machine learning fair? A practical ethics framework
+
+**Source PDF:** `journal.pdig.0000728.pdf`
+**Relative path:** `journal.pdig.0000728.pdf`
+**Authors:** Marine Hoche
+**Year:** 2025
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+Machine learning (ML) can offer a tremendous contribution to medicine by stream­ lining decision-making, reducing mistakes, improving clinical accuracy and ensur­ ing better patient outcomes. The prospects of a widespread and rapid integration of machine learning in clinical workflow have attracted considerable attention including due to complex ethical implications–algorithmic bias being among the most frequently discussed ML models. Here we introduce and discuss a practical ethics framework inductively-­generated via normative analysis of the practical challenges in develop­ ing an actual clinical ML model (see case study). The framework is usable to identify, measure and address bias in clinical machine learning models, thus improving fair­ ness as to both model performance and health outcomes. We detail a proportionate approach to ML bias by defining the demands of fair ML in light of what is ethically justifiable and, at the same time, technically feasible in light of inevitable trade-offs. Our framework enables ethically robust and transparent decision-making both in the design and the context-dependent aspects of ML bias mitigation, thus improving accountability for both developers and clinical users. Author summary Artificial intelligence (AI) can be fruitfully integrated into clinical workflow, improv­ ing efficiency and accuracy in clinical decision-making. However, AI systems–such as machine learning algorithms–come with very well know limitations. One of the most discussed limitations of machine learning, in medicine and beyond, is the document­ ed tendency of such systems to exhibit bias in their performance, as well as in their practical outcomes. Unfair medical algorithms can reproduce or exacerbate existing health inequalities by causing AI to perform di
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

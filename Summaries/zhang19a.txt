@@ -1,0 +1,18 @@
+# Summary: The Medical Deconfounder: Assessing Treatment Eﬀects with Electronic Health Records Linying Zhang
+
+**Source PDF:** `zhang19a.pdf`
+**Relative path:** `zhang19a.pdf`
+**Authors:** Yixin Wang and Anna Ostropolets and Jami J. Mulgrave and David M. Blei and George Hripcsak
+**Year:** 2018
+**Venue:** Proceedings of Machine
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- deep learning for structured EHR data
+
+## Extracted Abstract / Overview
+The treatment eﬀects of medications play a key role in guiding medical prescriptions. They are usually assessed with randomized controlled trials (RCTs), which are expensive. Recently, large-scale electronic health records (EHRs) have become available, opening up new opportunities for more cost- eﬀective assessments. However, assessing a treatment eﬀect from EHRs is challenging: it is biased by unobserved confounders, unmeasured variables that aﬀect both patients’ medical prescription and their outcome, e.g. the patients’ social economic status. To adjust for unobserved confounders, we develop the medical deconfounder, a machine learning algorithm that unbiasedly estimates treatment eﬀects from EHRs. The medical deconfounder ﬁrst constructs a substitute confounder by modeling which medications were prescribed to each patient; this substitute confounder is guaranteed to capture all multi-medication confounders, observed or unobserved (Wang and Blei, 2018). It then uses this substitute confounder to adjust for the confounding bias in the analysis. We validate the medical deconfounder on two simulated and two real medical data sets. Compared to classical approaches, the medical deconfounder produces closer-to-truth treatment eﬀect estimates; it also identiﬁes eﬀective medications that are more consistent with the ﬁndings in the medical literature. © 2019 L. Zhang, Y. Wang, A. Ostropolets, J.J. Mulgrave, D.M. Blei & G. Hripcsak. Medical Deconfounder
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.

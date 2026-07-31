@@ -1,0 +1,22 @@
+# Summary: Causal Graph Neural Networks for Healthcare
+
+**Source PDF:** `2511.02531v5.pdf`
+**Relative path:** `2511.02531v5.pdf`
+**Authors:** Munib Mesinovic and Max Buhlan and Tingting Zhu
+**Year:** 2026
+**Venue:** arXiv:2511.02531v5
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- clinical NLP and biomedical language models
+- deep learning for structured EHR data
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Healthcare artificial intelligence systems often degrade in performance when deployed across institutions, with documented performance drops and perpetuation of discriminatory patterns embedded in data. This brittleness comes, in part, from learning statistical associations rather than causal mechanisms. Causal graph neural networks address this by combining graph-based representations of biomedical data with causal inference to learn invariant mechanisms instead of just spurious correlations. This Perspec- tive reviews the methodology of structural causal models, disentangled causal representation learning, and techniques for interventional prediction and counterfactual reasoning on graphs. We discuss applica- tions across psychiatric diagnosis and brain network analysis, cancer subtyping with multi-omics causal integration, continuous physiological monitoring, and drug recommendations. These methods provide building blocks for patient-specific Causal Digital Twins that could support in silico clinical experimen- tation. Remaining challenges include computational costs that preclude real-time deployment, validation challenges that go beyond standard cross-validation, and the risk of causal-washing where methods adopt causal terminology without rigorous evidentiary support. We propose a tiered framework distinguishing causally-inspired architectures from causally-validated discoveries and outline future directions, includ- ing scalable causal discovery, multi-modal data integration, and regulatory pathways for these methods. Making practical Causal Digital Twins possible will require an honest assessment of what current meth- ods deliver, sustained collaboration across disciplines, and validation standards that match the strength of the causal claims being made.
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Supports the clinical NLP foundation used to encode notes/queries in the CMA clinical pipeline.

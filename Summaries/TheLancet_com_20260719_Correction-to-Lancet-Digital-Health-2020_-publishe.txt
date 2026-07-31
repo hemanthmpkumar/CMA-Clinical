@@ -1,0 +1,17 @@
+# Summary: Correction to Lancet Digital Health 2020; published online May 6. https://doi.org/10.1016/S2589-7500(20)30104-7
+
+**Source PDF:** `Correction-to-Lancet-Digital-Health-2020;-publishe.pdf`
+**Relative path:** `TheLancet.com_20260719/Correction-to-Lancet-Digital-Health-2020;-publishe.pdf`
+**Authors:** Schwamm LH and Estrada J and Lancet Digital Health
+**Year:** 2020
+**Venue:** The Lancet Digital Health
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- general clinical informatics / machine learning background
+
+## Extracted Abstract / Overview
+No abstract or substantial opening paragraph could be automatically extracted from the PDF.
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

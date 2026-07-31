@@ -1,0 +1,17 @@
+# Summary: Open-Retrieval Conversational Question Answering.
+
+**Source PDF:** `3397271.3401110.pdf`
+**Relative path:** `3397271.3401110.pdf`
+**Authors:** Chen Qu Liu Yang Cen Chen Minghui Qiu W. Bruce Croft Mohit Iyyer
+**Year:** 2020
+**Venue:** SIGIR
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- session-based search, intent, and context drift
+
+## Extracted Abstract / Overview
+Conversational search is one of the ultimate goals of information retrieval. Recent research approaches conversational search by sim- plified settings of response ranking and conversational question answering, where an answer is either selected from a given candi- date set or extracted from a given passage. These simplifications neglect the fundamental role of retrieval in conversational search. To address this limitation, we introduce an open-retrieval conversa- tional question answering (ORConvQA) setting, where we learn to retrieve evidence from a large collection before extracting answers, as a further step towards building functional conversational search systems. We create a dataset, OR-QuAC, to facilitate research on OR- ConvQA. We build an end-to-end system for ORConvQA, featuring a retriever, a reranker, and a reader that are all based on Trans- formers. Our extensive experiments on OR-QuAC demonstrate that a learnable retriever is crucial for ORConvQA. We further show that our system can make a substantial improvement when we enable history modeling in all system components. Moreover, we show that the reranker component contributes to the model perfor- mance by providing a regularization effect. Finally, further in-depth analyses are performed to provide new insights into ORConvQA.
+
+## Relevance to CMA / main.tex
+- Supports the session-based search motivation and the problem of latent-context pollution / context drift addressed by the CAI gate.

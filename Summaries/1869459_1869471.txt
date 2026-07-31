@@ -1,0 +1,17 @@
+# Summary: An input-centric paradigm for program dynamic optimizations
+
+**Source PDF:** `1869459.1869471.pdf`
+**Relative path:** `1869459.1869471.pdf`
+**Authors:** Kai Tian and Yunlian Jiang and Eddy Z. Zhang and Xipeng Shen
+**Year:** 2010
+**Venue:** Not extracted
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- general clinical informatics / machine learning background
+
+## Extracted Abstract / Overview
+Accurately predicting program behaviors (e.g., locality, de- pendency, method calling frequency) is fundamental for program optimizations and runtime adaptations. Despite decades of remarkable progress, prior studies have not sys- tematically exploited program inputs, a deciding factor for program behaviors. Triggered by the strong and predictive correlations be- tween program inputs and behaviors that recent studies have uncovered, this work proposes to include program inputs into the focus of program behavior analysis, cultivating a new paradigm named input-centric program behavior analy- sis. This new approach consists of three components, form- ing a three-layer pyramid. At the base is program input char- acterization, a component for resolving the complexity in program raw inputs and the extraction of important features. In the middle is input-behavior modeling, a component for recognizing and modeling the correlations between char- acterized input features and program behaviors. These two components constitute input-centric program behavior anal- ysis, which (ideally) is able to predict the large-scope be- haviors of a program’s execution as soon as the execution starts. The top layer of the pyramid is input-centric adap- tation, which capitalizes on the novel opportunities that the ﬁrst two components create to facilitate proactive adaptation for program optimizations. By centering on program inputs, the new approach re- solves a proactivity-adaptivity dilemma inherent in previous techniques. Its beneﬁts are demonstrated through proactive dynamic optimizations and version selection, yielding sig- niﬁcant performance improvement on a set of Java and C programs. Permission to make digital or hard copies of all or part of this work for personal or classroom use is g
+
+## Relevance to CMA / main.tex
+- Provides background or methodology that may contextualize the CMA clinical retrieval evaluation.

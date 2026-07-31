@@ -1,0 +1,19 @@
+# Summary: High-performance medicine: the convergence of human and artificial intelligence
+
+**Source PDF:** `2019-topol.pdf`
+**Relative path:** `2019-topol.pdf`
+**Authors:** Eric J. Topol
+**Year:** Not extracted
+**Venue:** Nature Medicine
+
+## Manuscript Context
+This reference contributes to the following themes in *Continuum Memory Architecture (CMA) for Clinical Search*:
+- clinical data / EHR retrieval
+- cognitive load, usability, and clinician workflow
+
+## Extracted Abstract / Overview
+shock could be ameliorated by AI predictive tools. Using electronic health record data, machine- and deep-learning algorithms have been able to predict many important clinical parameters, ranging from Alzheimer’s disease to death (Table 3)86,90–107. For example, in a recent study, reinforcement learning was retrospectively carried out on two large datasets to recommend the use of vasopressors, intravenous fluids, and/or medications and the dose of the selected treatment for patients with sepsis; the treatment selected by the ‘AI Clinician’ was on average reliably more effective than that chosen by humans108. Both the size of the cohorts studied and the range of AUC accuracy reported have been quite heterogeneous, and all of these reports are retrospective and yet to be validated in the real-world clinical setting. Nevertheless, there are many companies that are already marketing such algorithms, such as Careskore, which is providing health sys- tems with estimated of risk of readmission and mortality based on EHR data109. Beyond this issue, there are the differences between the prediction metric for a cohort and an individual prediction metric. If a model’s AUC is 0.95, which most would qualify as very accurate, this reflects how good the model is for predicting an outcome, such as death, for the overall cohort. But most models are essentially clas- sifiers and are not capable of precise prediction at the individual level, so there is still an important dimension of uncertainty. In addition to data from electronic health records, imaging has been integrated to enhance predictive accuracy98. Multiple stud- ies have attempted to predict biological age110,111, and this has been shown to best be accomplished using DNA methylation–based biomarkers112. With respect to the acc
+
+## Relevance to CMA / main.tex
+- Directly informs the clinical EHR retrieval task and benchmark design in main.tex.
+- Relates to the NASA-TLX and usability outcomes measured in the CMA evaluation.
