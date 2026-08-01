@@ -5,5 +5,5 @@ data/processed_spd_test/
 data/raw/
 data/processed/
 data/.DS_Store
-models/
+/models/
 models_spd_test*/
