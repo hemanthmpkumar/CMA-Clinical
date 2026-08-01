@@ -1,47 +1,60 @@
-% CMA clinical manuscript (LaTeX draft)
-\documentclass[11pt]{article}
-\usepackage[utf8]{inputenc}
+% CMA clinical manuscript - Journal of Biomedical Informatics (Elsevier elsarticle) format
+\documentclass[preprint,12pt]{elsarticle}
+
+%% For submission with double line spacing use:
+%% \documentclass[preprint,review,12pt]{elsarticle}
+
+%% Journal layout options (final production):
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{geometry}
-\usepackage{setspace}
 \usepackage{amsmath,amssymb}
-\usepackage[numbers]{natbib}
-\usepackage{hyperref}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usetikzlibrary{shapes,arrows,positioning,fit}
 \pgfplotsset{compat=1.16}
-\geometry{margin=1in}
-\setstretch{1.15}
 
-\title{Continuum Memory Architecture (CMA) for Clinical Search:\\
-A Simulation-Based Evaluation of Intent-Aware Retrieval Using Complex Public Clinical Data}
-
-\author{
-Hemanth Manchabale Papachappa \\
-Aniriuddha Ganguly
-}
-
-\date{June 2026}
+\journal{Journal of Biomedical Informatics}
 
 \begin{document}
 
-% ===== BEGIN MAIN TEXT =====
-\maketitle
+\begin{frontmatter}
+
+\title{Continuum Memory Architecture (CMA) for Clinical Search: A Simulation-Based Evaluation of Intent-Aware Retrieval Using Complex Public Clinical Data}
+
+\author[1]{Hemanth Manchabale Papachappa\corref{cor1}}
+\author[1]{Aniriuddha Ganguly}
+\cortext[cor1]{Corresponding author.}
 
 \begin{abstract}
-\textbf{Background.} Electronic health record (EHR) chart review is inherently non-linear: clinicians follow diagnostic threads across notes, laboratory values, medications, and imaging reports, often pivoting between organ systems or tasks. Conventional session-based retrieval embeds prior queries uniformly, so after an abrupt topic shift stale context contaminates later rankings and increases cognitive load. The Continuum Memory Architecture (CMA) addresses this by representing session intent as a trajectory on a Riemannian manifold of symmetric positive definite (SPD) matrices, applying a geodesic-shift-aware interference gate to suppress stale context at topic boundaries, and forecasting the next latent intent with a Joint Embedding Predictive Architecture (JEPA) to prefetch relevant documents.
-
 \textbf{Objective.} To evaluate whether CMA-augmented EHR retrieval improves time-to-information, task completion rate, cognitive load, and latency compared with standard session-based search in a simulation-based chart-review benchmark using publicly available clinical datasets.
 
 \textbf{Methods.} We conducted a randomized crossover simulation using 31 complex clinical vignettes derived from publicly available EHR data (MIMIC-III, MIMIC-IV, eICU, HiRID) sourced via Hugging Face. Each vignette simulated a clinician chart-review scenario requiring multiple topic pivots, evaluated under both standard and CMA-augmented retrieval conditions in randomized order (62 total sessions). Primary outcomes were time-to-correct-information and task completion rate (right-censored at 300 seconds); secondary outcomes included simulated cognitive load (NASA-TLX), system latency, and query volume. Wilcoxon signed-rank tests assessed paired comparisons; Cohen's $d$ quantified effect sizes.
 
 \textbf{Results.} Across 62 simulated sessions from 31 vignettes, both retrieval conditions achieved 0\% task completion---neither system surfaced a correct target note within the top-10 results before the 300-second timeout---reflecting the difficulty of the multi-pivot benchmark and the cold-start challenge of aligning TF-IDF representations with procedurally generated query--note pairs. Time-to-information did not differ significantly between conditions (control 295.2~s vs CMA 295.8~s; $p = 0.55$; $d = 0.03$). CMA did, however, reduce system latency by 22.3\% (145.8~ms vs 187.7~ms; $p < 0.001$; $d = -3.76$), attributable to JEPA-driven prefetch caching, and showed a small but significant reduction in simulated cognitive load (70.5 vs 71.6; $p < 0.001$; $d = -0.60$). Query volume was identical across conditions (4.1 queries per session).
 
-\textbf{Conclusions.} CMA's JEPA-driven prefetching meaningfully reduces retrieval latency in multi-turn clinical search, but the overall benchmark difficulty---with 0\% task completion in both conditions---highlights the gap between simulated evaluation and operational retrieval quality. The findings underscore the need for stronger document--query alignment and more robust retrieval backends before CMA's geodesic-shift-aware gating can yield measurable relevance improvements in clinical settings.
+\textbf{Conclusion.} CMA's JEPA-driven prefetching meaningfully reduces retrieval latency in multi-turn clinical search, but the overall benchmark difficulty---with 0\% task completion in both conditions---highlights the gap between simulated evaluation and operational retrieval quality. The findings underscore the need for stronger document--query alignment and more robust retrieval backends before CMA's geodesic-shift-aware gating can yield measurable relevance improvements in clinical settings.
 \end{abstract}
 
+\begin{highlights}
+\item CMA's JEPA-driven prefetching reduces clinical search latency by 22.3\%.
+\item SPD manifold intent encoding tracks topic pivots via geodesic shifts.
+\item GSI gate suppresses stale context at abrupt topic transitions.
+\item TF-IDF retrieval fails on multi-pivot chart-review tasks (0\% completion).
+\item Dense retrieval backends are needed before CMA gains relevance benefits.
+\end{highlights}
+
+\begin{keyword}
+clinical information retrieval \sep session-based search \sep symmetric positive definite manifold \sep JEPA \sep geodesic shift \sep EHR chart review
+\end{keyword}
+
+\end{frontmatter}
+
+% ===== BEGIN MAIN TEXT =====
 \section{Introduction}
 Longitudinal electronic health record (EHR) review is a fundamentally multi-turn inference task. A clinician moves among medications, laboratory trends, imaging reports, consult notes, and problem lists, often returning to previously discarded hypotheses as new findings emerge. Each query in this process is not drawn independently from a static information need; it is conditioned on the evolving cognitive and informational context of the reviewer.
 
@@ -56,6 +69,20 @@ The Continuum Memory Architecture (CMA), introduced in our companion work \citep
   \item We report a randomized simulation-based evaluation measuring time-to-correct-information, task completion rate, cognitive load (NASA-TLX), system latency, and safety outcomes.
   \item We introduce explicit safeguards---confidence gating, source provenance, and clinician override---to mitigate confirmation bias and automation risk.
 \end{itemize}
+
+
+% JBI requirement: Statement of Significance table at end of Introduction
+\begin{table}[h]
+\centering
+\caption{Statement of significance}
+\begin{tabular}{@{}p{0.28\textwidth}p{0.34\textwidth}p{0.34\textwidth}@{}}
+\toprule
+\textbf{Problem or Issue} & \textbf{What is Already Known} & \textbf{What this Paper Adds} \\
+\midrule
+Session-based EHR retrieval suffers from stale-context pollution after abrupt topic pivots during chart review. & Session-based retrieval degrades under context drift; JEPA-style predictive learning enables latent forecasting. & CMA combines SPD-manifold intent encoding, geodesic-shift gating, and JEPA prefetching to reduce clinical retrieval latency by 22.3\% while exposing the limits of sparse retrieval. \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Background and Related Work}
 
@@ -259,7 +286,7 @@ Thirty-one complex chart-review cases from the held-out test set were evaluated,
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{../outputs/figures/consort_flow.png}
+  \includegraphics[width=0.8\textwidth]{consort_flow.png}
   \caption{Benchmark selection and evaluation flow for the CMA clinical retrieval study. Thirty-one held-out chart-review cases from the Hugging Face--derived corpus were evaluated under both CMA and control conditions, yielding 62 evaluation sessions.}
   \label{fig:benchmark_flow}
 \end{figure}
@@ -280,7 +307,7 @@ Thirty-one complex chart-review cases from the held-out test set were evaluated,
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{../outputs/figures/latency.png}
+  \includegraphics[width=0.7\textwidth]{latency.png}
   \caption{Mean retrieval latency per query. CMA achieved a 22.3\% reduction (145.8~ms vs 187.7~ms, $p<0.001$, $d=-3.76$) via JEPA-driven prefetching.}
   \label{fig:latency}
 \end{figure}
@@ -364,14 +391,14 @@ CMA's latency improvements arise primarily from JEPA-driven prefetching, which m
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{../outputs/figures/intent_trajectory.png}
+  \includegraphics[width=0.8\textwidth]{intent_trajectory.png}
   \caption{Schematic of intent trajectories on SPD manifold. Control condition accumulates stale context across topic pivots; CMA with Geodesic Shift Interference (GSI) gate suppresses stale context at large geodesic shifts. JEPA-driven predictive prefetch forecasts next-intent embeddings. Larger benefit for multi-pivot tasks confirms mechanism.}
   \label{fig:intent_trajectory}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{../outputs/figures/cma_components.png}
+  \includegraphics[width=0.8\textwidth]{cma_components.png}
   \caption{Continuum Memory Architecture (CMA) component overview. Session intent is encoded as SPD matrix representations. Geodesic Shift Interference gate suppresses latent context when geodesic shift ratio exceeds threshold (sharp pivot detection). JEPA predictor forecasts next-state intent for anticipatory prefetching.}
   \label{fig:cma_components}
 \end{figure}
@@ -415,7 +442,19 @@ If validated in real-world EHR deployment, CMA could materially improve clinicia
 
 This randomized crossover evaluation across 62 sessions from 31 clinical vignettes demonstrates that CMA's JEPA-driven prefetching reduces system latency by 22.3\% ($p < 0.001$, $d = -3.76$) in multi-turn clinical search. However, both CMA and the session-based baseline achieved 0\% task completion, and no significant difference in time-to-information was observed ($p=0.55$, $d=0.03$), highlighting a fundamental retrieval gap: TF-IDF-based sparse representations are insufficient for multi-pivot, multi-domain clinical chart-review tasks regardless of session management strategy. The geodesic-shift-aware interference gate detected approximately 35\% of topic transitions, confirming the feasibility of manifold-based intent tracking, but this detection did not translate into relevance improvements without a sufficiently expressive retrieval backend. CMA's architecture---SPD intent representations, geodesic-shift gating, and JEPA prediction---remains promising, but its benefits on retrieval quality are contingent on strong base retrieval. Future work should focus on integrating CMA with dense retrieval models (e.g., bi-encoders or late-interaction architectures), improving document--query alignment through fine-tuning on clinical data, and scaling to larger benchmark sets before proceeding to real-world deployment studies.
 
-\bibliographystyle{unsrtnat}
+\section*{CRediT author statement}
+\textbf{Hemanth Manchabale Papachappa:} Conceptualization, Methodology, Software, Formal analysis, Writing -- original draft. \textbf{Aniriuddha Ganguly:}  Investigation, Writing -- review and editing.
+
+\section*{Declaration of competing interest}
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+\section*{Funding}
+This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
+
+\section*{Data availability}
+De-identified datasets and evaluation code are available upon publication via the gitHub repository.
+
+\bibliographystyle{elsarticle-num}
 \bibliography{references}
 
 \end{document}
