@@ -126,24 +126,38 @@ def tune_baseline(corpus: list[dict], train_v: list, val_v: list):
     return BaselineRetriever(corpus, window_size=window), {"window_size": window, "val_score": float(best_score)}
 
 
-def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
+def tune_bm25(corpus: list[dict], train_v: list, val_v: list, baseline_retriever): ### Changes (Aniruddha)
     """Tune the BM25 retriever's context window (k1=1.5, b=0.75 fixed)."""
     print("\nTuning BM25 retriever...")
     best = None
     best_score = -1e9
+    tune_train = train_v[: min(len(train_v), 30)]
     for window in [3, 5, 10, 20, 50]:
         retriever = BM25Retriever(corpus, window_size=window)
-        metrics = evaluate_retrieval(retriever, val_v)
-        score = metrics["recall_10"] * 100 + metrics["mrr"]
-        print(f"  window={window:2d} -> recall@10={metrics['recall_10']:.3f}, "
-              f"recall@50={metrics['recall_50']:.3f}, mrr={metrics['mrr']:.3f}, "
-              f"score={score:.2f}")
+        #baseline_for_compare = evaluate(retriever, tune_train, "control")
+        baseline_for_compare = evaluate(baseline_retriever, tune_train, "control") ### Changes (Aniruddha)
+        bm25 = evaluate(retriever, tune_train, "cma")
+        if baseline_for_compare["mean_time"] > 0:
+            reduction = (baseline_for_compare["mean_time"] - bm25["mean_time"]) / baseline_for_compare["mean_time"]
+        else:
+            reduction = 0.0
+        #score = reduction + bm25["mean_acc"] - 0.05 * bm25["mean_queries"]
+        score = reduction + (bm25["mean_acc"] - baseline_for_compare["mean_acc"]) - 0.05 * bm25["mean_queries"]  ### Changes (Aniruddha)
+        print(f"  window={window:2d} -> "
+              f"reduction={reduction*100:5.1f}%, accuracy={bm25['mean_acc']:.3f}, score={score:.3f}")
         if score > best_score:
             best_score = score
-            best = (window, metrics)
+            best = (window, bm25)
     window, _ = best
     print(f"Best BM25: window_size={window}")
-    return BM25Retriever(corpus, window_size=window), {"window_size": window, "val_score": float(best_score)}
+    metrics = evaluate(BM25Retriever(corpus, window_size=window), val_v, "cma")
+    print(f"Validation BM25 metrics: accuracy={metrics['mean_acc']:.3f}, mean_time={metrics['mean_time']:.1f}s")
+    return BM25Retriever(corpus, window_size=window), {
+        "window_size": window,
+        "train_score": float(best_score),
+        "val_accuracy": float(metrics["mean_acc"]),
+        "val_mean_time": float(metrics["mean_time"]),
+    }
 
 
 #def tune_cma(corpus: list[dict], train_v: list, val_v: list):
@@ -234,7 +248,7 @@ def main():
 
     baseline, baseline_cfg = tune_baseline(corpus, train_v, val_v)
     # cma, cma_cfg = tune_cma(corpus, train_v, val_v)
-    bm25, bm25_cfg = tune_bm25(corpus, train_v, val_v)
+    bm25, bm25_cfg = tune_bm25(corpus, train_v, val_v, baseline)  ### Changes (Aniruddha)
     cma, cma_cfg = tune_cma(corpus, train_v, val_v, baseline)  ### Changes (Aniruddha)
 
     joblib.dump(baseline, out_dir / "baseline.pkl")
