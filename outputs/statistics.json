@@ -1,38 +1,43 @@
 {
-  "n_sessions": 62,
-  "n_vignettes": 31,
+  "n_sessions": 152,
+  "n_vignettes": 76,
   "primary_time": {
     "summary": {
-      "control_mean": 295.154,
+      "control_mean": 241.959,
       "control_median": 300.0,
-      "control_std": 22.446,
-      "cma_mean": 295.805,
-      "cma_median": 300.0,
-      "cma_std": 11.574,
-      "pct_change_mean": 0.22
+      "control_std": 75.73,
+      "cma_mean": 210.39,
+      "cma_median": 200.535,
+      "cma_std": 81.287,
+      "pct_change_mean": -13.05
     },
     "paired_test": "wilcoxon_signed_rank",
-    "n_pairs": 31,
-    "median_difference_s": 0.0,
-    "mean_difference_s": -0.65,
-    "median_pct_change": 0.0,
-    "wilcoxon_statistic": 219.5,
-    "wilcoxon_pvalue": 0.5505088799869234,
-    "cohens_d": 0.025,
+    "n_pairs": 76,
+    "median_difference_s": 11.7,
+    "mean_difference_s": 31.57,
+    "median_pct_change": 6.23,
+    "wilcoxon_statistic": 664.5,
+    "wilcoxon_pvalue": 3.460306995911197e-05,
+    "cohens_d": -0.43,
     "mixed_effects_log_time": {
       "error": "Pandas data cast to numpy dtype of object. Check input data with np.asarray(data)."
     }
   },
   "accuracy": {
-    "control_accuracy": 0.0,
-    "cma_accuracy": 0.0,
-    "n_discordant_cma_better": 0,
-    "n_discordant_control_better": 0,
-    "mcnemar_statistic": 0.0,
-    "mcnemar_pvalue": 1.0,
+    "control_accuracy": 0.105,
+    "cma_accuracy": 0.158,
+    "n_discordant_cma_better": 8,
+    "n_discordant_control_better": 4,
+    "mcnemar_statistic": 0.75,
+    "mcnemar_pvalue": 0.3864762307712325,
     "confusion_table": {
       "0": {
-        "0": 31
+        "0": 60,
+        "1": 4
+      },
+      "1": {
+        "0": 8,
+        "1": 4
       }
     },
     "gee_logistic": {
@@ -42,38 +47,38 @@
   "secondary": {
     "cognitive_load": {
       "summary": {
-        "control_mean": 71.611,
-        "control_median": 71.78,
-        "control_std": 1.47,
-        "cma_mean": 70.545,
-        "cma_median": 70.56,
-        "cma_std": 1.293,
-        "pct_change_mean": -1.49
+        "control_mean": 68.552,
+        "control_median": 70.695,
+        "control_std": 6.446,
+        "cma_mean": 62.714,
+        "cma_median": 67.02,
+        "cma_std": 10.336,
+        "pct_change_mean": -8.52
       },
-      "wilcoxon_pvalue": 0.0006440151482820511,
-      "cohens_d": -0.601
+      "wilcoxon_pvalue": 1.6101361807561035e-07,
+      "cohens_d": -0.655
     },
     "latency_ms": {
       "summary": {
-        "control_mean": 187.651,
-        "control_median": 189.19,
-        "control_std": 10.015,
-        "cma_mean": 145.765,
-        "cma_median": 144.41,
-        "cma_std": 5.277,
-        "pct_change_mean": -22.32
+        "control_mean": 187.92,
+        "control_median": 188.49,
+        "control_std": 8.854,
+        "cma_mean": 145.466,
+        "cma_median": 144.34,
+        "cma_std": 6.456,
+        "pct_change_mean": -22.59
       },
-      "wilcoxon_pvalue": 9.313225746154785e-10,
-      "cohens_d": -3.759
+      "wilcoxon_pvalue": 3.6057003700249217e-14,
+      "cohens_d": -4.133
     },
     "n_queries_issued": {
       "summary": {
-        "control_mean": 4.129,
+        "control_mean": 4.092,
         "control_median": 4.0,
-        "control_std": 0.806,
-        "cma_mean": 4.129,
+        "control_std": 0.803,
+        "cma_mean": 4.092,
         "cma_median": 4.0,
-        "cma_std": 0.806,
+        "cma_std": 0.803,
         "pct_change_mean": 0.0
       },
       "wilcoxon_pvalue": 1.0,
@@ -84,64 +89,64 @@
   "subgroups": {
     "specialty": {
       "critical_care": {
-        "n": 7,
-        "median_pct_change": 0.0,
-        "mean_pct_change": 1.18,
-        "ci_lower": 0.0,
-        "ci_upper": 7.01
+        "n": 18,
+        "median_pct_change": 6.46,
+        "mean_pct_change": -2.97,
+        "ci_lower": -124.53,
+        "ci_upper": 61.49
       },
       "emergency": {
-        "n": 6,
-        "median_pct_change": 0.0,
-        "mean_pct_change": -1.33,
-        "ci_lower": -6.98,
-        "ci_upper": 0.0
+        "n": 21,
+        "median_pct_change": 5.67,
+        "mean_pct_change": 11.27,
+        "ci_lower": -42.97,
+        "ci_upper": 49.76
       },
       "hospital_medicine": {
-        "n": 9,
-        "median_pct_change": 0.0,
-        "mean_pct_change": 2.16,
-        "ci_lower": 0.0,
-        "ci_upper": 10.71
+        "n": 18,
+        "median_pct_change": 4.13,
+        "mean_pct_change": 9.23,
+        "ci_lower": -115.49,
+        "ci_upper": 73.2
       },
       "internal_medicine": {
-        "n": 9,
-        "median_pct_change": 0.0,
-        "mean_pct_change": -6.21,
-        "ci_lower": -56.23,
-        "ci_upper": 11.54
+        "n": 19,
+        "median_pct_change": 6.69,
+        "mean_pct_change": 10.73,
+        "ci_lower": -52.25,
+        "ci_upper": 64.65
       }
     },
     "experience_group": {
       "<5_years": {
-        "n": 21,
-        "median_pct_change": 0.0,
-        "mean_pct_change": -2.79,
-        "ci_lower": -39.13,
-        "ci_upper": 9.8
+        "n": 45,
+        "median_pct_change": 6.32,
+        "mean_pct_change": 10.61,
+        "ci_lower": -81.32,
+        "ci_upper": 67.58
       },
       ">=5_years": {
-        "n": 10,
-        "median_pct_change": 0.0,
-        "mean_pct_change": 2.25,
-        "ci_lower": 0.0,
-        "ci_upper": 13.0
+        "n": 31,
+        "median_pct_change": 5.67,
+        "mean_pct_change": 2.45,
+        "ci_lower": -107.48,
+        "ci_upper": 67.93
       }
     },
     "complexity": {
       "high": {
-        "n": 23,
-        "median_pct_change": 0.0,
-        "mean_pct_change": 0.71,
-        "ci_lower": 0.0,
-        "ci_upper": 8.17
+        "n": 55,
+        "median_pct_change": 5.67,
+        "mean_pct_change": 11.07,
+        "ci_lower": -77.05,
+        "ci_upper": 68.42
       },
       "low": {
-        "n": 8,
-        "median_pct_change": 0.0,
-        "mean_pct_change": -6.56,
-        "ci_lower": -59.38,
-        "ci_upper": 13.88
+        "n": 21,
+        "median_pct_change": 9.43,
+        "mean_pct_change": -2.63,
+        "ci_lower": -153.04,
+        "ci_upper": 67.07
       }
     }
   }

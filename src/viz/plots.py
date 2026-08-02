@@ -23,9 +23,17 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+from datetime import datetime
 
 sns.set_theme(style="whitegrid", palette="muted", font_scale=1.1)
 FIG_DPI = 300
+
+
+def add_timestamp(ax):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    ax.text(0.99, 0.01, timestamp,
+            ha="right", va="bottom", fontsize=7, color="gray",
+            transform=ax.transAxes)
 
 
 def ensure_dirs(out_dir: Path):
@@ -66,6 +74,7 @@ def plot_consort_flow(df: pd.DataFrame, out_dir: Path):
                     arrowprops=dict(arrowstyle="->", color="#555", lw=1.5))
     ax.set_title("Benchmark flow and condition randomization", fontsize=13, pad=20)
     fig.tight_layout()
+    add_timestamp(ax)
     fig.savefig(out_dir / "consort_flow.png", dpi=FIG_DPI, bbox_inches="tight")
     plt.close(fig)
 
@@ -86,7 +95,27 @@ def plot_time_distribution(df: pd.DataFrame, out_dir: Path):
     ax.set_title("Time-to-correct-information distribution")
     ax.legend()
     fig.tight_layout()
+    add_timestamp(ax)
     fig.savefig(out_dir / "time_distribution.png", dpi=FIG_DPI, bbox_inches="tight")
+    plt.close(fig)
+
+
+def plot_accuracy_comparison(df: pd.DataFrame, out_dir: Path):
+    control_acc = df[df["condition"] == "control"]["accuracy"]
+    cma_acc = df[df["condition"] == "cma"]["accuracy"]
+    means = [control_acc.mean(), cma_acc.mean()]
+
+    fig, ax = plt.subplots(figsize=(6, 5))
+    sns.barplot(x=["Control", "CMA"], y=means, palette=["#E74C3C", "#27AE60"], ax=ax)
+    ax.set_ylim(0, 1)
+    ax.set_ylabel("Mean accuracy")
+    ax.set_xlabel("Condition")
+    ax.set_title("Control vs. CMA accuracy")
+    for i, v in enumerate(means):
+        ax.text(i, v + 0.02, f"{v:.3f}", ha="center", va="bottom", fontsize=10, weight="bold")
+    fig.tight_layout()
+    add_timestamp(ax)
+    fig.savefig(out_dir / "accuracy_comparison.png", dpi=FIG_DPI, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -114,6 +143,7 @@ def plot_intent_trajectory(out_dir: Path):
     ax.set_title("Session intent trajectory on an abstract SPD manifold")
     ax.legend(loc="upper left", fontsize=9)
     fig.tight_layout()
+    add_timestamp(ax)
     fig.savefig(out_dir / "intent_trajectory.png", dpi=FIG_DPI, bbox_inches="tight")
     plt.close(fig)
 
@@ -136,6 +166,7 @@ def plot_tlx(df: pd.DataFrame, out_dir: Path):
     ax.set_title("NASA-TLX cognitive load subscales")
     ax.legend()
     fig.tight_layout()
+    add_timestamp(ax)
     fig.savefig(out_dir / "tlx_subscales.png", dpi=FIG_DPI, bbox_inches="tight")
     plt.close(fig)
 
@@ -148,6 +179,7 @@ def plot_latency(df: pd.DataFrame, out_dir: Path):
     ax.set_xlabel("Condition")
     ax.set_title("System latency per query")
     fig.tight_layout()
+    add_timestamp(ax)
     fig.savefig(out_dir / "latency.png", dpi=FIG_DPI, bbox_inches="tight")
     plt.close(fig)
 
@@ -177,6 +209,7 @@ def plot_subgroup_forest(stats: dict, out_dir: Path):
     ax.set_xlabel("Median % reduction in time-to-correct-information (Control – CMA)")
     ax.set_title("Subgroup forest plot")
     fig.tight_layout()
+    add_timestamp(ax)
     fig.savefig(out_dir / "subgroup_forest.png", dpi=FIG_DPI, bbox_inches="tight")
     plt.close(fig)
 
@@ -216,6 +249,7 @@ def plot_cma_components(out_dir: Path):
                                     connectionstyle="arc3,rad=0.1"))
     ax.set_title("CMA retrieval architecture", fontsize=13, pad=20)
     fig.tight_layout()
+    add_timestamp(ax)
     fig.savefig(out_dir / "cma_components.png", dpi=FIG_DPI, bbox_inches="tight")
     plt.close(fig)
 
@@ -236,6 +270,7 @@ def main():
 
     plot_consort_flow(df, out_dir)
     plot_time_distribution(df, out_dir)
+    plot_accuracy_comparison(df, out_dir)
     plot_intent_trajectory(out_dir)
     plot_tlx(df, out_dir)
     plot_latency(df, out_dir)
