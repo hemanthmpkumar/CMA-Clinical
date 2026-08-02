@@ -7,3 +7,6 @@ data/processed/
 data/.DS_Store
 /models/
 models_spd_test*/
+src/data/__pycache__/
+src/experiments/__pycache__/
+src/models/__pycache__/

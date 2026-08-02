@@ -146,7 +146,8 @@ def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
     return BM25Retriever(corpus, window_size=window), {"window_size": window, "val_score": float(best_score)}
 
 
-def tune_cma(corpus: list[dict], train_v: list, val_v: list):
+#def tune_cma(corpus: list[dict], train_v: list, val_v: list):
+def tune_cma(corpus: list[dict], train_v: list, val_v: list, baseline_retriever): ### Changes (Aniruddha)
     """Tune CMA retriever hyper-parameters on the validation set."""
     print("\nTuning CMA retriever...")
     # Small but informative grid for CPU-friendly tuning on the synthetic benchmark.
@@ -175,14 +176,16 @@ def tune_cma(corpus: list[dict], train_v: list, val_v: list):
             prefetch_weight=pre_w,
             context_window=ctx,
         )
-        baseline_for_compare = evaluate(retriever, tune_train, "control")
+        #baseline_for_compare = evaluate(retriever, tune_train, "control")
+        baseline_for_compare = evaluate(baseline_retriever, tune_train, "control") ### Changes (Aniruddha)
         cma = evaluate(retriever, tune_train, "cma")
         # Relative time reduction, plus accuracy reward.
         if baseline_for_compare["mean_time"] > 0:
             reduction = (baseline_for_compare["mean_time"] - cma["mean_time"]) / baseline_for_compare["mean_time"]
         else:
             reduction = 0.0
-        score = reduction + cma["mean_acc"] - 0.05 * cma["mean_queries"]
+        #score = reduction + cma["mean_acc"] - 0.05 * cma["mean_queries"]
+        score = reduction + (cma["mean_acc"] - baseline_for_compare["mean_acc"]) - 0.05 * cma["mean_queries"]  ### Changes (Aniruddha)  
         print(f"  thr={thr:.2f} disc={disc:.1f} pre={pre_w:.1f} ctx={ctx:2d} -> "
               f"reduction={reduction*100:5.1f}%, accuracy={cma['mean_acc']:.3f}, score={score:.3f}")
         if score > best_score:
@@ -230,8 +233,9 @@ def main():
     print(f"  corpus: {len(corpus)} records, train vignettes: {len(train_v)}, val vignettes: {len(val_v)}")
 
     baseline, baseline_cfg = tune_baseline(corpus, train_v, val_v)
+    # cma, cma_cfg = tune_cma(corpus, train_v, val_v)
     bm25, bm25_cfg = tune_bm25(corpus, train_v, val_v)
-    cma, cma_cfg = tune_cma(corpus, train_v, val_v)
+    cma, cma_cfg = tune_cma(corpus, train_v, val_v, baseline)  ### Changes (Aniruddha)
 
     joblib.dump(baseline, out_dir / "baseline.pkl")
     joblib.dump(bm25, out_dir / "bm25.pkl")
