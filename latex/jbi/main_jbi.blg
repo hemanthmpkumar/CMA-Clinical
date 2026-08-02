@@ -3,6 +3,7 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main_jbi.aux
 The style file: elsarticle-num.bst
 Database file #1: references.bib
+Warning--empty pages in robertson1995
 Warning--empty pages in nickel2017_poincare
 Warning--empty pages in assran2023_ijepa
 Warning--empty pages in alsentzer2019
@@ -19,45 +20,45 @@ Warning--empty pages in zhou22
 Warning--empty year in ying00
 Warning--empty pages in al20
 Warning--empty pages in wang18a
-You've used 105 entries,
+You've used 108 entries,
             2952 wiz_defined-function locations,
-            1062 strings with 24950 characters,
-and the built_in function-call counts, 26468 in all, are:
-= -- 1944
-> -- 1647
+            1078 strings with 25414 characters,
+and the built_in function-call counts, 27272 in all, are:
+= -- 2008
+> -- 1677
 < -- 0
-+ -- 619
-- -- 514
-* -- 1468
-:= -- 4033
-add.period$ -- 111
-call.type$ -- 105
-change.case$ -- 105
++ -- 631
+- -- 523
+* -- 1518
+:= -- 4136
+add.period$ -- 114
+call.type$ -- 108
+change.case$ -- 107
 chr.to.int$ -- 0
-cite$ -- 121
-duplicate$ -- 791
-empty$ -- 2991
-format.name$ -- 579
-if$ -- 6854
+cite$ -- 125
+duplicate$ -- 818
+empty$ -- 3099
+format.name$ -- 591
+if$ -- 7070
 int.to.chr$ -- 0
-int.to.str$ -- 105
-missing$ -- 51
-newline$ -- 332
-num.names$ -- 105
-pop$ -- 870
+int.to.str$ -- 108
+missing$ -- 55
+newline$ -- 341
+num.names$ -- 108
+pop$ -- 898
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 1867
+skip$ -- 1923
 stack$ -- 0
-substring$ -- 93
-swap$ -- 104
+substring$ -- 118
+swap$ -- 105
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 16
-while$ -- 111
-width$ -- 108
-write$ -- 823
-(There were 16 warnings)
+warning$ -- 17
+while$ -- 116
+width$ -- 111
+write$ -- 846
+(There were 17 warnings)

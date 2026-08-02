@@ -40,14 +40,15 @@ def plot_consort_flow(df: pd.DataFrame, out_dir: Path):
 
     n_vignettes = df["vignette_id"].nunique()
     n_sessions = len(df)
-    n_per_cond = n_sessions // 2
+    n_per_cond = n_sessions // 3
 
     boxes = [
         (f"Assessed for eligibility\n{n_vignettes} clinical EHR vignettes", 5, 9, 3.2, 1.0),
-        (f"Randomized\n{n_vignettes} vignettes, crossover design", 5, 7.3, 3.0, 0.9),
-        (f"Control condition\nn = {n_per_cond} sessions", 2.5, 5.3, 2.8, 0.9),
-        (f"CMA condition\nn = {n_per_cond} sessions", 7.5, 5.3, 2.8, 0.9),
-        (f"Analysed\nN = {n_sessions} sessions ({n_per_cond} per condition)", 5, 2.5, 4.0, 1.0),
+        (f"Randomized\n{n_vignettes} vignettes, three-arm crossover", 5, 7.3, 3.2, 0.9),
+        (f"Control (TF-IDF)\nn = {n_per_cond} sessions", 1.8, 5.3, 2.6, 0.9),
+        (f"BM25 baseline\nn = {n_per_cond} sessions", 5, 5.3, 2.6, 0.9),
+        (f"CMA condition\nn = {n_per_cond} sessions", 8.2, 5.3, 2.6, 0.9),
+        (f"Analysed\nN = {n_sessions} sessions ({n_per_cond} per condition)", 5, 2.5, 4.2, 1.0),
     ]
     for text, x, y, w, h in boxes:
         box = FancyBboxPatch((x - w / 2, y - h / 2), w, h,
@@ -58,10 +59,12 @@ def plot_consort_flow(df: pd.DataFrame, out_dir: Path):
 
     # Arrows
     for x1, y1, x2, y2 in [(5, 8.5, 5, 7.8),
-                           (5, 6.8, 2.5, 5.8),
-                           (5, 6.8, 7.5, 5.8),
-                           (2.5, 4.8, 4.2, 3.1),
-                           (7.5, 4.8, 5.8, 3.1)]:
+                           (5, 6.8, 1.8, 5.8),
+                           (5, 6.8, 5, 5.8),
+                           (5, 6.8, 8.2, 5.8),
+                           (1.8, 4.8, 4.2, 3.1),
+                           (5, 4.8, 5, 3.1),
+                           (8.2, 4.8, 5.8, 3.1)]:
         ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
                     arrowprops=dict(arrowstyle="->", color="#555", lw=1.5))
     ax.set_title("Benchmark flow and condition randomization", fontsize=13, pad=20)
@@ -72,13 +75,16 @@ def plot_consort_flow(df: pd.DataFrame, out_dir: Path):
 
 def plot_time_distribution(df: pd.DataFrame, out_dir: Path):
     fig, ax = plt.subplots(figsize=(8, 5))
-    control = df[df["condition"] == "control"]["time_to_info"]
-    cma = df[df["condition"] == "cma"]["time_to_info"]
-
-    for data, label, color in [(control, "Control", "#E74C3C"), (cma, "CMA", "#27AE60")]:
+    series = [
+        ("control", "Control (TF-IDF)", "#E74C3C"),
+        ("bm25", "BM25", "#F39C12"),
+        ("cma", "CMA", "#27AE60"),
+    ]
+    for i, (cond, label, color) in enumerate(series):
+        data = df[df["condition"] == cond]["time_to_info"]
         sns.kdeplot(data, ax=ax, fill=True, label=label, color=color, alpha=0.35, linewidth=2)
         ax.axvline(data.median(), color=color, linestyle="--", linewidth=1.5)
-        ax.text(data.median() + 1, ax.get_ylim()[1] * 0.75 if label == "Control" else ax.get_ylim()[1] * 0.65,
+        ax.text(data.median() + 1, ax.get_ylim()[1] * (0.75 - i * 0.10),
                 f"median\n{data.median():.1f}s", color=color, fontsize=9)
 
     ax.set_xlabel("Time to correct information (seconds)")
@@ -122,14 +128,18 @@ def plot_tlx(df: pd.DataFrame, out_dir: Path):
     subscales = ["tlx_mental", "tlx_physical", "tlx_temporal",
                  "tlx_performance", "tlx_effort", "tlx_frustration"]
     labels = ["Mental", "Physical", "Temporal", "Performance", "Effort", "Frustration"]
-    control_means = [df[df["condition"] == "control"][s].mean() for s in subscales]
-    cma_means = [df[df["condition"] == "cma"][s].mean() for s in subscales]
+    arms = [
+        ("control", "Control (TF-IDF)", "#E74C3C"),
+        ("bm25", "BM25", "#F39C12"),
+        ("cma", "CMA", "#27AE60"),
+    ]
+    means = {cond: [df[df["condition"] == cond][s].mean() for s in subscales] for cond, _, _ in arms}
 
     x = np.arange(len(labels))
-    width = 0.35
+    width = 0.27
     fig, ax = plt.subplots(figsize=(9, 5))
-    ax.bar(x - width / 2, control_means, width, label="Control", color="#E74C3C", alpha=0.8)
-    ax.bar(x + width / 2, cma_means, width, label="CMA", color="#27AE60", alpha=0.8)
+    for i, (cond, label, color) in enumerate(arms):
+        ax.bar(x + (i - 1) * width, means[cond], width, label=label, color=color, alpha=0.8)
     ax.set_ylabel("NASA-TLX score (0–100)")
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
@@ -141,9 +151,13 @@ def plot_tlx(df: pd.DataFrame, out_dir: Path):
 
 
 def plot_latency(df: pd.DataFrame, out_dir: Path):
-    fig, ax = plt.subplots(figsize=(6, 5))
+    fig, ax = plt.subplots(figsize=(7, 5))
+    order = ["control", "bm25", "cma"]
+    palette = {"control": "#E74C3C", "bm25": "#F39C12", "cma": "#27AE60"}
     sns.boxplot(data=df, x="condition", y="latency_ms", hue="condition",
-                palette=["#E74C3C", "#27AE60"], ax=ax, legend=False)
+                palette=palette, order=order, ax=ax, legend=False)
+    ax.set_xticks(range(len(order)))
+    ax.set_xticklabels(["Control (TF-IDF)", "BM25", "CMA"])
     ax.set_ylabel("Query latency (ms)")
     ax.set_xlabel("Condition")
     ax.set_title("System latency per query")

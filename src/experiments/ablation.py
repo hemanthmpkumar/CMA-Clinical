@@ -30,6 +30,7 @@ import pandas as pd
 from src.data.prepare import load_corpus_and_vignettes
 from src.experiments.simulate_users import run_experiment
 from src.models.baseline import BaselineRetriever
+from src.models.bm25 import BM25Retriever
 from src.models.cma import CMARetriever
 
 
@@ -74,6 +75,9 @@ def run_ablation(corpus: list[dict], vignettes: list[dict],
     print("\nTraining baseline retriever...")
     baseline = BaselineRetriever(corpus)
 
+    print("\nTraining BM25 retriever...")
+    bm25 = BM25Retriever(corpus)
+
     print("\nTraining full CMA retriever (SPD encoder + JEPA predictor)...")
     cma_full = CMARetriever(corpus)
     cma_full.fit_predictor(vignettes, epochs=120, batch_size=64)
@@ -97,7 +101,7 @@ def run_ablation(corpus: list[dict], vignettes: list[dict],
             cma_variant = build_cma_ablation(cma_full, config)
 
         variant_seed = seed + hash(key) % 10000
-        df = run_experiment(baseline, cma_variant, vignettes,
+        df = run_experiment(baseline, bm25, cma_variant, vignettes,
                             seed=variant_seed, top_k=top_k)
         df["ablation_variant"] = label
         all_rows.append(df)

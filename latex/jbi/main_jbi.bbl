@@ -5,6 +5,19 @@
 \expandafter\ifx\csname href\endcsname\relax
   \def\href#1#2{#2} \def\path#1{#1}\fi
 
+\bibitem{salton83}
+G.~Salton, M.~J. McGill, Introduction to Modern Information Retrieval,
+  McGraw-Hill, 1983.
+
+\bibitem{robertson1995}
+S.~E. Robertson, S.~Walker, S.~Jones, M.~M. Hancock-Beaulieu, M.~Gatford, Okapi
+  at trec-3, in: Proceedings of the Third Text REtrieval Conference (TREC-3),
+  1995.
+
+\bibitem{robertson1976}
+S.~E. Robertson, K.~Sparck~Jones, Relevance weighting of search terms, Journal
+  of the American Society for Information Science 27~(3) (1976) 129--146.
+
 \bibitem{topol2019}
 E.~J. Topol, High-performance medicine: the convergence of human and artificial
   intelligence, Nature Medicine (2019).

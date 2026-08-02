@@ -35,6 +35,7 @@ import pandas as pd
 from src.data.prepare import load_corpus_and_vignettes
 from src.experiments.simulate_users import run_experiment
 from src.models.baseline import BaselineRetriever
+from src.models.bm25 import BM25Retriever
 from src.models.cma import CMARetriever
 
 
@@ -45,7 +46,7 @@ def parse_args():
     parser.add_argument("--use-trained", action="store_true",
                         help="Load trained retrievers from --models-dir and evaluate on test set")
     parser.add_argument("--models-dir", default="models",
-                        help="Directory containing baseline.pkl and cma.pkl")
+                        help="Directory containing baseline.pkl, bm25.pkl and cma.pkl")
     parser.add_argument("--top-k", type=int, default=10,
                         help="Number of documents retrieved per query")
     parser.add_argument("--seed", type=int, default=20260617,
@@ -63,6 +64,7 @@ def main():
         models_dir = Path(args.models_dir)
         print(f"Loading trained retrievers from {models_dir}...")
         baseline = joblib.load(models_dir / "baseline.pkl")
+        bm25 = joblib.load(models_dir / "bm25.pkl")
         cma = joblib.load(models_dir / "cma.pkl")
         test_path = processed_dir / "test_vignettes.json"
         if not test_path.exists():
@@ -79,11 +81,12 @@ def main():
 
         print("Building retrievers...")
         baseline = BaselineRetriever(corpus)
+        bm25 = BM25Retriever(corpus)
         cma = CMARetriever(corpus)
         cma.fit_predictor(vignettes, epochs=120, batch_size=64)
 
-    print("Running simulated crossover experiment...")
-    df = run_experiment(baseline, cma, vignettes, seed=args.seed, top_k=args.top_k)
+    print("Running simulated three-arm crossover experiment...")
+    df = run_experiment(baseline, bm25, cma, vignettes, seed=args.seed, top_k=args.top_k)
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)

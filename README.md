@@ -1,12 +1,12 @@
 # CMA Clinical Search Benchmark
 
-A reproducible implementation of the simulation-based evaluation described in the manuscript **“Continuum Memory Architecture (CMA) for Clinical Search”**. The codebase downloads (or synthesizes) de-identified EHR-style notes, builds two retrieval systems (a conventional session-based baseline and the CMA system with curvature-aware gating + JEPA prefetching), runs a randomized crossover experiment, and produces statistical summaries and manuscript figures.
+A reproducible implementation of the simulation-based evaluation described in the manuscript **“Continuum Memory Architecture (CMA) for Clinical Search”**. The codebase downloads (or synthesizes) de-identified EHR-style notes, builds three retrieval systems (a conventional TF-IDF session-based baseline, a BM25 session-based baseline, and the CMA system with curvature-aware gating + JEPA prefetching), runs a randomized three-arm crossover experiment, and produces statistical summaries and manuscript figures.
 
 ## What's included
 
 * `src/data/` — download, preparation, and patient-level split scripts for MIMIC-III/IV/CXR, eICU, HiRID, and synthetic data.
-* `src/models/` — baseline keyword-retrieval model, CMA retrieval model, and model-training script.
-* `src/experiments/` — simulated crossover evaluation and result recording.
+* `src/models/` — TF-IDF baseline, BM25 baseline, CMA retrieval model, and model-training script.
+* `src/experiments/` — simulated three-arm crossover evaluation and result recording.
 * `src/analysis/` — paired statistical tests, effect sizes, mixed-effects models, and GEE.
 * `src/viz/` — figure generation for the seven manuscript plots.
 * `latex/` — the journal-ready manuscript (`main.tex`), BibTeX library, and compiled PDF.
@@ -193,21 +193,22 @@ python src/data/prepare.py --mimiciii data/raw/NOTEEVENTS.csv.gz --n-vignettes 6
 The project follows a standard ML workflow:
 
 1. Vignettes are split into **train / validation / test** sets by patient to avoid leakage.
-2. The baseline TF-IDF retriever and the CMA retriever are fit on the corpus and their hyper-parameters are chosen on the validation set.
+2. The TF-IDF baseline, BM25 baseline, and CMA retrievers are fit on the corpus and their hyper-parameters are chosen on the validation set.
 3. Best models are pickled to `models/` for reproducible evaluation.
 
 ```bash
 # Split vignettes
 python src/data/split.py
 
-# Train baseline + CMA and save models/
+# Train baseline + BM25 + CMA and save models/
 python src/models/train.py
 ```
 
 Outputs:
 
 * `data/processed/train_vignettes.json`, `val_vignettes.json`, `test_vignettes.json`
-* `models/baseline.pkl` — trained baseline retriever
+* `models/baseline.pkl` — trained TF-IDF baseline retriever
+* `models/bm25.pkl` — trained BM25 baseline retriever
 * `models/cma.pkl` — trained CMA retriever
 * `models/config.json` — selected hyper-parameters and validation scores
 
@@ -215,7 +216,7 @@ Outputs:
 
 ### 4. Conduct experiments
 
-The experiment is a randomized within-subject crossover: every vignette is completed once under the baseline (control) condition and once under CMA, with order counterbalanced.
+The experiment is a randomized within-subject three-arm crossover: every vignette is completed once under the TF-IDF control, once under the BM25 baseline, and once under CMA, with order counterbalanced.
 
 For a one-shot reproduction of the paper pipeline, run:
 
@@ -223,7 +224,7 @@ For a one-shot reproduction of the paper pipeline, run:
 python run_experiments.py
 ```
 
-This will split the vignettes, train the baseline and CMA retrievers, run the crossover experiment, analyze the results, and generate the figures in `outputs/figures/`.
+This will split the vignettes, train the baseline/BM25 and CMA retrievers, run the crossover experiment, analyze the results, and generate the figures in `outputs/figures/`.
 
 #### 4a. Run the full experiment on the held-out test set
 
@@ -253,7 +254,18 @@ print(df.groupby("condition")[["time_to_info", "accuracy", "cognitive_load", "la
 PY
 ```
 
-#### 4c. Run individual components separately (for debugging)
+#### 4c. Run the component-wise ablation
+
+```bash
+python src/experiments/ablation.py --out-dir outputs/ablation
+```
+
+This compares Full CMA (GSI gate + JEPA predictor), GSI-only, and JEPA-only
+configurations against the TF-IDF control across the full crossover and writes
+`ablation_summary.csv`, `ablation_pct_change.csv`, and `ablation_report.json` to
+the output directory.
+
+#### 4d. Run individual components separately (for debugging)
 
 ```bash
 # Build only the corpus and vignettes
@@ -315,7 +327,7 @@ The printed analysis summary reports the median percentage reduction in time-to-
 * Accuracy should remain non-inferior: CMA is intended to speed retrieval without harming correctness.
 * NASA-TLX reductions suggest lower cognitive burden when stale context is suppressed.
 
-The exact numbers depend on the corpus (MIMIC vs. synthetic) and on retriever hyper-parameters in `src/models/baseline.py` and `src/models/cma.py`.
+The exact numbers depend on the corpus (MIMIC vs. synthetic) and on retriever hyper-parameters in `src/models/baseline.py`, `src/models/bm25.py`, and `src/models/cma.py`.
 
 ---
 
@@ -359,35 +371,52 @@ Output: `latex/main.pdf`.
 │   ├── raw/                  # downloaded MIMIC data (git-ignored)
 │   └── processed/            # corpus.jsonl, vignettes.json, metadata
 ├── models/                 # trained retriever checkpoints
-│   ├── baseline.pkl
-│   ├── cma.pkl
+│   ├── baseline.pkl          # TF-IDF baseline
+│   ├── bm25.pkl              # BM25 baseline
+│   ├── cma.pkl               # CMA retriever
 │   └── config.json
 ├── outputs/
 │   ├── results.csv           # raw experiment results
 │   ├── statistics.json       # statistical analysis output
 │   ├── primary_results.csv   # summary table
 │   └── figures/              # generated PNG figures
+├── scripts/
+│   └── build_bm25.py         # one-off BM25 index builder
 ├── src/
 │   ├── data/
 │   │   ├── download.py
+│   │   ├── download_hf.py
 │   │   ├── prepare.py
+│   │   ├── record_clusters.py
 │   │   └── split.py
 │   ├── models/
 │   │   ├── base.py
-│   │   ├── baseline.py
+│   │   ├── baseline.py       # TF-IDF retriever
+│   │   ├── bm25.py           # BM25 retriever
 │   │   ├── cma.py
+│   │   ├── gsi_gate.py
+│   │   ├── jepa.py
+│   │   ├── spd_encoder.py
 │   │   └── train.py
 │   ├── experiments/
-│   │   ├── simulate_users.py
-│   │   └── run.py
+│   │   ├── ablation.py
+│   │   ├── run.py
+│   │   └── simulate_users.py
 │   ├── analysis/
 │   │   └── analyze.py
+│   ├── annotation/
+│   │   ├── adjudicate.py
+│   │   ├── export.py
+│   │   ├── instrument.py
+│   │   └── schemas.py
 │   └── viz/
 │       └── plots.py
 ├── latex/
 │   ├── main.tex
 │   ├── references.bib
-│   └── main.pdf
+│   ├── main.pdf
+│   └── jbi/                  # JBI-format manuscript (main_jbi.tex)
+├── run_experiments.py        # one-shot full pipeline
 ├── requirements.txt
 └── README.md
 ```

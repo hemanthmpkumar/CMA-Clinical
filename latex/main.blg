@@ -6,45 +6,45 @@ Database file #1: references.bib
 Warning--empty year in zhou00
 Warning--empty year in ghosh00
 Warning--empty year in ying00
-You've used 105 entries,
+You've used 108 entries,
             2481 wiz_defined-function locations,
-            945 strings with 24297 characters,
-and the built_in function-call counts, 38703 in all, are:
-= -- 2411
-> -- 3319
-< -- 49
-+ -- 1240
-- -- 1028
-* -- 3023
-:= -- 6732
-add.period$ -- 291
-call.type$ -- 105
-change.case$ -- 210
-chr.to.int$ -- 103
-cite$ -- 108
-duplicate$ -- 1732
-empty$ -- 3223
-format.name$ -- 1151
-if$ -- 7869
+            961 strings with 24761 characters,
+and the built_in function-call counts, 39795 in all, are:
+= -- 2495
+> -- 3382
+< -- 51
++ -- 1264
+- -- 1046
+* -- 3103
+:= -- 6906
+add.period$ -- 300
+call.type$ -- 108
+change.case$ -- 215
+chr.to.int$ -- 106
+cite$ -- 111
+duplicate$ -- 1792
+empty$ -- 3329
+format.name$ -- 1176
+if$ -- 8102
 int.to.chr$ -- 3
-int.to.str$ -- 106
-missing$ -- 51
-newline$ -- 509
-num.names$ -- 315
-pop$ -- 1171
+int.to.str$ -- 109
+missing$ -- 55
+newline$ -- 524
+num.names$ -- 324
+pop$ -- 1203
 preamble$ -- 1
-purify$ -- 105
+purify$ -- 108
 quote$ -- 0
-skip$ -- 1141
+skip$ -- 1174
 stack$ -- 0
-substring$ -- 303
-swap$ -- 228
+substring$ -- 334
+swap$ -- 235
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 735
+type$ -- 753
 warning$ -- 3
-while$ -- 216
+while$ -- 224
 width$ -- 0
-write$ -- 1222
+write$ -- 1259
 (There were 3 warnings)

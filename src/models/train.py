@@ -2,11 +2,11 @@
 """
 src/models/train.py
 
-Train (fit + tune) the baseline and CMA retrievers.
+Train (fit + tune) the baseline, BM25 and CMA retrievers.
 
 Training here means:
   1. Splitting vignettes into train / validation / test sets.
-  2. Building the TF-IDF retrieval index on the full corpus.
+  2. Building the sparse retrieval indexes (TF-IDF baseline, BM25) on the full corpus.
   3. Grid-searching retriever hyper-parameters on the validation set.
   4. Pickling the best retriever objects to `models/`.
 
@@ -34,8 +34,9 @@ np.seterr(divide="ignore", invalid="ignore", over="ignore")
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 from src.experiments.simulate_users import simulate_session
-from src.baseModels.baseline import BaselineRetriever
-from src.baseModels.cma import CMARetriever
+from src.models.baseline import BaselineRetriever
+from src.models.bm25 import BM25Retriever
+from src.models.cma import CMARetriever
 
 
 def load_jsonl(path: Path) -> list[dict]:
@@ -63,24 +64,86 @@ def evaluate(retriever, vignettes: list[dict], condition: str, seed: int = 20260
     }
 
 
+def evaluate_retrieval(retriever, vignettes: list[dict], top_k: int = 50) -> dict:
+    """Per-query partial-credit retrieval metrics for hyper-parameter tuning.
+
+    Unlike the binary all-or-nothing vignette accuracy used in the final
+    evaluation, these metrics give the tuner a smooth gradient even when no
+    full vignette completes: a window that lifts the target from rank 11 to
+    rank 9 (inside top-10) is rewarded, and one that moves it from rank 50 to
+    rank 2 earns more MRR credit. This is what lets tuning actually separate
+    window sizes that the strict metric collapses to 0.000.
+    """
+    hits_10 = 0
+    hits_top = 0
+    rr_sum = 0.0
+    n_q = 0
+    for v in vignettes:
+        retriever.reset_session()
+        session_history: list[str] = []
+        for q in v["queries"]:
+            target_id = q["target_note_id"]
+            results = retriever.search(q["text"], session_history=session_history,
+                                       top_k=top_k, prefetch=True)
+            session_history.append(q["text"])
+            ids = [note_id for note_id, _ in results]
+            n_q += 1
+            if target_id in ids:
+                rank = ids.index(target_id) + 1
+                hits_top += 1
+                rr_sum += 1.0 / rank
+                if rank <= 10:
+                    hits_10 += 1
+    if n_q == 0:
+        return {"recall_10": 0.0, "recall_50": 0.0, "mrr": 0.0, "n_queries": 0}
+    return {
+        "recall_10": hits_10 / n_q,
+        "recall_50": hits_top / n_q,
+        "mrr": rr_sum / n_q,
+        "n_queries": n_q,
+    }
+
+
 def tune_baseline(corpus: list[dict], train_v: list, val_v: list):
-    """Tune the baseline retriever's context window."""
+    """Tune the TF-IDF baseline retriever's context window."""
     print("\nTuning baseline retriever...")
     best = None
     best_score = -1e9
     for window in [3, 5, 10, 20, 50]:
         retriever = BaselineRetriever(corpus, window_size=window)
-        control = evaluate(retriever, val_v, "control")
-        # Prefer higher accuracy and lower query cost.
-        score = control["mean_acc"] * 100 - control["mean_queries"]
-        print(f"  window={window:2d} -> accuracy={control['mean_acc']:.3f}, "
-              f"mean_time={control['mean_time']:.1f}s, score={score:.2f}")
+        metrics = evaluate_retrieval(retriever, val_v)
+        # Partial-credit retrieval score: prefer more targets inside top-10,
+        # with MRR as a tie-breaker for ranking quality within the window.
+        score = metrics["recall_10"] * 100 + metrics["mrr"]
+        print(f"  window={window:2d} -> recall@10={metrics['recall_10']:.3f}, "
+              f"recall@50={metrics['recall_50']:.3f}, mrr={metrics['mrr']:.3f}, "
+              f"score={score:.2f}")
         if score > best_score:
             best_score = score
-            best = (window, control)
+            best = (window, metrics)
     window, _ = best
     print(f"Best baseline: window_size={window}")
     return BaselineRetriever(corpus, window_size=window), {"window_size": window, "val_score": float(best_score)}
+
+
+def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
+    """Tune the BM25 retriever's context window (k1=1.5, b=0.75 fixed)."""
+    print("\nTuning BM25 retriever...")
+    best = None
+    best_score = -1e9
+    for window in [3, 5, 10, 20, 50]:
+        retriever = BM25Retriever(corpus, window_size=window)
+        metrics = evaluate_retrieval(retriever, val_v)
+        score = metrics["recall_10"] * 100 + metrics["mrr"]
+        print(f"  window={window:2d} -> recall@10={metrics['recall_10']:.3f}, "
+              f"recall@50={metrics['recall_50']:.3f}, mrr={metrics['mrr']:.3f}, "
+              f"score={score:.2f}")
+        if score > best_score:
+            best_score = score
+            best = (window, metrics)
+    window, _ = best
+    print(f"Best BM25: window_size={window}")
+    return BM25Retriever(corpus, window_size=window), {"window_size": window, "val_score": float(best_score)}
 
 
 def tune_cma(corpus: list[dict], train_v: list, val_v: list):
@@ -167,19 +230,23 @@ def main():
     print(f"  corpus: {len(corpus)} records, train vignettes: {len(train_v)}, val vignettes: {len(val_v)}")
 
     baseline, baseline_cfg = tune_baseline(corpus, train_v, val_v)
+    bm25, bm25_cfg = tune_bm25(corpus, train_v, val_v)
     cma, cma_cfg = tune_cma(corpus, train_v, val_v)
 
     joblib.dump(baseline, out_dir / "baseline.pkl")
+    joblib.dump(bm25, out_dir / "bm25.pkl")
     joblib.dump(cma, out_dir / "cma.pkl")
 
     config = {
         "baseline": baseline_cfg,
+        "bm25": bm25_cfg,
         "cma": cma_cfg,
     }
     (out_dir / "config.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
 
     print(f"\nModels saved to {out_dir}:")
     print(f"  {out_dir / 'baseline.pkl'}")
+    print(f"  {out_dir / 'bm25.pkl'}")
     print(f"  {out_dir / 'cma.pkl'}")
     print(f"  {out_dir / 'config.json'}")
     print("\nNext step: python src/experiments/run.py --use-trained")

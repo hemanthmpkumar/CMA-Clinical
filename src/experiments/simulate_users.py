@@ -5,9 +5,10 @@ src/experiments/simulate_users.py
 Run the simulated randomized crossover chart-review experiment.
 
 Each vignette is treated as one subject. Subjects complete the same chart-review
-task under both conditions (Control/Baseline and CMA) in randomized order. The
-simulator records time-to-correct-information, retrieval accuracy, number of
-queries, system latency, and simulated NASA-TLX cognitive-load subscales.
+task under three conditions in randomized order: control (TF-IDF session-based
+baseline), BM25 session-based baseline, and CMA. The simulator records
+time-to-correct-information, retrieval accuracy, number of queries, system
+latency, and simulated NASA-TLX cognitive-load subscales.
 """
 
 import random
@@ -34,8 +35,11 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
     rng = np.random.default_rng(seed)
     retriever.reset_session()
 
-    query_time_mu = 3.90 if condition == "control" else 3.68   # lognormal seconds
-    latency_mu = 5.24 if condition == "control" else 4.98     # lognormal milliseconds
+    # CMA applies to the intervention arm only; both sparse baselines use
+    # control-level timing/cognitive-load parameters.
+    is_cma = condition == "cma"
+    query_time_mu = 3.68 if is_cma else 3.90   # lognormal seconds
+    latency_mu = 4.98 if is_cma else 5.24     # lognormal milliseconds
     query_cost = 35.0   # seconds base cost per query (reading snippets, deciding)
 
     timestamps = []
@@ -92,7 +96,7 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
 
     # Simulated NASA-TLX subscales (correlated, condition-sensitive).
     base_load = 35.0 + 0.35 * time_to_info + 2.2 * n_queries_issued
-    condition_relief = 0.0 if condition == "control" else 12.0
+    condition_relief = 12.0 if is_cma else 0.0
     noise = rng.normal(0, 4.0, size=6)
 
     subscales = {
@@ -122,13 +126,18 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
     }
 
 
-def run_experiment(baseline_retriever, cma_retriever, vignettes: list[dict],
-                   seed: int = 20260617, top_k: int = 10) -> pd.DataFrame:
+def run_experiment(control_retriever, bm25_retriever, cma_retriever,
+                   vignettes: list[dict], seed: int = 20260617,
+                   top_k: int = 10) -> pd.DataFrame:
     rows = []
     rng = random.Random(seed)
     for idx, vignette in enumerate(vignettes):
-        # Randomized crossover order.
-        order = rng.sample([("control", baseline_retriever), ("cma", cma_retriever)], k=2)
+        # Randomized three-period crossover order.
+        order = rng.sample([
+            ("control", control_retriever),
+            ("bm25", bm25_retriever),
+            ("cma", cma_retriever),
+        ], k=3)
         for period, (condition_name, retriever) in enumerate(order, start=1):
             condition_key = condition_name
             run_seed = seed + idx * 1000 + period
@@ -141,7 +150,8 @@ def run_experiment(baseline_retriever, cma_retriever, vignettes: list[dict],
             rows.append(result)
 
     df = pd.DataFrame(rows)
-    # Encode condition contrast. Control=0, CMA=1 for regression.
+    # Legacy contrast: CMA=1, all baselines=0. Pairwise encodings are built per
+    # comparison inside the analysis module.
     df["condition_code"] = (df["condition"] == "cma").astype(int)
     return df
 
@@ -150,6 +160,7 @@ if __name__ == "__main__":
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
     from src.models.baseline import BaselineRetriever
+    from src.models.bm25 import BM25Retriever
     from src.models.cma import CMARetriever
 
     processed = Path("data/processed")
@@ -157,9 +168,10 @@ if __name__ == "__main__":
     print(f"Loaded {len(corpus)} records and {len(vignettes)} vignettes.")
 
     baseline = BaselineRetriever(corpus)
+    bm25 = BM25Retriever(corpus)
     cma = CMARetriever(corpus)
     cma.fit_predictor(vignettes, epochs=120, batch_size=64)
-    df = run_experiment(baseline, cma, vignettes)
+    df = run_experiment(baseline, bm25, cma, vignettes)
     out = Path("outputs/results.csv")
     out.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(out, index=False)
