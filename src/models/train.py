@@ -116,8 +116,9 @@ def tune_baseline(corpus: list[dict], train_v: list, val_v: list):
     print("\nTuning baseline retriever...")
     best = None
     best_score = -1e9
+    retriever = BaselineRetriever(corpus, window_size=3)
     for window in [3, 5, 10, 20, 50]:
-        retriever = BaselineRetriever(corpus, window_size=window)
+        retriever.window_size = window
         metrics = evaluate_retrieval(retriever, val_v)
         # Partial-credit retrieval score: prefer more targets inside top-10,
         # with MRR as a tie-breaker for ranking quality within the window.
@@ -130,7 +131,8 @@ def tune_baseline(corpus: list[dict], train_v: list, val_v: list):
             best = (window, metrics)
     window, _ = best
     print(f"Best baseline: window_size={window}")
-    return BaselineRetriever(corpus, window_size=window), {"window_size": window, "val_score": float(best_score)}
+    retriever.window_size = window
+    return retriever, {"window_size": window, "val_score": float(best_score)}
 
 
 def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
@@ -138,9 +140,10 @@ def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
     print("\nTuning BM25 retriever...")
     best = None
     best_score = -1e9
-    
+
+    retriever = BM25Retriever(corpus, window_size=3)
     for window in [3, 5, 10, 20, 50]:
-        retriever = BM25Retriever(corpus, window_size=window)
+        retriever.window_size = window
         # Evaluate as a standard static retriever using partial-credit IR metrics
         metrics = evaluate_retrieval(retriever, val_v)
         
@@ -157,8 +160,9 @@ def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
             
     window, best_metrics = best
     print(f"Best BM25: window_size={window}")
-    
-    return BM25Retriever(corpus, window_size=window), {
+    retriever.window_size = window
+
+    return retriever, {
         "window_size": window, 
         "val_score": float(best_score)
     }
