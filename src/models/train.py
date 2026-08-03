@@ -65,19 +65,13 @@ def evaluate(retriever, vignettes: list[dict], condition: str, seed: int = 20260
 
 
 def evaluate_retrieval(retriever, vignettes: list[dict], top_k: int = 50) -> dict:
-    """Per-query partial-credit retrieval metrics for hyper-parameter tuning.
-
-    Unlike the binary all-or-nothing vignette accuracy used in the final
-    evaluation, these metrics give the tuner a smooth gradient even when no
-    full vignette completes: a window that lifts the target from rank 11 to
-    rank 9 (inside top-10) is rewarded, and one that moves it from rank 50 to
-    rank 2 earns more MRR credit. This is what lets tuning actually separate
-    window sizes that the strict metric collapses to 0.000.
-    """
     hits_10 = 0
     hits_top = 0
     rr_sum = 0.0
     n_q = 0
+    
+    all_top_scores = []
+
     for v in vignettes:
         retriever.reset_session()
         session_history: list[str] = []
@@ -86,6 +80,10 @@ def evaluate_retrieval(retriever, vignettes: list[dict], top_k: int = 50) -> dic
             results = retriever.search(q["text"], session_history=session_history,
                                        top_k=top_k, prefetch=True)
             session_history.append(q["text"])
+            
+            if results:
+                all_top_scores.append(results[0][1])  # Store score of top-1 candidate
+                
             ids = [note_id for note_id, _ in results]
             n_q += 1
             if target_id in ids:
@@ -94,15 +92,24 @@ def evaluate_retrieval(retriever, vignettes: list[dict], top_k: int = 50) -> dic
                 rr_sum += 1.0 / rank
                 if rank <= 10:
                     hits_10 += 1
+
+    # Check score distribution sanity
+    if all_top_scores:
+        scores_arr = np.array(all_top_scores)
+        if np.isnan(scores_arr).any():
+            print("  [WARNING] Retrieval produced NaN similarity scores!")
+        elif np.std(scores_arr) < 1e-6:
+            print("  [WARNING] Retrieval scores have near-zero variance across queries!")
+
     if n_q == 0:
         return {"recall_10": 0.0, "recall_50": 0.0, "mrr": 0.0, "n_queries": 0}
+        
     return {
         "recall_10": hits_10 / n_q,
         "recall_50": hits_top / n_q,
         "mrr": rr_sum / n_q,
         "n_queries": n_q,
     }
-
 
 def tune_baseline(corpus: list[dict], train_v: list, val_v: list):
     """Tune the TF-IDF baseline retriever's context window."""
@@ -126,39 +133,35 @@ def tune_baseline(corpus: list[dict], train_v: list, val_v: list):
     return BaselineRetriever(corpus, window_size=window), {"window_size": window, "val_score": float(best_score)}
 
 
-def tune_bm25(corpus: list[dict], train_v: list, val_v: list, baseline_retriever): ### Changes (Aniruddha)
+def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
     """Tune the BM25 retriever's context window (k1=1.5, b=0.75 fixed)."""
     print("\nTuning BM25 retriever...")
     best = None
     best_score = -1e9
-    tune_train = train_v[: min(len(train_v), 30)]
+    
     for window in [3, 5, 10, 20, 50]:
         retriever = BM25Retriever(corpus, window_size=window)
-        #baseline_for_compare = evaluate(retriever, tune_train, "control")
-        baseline_for_compare = evaluate(baseline_retriever, tune_train, "control") ### Changes (Aniruddha)
-        bm25 = evaluate(retriever, tune_train, "cma")
-        if baseline_for_compare["mean_time"] > 0:
-            reduction = (baseline_for_compare["mean_time"] - bm25["mean_time"]) / baseline_for_compare["mean_time"]
-        else:
-            reduction = 0.0
-        #score = reduction + bm25["mean_acc"] - 0.05 * bm25["mean_queries"]
-        score = reduction + (bm25["mean_acc"] - baseline_for_compare["mean_acc"]) - 0.05 * bm25["mean_queries"]  ### Changes (Aniruddha)
-        print(f"  window={window:2d} -> "
-              f"reduction={reduction*100:5.1f}%, accuracy={bm25['mean_acc']:.3f}, score={score:.3f}")
+        # Evaluate as a standard static retriever using partial-credit IR metrics
+        metrics = evaluate_retrieval(retriever, val_v)
+        
+        # Use the same scoring logic as the baseline
+        score = metrics["recall_10"] * 100 + metrics["mrr"]
+        
+        print(f"  window={window:2d} -> recall@10={metrics['recall_10']:.3f}, "
+              f"recall@50={metrics['recall_50']:.3f}, mrr={metrics['mrr']:.3f}, "
+              f"score={score:.2f}")
+              
         if score > best_score:
             best_score = score
-            best = (window, bm25)
-    window, _ = best
+            best = (window, metrics)
+            
+    window, best_metrics = best
     print(f"Best BM25: window_size={window}")
-    metrics = evaluate(BM25Retriever(corpus, window_size=window), val_v, "cma")
-    print(f"Validation BM25 metrics: accuracy={metrics['mean_acc']:.3f}, mean_time={metrics['mean_time']:.1f}s")
+    
     return BM25Retriever(corpus, window_size=window), {
-        "window_size": window,
-        "train_score": float(best_score),
-        "val_accuracy": float(metrics["mean_acc"]),
-        "val_mean_time": float(metrics["mean_time"]),
+        "window_size": window, 
+        "val_score": float(best_score)
     }
-
 
 #def tune_cma(corpus: list[dict], train_v: list, val_v: list):
 def tune_cma(corpus: list[dict], train_v: list, val_v: list, baseline_retriever): ### Changes (Aniruddha)
@@ -248,7 +251,7 @@ def main():
 
     baseline, baseline_cfg = tune_baseline(corpus, train_v, val_v)
     # cma, cma_cfg = tune_cma(corpus, train_v, val_v)
-    bm25, bm25_cfg = tune_bm25(corpus, train_v, val_v, baseline)  ### Changes (Aniruddha)
+    bm25, bm25_cfg = tune_bm25(corpus, train_v, val_v)  ### Changes (Aniruddha)
     cma, cma_cfg = tune_cma(corpus, train_v, val_v, baseline)  ### Changes (Aniruddha)
 
     joblib.dump(baseline, out_dir / "baseline.pkl")

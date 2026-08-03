@@ -203,8 +203,16 @@ class SPDEncoder(nn.Module):
                 n_batches += 1
 
             if epoch % 10 == 0 or epoch == epochs - 1:
-                print(f"    SPD retrieval epoch {epoch:3d}/{epochs}, "
-                      f"loss={epoch_loss/max(n_batches,1):.4f}")
+                div = max(n_batches, 1)
+                
+                # Calculate avg similarity gap between positive pairs and negative pairs
+                with torch.no_grad():
+                    avg_pos_sim = sim_pos.mean().item()
+                    avg_neg_sim = sim_neg.mean().item()
+                    sim_gap = avg_pos_sim - avg_neg_sim
+
+                print(f"    SPD retrieval epoch {epoch:3d}/{epochs} | loss={epoch_loss/div:.4f} | "
+                      f"sim_pos={avg_pos_sim:.3f} sim_neg={avg_neg_sim:.3f} (gap={sim_gap:+.3f})")
 
         self.eval()
         return self
@@ -266,8 +274,13 @@ class SPDEncoder(nn.Module):
 
             if epoch % 10 == 0 or epoch == epochs - 1:
                 div = max(n_batches, 1)
-                print(f"    SPD epoch {epoch:3d}/{epochs}, total={epoch_loss/div:.4f}, "
-                      f"recon={epoch_recon/div:.4f}, sim={epoch_sim/div:.4f}")
+                # Check for representation collapse (variance across batch dimensions)
+                with torch.no_grad():
+                    latent_var = log_vec.var(dim=0).mean().item()
+                    
+                print(f"    SPD epoch {epoch:3d}/{epochs} | total={epoch_loss/div:.4f} "
+                      f"recon={epoch_recon/div:.4f} sim={epoch_sim/div:.4f} | "
+                      f"latent_var={latent_var:.5f}")
 
         self.eval()
         return self

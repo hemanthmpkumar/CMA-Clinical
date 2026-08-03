@@ -198,14 +198,19 @@ class JEPAPredictor:
         self.online.train()
         for epoch in range(epochs):
             epoch_loss = 0.0
+            epoch_align = 0.0
+            epoch_pred_var = 0.0
             n_batches = 0
+            
             for xb, yb in loader:
                 pred = self.online(xb)
 
-                # Target branch: encoded by the slow target network and detached
-                # so gradients do not flow into the target parameters.
                 with torch.no_grad():
                     target = self.target(yb)
+                    # Metric 1: Alignment between prediction and target
+                    align = torch.nn.functional.cosine_similarity(pred, target, dim=-1).mean()
+                    # Metric 2: Variance across batch to detect constant-output collapse
+                    pred_var = pred.var(dim=0).mean()
 
                 loss = ((pred - target) ** 2 * self.log_euclidean_w).sum(dim=1).mean()
 
@@ -213,14 +218,16 @@ class JEPAPredictor:
                 loss.backward()
                 self.optimizer.step()
 
-                # Slow moving-average update of the target network.
                 self._update_target()
 
                 epoch_loss += loss.item()
+                epoch_align += align.item()
+                epoch_pred_var += pred_var.item()
                 n_batches += 1
 
             if epoch % 20 == 0 or epoch == epochs - 1:
-                avg_loss = epoch_loss / max(n_batches, 1)
-                print(f"  JEPA epoch {epoch:3d}/{epochs}, log_euc={avg_loss:.4f}")
+                div = max(n_batches, 1)
+                print(f"  JEPA epoch {epoch:3d}/{epochs} | log_euc={epoch_loss/div:.4f} | "
+                      f"align_cos={epoch_align/div:.3f} | pred_var={epoch_pred_var/div:.5f}")
 
         return self
