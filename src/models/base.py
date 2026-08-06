@@ -2,6 +2,7 @@
 """Base retriever interface for the clinical search benchmark."""
 
 from abc import ABC, abstractmethod
+from typing import Optional
 
 
 class BaseRetriever(ABC):
@@ -15,8 +16,7 @@ class BaseRetriever(ABC):
 
     @abstractmethod
     def search(self, query: str, session_history: list[str], top_k: int = 10,
-               **kwargs) -> list[tuple[str, float]]:
-        """Return list of (note_id, score) ranked by relevance."""
+               filter_ids: Optional[set[str]] = None, **kwargs) -> list[tuple[str, float]]:
         raise NotImplementedError
 
     def reset_session(self):

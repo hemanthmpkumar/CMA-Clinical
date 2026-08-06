@@ -1,0 +1,129 @@
+{
+  "n_sessions": 3,
+  "n_vignettes": 1,
+  "n_per_condition": {
+    "control": 1,
+    "bm25": 1,
+    "cma": 1
+  },
+  "primary_time": {
+    "summary": {
+      "bm25_mean": 118.4,
+      "bm25_median": 118.4,
+      "bm25_std": NaN,
+      "cma_mean": 98.11,
+      "cma_median": 98.11,
+      "cma_std": NaN,
+      "control_mean": 118.2,
+      "control_median": 118.2,
+      "control_std": NaN,
+      "pct_change_mean": -17.0,
+      "bm25_pct_change_mean": 0.17
+    },
+    "paired_test": "wilcoxon_signed_rank",
+    "contrasts": {
+      "control_vs_cma": null,
+      "bm25_vs_cma": null,
+      "control_vs_bm25": null
+    },
+    "mixed_effects_log_time": {
+      "error": "Singular matrix"
+    }
+  },
+  "accuracy": {
+    "control_accuracy": 1.0,
+    "bm25_accuracy": 1.0,
+    "cma_accuracy": 1.0,
+    "contrasts": {
+      "control_vs_cma": {
+        "n_discordant_better": 0,
+        "n_discordant_worse": 0,
+        "mcnemar_statistic": 0.0,
+        "mcnemar_pvalue": 1.0
+      },
+      "bm25_vs_cma": {
+        "n_discordant_better": 0,
+        "n_discordant_worse": 0,
+        "mcnemar_statistic": 0.0,
+        "mcnemar_pvalue": 1.0
+      },
+      "control_vs_bm25": {
+        "n_discordant_better": 0,
+        "n_discordant_worse": 0,
+        "mcnemar_statistic": 0.0,
+        "mcnemar_pvalue": 1.0
+      }
+    },
+    "gee_logistic": {
+      "error": "Perfect separation: no variance in accuracy"
+    }
+  },
+  "secondary": {
+    "cognitive_load": {
+      "summary": {
+        "bm25_mean": 64.4,
+        "bm25_median": 64.4,
+        "bm25_std": NaN,
+        "cma_mean": 46.96,
+        "cma_median": 46.96,
+        "cma_std": NaN,
+        "control_mean": 57.7,
+        "control_median": 57.7,
+        "control_std": NaN,
+        "pct_change_mean": -18.61,
+        "bm25_pct_change_mean": 11.61
+      },
+      "contrasts": {
+        "control_vs_cma": null,
+        "bm25_vs_cma": null,
+        "control_vs_bm25": null
+      }
+    },
+    "latency_ms": {
+      "summary": {
+        "bm25_mean": 210.45,
+        "bm25_median": 210.45,
+        "bm25_std": NaN,
+        "cma_mean": 141.59,
+        "cma_median": 141.59,
+        "cma_std": NaN,
+        "control_mean": 178.85,
+        "control_median": 178.85,
+        "control_std": NaN,
+        "pct_change_mean": -20.83,
+        "bm25_pct_change_mean": 17.67
+      },
+      "contrasts": {
+        "control_vs_cma": null,
+        "bm25_vs_cma": null,
+        "control_vs_bm25": null
+      }
+    },
+    "n_queries_issued": {
+      "summary": {
+        "bm25_mean": 5.0,
+        "bm25_median": 5.0,
+        "bm25_std": NaN,
+        "cma_mean": 5.0,
+        "cma_median": 5.0,
+        "cma_std": NaN,
+        "control_mean": 5.0,
+        "control_median": 5.0,
+        "control_std": NaN,
+        "pct_change_mean": 0.0,
+        "bm25_pct_change_mean": 0.0
+      },
+      "contrasts": {
+        "control_vs_cma": null,
+        "bm25_vs_cma": null,
+        "control_vs_bm25": null
+      }
+    }
+  },
+  "human_annotations": {},
+  "subgroups": {
+    "specialty": {},
+    "experience_group": {},
+    "complexity": {}
+  }
+}

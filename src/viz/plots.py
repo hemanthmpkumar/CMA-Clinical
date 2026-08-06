@@ -90,11 +90,18 @@ def plot_time_distribution(df: pd.DataFrame, out_dir: Path):
         ("cma", "CMA", "#27AE60"),
     ]
     for i, (cond, label, color) in enumerate(series):
-        data = df[df["condition"] == cond]["time_to_info"]
-        sns.kdeplot(data, ax=ax, fill=True, label=label, color=color, alpha=0.35, linewidth=2)
-        ax.axvline(data.median(), color=color, linestyle="--", linewidth=1.5)
-        ax.text(data.median() + 1, ax.get_ylim()[1] * (0.75 - i * 0.10),
-                f"median\n{data.median():.1f}s", color=color, fontsize=9)
+        data = df[df["condition"] == cond]["time_to_info"].dropna()
+        if data.nunique() >= 2:
+            sns.kdeplot(data, ax=ax, fill=True, label=label, color=color, alpha=0.35, linewidth=2)
+            ax.axvline(data.median(), color=color, linestyle="--", linewidth=1.5)
+            ax.text(data.median() + 1, ax.get_ylim()[1] * (0.75 - i * 0.10),
+                    f"median\n{data.median():.1f}s", color=color, fontsize=9)
+        elif len(data) >= 1:
+            # Too few sessions for a density estimate: show the observed value.
+            ax.scatter([data.iloc[0]], [0.02 + i * 0.02], color=color, s=80,
+                       label=f"{label} (n={len(data)})", zorder=5)
+            ax.text(data.median() + 1, 0.03 + i * 0.03,
+                    f"n={len(data)}\n{data.median():.1f}s", color=color, fontsize=9)
 
     ax.set_xlabel("Time to correct information (seconds)")
     ax.set_ylabel("Density")

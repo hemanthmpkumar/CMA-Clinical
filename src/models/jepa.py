@@ -29,6 +29,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+from .dataloader import create_dataloader
+
 
 def log_euclidean_weights(spd_dim: int, device: torch.device) -> torch.Tensor:
     """Weight vector for the Log-Euclidean distance squared.
@@ -115,7 +117,8 @@ class JEPAPredictor:
         self.spd_dim = spd_dim
 
         torch.manual_seed(seed)
-        self.device = torch.device(device)
+        torch.set_num_threads(10)
+        self.device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
         self.log_euclidean_w = log_euclidean_weights(spd_dim, self.device)
 
@@ -193,8 +196,8 @@ class JEPAPredictor:
         Y = self._l2_normalize(Y)
 
         dataset = torch.utils.data.TensorDataset(X, Y)
-        loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True)
-
+        loader = create_dataloader()
+        print(f"Running JEPA on device: {torch.device} with {torch.get_num_threads()} CPU threads.")
         self.online.train()
         for epoch in range(epochs):
             epoch_loss = 0.0

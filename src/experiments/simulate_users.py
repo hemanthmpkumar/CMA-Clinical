@@ -35,6 +35,14 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
     rng = np.random.default_rng(seed)
     retriever.reset_session()
 
+    # Isolate the search space to the specific simulated patient
+    filter_ids = {doc["note_id"] for doc in retriever.corpus 
+                  if doc.get("vignette_id") == vignette["vignette_id"] 
+                  or doc.get("patient_id") == vignette.get("patient_id")}
+    
+    if not filter_ids:
+        filter_ids = None  # Fallback to global index if metadata is missing
+
     # CMA applies to the intervention arm only; both sparse baselines use
     # control-level timing/cognitive-load parameters.
     is_cma = condition == "cma"
@@ -54,7 +62,14 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
         latency_ms = float(rng.lognormal(mean=latency_mu, sigma=0.10))
         latencies.append(latency_ms)
 
-        results = retriever.search(query_text, session_history=session_history, top_k=top_k, prefetch=True)
+        # Pass the filter_ids mask to the retriever
+        results = retriever.search(
+            query_text, 
+            session_history=session_history, 
+            top_k=top_k, 
+            prefetch=True, 
+            filter_ids=filter_ids
+        )
         session_history.append(query_text)
         retrieved_ids = [note_id for note_id, _ in results]
         found = target_id in retrieved_ids

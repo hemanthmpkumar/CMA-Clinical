@@ -1,0 +1,6 @@
+outcome,bm25_mean,bm25_median,bm25_std,cma_mean,cma_median,cma_std,control_mean,control_median,control_std,pct_change_mean,bm25_pct_change_mean,pvalue_wilcoxon,cohens_d
+time_to_info,92.493,92.48,19.64,80.419,80.295,17.016,92.491,92.23,19.715,-13.05,0.0,0.0,-1.79
+accuracy,1.0,1.0,0.0,1.0,1.0,0.0,1.0,1.0,0.0,0.0,0.0,1.0,
+cognitive_load,54.358,54.335,4.582,45.051,45.005,4.156,54.358,54.28,4.581,-17.12,0.0,0.0,-3.587
+latency_ms,189.477,189.36,9.627,146.245,146.09,7.555,189.668,189.41,9.772,-22.89,-0.1,0.0,-3.522
+n_queries_issued,3.986,4.0,0.821,3.986,4.0,0.821,3.986,4.0,0.821,0.0,0.0,1.0,0.0

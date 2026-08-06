@@ -275,6 +275,63 @@ python src/data/prepare.py --synthetic-only --n-patients 200 --n-vignettes 30
 python src/experiments/run.py --processed-dir data/processed --top-k 10
 ```
 
+#### 4e. Scaling study (index build time vs. corpus scale)
+
+`scripts/run_scaling_study.py` reproduces the manuscript's scaling analysis: for each
+vignette scale N it streams a corpus subset sized to the scale (~40 records per vignette),
+generates N chart-review vignettes, rebuilds each retriever's index on that subset (reusing
+the trained components saved in `models/`, so nothing is re-trained), runs the three-arm
+crossover on all N vignettes, and writes per-scale stats.
+
+Prerequisites: run `src/models/train.py` once so `models/config.json` and the CMA
+components (`models/cma_components.pkl`, ~17 MB) exist.
+
+```bash
+# All four scales (100, 1000, 10000, 100000) + per-scale statistical analysis
+python scripts/run_scaling_study.py
+
+# Subset of scales
+python scripts/run_scaling_study.py --scales 100 10000
+
+# Fast smoke test (degenerate scales still produce stats)
+python scripts/run_scaling_study.py --scales 1 10
+
+# Tiny smoke test capped to 50 vignettes
+python scripts/run_scaling_study.py --only-scale 100 --limit 50
+
+# Scale up parallel eval workers (default: min(cpu_count, 14))
+python scripts/run_scaling_study.py --scales 10000 --workers 14
+
+# Skip the per-scale statistics (results CSV only)
+python scripts/run_scaling_study.py --skip-analysis
+
+# Ingest the raw Hugging Face snapshot into data/scaling_prepared/ first
+python scripts/run_scaling_study.py --prepare
+```
+
+Other knobs: `--records-per-vignette` (corpus records targeted per vignette, default 40),
+`--corpus` (default `data/scaling_prepared/corpus.jsonl`), `--seed`, `--top-k`,
+`--data-root`/`--out-root`.
+
+Outputs:
+
+* `data/scaling/<N>/` — scaled corpus artifacts: `vignettes.json`, `train/val/test_vignettes.json`.
+* `outputs/scaling/<N>/results.csv` — `3 × N` crossover session rows (one per condition arm).
+* `outputs/scaling/<N>/statistics.json` + `primary_results.csv` — per-scale analysis.
+
+Design notes:
+
+* The parent process never forks (macOS fork-safety). Each condition's index is built
+  multithreaded in the parent, pickled, then handed to a fresh eval subprocess that loads
+  it and forks the worker pool from a thread-free state; parallelism comes from the worker
+  processes.
+* The CMA eval subprocess forces single-threaded BLAS (`VECLIB_MAXIMUM_THREADS=1`, etc.)
+  because CMA search runs dense matmuls that SIGSEGV inside forked workers on macOS
+  (`dispatch_apply` after fork). Control/BM25 use sparse/dict indexes and keep
+  multithreaded workers.
+* At N=100000 the target corpus (~4M records) exceeds the full corpus (2.79M records), so
+  the index covers the entire corpus and the run takes on the order of a day on a laptop.
+
 ---
 
 ### 5. Result data analysis
@@ -369,19 +426,24 @@ Output: `latex/main.pdf`.
 .
 ├── data/
 │   ├── raw/                  # downloaded MIMIC data (git-ignored)
-│   └── processed/            # corpus.jsonl, vignettes.json, metadata
+│   ├── processed/            # corpus.jsonl, vignettes.json, metadata
+│   ├── scaling_prepared/     # corpus.jsonl for the scaling study (4.5 GB, 2.79M records)
+│   └── scaling/              # per-scale vignettes + splits (data/scaling/<N>/)
 ├── models/                 # trained retriever checkpoints
 │   ├── baseline.pkl          # TF-IDF baseline
 │   ├── bm25.pkl              # BM25 baseline
-│   ├── cma.pkl               # CMA retriever
+│   ├── cma.pkl               # CMA retriever (full, embeds training corpus)
+│   ├── cma_components.pkl    # lightweight CMA vectorizer/encoder/predictor (~17 MB)
 │   └── config.json
 ├── outputs/
 │   ├── results.csv           # raw experiment results
 │   ├── statistics.json       # statistical analysis output
 │   ├── primary_results.csv   # summary table
-│   └── figures/              # generated PNG figures
+│   ├── figures/              # generated PNG figures
+│   └── scaling/              # per-scale results.csv + stats (outputs/scaling/<N>/)
 ├── scripts/
-│   └── build_bm25.py         # one-off BM25 index builder
+│   ├── build_bm25.py         # one-off BM25 index builder
+│   └── run_scaling_study.py  # scaling study (build → eval subprocess → stats)
 ├── src/
 │   ├── data/
 │   │   ├── download.py

@@ -5,16 +5,21 @@ scripts/run_scaling_study.py
 Scaling study for the three-arm crossover benchmark (CMA vs BM25 vs TF-IDF).
 
 For each vignette scale N in {100, 1000, 10000, 100000}:
-  1. Generate N chart-review vignettes from the corpus (target notes are
+  1. Stream a corpus subset sized to the scale (~40 records per vignette) so
+     index build time and memory actually scale with N instead of always
+     rebuilding over the full 2.8M-record corpus.
+  2. Generate N chart-review vignettes from that subset (target notes are
      query-boosted exactly like the original benchmark build).
-  2. Write vignettes + patient-stratified splits to data/scaling/<N>/.
-  3. Rebuild each retriever's corpus-derived index from the boosted corpus,
+  3. Write vignettes + patient-stratified splits to data/scaling/<N>/.
+  4. Rebuild each retriever's corpus-derived index from the boosted subset,
      REUSING the trained components saved in models/ (CMA neural encoder,
      JEPA predictor, TF-IDF vocabulary, tuned hyper-parameters). This keeps
      each scale's targets retrievable while avoiding re-training.
-  4. Run the randomized three-period crossover experiment on all N vignettes
-     (parallelised per condition) -> outputs/scaling/<N>/results.csv.
-  5. Run the statistical analysis -> outputs/scaling/<N>/statistics.json and
+  5. Build each condition's index and run the randomized three-period crossover
+     experiment on all N vignettes. The parent never forks (macOS fork-safety):
+     it dumps each built model to a pickle and spawns a fresh eval subprocess
+     which loads it and forks a multithreaded worker pool -> outputs/scaling/<N>/results.csv.
+  6. Run the statistical analysis -> outputs/scaling/<N>/statistics.json and
      outputs/scaling/<N>/primary_results.csv.
 
 Each scale is generated independently (seed = --seed + N).
@@ -27,18 +32,41 @@ Usage:
   python scripts/run_scaling_study.py                                   # all four scales
   python scripts/run_scaling_study.py --prepare                         # ingest raw data first
   python scripts/run_scaling_study.py --scales 100 10000                # subset
-  python scripts/run_scaling_study.py --only-scale 100 --limit 50       # quick smoke test
+  python scripts/run_scaling_study.py --scales 1 10                     # fast smoke test
+  python scripts/run_scaling_study.py --only-scale 100 --limit 50       # tiny smoke test
 """
 
 import argparse
 import gc
 import json
 import multiprocessing as mp
+import os
 import random
 import subprocess
 import sys
 import time
 from pathlib import Path
+
+import os
+
+# Set environment variables BEFORE importing torch, numpy, or pyarrow
+os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+
+import torch
+import torch.multiprocessing as mp
+
+# Fork-safety on macOS: forking a process whose BLAS/OpenMP have already
+# spawned worker threads leaves the children with broken dispatch/OpenMP state
+# -> SIGSEGV in Accelerate's dispatch_apply / OpenBLAS. The parent NEVER forks:
+# it builds each scale's index (multithreaded) and hands the model to a fresh
+# eval subprocess via a pickle file. That subprocess loads the model (pure
+# deserialization, so BLAS has not spun up threads yet) before mp.Pool forks
+# its eval workers. The fork therefore always happens from a thread-free
+# process while both index builds and eval workers stay multithreaded.
 
 import numpy as np
 import pandas as pd
@@ -51,40 +79,54 @@ np.seterr(divide="ignore", invalid="ignore", over="ignore")
 CONDITIONS = ["control", "bm25", "cma"]
 MODEL_FILES = {"control": "baseline.pkl", "bm25": "bm25.pkl", "cma": "cma.pkl"}
 DEFAULT_SCALES = [100, 1000, 10000, 100000]
+# Corpus is sized at ~RECORDS_PER_VIGNETTE records per vignette so index build
+# cost scales with N. This mirrors the smoke-cap heuristic (40 * limit).
+RECORDS_PER_VIGNETTE = 40
+# Aim for >= N / PATIENTS_PER_VIGNETTE eligible patients (>=8 notes each) in the
+# subset so vignettes spread across patients instead of recycling one or two.
+PATIENTS_PER_VIGNETTE = 10
 
 MODEL = None  # module-level handle shared with forked workers (copy-on-write)
-
-
-def _load_jsonl(path: Path) -> list[dict]:
-    with path.open("r", encoding="utf-8") as fh:
-        return [json.loads(line) for line in fh if line.strip()]
 
 
 def _load_json(path: Path) -> list[dict]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _capped_corpus_path(corpus_path: Path, limit: int) -> Path:
-    """Write a small prefix of the corpus to a temp file for smoke testing."""
-    target = 40 * limit  # enough patients with >=8 notes for `limit` vignettes
-    cap_path = corpus_path.parent / f"_smoke_{limit}.jsonl"
-    with corpus_path.open("r", encoding="utf-8") as src, \
-         cap_path.open("w", encoding="utf-8") as dst:
-        for i, line in enumerate(src):
-            if i >= target:
+def _load_corpus_subset(corpus_path: Path, max_records: int,
+                        min_eligible: int = 1) -> tuple[list[dict], int, int]:
+    """Stream records until max_records are read AND min_eligible patients
+    (>=8 notes each) are present, or the file ends.
+
+    Returns (records, n_read, n_eligible). Streaming keeps small scales cheap;
+    the eligible-patient guard keeps the vignette generator from failing on
+    tiny subsets (eligible patients are sparse in the corpus).
+    """
+    records = []
+    notes_by_patient: dict[str, int] = {}
+    eligible = set()
+    with corpus_path.open("r", encoding="utf-8") as fh:
+        for line in fh:
+            if not line.strip():
+                continue
+            rec = json.loads(line)
+            records.append(rec)
+            pid = rec["patient_id"]
+            n_notes = notes_by_patient.get(pid, 0) + 1
+            notes_by_patient[pid] = n_notes
+            if n_notes >= 8:
+                eligible.add(pid)
+            if len(records) >= max_records and len(eligible) >= min_eligible:
                 break
-            dst.write(line)
-    print(f"Smoke-test corpus capped to {target} records -> {cap_path}")
-    return cap_path
+    return records, len(records), len(eligible)
 
 
-def generate_scale(corpus_path: Path, n: int, seed: int, out_dir: Path) -> list[dict]:
-    """Load the corpus, generate N boosted vignettes, write them + splits."""
+def generate_scale(corpus: list[dict], n: int, seed: int, out_dir: Path) -> list[dict]:
+    """Generate N boosted vignettes from the scaled corpus, write them + splits."""
     from src.data.prepare import generate_vignettes
     from src.data.split import split_vignettes
 
-    print(f"\n[{n}] Generating {n} vignettes (seed={seed})...")
-    corpus = _load_jsonl(corpus_path)
+    print(f"\n[{n}] Generating {n} vignettes from {len(corpus)} records (seed={seed})...")
     vignettes = generate_vignettes(corpus, n_vignettes=n, seed=seed)
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "vignettes.json").write_text(json.dumps(vignettes, indent=2), encoding="utf-8")
@@ -136,20 +178,34 @@ def build_retriever(condition: str, corpus: list[dict], models_dir: Path):
     elif condition == "cma":
         cma_cfg = config.get("cma", {})
         print("  building CMA (reusing trained encoder/predictor + tuned hyper-params)...")
-        cma_p = joblib_load(models_dir / MODEL_FILES["cma"])
+        # Prefer the lightweight components artifact; fall back to the full
+        # retriever pickle (which embeds the whole training corpus) if absent.
+        components_path = models_dir / "cma_components.pkl"
+        if components_path.exists():
+            comp = joblib_load(components_path)
+            vectorizer, encoder, predictor = (
+                comp["vectorizer"], comp["encoder"], comp["predictor"]
+            )
+            del comp
+        else:
+            cma_p = joblib_load(models_dir / MODEL_FILES["cma"])
+            vectorizer, encoder, predictor = (
+                cma_p.vectorizer, cma_p.encoder, cma_p.predictor
+            )
+            del cma_p
+            gc.collect()
         model = CMARetriever(
             corpus,
             curvature_threshold=cma_cfg.get("curvature_threshold", 0.65),
             gate_discount=cma_cfg.get("gate_discount", 0.05),
             context_window=cma_cfg.get("context_window", 5),
             prefetch_weight=cma_cfg.get("prefetch_weight", 0.4),
-            vectorizer=cma_p.vectorizer,
-            encoder=cma_p.encoder,
-            predictor=cma_p.predictor,
+            vectorizer=vectorizer,
+            encoder=encoder,
+            predictor=predictor,
             encoder_pretrain_epochs=0,
             encoder_finetune_epochs=0,
         )
-        del cma_p
         gc.collect()
         print(f"    cma index built in {time.time() - t0:.0f}s")
         return model
@@ -158,6 +214,11 @@ def build_retriever(condition: str, corpus: list[dict], models_dir: Path):
 def joblib_load(path: Path):
     import joblib
     return joblib.load(path)
+
+
+def joblib_dump(obj, path: Path):
+    import joblib
+    joblib.dump(obj, path)
 
 
 def _eval_worker(task):
@@ -201,38 +262,38 @@ def evaluate_condition(condition: str, model, vignettes: list[dict],
     return rows
 
 
-def run_experiment_parallel(corpus: list[dict], models_dir: Path, vignettes: list[dict], 
-                            seed: int, top_k: int, workers: int) -> pd.DataFrame:
-    """Reproduce run_experiment's randomized three-period crossover layout."""
-    rng = random.Random(seed)
-    orders = []
-    for _ in vignettes:
-        order = rng.sample(CONDITIONS, k=3)
-        orders.append({cond: period for period, cond in enumerate(order, start=1)})
+def run_eval_only(args):
+    """Entry point for the per-condition eval subprocess launched by main().
 
-    all_rows = []
-    for condition in CONDITIONS:
-        print(f"  evaluating condition '{condition}' over {len(vignettes)} vignettes...")
-        
-        # 1. Build ONLY the model for the current condition to save RAM
-        model = build_retriever(condition, corpus, models_dir)
-        
-        # 2. Evaluate
-        t0 = time.time()
-        rows = evaluate_condition(condition, model, vignettes,
-                                  orders, seed, top_k, workers)
-        print(f"    {condition} done in {time.time() - t0:.0f}s ({len(rows)} rows)")
-        all_rows.extend(rows)
-        
-        # 3. Clean up before the next model builds its index
-        global MODEL
-        MODEL = None
-        del model
-        gc.collect()
+    Runs in a fresh process so it can safely fork an eval pool from a
+    thread-free state: the model is loaded from disk (deserialization runs no
+    matrix ops), so BLAS has not spun up threads before the fork. Workers then
+    run multithreaded searches. Writes one condition's results CSV.
+    """
+    mp.set_start_method("fork", force=True)
+    model = joblib_load(args.model)
+    global MODEL
+    MODEL = model
 
-    df = pd.DataFrame(all_rows)
+    vignettes = _load_json(args.vignettes)
+    if args.limit:
+        vignettes = vignettes[: args.limit]
+
+    rng = random.Random(args.seed)
+    orders = [
+        {cond: period for period, cond in enumerate(rng.sample(CONDITIONS, k=3), start=1)}
+        for _ in vignettes
+    ]
+
+    t0 = time.time()
+    rows = evaluate_condition(args.condition, model, vignettes, orders,
+                              args.seed, args.top_k, args.workers)
+    print(f"    eval subprocess {args.condition}: {len(rows)} rows in {time.time() - t0:.0f}s")
+
+    df = pd.DataFrame(rows)
     df["condition_code"] = (df["condition"] == "cma").astype(int)
-    return df
+    df.to_csv(args.results, index=False)
+    print(f"    wrote {args.results}")
 
 
 def main():
@@ -257,8 +318,27 @@ def main():
     ap.add_argument("--top-k", type=int, default=10)
     ap.add_argument("--seed", type=int, default=20260617)
     ap.add_argument("--workers", type=int, default=min(mp.cpu_count(), 14))
+    ap.add_argument("--records-per-vignette", type=int, default=RECORDS_PER_VIGNETTE,
+                    help="Target corpus records per vignette for each scale "
+                         "(corpus is capped at the full file size).")
     ap.add_argument("--skip-analysis", action="store_true")
+    ap.add_argument("--eval-only", action="store_true",
+                    help="Eval-subprocess entry point (used internally by main()).")
+    ap.add_argument("--model", type=Path, default=None,
+                    help="Pickled retriever model for --eval-only.")
+    ap.add_argument("--vignettes", type=Path, default=None,
+                    help="Vignettes JSON for --eval-only.")
+    ap.add_argument("--condition", type=str, default=None, choices=CONDITIONS,
+                    help="Condition arm for --eval-only.")
+    ap.add_argument("--results", type=Path, default=None,
+                    help="Where --eval-only writes its results CSV.")
     args = ap.parse_args()
+
+    if args.eval_only:
+        if not (args.model and args.vignettes and args.condition and args.results):
+            ap.error("--eval-only requires --model, --vignettes, --condition, --results")
+        run_eval_only(args)
+        return
 
     if args.only_scale:
         scales = [args.only_scale]
@@ -266,8 +346,6 @@ def main():
         scales = sorted(args.scales)
     else:
         scales = DEFAULT_SCALES
-
-    mp.set_start_method("fork", force=True)
 
     corpus_path = args.corpus
     if args.prepare:
@@ -293,26 +371,79 @@ def main():
         out_dir = args.out_root / str(n)
         out_dir.mkdir(parents=True, exist_ok=True)
 
+        # Scale the corpus with N so index build time/memory grow with the
+        # scale instead of always rebuilding over the full corpus.
         if args.limit:
-            # Smoke-test mode: build everything from a small capped corpus so
-            # the index build and generation both stay fast and self-consistent
-            # (targets are boosted inside the capped corpus too).
-            capped = _capped_corpus_path(corpus_path, args.limit)
-            corpus = generate_scale(capped, n, args.seed + n, scale_dir)
+            max_records = 40 * args.limit
+            min_eligible = 1
         else:
-            corpus = generate_scale(corpus_path, n, args.seed + n, scale_dir)
+            max_records = args.records_per_vignette * n
+            min_eligible = max(1, n // PATIENTS_PER_VIGNETTE)
+        corpus, n_read, n_eligible = _load_corpus_subset(
+            corpus_path, max_records, min_eligible
+        )
+        print(f"[{n}] Corpus subset: {n_read} records read "
+              f"({n_eligible} eligible patients; target {max_records} records)")
+
+        corpus = generate_scale(corpus, n, args.seed + n, scale_dir)
 
         vignettes = _load_json(scale_dir / "vignettes.json")
-        if args.limit:
-            vignettes = vignettes[: args.limit]
+        print(f"[{n}] {len(vignettes)} vignettes loaded")
 
-        df = run_experiment_parallel(corpus, args.models_dir, vignettes, seed=args.seed,
-                                     top_k=args.top_k, workers=args.workers)
+        parts = []
+        for condition in CONDITIONS:
+            print(f"  evaluating condition '{condition}' over {len(vignettes)} vignettes...")
+            t0 = time.time()
+
+            # Build only the current condition's index (multithreaded) and hand
+            # it to a fresh eval subprocess via a pickle so the eval pool can be
+            # forked from a thread-free process without re-pickling per worker.
+            model_path = scale_dir / f"model_{condition}.pkl"
+            model = build_retriever(condition, corpus, args.models_dir)
+            joblib_dump(model, model_path)
+            del model
+            gc.collect()
+
+            # CMA search runs dense numpy matmuls (doc_latent @ intent) which
+            # Accelerate implements with dispatch_apply. Forked workers must not
+            # call that (SIGSEGV "multi-threaded process forked"), so the CMA
+            # eval subprocess forces single-threaded BLAS: the model load then
+            # spawns no threads (safe fork) and workers never hit dispatch_apply.
+            # Control/BM25 search over sparse/dict indexes and are safe with
+            # multithreaded workers, so only CMA gets the single-thread env.
+            eval_env = None
+            if condition == "cma":
+                eval_env = os.environ.copy()
+                for _k in ("VECLIB_MAXIMUM_THREADS", "OPENBLAS_NUM_THREADS",
+                           "OMP_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+                    eval_env[_k] = "1"
+
+            part_path = out_dir / f"results_{condition}.csv"
+            subprocess.run(
+                [
+                    sys.executable, str(Path(__file__)), "--eval-only",
+                    "--model", str(model_path),
+                    "--vignettes", str(scale_dir / "vignettes.json"),
+                    "--condition", condition,
+                    "--results", str(part_path),
+                    "--seed", str(args.seed),
+                    "--top-k", str(args.top_k),
+                    "--workers", str(args.workers),
+                    "--limit", str(args.limit),
+                ],
+                check=True, cwd=ROOT, env=eval_env,
+            )
+            model_path.unlink(missing_ok=True)
+            parts.append(pd.read_csv(part_path))
+            part_path.unlink(missing_ok=True)
+            print(f"    {condition} done in {time.time() - t0:.0f}s")
+
+        df = pd.concat(parts, ignore_index=True)
         results_path = out_dir / "results.csv"
         df.to_csv(results_path, index=False)
         print(f"[{n}] Saved results: {results_path} ({len(df)} rows)")
 
-        del df, corpus
+        del df, parts, corpus
         gc.collect()
 
         if not args.skip_analysis:
@@ -328,5 +459,5 @@ def main():
 
 
 if __name__ == "__main__":
-    mp.set_start_method('spawn', force=True)
+    mp.set_start_method("fork", force=True)
     main()

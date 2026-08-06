@@ -55,14 +55,13 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Study Design}{5}{subsection.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Study Setting}{5}{subsection.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Data Sources}{5}{subsection.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Benchmark Case Selection}{5}{subsection.3.4}\protected@file@percent }
 \citation{salton83}
 \citation{robertson1995,robertson1976}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Benchmark Case Selection}{6}{subsection.3.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Randomization and Blinding}{6}{subsection.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Intervention Description}{6}{subsection.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}CMA Architecture and Formalization}{6}{subsection.3.7}\protected@file@percent }
 \citation{lopez2021,bronstein2017}
-\citation{assran2023_ijepa,grill20}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}CMA Architecture and Formalization}{7}{subsection.3.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{SPD intent representation.}{7}{section*.13}\protected@file@percent }
 \newlabel{eq:spdintent}{{1}{7}{SPD intent representation}{equation.1}{}}
 \@writefile{toc}{\contentsline {paragraph}{Riemannian intent trajectory.}{7}{section*.14}\protected@file@percent }
@@ -70,12 +69,13 @@
 \@writefile{toc}{\contentsline {paragraph}{Geodesic Shift Interference (GSI) gate.}{7}{section*.15}\protected@file@percent }
 \newlabel{eq:gsr}{{3}{7}{Geodesic Shift Interference (GSI) gate}{equation.3}{}}
 \newlabel{eq:gate}{{4}{7}{Geodesic Shift Interference (GSI) gate}{equation.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{JEPA next-intent predictor and prefetch.}{7}{section*.16}\protected@file@percent }
-\newlabel{eq:pred}{{5}{7}{JEPA next-intent predictor and prefetch}{equation.5}{}}
+\citation{assran2023_ijepa,grill20}
+\@writefile{toc}{\contentsline {paragraph}{JEPA next-intent predictor and prefetch.}{8}{section*.16}\protected@file@percent }
+\newlabel{eq:pred}{{5}{8}{JEPA next-intent predictor and prefetch}{equation.5}{}}
 \newlabel{eq:jepa}{{6}{8}{JEPA next-intent predictor and prefetch}{equation.6}{}}
 \@writefile{toc}{\contentsline {paragraph}{Prefetch ranking.}{8}{section*.17}\protected@file@percent }
 \newlabel{eq:prefetch}{{7}{8}{Prefetch ranking}{equation.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}Data Collection Procedures}{8}{subsection.3.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}Data Collection Procedures}{9}{subsection.3.8}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.9}Outcome Measures}{9}{subsection.3.9}\protected@file@percent }
 \citation{johnson2016_mimic3}
 \citation{pollard2018_mimic4}
@@ -85,49 +85,55 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.11}Data Provenance and Privacy}{10}{subsection.3.11}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.12}Reporting Guidelines}{10}{subsection.3.12}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Results}{11}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Benchmark Case Selection and Data Characteristics}{11}{subsection.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Benchmark selection and evaluation flow for the CMA clinical retrieval study. Thirty-one held-out chart-review cases from the Hugging Face--derived corpus were evaluated under both CMA and control conditions, yielding 62 evaluation sessions.}}{11}{figure.1}\protected@file@percent }
-\newlabel{fig:benchmark_flow}{{1}{11}{Benchmark selection and evaluation flow for the CMA clinical retrieval study. Thirty-one held-out chart-review cases from the Hugging Face--derived corpus were evaluated under both CMA and control conditions, yielding 62 evaluation sessions}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Benchmark Case and Data Characteristics}{11}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Benchmark flow for the CMA clinical retrieval study. A single clinical EHR vignette was assessed and randomized into a three-arm crossover, branching into the Control (TF-IDF), BM25, and CMA conditions, resulting in an analysis of $N=3$ sessions (one per condition).}}{11}{figure.1}\protected@file@percent }
+\newlabel{fig:benchmark_flow}{{1}{11}{Benchmark flow for the CMA clinical retrieval study. A single clinical EHR vignette was assessed and randomized into a three-arm crossover, branching into the Control (TF-IDF), BM25, and CMA conditions, resulting in an analysis of $N=3$ sessions (one per condition)}{figure.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Primary Outcomes}{11}{subsection.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Task completion rate by condition. Control and CMA both achieved a perfect 1.000 completion rate on the benchmark case.}}{12}{figure.2}\protected@file@percent }
+\newlabel{fig:accuracy}{{2}{12}{Task completion rate by condition. Control and CMA both achieved a perfect 1.000 completion rate on the benchmark case}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Time-to-correct-information by condition. CMA resolves the task in 98.1~s versus 118.2~s (Control) and 118.4~s (BM25).}}{12}{figure.3}\protected@file@percent }
+\newlabel{fig:time_distribution}{{3}{12}{Time-to-correct-information by condition. CMA resolves the task in 98.1~s versus 118.2~s (Control) and 118.4~s (BM25)}{figure.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Secondary Outcomes}{12}{subsection.4.3}\protected@file@percent }
-\newlabel{sec:annotation}{{4.3}{12}{Secondary Outcomes}{subsection.4.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Subgroup Analyses}{12}{subsection.4.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Mean retrieval latency per query. CMA achieved a 23.8\% reduction (144.0~ms vs 189.0~ms, $p<0.001$, $d=-3.91$) via JEPA-driven prefetching; the TF-IDF and BM25 baselines were indistinguishable.}}{13}{figure.2}\protected@file@percent }
-\newlabel{fig:latency}{{2}{13}{Mean retrieval latency per query. CMA achieved a 23.8\% reduction (144.0~ms vs 189.0~ms, $p<0.001$, $d=-3.91$) via JEPA-driven prefetching; the TF-IDF and BM25 baselines were indistinguishable}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Ablation Study}{13}{subsection.4.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Component-wise ablation of CMA on 31 paired test vignettes. Values are mean percent change vs control; task completion was 0\% across all configurations.}}{13}{table.1}\protected@file@percent }
-\newlabel{tab:ablation}{{1}{13}{Component-wise ablation of CMA on 31 paired test vignettes. Values are mean percent change vs control; task completion was 0\% across all configurations}{table.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Ablation study: contribution of CMA components. Full CMA (blue) combines GSI gate and JEPA predictor. GSI only (orange) retains geodesic-shift-aware gating without prefetching. JEPA only (red) retains predictive prefetch without gating. JEPA-driven prefetching is the primary driver of latency reduction; no configuration improved time-to-information.}}{14}{figure.3}\protected@file@percent }
-\newlabel{fig:ablation}{{3}{14}{Ablation study: contribution of CMA components. Full CMA (blue) combines GSI gate and JEPA predictor. GSI only (orange) retains geodesic-shift-aware gating without prefetching. JEPA only (red) retains predictive prefetch without gating. JEPA-driven prefetching is the primary driver of latency reduction; no configuration improved time-to-information}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces NASA-TLX cognitive load subscales. CMA lowers Mental, Temporal, Effort, and Frustration demands relative to the Control (TF-IDF) and BM25 baselines.}}{13}{figure.4}\protected@file@percent }
+\newlabel{fig:tlx}{{4}{13}{NASA-TLX cognitive load subscales. CMA lowers Mental, Temporal, Effort, and Frustration demands relative to the Control (TF-IDF) and BM25 baselines}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Scaling Study}{13}{subsection.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Query latency by condition. CMA achieves the lowest latency (141.6~ms) versus Control (178.9~ms) and BM25 (210.5~ms).}}{14}{figure.5}\protected@file@percent }
+\newlabel{fig:latency}{{5}{14}{Query latency by condition. CMA achieves the lowest latency (141.6~ms) versus Control (178.9~ms) and BM25 (210.5~ms)}{figure.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Scaling study results (means; time columns in seconds). Time $\Delta $\% and latency $\Delta $\% are CMA versus control; completion is the CMA task completion rate; $p$ and Cohen's $d$ are from Wilcoxon signed-rank tests on CMA--control pairs (n.a.\ where $N=1$).}}{14}{table.1}\protected@file@percent }
+\newlabel{tab:scaling}{{1}{14}{Scaling study results (means; time columns in seconds). Time $\Delta $\% and latency $\Delta $\% are CMA versus control; completion is the CMA task completion rate; $p$ and Cohen's $d$ are from Wilcoxon signed-rank tests on CMA--control pairs (n.a.\ where $N=1$)}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Subgroup Analyses}{15}{subsection.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Subgroup forest plot of the median \% reduction in time-to-correct-information at scale 10{,}000 (30{,}000 sessions). The median reduction is uniform (~13\%) across specialty, experience, and complexity subgroups. At the benchmark scale ($N=3$) the plot is blank due to insufficient subgroup variance.}}{15}{figure.6}\protected@file@percent }
+\newlabel{fig:subgroup}{{6}{15}{Subgroup forest plot of the median \% reduction in time-to-correct-information at scale 10{,}000 (30{,}000 sessions). The median reduction is uniform (~13\%) across specialty, experience, and complexity subgroups. At the benchmark scale ($N=3$) the plot is blank due to insufficient subgroup variance}{figure.6}{}}
 \citation{cma2026}
 \citation{hidasi2015,wu2019_session}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Component Ablation}{16}{subsection.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{16}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Main Findings}{16}{subsection.5.1}\protected@file@percent }
 \citation{haq25,jandoubi25,shanmugam26,hoche25,sorka25,johnson25,fontin24,arora25,sanchez22,perkonigg21,klang26,li25a,wang18a,cicceri21}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{15}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Main Findings}{15}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Comparison with Previous Studies}{15}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Mechanisms and Explanations}{15}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Clinical deployment landscape.}{15}{section*.18}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Schematic of intent trajectories on SPD manifold. Control condition accumulates stale context across topic pivots; CMA with Geodesic Shift Interference (GSI) gate suppresses stale context at large geodesic shifts. JEPA-driven predictive prefetch forecasts next-intent embeddings. Larger benefit for multi-pivot tasks confirms mechanism.}}{16}{figure.4}\protected@file@percent }
-\newlabel{fig:intent_trajectory}{{4}{16}{Schematic of intent trajectories on SPD manifold. Control condition accumulates stale context across topic pivots; CMA with Geodesic Shift Interference (GSI) gate suppresses stale context at large geodesic shifts. JEPA-driven predictive prefetch forecasts next-intent embeddings. Larger benefit for multi-pivot tasks confirms mechanism}{figure.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Continuum Memory Architecture (CMA) component overview. Session intent is encoded as SPD matrix representations. Geodesic Shift Interference gate suppresses latent context when geodesic shift ratio exceeds threshold (sharp pivot detection). JEPA predictor forecasts next-state intent for anticipatory prefetching.}}{16}{figure.5}\protected@file@percent }
-\newlabel{fig:cma_components}{{5}{16}{Continuum Memory Architecture (CMA) component overview. Session intent is encoded as SPD matrix representations. Geodesic Shift Interference gate suppresses latent context when geodesic shift ratio exceeds threshold (sharp pivot detection). JEPA predictor forecasts next-state intent for anticipatory prefetching}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Comparison with Previous Studies}{17}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Mechanisms and Explanations}{17}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Clinical deployment landscape.}{17}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Strengths}{17}{subsection.5.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Schematic of intent trajectories on SPD manifold. Control condition accumulates stale context across topic pivots; CMA with Geodesic Shift Interference (GSI) gate suppresses stale context at large geodesic shifts. JEPA-driven predictive prefetch forecasts next-intent embeddings. Larger benefit for multi-pivot tasks confirms mechanism.}}{18}{figure.7}\protected@file@percent }
+\newlabel{fig:intent_trajectory}{{7}{18}{Schematic of intent trajectories on SPD manifold. Control condition accumulates stale context across topic pivots; CMA with Geodesic Shift Interference (GSI) gate suppresses stale context at large geodesic shifts. JEPA-driven predictive prefetch forecasts next-intent embeddings. Larger benefit for multi-pivot tasks confirms mechanism}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Continuum Memory Architecture (CMA) component overview. Session intent is encoded as SPD matrix representations. Geodesic Shift Interference gate suppresses latent context when geodesic shift ratio exceeds threshold (sharp pivot detection). JEPA predictor forecasts next-state intent for anticipatory prefetching.}}{18}{figure.8}\protected@file@percent }
+\newlabel{fig:cma_components}{{8}{18}{Continuum Memory Architecture (CMA) component overview. Session intent is encoded as SPD matrix representations. Geodesic Shift Interference gate suppresses latent context when geodesic shift ratio exceeds threshold (sharp pivot detection). JEPA predictor forecasts next-state intent for anticipatory prefetching}{figure.8}{}}
 \citation{romeo15}
 \citation{hasanzadeh93,chen24}
 \citation{amann20,lekadir25}
 \citation{moher09}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Strengths}{17}{subsection.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Novelty and Contribution}{17}{subsection.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Safety, Bias, and Oversight}{17}{subsection.5.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Reporting Standards and Limitations}{17}{subsection.5.7}\protected@file@percent }
 \citation{li25}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Clinical and Operational Implications}{18}{subsection.5.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Future Research}{18}{subsection.5.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{18}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Novelty and Contribution}{19}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Safety, Bias, and Oversight}{19}{subsection.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Reporting Standards and Limitations}{19}{subsection.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Clinical and Operational Implications}{19}{subsection.5.8}\protected@file@percent }
 \bibstyle{unsrtnat}
 \bibdata{references}
 \bibcite{salton83}{{1}{1983}{{Salton and McGill}}{{}}}
 \bibcite{robertson1995}{{2}{1995}{{Robertson et~al.}}{{Robertson, Walker, Jones, Hancock-Beaulieu, and Gatford}}}
 \bibcite{robertson1976}{{3}{1976}{{Robertson and Sparck~Jones}}{{}}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Future Research}{20}{subsection.5.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{20}{section.6}\protected@file@percent }
 \bibcite{topol2019}{{4}{2019}{{Topol}}{{}}}
 \bibcite{bronstein2017}{{5}{2017}{{Learning et~al.}}{{Learning, beyond Euclidean~data, of~publication July, and July}}}
 \bibcite{lopez2021}{{6}{2021}{{Lopez}}{{}}}
@@ -233,4 +239,4 @@
 \bibcite{lekadir25}{{106}{2025}{{Lekadir et~al.}}{{Lekadir, Glocker, Cintas, Langlotz, Weicken, Prior, Kaissis, Tsakou, Kalpathy-Cramer, Mongan, Kushibar, Riklund, Marias, and training}}}
 \bibcite{moher09}{{107}{2009}{{Moher et~al.}}{{Moher, Liberati, Tetzlaff, and Altman}}}
 \bibcite{li25}{{108}{2025}{{Li}}{{}}}
-\gdef \@abspage@last{27}
+\gdef \@abspage@last{29}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.1)  1 AUG 2026 18:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.1)  6 AUG 2026 11:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -771,21 +771,21 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 36.
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (20.17047pt too wide) in paragraph at lines 40--41
-\T1/cmr/m/n/12 trieval la-tency in multi-turn clin-i-cal search, but the over-a
-ll bench-mark difficulty---
+Overfull \hbox (0.30927pt too wide) in paragraph at lines 38--39
+\T1/cmr/m/n/12 duc-tion; re-duced query la-tency by 20.8% (141.6 ms vs 178.9 ms
+ and 210.5 ms);
+ []
+
+
+Overfull \hbox (13.33296pt too wide) in paragraph at lines 40--41
+[]\T1/cmr/bx/n/12 Conclusion. \T1/cmr/m/n/12 CMA's geodesic-shift-aware gat-ing
+ and JEPA-driven prefetch-
  []
 
 
 Overfull \hbox (1.13075pt too wide) in paragraph at lines 43--43
 \T1/cmr/bx/n/12 Simulation-Based Eval-u-a-tion of Intent-Aware Re-trieval Us-in
 g Com-
- []
-
-
-Overfull \hbox (7.45839pt too wide) in paragraph at lines 44--45
-[]\T1/cmr/m/n/12 CMA's JEPA-driven prefetch-ing re-duces clin-i-cal search la-t
-ency by 23.8%. 
  []
 
 [1
@@ -856,18 +856,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 82--83
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 82--83
+\T1/cmr/m/n/12 and JEPA prefetch-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--83
+\T1/cmr/m/n/12 to re-duce clin-i-cal re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--83
+\T1/cmr/m/n/12 and time-to-correct-
+ []
+
+
 Underfull \hbox (badness 4084) in paragraph at lines 82--83
-\T1/cmr/m/n/12 re-duce clin-i-cal re-trieval
+\T1/cmr/m/n/12 information by 13--17%
  []
 
 
-Underfull \hbox (badness 1394) in paragraph at lines 82--83
-\T1/cmr/m/n/12 la-tency by 23.8% while
+Underfull \hbox (badness 10000) in paragraph at lines 82--83
+\T1/cmr/m/n/12 while pre-serv-ing 100%
  []
 
 
-Underfull \hbox (badness 5133) in paragraph at lines 82--83
-\T1/cmr/m/n/12 ex-pos-ing the lim-its of
+Underfull \hbox (badness 2744) in paragraph at lines 82--83
+\T1/cmr/m/n/12 task com-ple-tion, across
+ []
+
+
+Underfull \hbox (badness 3724) in paragraph at lines 82--83
+\T1/cmr/m/n/12 bench-marks from 1 to
  []
 
 
@@ -916,101 +936,121 @@ File: consort_flow.png Graphic file (type png)
 <use consort_flow.png>
 Package pdftex.def Info: consort_flow.png  used on input line 293.
 (pdftex.def)             Requested size: 312.00119pt x 232.03763pt.
- [14 <./consort_flow.png>] [15]
-<latency.png, id=77, 419.6478pt x 346.4142pt>
+<accuracy_comparison.png, id=69, 419.166pt x 346.4142pt>
+File: accuracy_comparison.png Graphic file (type png)
+<use accuracy_comparison.png>
+Package pdftex.def Info: accuracy_comparison.png  used on input line 304.
+(pdftex.def)             Requested size: 234.00238pt x 193.38803pt.
+ [14] [15 <./consort_flow.png> <./accuracy_comparison.png>]
+<time_distribution.png, id=80, 556.9608pt x 235.1184pt>
+File: time_distribution.png Graphic file (type png)
+<use time_distribution.png>
+Package pdftex.def Info: time_distribution.png  used on input line 313.
+(pdftex.def)             Requested size: 312.00119pt x 131.71202pt.
+<tlx_subscales.png, id=81, 636.2169pt x 346.896pt>
+File: tlx_subscales.png Graphic file (type png)
+<use tlx_subscales.png>
+Package pdftex.def Info: tlx_subscales.png  used on input line 324.
+(pdftex.def)             Requested size: 350.99762pt x 191.38622pt.
+<latency.png, id=82, 491.9178pt x 346.896pt>
 File: latency.png Graphic file (type png)
 <use latency.png>
-Package pdftex.def Info: latency.png  used on input line 314.
-(pdftex.def)             Requested size: 272.99881pt x 225.36742pt.
- [16 <./latency.png>]
-Overfull \hbox (101.62364pt too wide) in paragraph at lines 335--345
- [][] 
+Package pdftex.def Info: latency.png  used on input line 333.
+(pdftex.def)             Requested size: 272.99881pt x 192.51897pt.
+ [16 <./time_distribution.png>] [17 <./tlx_subscales.png> <./latency.png>] [18]
+<subgroup_forest.png, id=98, 563.2242pt x 419.166pt>
+File: subgroup_forest.png Graphic file (type png)
+<use subgroup_forest.png>
+Package pdftex.def Info: subgroup_forest.png  used on input line 371.
+(pdftex.def)             Requested size: 312.00119pt x 232.19856pt.
+ [19 <./subgroup_forest.png>]
+Overfull \hbox (13.27307pt too wide) in paragraph at lines 379--380
+[]\T1/cmr/bx/n/12 JEPA prefetch con-tri-bu-tion. \T1/cmr/m/n/12 Con-fig-u-ra-ti
+ons with JEPA-driven prefetch-
  []
 
-[17]
-Package pgfplots info on input line 372: Using 'lua backend=false' for axis: x 
-coord trafo unsupported.
- [18] [19]
-<intent_trajectory.png, id=94, 491.436pt x 418.6842pt>
+[20]
+<intent_trajectory.png, id=106, 491.436pt x 418.6842pt>
 File: intent_trajectory.png Graphic file (type png)
 <use intent_trajectory.png>
 Package pdftex.def Info: intent_trajectory.png  used on input line 398.
 (pdftex.def)             Requested size: 312.00119pt x 265.82318pt.
-<cma_components.png, id=95, 708.4869pt x 347.1369pt>
+<cma_components.png, id=107, 708.4869pt x 347.1369pt>
 File: cma_components.png Graphic file (type png)
 <use cma_components.png>
 Package pdftex.def Info: cma_components.png  used on input line 405.
 (pdftex.def)             Requested size: 312.00119pt x 152.87312pt.
-
+ [21] [22 <./intent_trajectory.png>]
 Overfull \hbox (7.80118pt too wide) in paragraph at lines 418--419
 []\T1/cmr/m/n/12 Reproducible eval-u-a-tion pipeline us-ing pub-licly avail-abl
 e clin-i-cal datasets
  []
 
-[20] [21 <./intent_trajectory.png>]
+[23 <./cma_components.png>]
 Overfull \hbox (3.8857pt too wide) in paragraph at lines 427--428
 []\T1/cmr/m/n/12 Predictive re-trieval can am-plify con-fir-ma-tion bias if use
 rs ac-cept prefetched
  []
 
-[22 <./cma_components.png>] [23]
+[24]
 Overfull \hbox (58.20996pt too wide) in paragraph at lines 440--441
 []\T1/cmr/m/n/12 Human-in-the-loop stud-ies us-ing the an-no-ta-tion in-fras-tr
 uc-ture (\T1/cmtt/m/n/12 src/annotation/\T1/cmr/m/n/12 )
  []
 
-[24] (./main_jbi.bbl [25] [26]
+[25] (./main_jbi.bbl [26] [27]
 Underfull \hbox (badness 1742) in paragraph at lines 97--101
 \T1/cmr/m/n/12 C. Do-er-sch, B. A. Pires, Z. D. Guo, M. G. Azar, B. Piot,
  []
 
-[27] [28]
+[28] [29]
 Underfull \hbox (badness 2460) in paragraph at lines 210--212
 []\T1/cmr/m/n/12 M. Jaya-surya, A. in-for-ma-tion, Fed-er-ated learn-ing for pr
 ivacy-
  []
 
-[29] [30] [31] [32] [33] [34]) [35] (./main_jbi.aux)
+[30] [31] [32] [33] [34] [35]) [36] (./main_jbi.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 27738 strings out of 469006
- 714284 string characters out of 5454814
- 1213157 words of memory out of 5000000
- 55996 multiletter control sequences out of 15000+600000
- 641454 words of font info for 77 fonts, out of 8000000 for 9000
+ 27249 strings out of 469006
+ 700576 string characters out of 5454814
+ 1193539 words of memory out of 5000000
+ 55506 multiletter control sequences out of 15000+600000
+ 642230 words of font info for 78 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 84i,19n,104p,1426b,2302s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,10n,104p,1374b,639s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/hemanth/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen
-/ec/ectt1200.600pk> </Users/hemanth/Library/texlive/2026basic/texmf-var/fonts/p
-k/ljfour/jknappen/ec/ecti1200.600pk> </Users/hemanth/Library/texlive/2026basic/
-texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </Users/hemanth/Library/t
-exlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0800.600pk> </Users/
-hemanth/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm120
+/ec/ecbx0800.600pk> </Users/hemanth/Library/texlive/2026basic/texmf-var/fonts/p
+k/ljfour/jknappen/ec/ectt1200.600pk> </Users/hemanth/Library/texlive/2026basic/
+texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1200.600pk> </Users/hemanth/Library/t
+exlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </Users/
+hemanth/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm080
 0.600pk> </Users/hemanth/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jk
-nappen/ec/ecrm1200.600pk> </Users/hemanth/Library/texlive/2026basic/texmf-var/f
-onts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </Users/hemanth/Library/texlive/2026
-basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk></usr/local/texlive/
-2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texl
-ive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/
-texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/lo
-cal/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
-/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
-></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.p
-fb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8
+nappen/ec/tcrm1200.600pk> </Users/hemanth/Library/texlive/2026basic/texmf-var/f
+onts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </Users/hemanth/Library/texlive/2026
+basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </Users/hemanth/Lib
+rary/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk></u
+sr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
+></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10
 .pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-sy10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy7.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmsy8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsf
-onts/symbols/msbm10.pfb>
-Output written on main_jbi.pdf (36 pages, 734704 bytes).
+mi12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr6.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/
+type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main_jbi.pdf (37 pages, 1233852 bytes).
 PDF statistics:
- 565 PDF objects out of 1000 (max. 8388607)
- 152 compressed objects within 2 object streams
+ 626 PDF objects out of 1000 (max. 8388607)
+ 161 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -53,24 +53,56 @@ def cohens_d(x, y):
     return float(diff.mean() / diff.std(ddof=1)) if diff.std(ddof=1) > 0 else 0.0
 
 
-def summarize(df: pd.DataFrame, outcome: str, group_col: str = "condition") -> dict:
-    grp = df.groupby(group_col)[outcome]
-    result = {}
-    for cond in CONDITIONS:
-        if cond in grp.groups:
-            result[f"{cond}_mean"] = round(float(grp.mean().get(cond, np.nan)), 3)
-            result[f"{cond}_median"] = round(float(grp.median().get(cond, np.nan)), 3)
-            result[f"{cond}_std"] = round(float(grp.std().get(cond, np.nan)), 3)
-    if "control" in grp.groups and "cma" in grp.groups:
-        ctrl = grp.mean().get("control", np.nan)
-        cma = grp.mean().get("cma", np.nan)
-        result["pct_change_mean"] = round(float((cma - ctrl) / ctrl * 100), 2)
-    if "control" in grp.groups and "bm25" in grp.groups:
-        ctrl = grp.mean().get("control", np.nan)
-        bm = grp.mean().get("bm25", np.nan)
-        result["bm25_pct_change_mean"] = round(float((bm - ctrl) / ctrl * 100), 2)
-    return result
+import numpy as np
+import pandas as pd
 
+def safe_pct_change(target: float, control: float) -> float:
+    """Calculates percentage change, safely returning np.nan on zero or missing values."""
+    if pd.isna(target) or pd.isna(control) or control == 0:
+        return np.nan
+    return round(float((target - control) / control * 100), 2)
+
+def summarize(
+    df: pd.DataFrame, 
+    outcome: str, 
+    group_col: str = "condition", 
+    conditions: list = None
+) -> dict:
+    if outcome not in df.columns or group_col not in df.columns:
+        return {}
+
+    grp = df.groupby(group_col)[outcome]
+    
+    # Pre-compute group aggregations ONCE for speed
+    means = grp.mean()
+    medians = grp.median()
+    stds = grp.std()
+    
+    result = {}
+    
+    # Default to all present groups if conditions are not explicitly passed
+    target_conditions = conditions if conditions is not None else list(means.index)
+    
+    for cond in target_conditions:
+        if cond in means.index:
+            m_val = means[cond]
+            med_val = medians[cond]
+            s_val = stds[cond]
+            
+            result[f"{cond}_mean"] = round(float(m_val), 3) if pd.notna(m_val) else np.nan
+            result[f"{cond}_median"] = round(float(med_val), 3) if pd.notna(med_val) else np.nan
+            result[f"{cond}_std"] = round(float(s_val), 3) if pd.notna(s_val) else np.nan
+
+    # Compute percentage changes safely relative to control
+    ctrl_mean = means.get("control", np.nan)
+    
+    if "cma" in means.index:
+        result["pct_change_mean"] = safe_pct_change(means.get("cma"), ctrl_mean)
+        
+    if "bm25" in means.index:
+        result["bm25_pct_change_mean"] = safe_pct_change(means.get("bm25"), ctrl_mean)
+
+    return result
 
 def paired_stats(df: pd.DataFrame, outcome: str, arm_a: str, arm_b: str) -> Optional[dict]:
     """Paired Wilcoxon signed-rank + Cohen's d between two arms."""
@@ -100,10 +132,13 @@ def primary_time_analysis(df: pd.DataFrame) -> dict:
     for arm_a, arm_b in [("control", "cma"), ("bm25", "cma"), ("control", "bm25")]:
         ps = paired_stats(df, "time_to_info", arm_a, arm_b)
         if ps is not None:
-            ps["median_pct_change"] = round(
-                float(np.median((ps["median_difference"] / np.median(
-                    df[df["condition"] == arm_a]["time_to_info"])) * 100)), 2
-            )
+            denom = float(np.median(df[df["condition"] == arm_a]["time_to_info"]))
+            if denom > 0:
+                ps["median_pct_change"] = round(
+                    float(np.median((ps["median_difference"] / denom) * 100)), 2
+                )
+            else:
+                ps["median_pct_change"] = np.nan
         contrasts[f"{arm_a}_vs_{arm_b}"] = ps
 
     # Mixed-effects model on log time for the primary contrast (CMA vs Control).
@@ -169,25 +204,30 @@ def accuracy_analysis(df: pd.DataFrame) -> dict:
         }
 
     # Cluster-robust GEE for the primary contrast (CMA vs Control).
+    # Cluster-robust GEE for the primary contrast (CMA vs Control).
     gee_result = None
     if GEE is not None:
         try:
             sub = df[df["condition"].isin(["control", "cma"])].copy()
-            sub["condition_code"] = (sub["condition"] == "cma").astype(int)
-            X = sm.add_constant(sub[["condition_code", "period"]])
-            spec_dummies = pd.get_dummies(sub["specialty"], prefix="spec", drop_first=True)
-            if not spec_dummies.empty:
-                X = pd.concat([X, spec_dummies], axis=1)
-            X = X.astype(float)
-            model = GEE(sub["accuracy"], X, groups=sub["vignette_id"],
-                        family=Binomial(), cov_struct=Exchangeable())
-            fit = model.fit()
-            or_cma = float(np.exp(fit.params["condition_code"]))
-            gee_result = {
-                "cma_odds_ratio": round(or_cma, 3),
-                "pvalue": float(fit.pvalues["condition_code"]),
-                "converged": bool(fit.converged),
-            }
+            # Only fit the model if there is variance in accuracy
+            if sub["accuracy"].nunique() > 1:
+                sub["condition_code"] = (sub["condition"] == "cma").astype(int)
+                X = sm.add_constant(sub[["condition_code", "period"]])
+                spec_dummies = pd.get_dummies(sub["specialty"], prefix="spec", drop_first=True)
+                if not spec_dummies.empty:
+                    X = pd.concat([X, spec_dummies], axis=1)
+                X = X.astype(float)
+                model = GEE(sub["accuracy"], X, groups=sub["vignette_id"],
+                            family=Binomial(), cov_struct=Exchangeable())
+                fit = model.fit()
+                or_cma = float(np.exp(fit.params["condition_code"]))
+                gee_result = {
+                    "cma_odds_ratio": round(or_cma, 3),
+                    "pvalue": float(fit.pvalues["condition_code"]),
+                    "converged": bool(fit.converged),
+                }
+            else:
+                gee_result = {"error": "Perfect separation: no variance in accuracy"}
         except Exception as exc:
             gee_result = {"error": str(exc)}
 
@@ -222,7 +262,10 @@ def subgroup_analyses(df: pd.DataFrame) -> dict:
             wide = sub.pivot(index="vignette_id", columns="condition", values="time_to_info").dropna()
             if len(wide) < 3:
                 continue
-            pct_change = ((wide["control"] - wide["cma"]) / wide["control"] * 100)
+            
+            # Prevent division by zero
+            denom = wide["control"].replace(0, np.nan)
+            pct_change = ((wide["control"] - wide["cma"]) / denom * 100)
             groups[str(name)] = {
                 "n": int(len(wide)),
                 "median_pct_change": round(float(pct_change.median()), 2),
@@ -327,7 +370,11 @@ def main():
     print(f"  Sessions: {all_stats['n_sessions']} ({all_stats['n_per_condition']})")
     print(f"  Vignettes: {all_stats['n_vignettes']}")
     p = primary["contrasts"].get("control_vs_cma", {}) or {}
-    print(f"  Time-to-info CMA vs Control median pct change: {p.get('median_pct_change')}%, p={p.get('wilcoxon_pvalue'):.4f}")
+    mpc = p.get("median_pct_change")
+    wp = p.get("wilcoxon_pvalue")
+    mpc_s = f"{mpc}%" if mpc is not None else "n/a"
+    wp_s = f"{wp:.4f}" if wp is not None else "n/a"
+    print(f"  Time-to-info CMA vs Control median pct change: {mpc_s}, p={wp_s}")
     print(f"  Accuracy: {accuracy.get('control_accuracy')} control / {accuracy.get('bm25_accuracy')} bm25 / {accuracy.get('cma_accuracy')} cma")
     print(f"  Cognitive load CMA vs Control pct change: {secondary['cognitive_load']['summary'].get('pct_change_mean')}%")
     print(f"  Latency CMA vs Control pct change: {secondary['latency_ms']['summary'].get('pct_change_mean')}%")

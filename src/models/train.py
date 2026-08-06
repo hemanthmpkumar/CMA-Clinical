@@ -262,6 +262,16 @@ def main():
     joblib.dump(bm25, out_dir / "bm25.pkl")
     joblib.dump(cma, out_dir / "cma.pkl")
 
+    # Lightweight artifact with only the reusable trained components (the full
+    # retriever pickle embeds the entire corpus and is gigabytes). The scaling
+    # study reloads these to build per-scale indexes without retraining.
+    cma_components = {
+        "vectorizer": cma.vectorizer,
+        "encoder": cma.encoder,
+        "predictor": cma.predictor,
+    }
+    joblib.dump(cma_components, out_dir / "cma_components.pkl")
+
     config = {
         "baseline": baseline_cfg,
         "bm25": bm25_cfg,
@@ -273,6 +283,7 @@ def main():
     print(f"  {out_dir / 'baseline.pkl'}")
     print(f"  {out_dir / 'bm25.pkl'}")
     print(f"  {out_dir / 'cma.pkl'}")
+    print(f"  {out_dir / 'cma_components.pkl'}")
     print(f"  {out_dir / 'config.json'}")
     print("\nNext step: python src/experiments/run.py --use-trained")
 

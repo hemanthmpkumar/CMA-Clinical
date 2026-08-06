@@ -29,8 +29,7 @@ class BaselineRetriever(BaseRetriever):
         self.doc_tfidf = self.vectorizer.fit_transform(doc_texts)
 
     def search(self, query: str, session_history: list[str], top_k: int = 10,
-               **kwargs) -> list[tuple[str, float]]:
-        # Uniform session expansion with the most recent prior queries.
+               filter_ids: set = None, **kwargs) -> list[tuple[str, float]]:
         if self.window_size > 1:
             prior = session_history[-(self.window_size - 1):]
         else:
@@ -38,6 +37,12 @@ class BaselineRetriever(BaseRetriever):
         expanded = " ".join([query] + prior)
         q_vec = self.vectorizer.transform([expanded])
         scores = (self.doc_tfidf @ q_vec.T).toarray().ravel()
+        
+        # Apply patient-level filtering
+        if filter_ids is not None:
+            mask = np.array([nid not in filter_ids for nid in self.note_ids])
+            scores[mask] = -np.inf
+
         ranked = np.argsort(scores)[::-1]
         return [(self.note_ids[i], float(scores[i])) for i in ranked[:top_k]]
 

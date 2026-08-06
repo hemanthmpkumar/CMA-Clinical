@@ -46,7 +46,7 @@ class BM25Retriever(BaseRetriever):
         self.idf = np.log(1.0 + (n_docs - df + 0.5) / (df + 0.5))
 
     def search(self, query: str, session_history: list[str], top_k: int = 10,
-               **kwargs) -> list[tuple[str, float]]:
+               filter_ids: set = None, **kwargs) -> list[tuple[str, float]]:
         # Uniform session expansion with the most recent prior queries.
         if self.window_size > 1:
             prior = session_history[-(self.window_size - 1):]
@@ -74,6 +74,11 @@ class BM25Retriever(BaseRetriever):
         term_scores = numer / denom
 
         scores = np.bincount(rows, weights=term_scores, minlength=len(self.corpus))
+        # Apply patient-level filtering
+        if filter_ids is not None:
+            mask = np.array([nid not in filter_ids for nid in self.note_ids])
+            scores[mask] = -np.inf
+
         ranked = np.argsort(scores)[::-1]
         return [(self.note_ids[i], float(scores[i])) for i in ranked[:top_k]]
 
