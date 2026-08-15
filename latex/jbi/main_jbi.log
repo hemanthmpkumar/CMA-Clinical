@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.1)  6 AUG 2026 11:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.1)  9 AUG 2026 22:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -941,88 +941,90 @@ File: accuracy_comparison.png Graphic file (type png)
 <use accuracy_comparison.png>
 Package pdftex.def Info: accuracy_comparison.png  used on input line 304.
 (pdftex.def)             Requested size: 234.00238pt x 193.38803pt.
- [14] [15 <./consort_flow.png> <./accuracy_comparison.png>]
-<time_distribution.png, id=80, 556.9608pt x 235.1184pt>
+ [14] [15 <./consort_flow.png>]
+<time_distribution.png, id=79, 556.9608pt x 235.1184pt>
 File: time_distribution.png Graphic file (type png)
 <use time_distribution.png>
 Package pdftex.def Info: time_distribution.png  used on input line 313.
 (pdftex.def)             Requested size: 312.00119pt x 131.71202pt.
-<tlx_subscales.png, id=81, 636.2169pt x 346.896pt>
+<tlx_subscales.png, id=80, 636.2169pt x 346.896pt>
 File: tlx_subscales.png Graphic file (type png)
 <use tlx_subscales.png>
 Package pdftex.def Info: tlx_subscales.png  used on input line 324.
 (pdftex.def)             Requested size: 350.99762pt x 191.38622pt.
-<latency.png, id=82, 491.9178pt x 346.896pt>
+ [16 <./accuracy_comparison.png>] [17 <./time_distribution.png> <./tlx_subscale
+s.png>]
+<latency.png, id=90, 491.9178pt x 346.896pt>
 File: latency.png Graphic file (type png)
 <use latency.png>
 Package pdftex.def Info: latency.png  used on input line 333.
 (pdftex.def)             Requested size: 272.99881pt x 192.51897pt.
- [16 <./time_distribution.png>] [17 <./tlx_subscales.png> <./latency.png>] [18]
-<subgroup_forest.png, id=98, 563.2242pt x 419.166pt>
+ [18 <./latency.png>]
+<subgroup_forest.png, id=97, 563.2242pt x 419.166pt>
 File: subgroup_forest.png Graphic file (type png)
 <use subgroup_forest.png>
 Package pdftex.def Info: subgroup_forest.png  used on input line 371.
 (pdftex.def)             Requested size: 312.00119pt x 232.19856pt.
- [19 <./subgroup_forest.png>]
+ [19] [20 <./subgroup_forest.png>]
 Overfull \hbox (13.27307pt too wide) in paragraph at lines 379--380
 []\T1/cmr/bx/n/12 JEPA prefetch con-tri-bu-tion. \T1/cmr/m/n/12 Con-fig-u-ra-ti
 ons with JEPA-driven prefetch-
  []
 
-[20]
-<intent_trajectory.png, id=106, 491.436pt x 418.6842pt>
+[21]
+<intent_trajectory.png, id=109, 491.436pt x 418.6842pt>
 File: intent_trajectory.png Graphic file (type png)
 <use intent_trajectory.png>
 Package pdftex.def Info: intent_trajectory.png  used on input line 398.
 (pdftex.def)             Requested size: 312.00119pt x 265.82318pt.
-<cma_components.png, id=107, 708.4869pt x 347.1369pt>
+<cma_components.png, id=110, 708.4869pt x 347.1369pt>
 File: cma_components.png Graphic file (type png)
 <use cma_components.png>
 Package pdftex.def Info: cma_components.png  used on input line 405.
 (pdftex.def)             Requested size: 312.00119pt x 152.87312pt.
- [21] [22 <./intent_trajectory.png>]
+ [22] [23 <./intent_trajectory.png>]
 Overfull \hbox (7.80118pt too wide) in paragraph at lines 418--419
 []\T1/cmr/m/n/12 Reproducible eval-u-a-tion pipeline us-ing pub-licly avail-abl
 e clin-i-cal datasets
  []
 
-[23 <./cma_components.png>]
+[24 <./cma_components.png>]
 Overfull \hbox (3.8857pt too wide) in paragraph at lines 427--428
 []\T1/cmr/m/n/12 Predictive re-trieval can am-plify con-fir-ma-tion bias if use
 rs ac-cept prefetched
  []
 
-[24]
+[25]
 Overfull \hbox (58.20996pt too wide) in paragraph at lines 440--441
 []\T1/cmr/m/n/12 Human-in-the-loop stud-ies us-ing the an-no-ta-tion in-fras-tr
 uc-ture (\T1/cmtt/m/n/12 src/annotation/\T1/cmr/m/n/12 )
  []
 
-[25] (./main_jbi.bbl [26] [27]
+[26] (./main_jbi.bbl [27] [28]
 Underfull \hbox (badness 1742) in paragraph at lines 97--101
 \T1/cmr/m/n/12 C. Do-er-sch, B. A. Pires, Z. D. Guo, M. G. Azar, B. Piot,
  []
 
-[28] [29]
+[29] [30]
 Underfull \hbox (badness 2460) in paragraph at lines 210--212
 []\T1/cmr/m/n/12 M. Jaya-surya, A. in-for-ma-tion, Fed-er-ated learn-ing for pr
 ivacy-
  []
 
-[30] [31] [32] [33] [34] [35]) [36] (./main_jbi.aux)
+[31] [32] [33] [34] [35] [36] [37]) [38] (./main_jbi.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 27249 strings out of 469006
- 700576 string characters out of 5454814
- 1193539 words of memory out of 5000000
- 55506 multiletter control sequences out of 15000+600000
+ 27255 strings out of 469006
+ 700759 string characters out of 5454814
+ 1193573 words of memory out of 5000000
+ 55512 multiletter control sequences out of 15000+600000
  642230 words of font info for 78 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 84i,10n,104p,1374b,639s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,10n,104p,1374b,675s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/hemanth/Library/texlive/2026basic/texmf-var/fonts/pk/ljfour/jknappen
 /ec/ecbx0800.600pk> </Users/hemanth/Library/texlive/2026basic/texmf-var/fonts/p
 k/ljfour/jknappen/ec/ectt1200.600pk> </Users/hemanth/Library/texlive/2026basic/
@@ -1047,10 +1049,10 @@ ic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/
 type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main_jbi.pdf (37 pages, 1233852 bytes).
+Output written on main_jbi.pdf (39 pages, 1236031 bytes).
 PDF statistics:
- 626 PDF objects out of 1000 (max. 8388607)
- 161 compressed objects within 2 object streams
+ 636 PDF objects out of 1000 (max. 8388607)
+ 165 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

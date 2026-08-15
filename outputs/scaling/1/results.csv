@@ -1,4 +1,0 @@
-vignette_id,condition,time_to_info,accuracy,n_queries_issued,latency_ms,cognitive_load,tlx_mental,tlx_physical,tlx_temporal,tlx_performance,tlx_effort,tlx_frustration,period,specialty,experience_group,complexity,n_pivots,condition_code
-V001,control,118.2,1,5,178.85,57.7,81.27,17.72,80.77,50.64,75.66,40.15,1,emergency,<5_years,high,4,0
-V001,bm25,118.4,1,5,210.45,64.4,93.9,29.26,83.3,52.53,80.55,46.84,3,emergency,<5_years,high,4,0
-V001,cma,98.11,1,5,141.59,46.96,62.36,20.62,52.15,60.26,57.12,29.23,2,emergency,<5_years,high,4,1

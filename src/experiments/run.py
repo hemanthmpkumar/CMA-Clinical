@@ -5,8 +5,8 @@ src/experiments/run.py
 End-to-end experiment entrypoint.
 
 Two modes:
-  1. From-scratch (default): build baseline and CMA retrievers from the raw
-     corpus and evaluate on all vignettes.
+  1. From-scratch (default): build baseline, BM25, CMA and GDT retrievers from
+     the raw corpus and evaluate on all vignettes.
   2. Trained-model mode (--use-trained): load pickled retrievers from models/
      and evaluate on the held-out test vignettes.
 
@@ -37,6 +37,7 @@ from src.experiments.simulate_users import run_experiment
 from src.models.baseline import BaselineRetriever
 from src.models.bm25 import BM25Retriever
 from src.models.cma import CMARetriever
+from src.models.gdt import GDTRetriever
 
 
 def parse_args():
@@ -46,7 +47,7 @@ def parse_args():
     parser.add_argument("--use-trained", action="store_true",
                         help="Load trained retrievers from --models-dir and evaluate on test set")
     parser.add_argument("--models-dir", default="models",
-                        help="Directory containing baseline.pkl, bm25.pkl and cma.pkl")
+                        help="Directory containing baseline.pkl, bm25.pkl, cma.pkl and gdt.pkl")
     parser.add_argument("--top-k", type=int, default=10,
                         help="Number of documents retrieved per query")
     parser.add_argument("--seed", type=int, default=20260617,
@@ -66,6 +67,7 @@ def main():
         baseline = joblib.load(models_dir / "baseline.pkl")
         bm25 = joblib.load(models_dir / "bm25.pkl")
         cma = joblib.load(models_dir / "cma.pkl")
+        gdt = joblib.load(models_dir / "gdt.pkl")
         test_path = processed_dir / "test_vignettes.json"
         if not test_path.exists():
             raise FileNotFoundError(
@@ -84,9 +86,12 @@ def main():
         bm25 = BM25Retriever(corpus)
         cma = CMARetriever(corpus)
         cma.fit_predictor(vignettes, epochs=120, batch_size=64)
+        gdt = GDTRetriever(corpus)
+        gdt.fit_predictor(vignettes, epochs=120, batch_size=64)
 
-    print("Running simulated three-arm crossover experiment...")
-    df = run_experiment(baseline, bm25, cma, vignettes, seed=args.seed, top_k=args.top_k)
+    print("Running simulated four-arm crossover experiment...")
+    df = run_experiment(baseline, bm25, cma, vignettes, seed=args.seed, top_k=args.top_k,
+                        gdt_retriever=gdt)
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)

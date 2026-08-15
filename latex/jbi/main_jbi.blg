@@ -20,45 +20,45 @@ Warning--empty pages in zhou22
 Warning--empty year in ying00
 Warning--empty pages in al20
 Warning--empty pages in wang18a
-You've used 108 entries,
+You've used 110 entries,
             2952 wiz_defined-function locations,
-            1078 strings with 25414 characters,
-and the built_in function-call counts, 27272 in all, are:
-= -- 2008
-> -- 1677
+            1089 strings with 25969 characters,
+and the built_in function-call counts, 27918 in all, are:
+= -- 2062
+> -- 1718
 < -- 0
-+ -- 631
-- -- 523
-* -- 1518
-:= -- 4136
-add.period$ -- 114
-call.type$ -- 108
-change.case$ -- 107
++ -- 646
+- -- 536
+* -- 1575
+:= -- 4234
+add.period$ -- 118
+call.type$ -- 110
+change.case$ -- 109
 chr.to.int$ -- 0
-cite$ -- 125
-duplicate$ -- 818
-empty$ -- 3099
-format.name$ -- 591
-if$ -- 7070
+cite$ -- 127
+duplicate$ -- 835
+empty$ -- 3161
+format.name$ -- 606
+if$ -- 7229
 int.to.chr$ -- 0
-int.to.str$ -- 108
-missing$ -- 55
-newline$ -- 341
-num.names$ -- 108
-pop$ -- 898
+int.to.str$ -- 110
+missing$ -- 56
+newline$ -- 350
+num.names$ -- 110
+pop$ -- 912
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 1923
+skip$ -- 1959
 stack$ -- 0
-substring$ -- 118
-swap$ -- 105
+substring$ -- 127
+swap$ -- 112
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 17
-while$ -- 116
-width$ -- 111
-write$ -- 846
+while$ -- 119
+width$ -- 113
+write$ -- 866
 (There were 17 warnings)

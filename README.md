@@ -1,14 +1,14 @@
 # CMA Clinical Search Benchmark
 
-A reproducible implementation of the simulation-based evaluation described in the manuscript **“Continuum Memory Architecture (CMA) for Clinical Search”**. The codebase downloads (or synthesizes) de-identified EHR-style notes, builds three retrieval systems (a conventional TF-IDF session-based baseline, a BM25 session-based baseline, and the CMA system with curvature-aware gating + JEPA prefetching), runs a randomized three-arm crossover experiment, and produces statistical summaries and manuscript figures.
+A reproducible implementation of the simulation-based evaluation described in the manuscript **“Continuum Memory Architecture (CMA) for Clinical Search”**. The codebase downloads (or synthesizes) de-identified EHR-style notes, builds four retrieval systems (a conventional TF-IDF session-based baseline, a BM25 session-based baseline, a geometry-aware “distance to target” (GDT) retriever, and the CMA system with curvature-aware gating + JEPA prefetching), runs a randomized four-arm crossover experiment, and produces statistical summaries and manuscript figures.
 
 ## What's included
 
 * `src/data/` — download, preparation, and patient-level split scripts for MIMIC-III/IV/CXR, eICU, HiRID, and synthetic data.
-* `src/models/` — TF-IDF baseline, BM25 baseline, CMA retrieval model, and model-training script.
-* `src/experiments/` — simulated three-arm crossover evaluation and result recording.
+* `src/models/` — TF-IDF baseline, BM25 baseline, GDT, CMA retrieval model, and model-training script.
+* `src/experiments/` — simulated four-arm crossover evaluation, result recording, and component-wise ablation.
 * `src/analysis/` — paired statistical tests, effect sizes, mixed-effects models, and GEE.
-* `src/viz/` — figure generation for the seven manuscript plots.
+* `src/viz/` — figure generation for the manuscript plots.
 * `latex/` — the journal-ready manuscript (`main.tex`), BibTeX library, and compiled PDF.
 
 ## Prerequisites
@@ -19,7 +19,7 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Requirements: `numpy`, `pandas`, `scipy`, `scikit-learn`, `statsmodels`, `matplotlib`, `seaborn`, `rank-bm25`.
+Requirements: `numpy`, `pandas`, `scipy`, `scikit-learn`, `statsmodels`, `matplotlib`, `seaborn`, `rank-bm25`, `joblib`, `torch`, `geoopt` (plus `datasets`/`pyarrow` for the Hugging Face data sources).
 
 ## Step-by-step usage
 
@@ -101,6 +101,11 @@ python src/data/download_hf.py --dataset mimiciv-cxr --out data/raw/huggingface
 
 # Download eICU from Hugging Face
 python src/data/download_hf.py --dataset eicu --out data/raw/huggingface
+
+# Download MIMIC-IV notes, PPG/ECG signals, and MIMIC-CXR-RRG reports
+python src/data/download_huggingface.py --dataset mimiciv-note --out data/raw/huggingface
+python src/data/download_huggingface.py --dataset mimiciv-ppg-ecg --out data/raw/huggingface
+python src/data/download_huggingface.py --dataset mimic-cxr-rrg --out data/raw/huggingface
 ```
 
 The supported datasets are:
@@ -109,14 +114,17 @@ The supported datasets are:
 * MIMIC-IV: `lucky9-cyou/MIMIC-IV`
 * MIMIC-CXR: `EvidenceAIResearch/MIMIC-CXR-VReason`
 * eICU: `wshi83/EHRAgent-eicu`
+* MIMIC-IV notes: `mimic-capstone/mimic-iv-note`
+* MIMIC-IV PPG-ECG: `lucky9-cyou/mimic-iv-aligned-ppg-ecg`
+* MIMIC-CXR-RRG: `Yamini-1628/MIMIC-CXR-RRG`
 
-For dataset preparation, use the existing prepare scripts with the downloaded directory:
+For dataset preparation, point `--huggingface-dir` at the snapshot root. The
+ingestor auto-detects every present dataset subdirectory (`mimiciii/`, `mimiciv/`,
+`mimiciv-note/`, `mimiciv-cxr/`, `mimic-cxr-rrg/`, `eicu/`, `mimiciv-ppg-ecg/`,
+`hirid/`):
 
 ```bash
-python src/data/prepare.py --mimiciii-dir data/raw/huggingface/mimiciii --n-vignettes 100000
-python src/data/prepare.py --mimiciv-dir data/raw/huggingface/mimiciv --n-vignettes 100000
-python src/data/prepare.py --mimiciv-cxr-dir data/raw/huggingface/mimiciv-cxr --n-vignettes 100000
-python src/data/prepare.py --eicu-dir data/raw/huggingface/eicu --n-vignettes 100000
+python src/data/prepare.py --huggingface-dir data/raw/huggingface --n-vignettes 100000
 ```
 
 ---
@@ -133,13 +141,13 @@ python src/data/prepare.py --synthetic-only
 python src/data/prepare.py --synthetic-only --n-patients 500 --n-vignettes 60
 
 # Generate 10,000 complex chart-review vignettes
-python src/data/prepare.py --synthetic-only --n-patients 10000 --n-vignettes 10000 --complexity-filter high
+python src/data/prepare.py --synthetic-only --n-patients 100000 --n-vignettes 100000 --complexity-filter high
 ```
 
 Outputs written to `data/processed/`:
 
 * `corpus.jsonl` — searchable clinical-note corpus.
-* `vignettes.json` — simulated chart-review tasks with forced pivots and ground-truth targets.
+* `vignettes.json` — simulated chart-review tasks with ground-truth targets. Queries are derived from the **actual text** of the target notes (top TF-IDF content terms), not from a synthetic keyword vocabulary, so retrieval is exercised against real clinical language.
 * `case_metadata.csv` — vignette-level metadata (specialty, experience group, complexity, pivots).
 * `seed_info.json` — reproducibility summary.
 
@@ -164,21 +172,24 @@ python src/data/prepare.py --mimiciv-dir data/raw --n-vignettes 100000
 
 #### Using MIMIC-IV + MIMIC-CXR
 
+There is no `--mimiciv-cxr-dir` flag. MIMIC-CXR and the other Hugging Face
+mirror datasets (MIMIC-CXR-RRG, MIMIC-IV notes, MIMIC-IV PPG-ECG, HiRID) are
+ingested through `--huggingface-dir`, which auto-detects each dataset
+subdirectory:
+
 ```bash
-python src/data/prepare.py --mimiciv-cxr-dir data/raw --n-vignettes 100000
+python src/data/prepare.py --huggingface-dir data/raw/huggingface --n-vignettes 100000
 ```
 
 #### Using eICU-CRD
 
 ```bash
-python src/data/prepare.py --eicu-dir data/raw --n-vignettes 100000
+python src/data/prepare.py --eicu-dir data/raw/huggingface/eicu --n-vignettes 100000
 ```
 
 #### Using HiRID
 
-```bash
-python src/data/prepare.py --hirid-dir data/raw --n-vignettes 100000
-```
+HiRID has no `--hirid-dir` flag; ingest it through `--huggingface-dir` as above.
 
 #### Legacy single-file paths still work
 
@@ -193,16 +204,40 @@ python src/data/prepare.py --mimiciii data/raw/NOTEEVENTS.csv.gz --n-vignettes 6
 The project follows a standard ML workflow:
 
 1. Vignettes are split into **train / validation / test** sets by patient to avoid leakage.
-2. The TF-IDF baseline, BM25 baseline, and CMA retrievers are fit on the corpus and their hyper-parameters are chosen on the validation set.
+2. The TF-IDF baseline, BM25 baseline, CMA, and GDT retrievers are fit on the corpus and their hyper-parameters are chosen on the validation set.
 3. Best models are pickled to `models/` for reproducible evaluation.
 
+The two commands are sequential: `split.py` writes the train/val/test vignette
+splits that `train.py` reads to fit and validate the retrievers.
+
 ```bash
-# Split vignettes
+# Split vignettes (must run before train.py)
 python src/data/split.py
 
-# Train baseline + BM25 + CMA and save models/
+# Train baseline + BM25 + CMA + GDT and save models/
 python src/models/train.py
 ```
+
+`split.py` also supports a `--scales` mode that generates and splits the exact
+vignette counts used by the scaling study. Give VIGNETTE counts: the session
+scales 1, 10, 100, 1,000, 10,000, 100,000 correspond to 3, 30, 300, 3,000,
+30,000, 300,000 vignettes (3 per session). Like the scaling study, it draws
+vignettes from the **real corpus** records (each query built from its target
+note's actual text):
+
+```bash
+# Real-data vignettes for the six session scales, written to data/scaling/<S>/
+python src/data/split.py --scales 3 30 300 3000 30000 300000 --corpus data/processed/corpus.jsonl
+
+# Custom corpus / output root
+python src/data/split.py --scales 30 300 --corpus data/scaling_prepared/corpus.jsonl \
+    --data-root data/scaling
+```
+
+> **Apple Silicon note:** the CMA SPD encoder needs `torch.linalg.eigh`, which is
+> not implemented on the MPS backend. Training automatically probes the device
+> and falls back to CPU (`src/models/spd_encoder.py::pick_device`), so no manual
+> `PYTORCH_ENABLE_MPS_FALLBACK` or device flag is required.
 
 Outputs:
 
@@ -210,13 +245,16 @@ Outputs:
 * `models/baseline.pkl` — trained TF-IDF baseline retriever
 * `models/bm25.pkl` — trained BM25 baseline retriever
 * `models/cma.pkl` — trained CMA retriever
+* `models/gdt.pkl` — trained GDT retriever
+* `models/cma_components.pkl` — lightweight CMA encoder/predictor (reused by the scaling study)
+* `models/gdt_components.pkl` — lightweight GDT encoder/predictor (reused by the scaling study)
 * `models/config.json` — selected hyper-parameters and validation scores
 
 ---
 
 ### 4. Conduct experiments
 
-The experiment is a randomized within-subject three-arm crossover: every vignette is completed once under the TF-IDF control, once under the BM25 baseline, and once under CMA, with order counterbalanced.
+The experiment is a randomized within-subject four-arm crossover: every vignette is completed once under the TF-IDF control, once under the BM25 baseline, once under GDT, and once under CMA, with order counterbalanced.
 
 For a one-shot reproduction of the paper pipeline, run:
 
@@ -224,7 +262,7 @@ For a one-shot reproduction of the paper pipeline, run:
 python run_experiments.py
 ```
 
-This will split the vignettes, train the baseline/BM25 and CMA retrievers, run the crossover experiment, analyze the results, and generate the figures in `outputs/figures/`.
+This will split the vignettes, train the four retrievers (baseline, BM25, GDT, CMA), run the crossover experiment, analyze the results, and generate the figures in `outputs/figures/`.
 
 #### 4a. Run the full experiment on the held-out test set
 
@@ -260,10 +298,23 @@ PY
 python src/experiments/ablation.py --out-dir outputs/ablation
 ```
 
-This compares Full CMA (GSI gate + JEPA predictor), GSI-only, and JEPA-only
-configurations against the TF-IDF control across the full crossover and writes
-`ablation_summary.csv`, `ablation_pct_change.csv`, and `ablation_report.json` to
-the output directory.
+Each ablation variant targets **GDT** (the primary intervention, which shares
+CMA's SPD-encoder + GSI-gate + JEPA-prefetch architecture). The three variants
+are Full GDT, GSI-only (gate on, prefetch off), and JEPA-only (gate disabled,
+prefetch on). Each variant is evaluated under the **same four-arm crossover**
+used by the main experiment — TF-IDF control, BM25, CMA, and GDT — so the
+ablation results stay directly comparable to the `results.csv` and comparison
+figures. The study writes `ablation_results.csv`
+(raw per-session rows), `ablation_summary.csv` (variant × arm means),
+`ablation_pct_change.csv` (each arm vs control per variant), and
+`ablation_report.json`
+
+To reuse already-trained models from `models/` instead of re-training the
+components (fast path used by the scaling study):
+
+```bash
+python src/experiments/ablation.py --models-dir models --out-dir outputs/ablation
+```
 
 #### 4d. Run individual components separately (for debugging)
 
@@ -277,24 +328,43 @@ python src/experiments/run.py --processed-dir data/processed --top-k 10
 
 #### 4e. Scaling study (index build time vs. corpus scale)
 
-`scripts/run_scaling_study.py` reproduces the manuscript's scaling analysis: for each
-vignette scale N it streams a corpus subset sized to the scale (~40 records per vignette),
-generates N chart-review vignettes, rebuilds each retriever's index on that subset (reusing
-the trained components saved in `models/`, so nothing is re-trained), runs the three-arm
-crossover on all N vignettes, and writes per-scale stats.
+`scripts/run_scaling_study.py` reproduces the manuscript's scaling analysis. Scales are
+specified as **sessions**; each session scale `S` is paired with `S × 3` vignettes
+(`--vignettes-per-session`, default 3), so:
 
-Prerequisites: run `src/models/train.py` once so `models/config.json` and the CMA
-components (`models/cma_components.pkl`, ~17 MB) exist.
+| sessions | 1 | 10 | 100 | 1,000 | 10,000 | 100,000 |
+|---|---|---|---|---|---|---|
+| vignettes | 3 | 30 | 300 | 3,000 | 30,000 | 300,000 |
+
+For each session scale it streams a corpus subset sized to the scale (~40 records per
+vignette), generates the real-corpus vignettes (each query derived from its target note's
+actual text), **runs `src/models/train.py` fresh on that scale's corpus and splits**
+(so CMA/GDT encoders and JEPA predictors are re-trained per scale into
+`models/<S>/`), builds each retriever's index from those per-scale components, runs the
+four-arm crossover on all vignettes, writes per-scale stats, then runs the ablation study
+with the **same** per-scale trained models into `outputs/scaling/<S>/ablation/`.
+
+The identical per-scale vignette generation is available standalone through
+`split.py --scales ...` (see Section 3) if you want the vignettes before running the
+full study.
+
+Prerequisites: the raw (Hugging Face) corpus at `data/scaling_prepared/corpus.jsonl`.
 
 ```bash
-# All four scales (100, 1000, 10000, 100000) + per-scale statistical analysis
+# All six session scales (1, 10, 100, 1000, 10000, 100000) + stats + ablation
 python scripts/run_scaling_study.py
 
-# Subset of scales
-python scripts/run_scaling_study.py --scales 100 10000
+# Subset of session scales
+python scripts/run_scaling_study.py --scales 10 1000
 
 # Fast smoke test (degenerate scales still produce stats)
 python scripts/run_scaling_study.py --scales 1 10
+
+# Reuse already-trained per-scale models instead of re-running train.py
+python scripts/run_scaling_study.py --skip-train
+
+# Skip per-scale ablation study (stats + experiments only)
+python scripts/run_scaling_study.py --skip-ablation
 
 # Tiny smoke test capped to 50 vignettes
 python scripts/run_scaling_study.py --only-scale 100 --limit 50
@@ -310,17 +380,52 @@ python scripts/run_scaling_study.py --prepare
 ```
 
 Other knobs: `--records-per-vignette` (corpus records targeted per vignette, default 40),
+`--pretrain-max-docs` (SPD autoencoder pretrain cap passed to train.py, default 100000),
 `--corpus` (default `data/scaling_prepared/corpus.jsonl`), `--seed`, `--top-k`,
-`--data-root`/`--out-root`.
+`--data-root`/`--out-root` (default `data/scaling`/`outputs/scaling`).
 
 Outputs:
 
-* `data/scaling/<N>/` — scaled corpus artifacts: `vignettes.json`, `train/val/test_vignettes.json`.
-* `outputs/scaling/<N>/results.csv` — `3 × N` crossover session rows (one per condition arm).
-* `outputs/scaling/<N>/statistics.json` + `primary_results.csv` — per-scale analysis.
+* `data/scaling/<S>/` — scaled corpus artifacts: `corpus.jsonl`, `vignettes.json`,
+  `train/val/test_vignettes.json`.
+* `models/<S>/` — per-scale trained retrievers (`baseline/bm25/cma/gdt.pkl`, components, `config.json`).
+* `outputs/scaling/<S>/results.csv` — `4 × vignettes` crossover session rows (one per condition arm).
+* `outputs/scaling/<S>/statistics.json` + `primary_results.csv` — per-scale analysis.
+* `outputs/scaling/<S>/ablation/` — per-scale ablation study using the same trained models.
+
+To plot build-time/memory scaling and per-scale comparison figures from the resulting
+per-scale stats:
+
+```bash
+python scripts/plot_scaling.py
+python scripts/plot_scaling.py --scales 10 1000   # subset of session scales
+```
+
+To **combine every scale that has been run into cumulative cross-scale result
+figures** (all four arms — TF-IDF, BM25, CMA, GDT), including only the scales
+actually present under `outputs/scaling/`:
+
+```bash
+python scripts/plot_scaling_combined.py
+python scripts/plot_scaling_combined.py --scales 1 10 100 1000 10000
+```
+
+The combined script recomputes all metrics directly from each scale's
+`results.csv` (so it works even when a scale predates the four-arm setup —
+missing arms are skipped on that scale) and writes to
+`outputs/scaling/combined/`:
+
+* `scaling_trends.png` — mean time-to-info, cognitive load, latency, and query count vs session scale `S` (log x-axis), one line per arm.
+* `scaling_pct_change.png` — % change vs the TF-IDF control for BM25, CMA, and GDT across scales.
+* `scaling_accuracy.png` — task accuracy vs scale per arm.
+* `combined_results.csv` / `combined_pct_change.csv` — the underlying per-scale aggregations for manuscript tables.
 
 Design notes:
 
+* Vignettes use **real corpus data**: queries are the top content terms of their
+  target note (stopwords removed), so no synthetic keyword vocabulary is involved.
+  The per-patient note threshold is relaxed automatically so single-summary corpora
+  (e.g. eICU, one structured summary per stay) still work.
 * The parent process never forks (macOS fork-safety). Each condition's index is built
   multithreaded in the parent, pickled, then handed to a fresh eval subprocess that loads
   it and forks the worker pool from a thread-free state; parallelism comes from the worker
@@ -329,8 +434,11 @@ Design notes:
   because CMA search runs dense matmuls that SIGSEGV inside forked workers on macOS
   (`dispatch_apply` after fork). Control/BM25 use sparse/dict indexes and keep
   multithreaded workers.
-* At N=100000 the target corpus (~4M records) exceeds the full corpus (2.79M records), so
-  the index covers the entire corpus and the run takes on the order of a day on a laptop.
+* At the largest session scale (100,000 sessions / 300,000 vignettes) the target corpus
+  (~12M records) exceeds the full MIMIC-IV corpus (546K records), so the index covers the
+  entire corpus and the run is gated mostly by per-scale model training
+  (`--pretrain-max-docs` caps the SPD autoencoder pretrain to keep it tractable; the full
+  corpus traines realizistically in a few hours per retriever).
 
 ---
 
@@ -344,8 +452,11 @@ python src/analysis/analyze.py \
 
 Outputs:
 
-* `outputs/statistics.json` — full numerical results (Wilcoxon tests, mixed-effects model, GEE, subgroup analyses).
-* `outputs/primary_results.csv` — human-readable summary table of primary and secondary outcomes.
+* `outputs/statistics.json` — full numerical results (Wilcoxon tests, mixed-effects model, GEE, subgroup analyses, and a dedicated `gdt_vs_benchmarks` block of paired GDT-vs-{TF-IDF, BM25, CMA} contrasts for every outcome).
+* `outputs/primary_results.csv` — human-readable summary table with means/medians per condition and GDT-vs-{BM25, CMA} p-values/Cohen's d plus the primary GDT-vs-Control contrast.
+
+GDT is the primary intervention; CMA is treated as a **benchmark** (alongside
+TF-IDF and BM25), so every outcome reports the three benchmark-vs-GDT contrasts.
 
 Key analyses performed:
 
@@ -353,6 +464,7 @@ Key analyses performed:
 * **Accuracy:** McNemar test on discordant pairs; generalized estimating equations (GEE) with binomial family clustered by vignette.
 * **Secondary outcomes:** paired tests and Cohen's d for NASA-TLX composite, query latency, and number of queries issued.
 * **Subgroups:** median percentage time improvement by specialty, clinician experience, and case complexity.
+* **Benchmark contrasts:** paired GDT vs each of TF-IDF, BM25, and CMA for time, cognitive load, latency, query count, and accuracy (consumed by `gdt_vs_benchmarks*.png`).
 
 ---
 
@@ -369,22 +481,26 @@ Generated figures (matching the manuscript):
 
 1. `consort_flow.png` — case flow and condition randomization.
 2. `time_distribution.png` — time-to-correct-information density by condition.
-3. `intent_trajectory.png` — schematic trajectory on the CMA topic manifold with a curvature gate.
-4. `tlx_subscales.png` — NASA-TLX subscale comparison.
-5. `latency.png` — query latency box plot.
-6. `subgroup_forest.png` — forest plot of time-to-info improvement across subgroups.
-7. `cma_components.png` — CMA retrieval architecture diagram.
+3. `accuracy_comparison.png` — accuracy by condition.
+4. `intent_trajectory.png` — schematic trajectory on the CMA topic manifold with a curvature gate.
+5. `tlx_subscales.png` — NASA-TLX subscale comparison.
+6. `latency.png` — query latency box plot.
+7. `subgroup_forest.png` — forest plot of time-to-info improvement across subgroups.
+8. `gdt_vs_benchmarks.png` — GDT (primary) vs each of the three benchmarks (TF-IDF, BM25, CMA) for time-to-info, cognitive load, latency, and query count.
+9. `gdt_vs_benchmarks_accuracy.png` — task-accuracy delta of GDT vs each benchmark.
+10. `ablation_four_arm.png` — ablation study with all four arms (TF-IDF, BM25, CMA, GDT) per variant (rendered when `--ablation-report` is passed or via `plot_scaling.py`).
+11. `cma_components.png` — CMA retrieval architecture diagram.
 
 #### Interpreting the outputs
 
-The printed analysis summary reports the median percentage reduction in time-to-correct-information, the comparison of cognitive-load scores, and the latency improvement. Example interpretation points:
+The printed analysis summary reports the median percentage reduction in time-to-correct-information for GDT versus each benchmark (TF-IDF, BM25, CMA), the comparison of cognitive-load scores, and the latency improvement. Example interpretation points:
 
-* A positive median reduction means CMA retrieved the correct information faster on average.
+* In `gdt_vs_benchmarks.png`, a positive bar for a benchmark means GDT retrieved the correct information faster (time-to-info/latency) or imposed lower cognitive load than that benchmark; the accuracy figure shows the task-accuracy delta in percentage points (GDT minus benchmark).
 * Latency reductions reflect the JEPA prefetch caching warm-start documents.
-* Accuracy should remain non-inferior: CMA is intended to speed retrieval without harming correctness.
+* Accuracy should remain non-inferior: GDT/CMA are intended to speed retrieval without harming correctness.
 * NASA-TLX reductions suggest lower cognitive burden when stale context is suppressed.
 
-The exact numbers depend on the corpus (MIMIC vs. synthetic) and on retriever hyper-parameters in `src/models/baseline.py`, `src/models/bm25.py`, and `src/models/cma.py`.
+The exact numbers depend on the corpus (MIMIC vs. synthetic) and on retriever hyper-parameters in `src/models/baseline.py`, `src/models/bm25.py`, `src/models/gdt.py`, and `src/models/cma.py`.
 
 ---
 
@@ -428,37 +544,44 @@ Output: `latex/main.pdf`.
 │   ├── raw/                  # downloaded MIMIC data (git-ignored)
 │   ├── processed/            # corpus.jsonl, vignettes.json, metadata
 │   ├── scaling_prepared/     # corpus.jsonl for the scaling study (4.5 GB, 2.79M records)
-│   └── scaling/              # per-scale vignettes + splits (data/scaling/<N>/)
+│   └── scaling/              # per-scale vignettes + splits (data/scaling/<S>/)
 ├── models/                 # trained retriever checkpoints
 │   ├── baseline.pkl          # TF-IDF baseline
 │   ├── bm25.pkl              # BM25 baseline
+│   ├── gdt.pkl               # GDT retriever
 │   ├── cma.pkl               # CMA retriever (full, embeds training corpus)
-│   ├── cma_components.pkl    # lightweight CMA vectorizer/encoder/predictor (~17 MB)
-│   └── config.json
+│   ├── gdt_components.pkl    # lightweight GDT vectorizer/encoder/predictor
+│   ├── cma_components.pkl    # lightweight CMA vectorizer/encoder/predictor
+│   └── config.json           # selected hyper-parameters + validation scores
 ├── outputs/
 │   ├── results.csv           # raw experiment results
 │   ├── statistics.json       # statistical analysis output
 │   ├── primary_results.csv   # summary table
 │   ├── figures/              # generated PNG figures
-│   └── scaling/              # per-scale results.csv + stats (outputs/scaling/<N>/)
+│   └── scaling/              # per-scale results.csv + stats (outputs/scaling/<S>/)
 ├── scripts/
 │   ├── build_bm25.py         # one-off BM25 index builder
-│   └── run_scaling_study.py  # scaling study (build → eval subprocess → stats)
+│   ├── run_scaling_study.py  # scaling study (train → build → eval → stats)
+│   ├── plot_scaling.py       # per-scale scaling-study figures
+│   └── plot_scaling_combined.py  # cumulative cross-scale result figures
 ├── src/
 │   ├── data/
 │   │   ├── download.py
 │   │   ├── download_hf.py
+│   │   ├── download_huggingface.py
 │   │   ├── prepare.py
 │   │   ├── record_clusters.py
 │   │   └── split.py
 │   ├── models/
-│   │   ├── base.py
+│   │   ├── base.py           # TF-IDF vectorizer factory (tiny-corpus fallback)
 │   │   ├── baseline.py       # TF-IDF retriever
 │   │   ├── bm25.py           # BM25 retriever
-│   │   ├── cma.py
+│   │   ├── cma.py            # CMA retriever (GSI gate + JEPA prefetch)
+│   │   ├── gdt.py            # geometry-aware "distance to target" retriever
+│   │   ├── dataloader.py
 │   │   ├── gsi_gate.py
 │   │   ├── jepa.py
-│   │   ├── spd_encoder.py
+│   │   ├── spd_encoder.py    # neural TF-IDF→SPD encoder (log-Euclidean)
 │   │   └── train.py
 │   ├── experiments/
 │   │   ├── ablation.py

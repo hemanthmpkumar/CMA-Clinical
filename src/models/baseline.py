@@ -13,7 +13,7 @@ vulnerable to stale-context interference after abrupt topic shifts.
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from .base import BaseRetriever
+from .base import BaseRetriever, build_tfidf
 
 
 class BaselineRetriever(BaseRetriever):
@@ -22,11 +22,8 @@ class BaselineRetriever(BaseRetriever):
         self.window_size = window_size
 
         doc_texts = [rec["text"] for rec in corpus]
-        self.vectorizer = TfidfVectorizer(
-            max_df=0.85, min_df=2, stop_words="english", max_features=4000,
-            sublinear_tf=True
-        )
-        self.doc_tfidf = self.vectorizer.fit_transform(doc_texts)
+        self.vectorizer = build_tfidf(doc_texts)
+        self.doc_tfidf = self.vectorizer.transform(doc_texts)
 
     def search(self, query: str, session_history: list[str], top_k: int = 10,
                filter_ids: set = None, **kwargs) -> list[tuple[str, float]]:

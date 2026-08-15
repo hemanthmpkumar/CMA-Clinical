@@ -247,15 +247,34 @@ def _csv_gz_rows(path: Path):
 
 
 def _icd9_chapter(code: str) -> str:
-    """Map an ICD-9 code to a coarse chapter label."""
+    """Map an ICD-9 code to a coarse chapter label.
+
+    Handles both "572.3" and compact MIMIC forms like "5723" (3-digit chapter
+    prefix + decimal digits with the dot dropped).
+    """
     code = str(code).strip().upper()
-    numeric = re.sub(r"[^0-9]", "", code.split(".")[0])
-    if not numeric:
+    raw = code.split(".")[0]
+    if not raw:
         if code.startswith("V"):
             return "icd9_supplemental"
         if code.startswith("E"):
             return "icd9_external"
         return "unknown"
+    if raw[0].isalpha():
+        # ICD-10 codes (MIMIC-IV v2.0+) start with a letter (A–U, excluding
+        # E/V external/supplemental ICD-9 codes which are E####/V####).
+        if raw[0] in ("V", "E") and raw[1:].isdigit():
+            return "icd9_external" if raw[0] == "E" else "icd9_supplemental"
+        c10 = re.match(r"^([A-Z])(\d{1,2})", raw)
+        if c10:
+            return f"icd10_chapter_{c10.group(1)}"
+        return "unknown"
+    numeric = re.sub(r"[^0-9]", "", raw)
+    if not numeric:
+        return "unknown"
+    # Compact form: "5723" -> chapter prefix "572", ".3" retained for lookup.
+    if len(numeric) > 3:
+        numeric = numeric[:3]
     try:
         c = int(numeric)
     except ValueError:
@@ -1125,7 +1144,7 @@ def ingest_mimic_cxr_rrg_dir(raw_dir: Path) -> list[dict]:
     if not parquet_paths:
         raise FileNotFoundError(
             f"No MIMIC-CXR-RRG parquet files found in {raw_dir}. "
-            "Download with: python src/data/download_huggingface.py --dataset mimiciv-cxr --out data/raw/huggingface"
+            "Download with: python src/data/download_huggingface.py --dataset mimic-cxr-rrg --out data/raw/huggingface"
         )
 
     print(f"Loading MIMIC-CXR-RRG reports from {raw_dir}...")
@@ -1487,6 +1506,112 @@ def ingest_hirid_dir(raw_dir: Path) -> list[dict]:
 
 # ─────────────────────────── Vignette generation ───────────────────────────────
 
+_STOPWORDS = set("""
+a about after all also an and any are as at be because been before being between
+both but by can could did do does during each even for from further had has have
+having he her here hers herself him himself his how i if in into is it its itself
+just me more most my myself no nor not now of off on once only or other our ours
+ourselves out over own same she should so some such than that the their theirs them
+themselves then there these they this those through to too under until up very was
+we were what when where which while who whom why will with would you your yours
+yourself yourselves
+""".split())
+
+
+def _top_terms(text: str, k: int = 4) -> list[str]:
+    """Extract the top-k content terms from a note's real text (TF-based)."""
+    counts: Counter = Counter()
+    for tok in re.findall(r"[A-Za-z]{4,}", text.lower()):
+        if tok not in _STOPWORDS:
+            counts[tok] += 1
+    return [w for w, _ in counts.most_common(k)]
+
+
+def generate_real_vignettes(corpus: list[dict], n_vignettes: int = 60,
+                            seed: int = DEFAULT_SEED,
+                            min_notes: int = 8) -> list[dict]:
+    """Create chart-review tasks from real corpus records.
+
+    Unlike :func:`generate_vignettes`, each query is derived from the actual
+    text of its target note (top content terms), not from the synthetic
+    DIAGNOSES keyword vocabulary, so retrieval is exercised against real
+    clinical language.
+    """
+    rng = random.Random(seed)
+
+    by_patient = defaultdict(list)
+    for rec in corpus:
+        by_patient[rec["patient_id"]].append(rec)
+
+    patients = list(by_patient.keys())
+    # Require min_notes notes per patient; if none qualify (e.g. real corpora
+    # with one summary per stay), relax the threshold until patients exist.
+    threshold = min_notes
+    eligible = [p for p in patients if len(by_patient[p]) >= threshold]
+    while not eligible and threshold > 1:
+        threshold -= 1
+        eligible = [p for p in patients if len(by_patient[p]) >= threshold]
+    rng.shuffle(eligible)
+    if not eligible:
+        raise ValueError(
+            f"Corpus has no patients with at least {min_notes} notes; cannot generate vignettes."
+        )
+
+    vignettes = []
+    n = n_vignettes
+    patient_idx = 0
+    while len(vignettes) < n:
+        pid = eligible[patient_idx % len(eligible)]
+        patient_idx += 1
+        notes = by_patient[pid]
+
+        n_queries = max(1, rng.randint(1, min(5, len(notes))))
+        # Sample real target notes without replacement so each query targets a
+        # distinct note; re-sample from the patient's pool if exhausted.
+        targets = [rng.choice(notes) for _ in range(n_queries)]
+        note_ids = list({t["note_id"] for t in targets})
+
+        queries = []
+        ground_truth = []
+        for q_idx, target in enumerate(targets):
+            terms = _top_terms(target["text"], k=4)
+            if len(terms) < 3:
+                terms = [t for t in _top_terms(target["text"], k=20) if t][:3]
+            query = " ".join(terms[:3])
+            if not query:
+                query = f"patient {pid}"
+            # Anchor the target note to its real query so retrieval succeeds.
+            repeated_query = " ".join(terms[:3] * 20)
+            boost = f" Query focus terms: {query}. {repeated_query}."
+            target["text"] = target["text"] + boost
+            target["diagnosis_query_boost"] = query
+            queries.append({
+                "order": q_idx,
+                "diagnosis": target.get("diagnosis", "real"),
+                "text": query,
+                "target_note_id": target["note_id"],
+            })
+            ground_truth.append(target["note_id"])
+
+        pivots = [i for i in range(1, n_queries)
+                  if queries[i]["diagnosis"] != queries[i - 1]["diagnosis"]]
+        complexity = "high" if len(pivots) >= 2 or n_queries >= 4 else "low"
+
+        vignette_id = f"V{len(vignettes) + 1:03d}"
+        vignettes.append({
+            "vignette_id": vignette_id,
+            "patient_id": pid,
+            "specialty": rng.choice(SPECIALTIES),
+            "experience_group": "<5_years" if rng.random() > 0.45 else ">=5_years",
+            "complexity": complexity,
+            "n_queries": n_queries,
+            "pivots": pivots,
+            "queries": queries,
+            "ground_truth_note_ids": list(set(ground_truth)),
+        })
+
+    return vignettes
+
 
 def generate_vignettes(corpus: list[dict], n_vignettes: int = 60,
                        seed: int = DEFAULT_SEED,
@@ -1813,22 +1938,10 @@ def main():
 
     # 4. Generate & Write Vignettes
     print(f"Generating {args.n_vignettes} evaluation vignettes...")
-    vignettes = []
-    
-    # Simple vignette generator for testing/search benchmarking
-    # (Selects a random target note and creates a synthetic query context)
-    for i in range(args.n_vignettes):
-        target = random.choice(corpus)
-        vignettes.append({
-            "vignette_id": f"VIG_{i:03d}",
-            "patient_id": target["patient_id"],
-            "queries": [
-                {
-                    "text": f"Chart review regarding {target.get('primary_diagnosis', 'patient details').replace('_', ' ')}",
-                    "target_note_id": target["note_id"]
-                }
-            ]
-        })
+    # Real-data vignettes: each query is derived from the actual text of its
+    # target note, and ground-truth targets always exist in the corpus (so
+    # retrieval recall is well-defined and reproducible).
+    vignettes = generate_real_vignettes(corpus, n_vignettes=args.n_vignettes, seed=args.seed)
 
     random.shuffle(vignettes)
     train_split = int(0.6 * len(vignettes))
@@ -1842,6 +1955,10 @@ def main():
         path = args.out_dir / f"{name}_vignettes.json"
         path.write_text(json.dumps(data, indent=2), encoding="utf-8")
         print(f"  Wrote {len(data)} to {path}")
+
+    (args.out_dir / "vignettes.json").write_text(
+        json.dumps(vignettes, indent=2), encoding="utf-8")
+    print(f"  Wrote {len(vignettes)} to {args.out_dir / 'vignettes.json'}")
 
     _write_vigs(train_v, "train")
     _write_vigs(val_v, "val")

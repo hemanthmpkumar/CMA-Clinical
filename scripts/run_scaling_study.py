@@ -2,38 +2,50 @@
 """
 scripts/run_scaling_study.py
 
-Scaling study for the three-arm crossover benchmark (CMA vs BM25 vs TF-IDF).
+Scaling study for the four-arm crossover benchmark
+(GDT vs CMA vs BM25 vs TF-IDF).
 
-For each vignette scale N in {100, 1000, 10000, 100000}:
+Scales are specified as SESSIONS. Each session scale S is paired with
+VIGNETTES_PER_SESSION v vignettes (default 3), so:
+
+    sessions      : 10, 100, 1000
+    vignettes     : 30, 300, 3000
+
+For each session scale S:
   1. Stream a corpus subset sized to the scale (~40 records per vignette) so
-     index build time and memory actually scale with N instead of always
-     rebuilding over the full 2.8M-record corpus.
-  2. Generate N chart-review vignettes from that subset (target notes are
-     query-boosted exactly like the original benchmark build).
-  3. Write vignettes + patient-stratified splits to data/scaling/<N>/.
-  4. Rebuild each retriever's corpus-derived index from the boosted subset,
-     REUSING the trained components saved in models/ (CMA neural encoder,
-     JEPA predictor, TF-IDF vocabulary, tuned hyper-parameters). This keeps
-     each scale's targets retrievable while avoiding re-training.
-  5. Build each condition's index and run the randomized three-period crossover
-     experiment on all N vignettes. The parent never forks (macOS fork-safety):
-     it dumps each built model to a pickle and spawns a fresh eval subprocess
-     which loads it and forks a multithreaded worker pool -> outputs/scaling/<N>/results.csv.
-  6. Run the statistical analysis -> outputs/scaling/<N>/statistics.json and
-     outputs/scaling/<N>/primary_results.csv.
+     index build time and memory actually scale with S instead of always
+     rebuilding over the full corpus.
+  2. Generate S * VIGNETTES_PER_SESSION chart-review vignettes from that
+     subset (target notes are query-boosted exactly like the original
+     benchmark build).
+  3. Write the boosted corpus + vignettes + patient-stratified splits to
+     data/scaling/<S>/.
+  4. Run src/models/train.py on that scale's corpus and train/val splits,
+     training fresh CMA/GDT encoders and JEPA predictors per scale. Models are
+     saved to <models-dir>/<S>/. Use --skip-train to reuse existing per-scale
+     models.
+  5. Build each condition's index from the trained per-scale components and
+     run the randomized four-period crossover experiment on all vignettes. The
+     parent never forks (macOS fork-safety): it dumps each built model to a
+     pickle and spawns a fresh eval subprocess which loads it and forks a
+     multithreaded worker pool -> outputs/scaling/<S>/results.csv.
+  6. Run the statistical analysis -> outputs/scaling/<S>/statistics.json and
+     outputs/scaling/<S>/primary_results.csv.
+  7. Run the ablation study with the SAME per-scale trained models ->
+     <out-root>/<S>/ablation/.
 
-Each scale is generated independently (seed = --seed + N).
+Each scale is generated independently (seed = --seed + S).
 
 Optional first step: run src/data/prepare.py to build the corpus from raw
 Hugging Face data (--prepare). Off by default because re-ingesting the raw
 snapshot is slow; the corpus is normally prepared once beforehand.
 
 Usage:
-  python scripts/run_scaling_study.py                                   # all four scales
+  python scripts/run_scaling_study.py                                   # all three session scales
   python scripts/run_scaling_study.py --prepare                         # ingest raw data first
-  python scripts/run_scaling_study.py --scales 100 10000                # subset
-  python scripts/run_scaling_study.py --scales 1 10                     # fast smoke test
-  python scripts/run_scaling_study.py --only-scale 100 --limit 50       # tiny smoke test
+  python scripts/run_scaling_study.py --scales 100 1000                 # subset of session scales
+  python scripts/run_scaling_study.py --scales 10 100                   # fast smoke test
+  python scripts/run_scaling_study.py --only-scale 10 --limit 50        # tiny smoke test
 """
 
 import argparse
@@ -76,13 +88,17 @@ sys.path.insert(0, str(ROOT))
 
 np.seterr(divide="ignore", invalid="ignore", over="ignore")
 
-CONDITIONS = ["control", "bm25", "cma"]
-MODEL_FILES = {"control": "baseline.pkl", "bm25": "bm25.pkl", "cma": "cma.pkl"}
-DEFAULT_SCALES = [100, 1000, 10000, 100000]
+CONDITIONS = ["control", "bm25", "cma", "gdt"]
+MODEL_FILES = {"control": "baseline.pkl", "bm25": "bm25.pkl",
+               "cma": "cma.pkl", "gdt": "gdt.pkl"}
+DEFAULT_SESSION_SCALES = [10, 100, 1000]
+# Each session scale S is paired with VIGNETTES_PER_SESSION v vignettes:
+#     1 -> 3, 10 -> 30, ..., 100000 -> 300000 vignettes.
+VIGNETTES_PER_SESSION = 3
 # Corpus is sized at ~RECORDS_PER_VIGNETTE records per vignette so index build
-# cost scales with N. This mirrors the smoke-cap heuristic (40 * limit).
+# cost scales with the vignette count. This mirrors the smoke-cap heuristic (40 * limit).
 RECORDS_PER_VIGNETTE = 40
-# Aim for >= N / PATIENTS_PER_VIGNETTE eligible patients (>=8 notes each) in the
+# Aim for >= vignettes / PATIENTS_PER_VIGNETTE eligible patients (>=8 notes each) in the
 # subset so vignettes spread across patients instead of recycling one or two.
 PATIENTS_PER_VIGNETTE = 10
 
@@ -94,9 +110,9 @@ def _load_json(path: Path) -> list[dict]:
 
 
 def _load_corpus_subset(corpus_path: Path, max_records: int,
-                        min_eligible: int = 1) -> tuple[list[dict], int, int]:
+                        min_eligible: int = 1, min_notes: int = 1) -> tuple[list[dict], int, int]:
     """Stream records until max_records are read AND min_eligible patients
-    (>=8 notes each) are present, or the file ends.
+    (>=min_notes notes each) are present, or the file ends.
 
     Returns (records, n_read, n_eligible). Streaming keeps small scales cheap;
     the eligible-patient guard keeps the vignette generator from failing on
@@ -114,7 +130,7 @@ def _load_corpus_subset(corpus_path: Path, max_records: int,
             pid = rec["patient_id"]
             n_notes = notes_by_patient.get(pid, 0) + 1
             notes_by_patient[pid] = n_notes
-            if n_notes >= 8:
+            if n_notes >= min_notes:
                 eligible.add(pid)
             if len(records) >= max_records and len(eligible) >= min_eligible:
                 break
@@ -122,25 +138,32 @@ def _load_corpus_subset(corpus_path: Path, max_records: int,
 
 
 def generate_scale(corpus: list[dict], n: int, seed: int, out_dir: Path) -> list[dict]:
-    """Generate N boosted vignettes from the scaled corpus, write them + splits."""
-    from src.data.prepare import generate_vignettes
+    """Generate N vignettes from the scaled corpus, write them + splits."""
+    from src.data.prepare import generate_real_vignettes
     from src.data.split import split_vignettes
 
     print(f"\n[{n}] Generating {n} vignettes from {len(corpus)} records (seed={seed})...")
-    vignettes = generate_vignettes(corpus, n_vignettes=n, seed=seed)
+    vignettes = generate_real_vignettes(corpus, n_vignettes=n, seed=seed)
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "vignettes.json").write_text(json.dumps(vignettes, indent=2), encoding="utf-8")
+    # Write the (target-boosted) corpus subset so train.py and per-scale
+    # retrievers all train/index on the same data.
+    with (out_dir / "corpus.jsonl").open("w", encoding="utf-8") as fh:
+        for rec in corpus:
+            fh.write(json.dumps(rec) + "\n")
 
     try:
         train_v, val_v, test_v = split_vignettes(vignettes, seed=seed)
     except ValueError:
         # Fall back to a plain random split when stratification classes are
-        # too sparse (e.g. tiny capped smoke-test corpora).
+        # too sparse (e.g. tiny capped smoke-test corpora). Guarantee a
+        # non-empty train/val so per-scale train.py can always tune.
         rng = random.Random(seed)
         shuffled = vignettes[:]
         rng.shuffle(shuffled)
-        n_train = int(0.70 * len(shuffled))
-        n_val = int(0.15 * len(shuffled))
+        n_train = max(int(0.70 * len(shuffled)), min(1, len(shuffled)))
+        n_rem = len(shuffled) - n_train
+        n_val = max(int(0.15 * len(shuffled)), min(1, n_rem))
         train_v, val_v, test_v = (
             shuffled[:n_train], shuffled[n_train:n_train + n_val], shuffled[n_train + n_val:]
         )
@@ -158,6 +181,7 @@ def build_retriever(condition: str, corpus: list[dict], models_dir: Path):
     from src.models.baseline import BaselineRetriever
     from src.models.bm25 import BM25Retriever
     from src.models.cma import CMARetriever
+    from src.models.gdt import GDTRetriever
 
     config = json.loads((models_dir / "config.json").read_text(encoding="utf-8"))
     
@@ -208,6 +232,38 @@ def build_retriever(condition: str, corpus: list[dict], models_dir: Path):
         )
         gc.collect()
         print(f"    cma index built in {time.time() - t0:.0f}s")
+        return model
+
+    elif condition == "gdt":
+        gdt_cfg = config.get("gdt", {})
+        print("  building GDT (reusing trained encoder/predictor + tuned hyper-params)...")
+        components_path = models_dir / "gdt_components.pkl"
+        if components_path.exists():
+            comp = joblib_load(components_path)
+            vectorizer, encoder, predictor = (
+                comp["vectorizer"], comp["encoder"], comp["predictor"]
+            )
+            del comp
+        else:
+            gdt_p = joblib_load(models_dir / MODEL_FILES["gdt"])
+            vectorizer, encoder, predictor = (
+                gdt_p.vectorizer, gdt_p.encoder, gdt_p.predictor
+            )
+            del gdt_p
+            gc.collect()
+        model = GDTRetriever(
+            corpus,
+            curvature_threshold=gdt_cfg.get("curvature_threshold", 1.0),
+            gate_temperature=gdt_cfg.get("gate_temperature", 0.5),
+            gate_lexical_include=gdt_cfg.get("gate_lexical_include", 0.75),
+            prefetch_weight=gdt_cfg.get("prefetch_weight", 0.3),
+            semantic_weight=gdt_cfg.get("semantic_weight", 0.15),
+            vectorizer=vectorizer,
+            encoder=encoder,
+            predictor=predictor,
+        )
+        gc.collect()
+        print(f"    gdt index built in {time.time() - t0:.0f}s")
         return model
 
 
@@ -281,7 +337,7 @@ def run_eval_only(args):
 
     rng = random.Random(args.seed)
     orders = [
-        {cond: period for period, cond in enumerate(rng.sample(CONDITIONS, k=3), start=1)}
+        {cond: period for period, cond in enumerate(rng.sample(CONDITIONS, k=len(CONDITIONS)), start=1)}
         for _ in vignettes
     ]
 
@@ -291,7 +347,7 @@ def run_eval_only(args):
     print(f"    eval subprocess {args.condition}: {len(rows)} rows in {time.time() - t0:.0f}s")
 
     df = pd.DataFrame(rows)
-    df["condition_code"] = (df["condition"] == "cma").astype(int)
+    df["condition_code"] = (df["condition"].isin(["cma", "gdt"])).astype(int)
     df.to_csv(args.results, index=False)
     print(f"    wrote {args.results}")
 
@@ -299,14 +355,26 @@ def run_eval_only(args):
 def main():
     ap = argparse.ArgumentParser(description="Run CMA/BM25/TF-IDF scaling study")
     ap.add_argument("--scales", type=int, nargs="*", default=None,
-                    help="Vignette scales to run (default: 100 1000 10000 100000)")
+                    help="Session scales to run (default: 10 100 1000). "
+                         "Each session scale S generates S * --vignettes-per-session vignettes.")
     ap.add_argument("--only-scale", type=int, default=None,
-                    help="Run a single scale (overrides --scales).")
+                    help="Run a single session scale (overrides --scales).")
     ap.add_argument("--limit", type=int, default=0,
                     help="Cap vignettes used at each scale (smoke-testing only).")
     ap.add_argument("--corpus", type=Path, default=ROOT / "data/scaling_prepared/corpus.jsonl")
    # ap.add_argument("--corpus", type=Path, default=ROOT / "data/processed/corpus.jsonl")
-    ap.add_argument("--models-dir", type=Path, default=ROOT / "models")
+    ap.add_argument("--models-dir", type=Path, default=ROOT / "models",
+                    help="Root models dir. Each session scale S trains into "
+                         "<models-dir>/<S>/ and builds retrievers from there.")
+    ap.add_argument("--vignettes-per-session", type=int, default=VIGNETTES_PER_SESSION,
+                    help="Vignettes generated per session scale (default 3).")
+    ap.add_argument("--skip-train", action="store_true",
+                    help="Skip per-scale train.py and reuse existing models in "
+                         "<models-dir>/<S>/ (no-op if models are missing).")
+    ap.add_argument("--pretrain-max-docs", type=int, default=100000,
+                    help="Passed to train.py: cap SPD autoencoder pretrain docs.")
+    ap.add_argument("--skip-ablation", action="store_true",
+                    help="Skip the per-scale ablation study step.")
     ap.add_argument("--prepare", action="store_true",
                     help="Run src/data/prepare.py to build the corpus from raw data first.")
     ap.add_argument("--raw-hf-dir", type=Path, default=ROOT / "data/raw/huggingface",
@@ -341,11 +409,11 @@ def main():
         return
 
     if args.only_scale:
-        scales = [args.only_scale]
+        sessions = [args.only_scale]
     elif args.scales:
-        scales = sorted(args.scales)
+        sessions = sorted(args.scales)
     else:
-        scales = DEFAULT_SCALES
+        sessions = DEFAULT_SESSION_SCALES
 
     corpus_path = args.corpus
     if args.prepare:
@@ -362,17 +430,22 @@ def main():
             raise FileNotFoundError(f"{corpus_path} not created by prepare.py")
         print(f"Prepared corpus: {corpus_path}")
 
-    print(f"Scales: {scales}")
+    print(f"Sessions: {sessions}")
     print(f"Workers: {args.workers} | top_k: {args.top_k} | seed: {args.seed}")
     print(f"Corpus: {corpus_path}")
 
-    for n in scales:
-        scale_dir = args.data_root / str(n)
-        out_dir = args.out_root / str(n)
+    for s in sessions:
+        n = s * args.vignettes_per_session
+        scale_dir = args.data_root / str(s)
+        out_dir = args.out_root / str(s)
+        models_dir = args.models_dir / str(s)
         out_dir.mkdir(parents=True, exist_ok=True)
+        models_dir.mkdir(parents=True, exist_ok=True)
 
-        # Scale the corpus with N so index build time/memory grow with the
-        # scale instead of always rebuilding over the full corpus.
+        print(f"\n=== Session scale {s} -> {n} vignettes ===")
+
+        # Scale the corpus with the vignette count so index build time/memory
+        # grow with the scale instead of always rebuilding over the full corpus.
         if args.limit:
             max_records = 40 * args.limit
             min_eligible = 1
@@ -380,15 +453,37 @@ def main():
             max_records = args.records_per_vignette * n
             min_eligible = max(1, n // PATIENTS_PER_VIGNETTE)
         corpus, n_read, n_eligible = _load_corpus_subset(
-            corpus_path, max_records, min_eligible
+            corpus_path, max_records, min_eligible, min_notes=1
         )
-        print(f"[{n}] Corpus subset: {n_read} records read "
+        print(f"[{s}] Corpus subset: {n_read} records read "
               f"({n_eligible} eligible patients; target {max_records} records)")
 
-        corpus = generate_scale(corpus, n, args.seed + n, scale_dir)
+        corpus = generate_scale(corpus, n, args.seed + s, scale_dir)
 
         vignettes = _load_json(scale_dir / "vignettes.json")
-        print(f"[{n}] {len(vignettes)} vignettes loaded")
+        print(f"[{s}] {len(vignettes)} vignettes loaded")
+
+        # Train fresh per-scale models (or reuse existing ones with --skip-train).
+        if not args.skip_train:
+            print(f"[{s}] Running train.py for session scale {s} (out: {models_dir})...")
+            t0 = time.time()
+            train_cmd = [
+                sys.executable, str(ROOT / "src/models/train.py"),
+                "--corpus", str(scale_dir / "corpus.jsonl"),
+                "--train", str(scale_dir / "train_vignettes.json"),
+                "--val", str(scale_dir / "val_vignettes.json"),
+                "--out-dir", str(models_dir),
+                "--pretrain-max-docs", str(args.pretrain_max_docs),
+            ]
+            subprocess.run(train_cmd, check=True, cwd=ROOT)
+            print(f"[{s}] train.py done in {time.time() - t0:.0f}s")
+        else:
+            print(f"[{s}] --skip-train set; reusing per-scale models from {models_dir}")
+            if not (models_dir / "config.json").exists():
+                raise FileNotFoundError(
+                    f"{models_dir / 'config.json'} missing; cannot use --skip-train "
+                    f"before running the scale at least once."
+                )
 
         parts = []
         for condition in CONDITIONS:
@@ -399,7 +494,7 @@ def main():
             # it to a fresh eval subprocess via a pickle so the eval pool can be
             # forked from a thread-free process without re-pickling per worker.
             model_path = scale_dir / f"model_{condition}.pkl"
-            model = build_retriever(condition, corpus, args.models_dir)
+            model = build_retriever(condition, corpus, models_dir)
             joblib_dump(model, model_path)
             del model
             gc.collect()
@@ -412,7 +507,7 @@ def main():
             # Control/BM25 search over sparse/dict indexes and are safe with
             # multithreaded workers, so only CMA gets the single-thread env.
             eval_env = None
-            if condition == "cma":
+            if condition in ("cma", "gdt"):
                 eval_env = os.environ.copy()
                 for _k in ("VECLIB_MAXIMUM_THREADS", "OPENBLAS_NUM_THREADS",
                            "OMP_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
@@ -441,16 +536,28 @@ def main():
         df = pd.concat(parts, ignore_index=True)
         results_path = out_dir / "results.csv"
         df.to_csv(results_path, index=False)
-        print(f"[{n}] Saved results: {results_path} ({len(df)} rows)")
+        print(f"[{s}] Saved results: {results_path} ({len(df)} rows)")
 
         del df, parts, corpus
         gc.collect()
 
         if not args.skip_analysis:
-            print(f"[{n}] Running statistical analysis...")
+            print(f"[{s}] Running statistical analysis...")
             subprocess.run(
                 [sys.executable, str(ROOT / "src/analysis/analyze.py"),
                  "--results", str(results_path), "--out-dir", str(out_dir)],
+                check=True, cwd=ROOT,
+            )
+
+        # Ablation study using the SAME per-scale trained models and vignettes.
+        if not args.skip_ablation:
+            print(f"[{s}] Running ablation study (per-scale models + vignettes)...")
+            ablation_out = out_dir / "ablation"
+            subprocess.run(
+                [sys.executable, str(ROOT / "src/experiments/ablation.py"),
+                 "--processed-dir", str(scale_dir),
+                 "--models-dir", str(models_dir),
+                 "--out-dir", str(ablation_out)],
                 check=True, cwd=ROOT,
             )
 

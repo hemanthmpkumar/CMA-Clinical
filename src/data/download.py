@@ -129,7 +129,7 @@ a signed Data Use Agreement.
 5. Do NOT commit downloaded files. data/raw/ is git-ignored by default.
 
 6. Prepare the corpus after downloading:
-      python src/data/prepare.py --mimiciv-cxr-dir data/raw --hybrid --n-patients 10000
+      python src/data/prepare.py --huggingface-dir data/raw --hybrid --n-patients 10000
    or
       python src/data/prepare.py --eicu-dir data/raw --hybrid --n-patients 10000
 
