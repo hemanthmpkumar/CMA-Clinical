@@ -1,0 +1,587 @@
+{
+  "configs": {
+    "full_gdt": {
+      "label": "Full GDT",
+      "description": "GSI gate + JEPA prefetch (tuned)",
+      "overrides": {}
+    },
+    "gsi_only": {
+      "label": "GSI only",
+      "description": "gate on, prefetch off",
+      "overrides": {
+        "prefetch_weight": 0.0
+      }
+    },
+    "jepa_only": {
+      "label": "JEPA only",
+      "description": "gate off (threshold=inf), prefetch on",
+      "overrides": {
+        "curvature_threshold": Infinity
+      }
+    }
+  },
+  "arms": [
+    {
+      "condition": "control",
+      "label": "TF-IDF"
+    },
+    {
+      "condition": "bm25",
+      "label": "BM25"
+    },
+    {
+      "condition": "cma",
+      "label": "CMA"
+    },
+    {
+      "condition": "gdt",
+      "label": "GDT"
+    }
+  ],
+  "n_vignettes": 30,
+  "n_sessions": 360,
+  "summary": [
+    {
+      "variant": "Full GDT",
+      "condition": "control",
+      "arm": "TF-IDF",
+      "n_sessions": 30,
+      "mean_time_to_info": 58.69,
+      "median_time_to_info": 48.5,
+      "accuracy": 1.0,
+      "mean_cognitive_load": 46.92,
+      "mean_latency_ms": 189.49,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "bm25",
+      "arm": "BM25",
+      "n_sessions": 30,
+      "mean_time_to_info": 68.79,
+      "median_time_to_info": 65.4,
+      "accuracy": 0.9,
+      "mean_cognitive_load": 48.92,
+      "mean_latency_ms": 191.06,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "cma",
+      "arm": "CMA",
+      "n_sessions": 30,
+      "mean_time_to_info": 51.3,
+      "median_time_to_info": 45.75,
+      "accuracy": 1.0,
+      "mean_cognitive_load": 38.54,
+      "mean_latency_ms": 146.29,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "gdt",
+      "arm": "GDT",
+      "n_sessions": 30,
+      "mean_time_to_info": 48.8,
+      "median_time_to_info": 40.78,
+      "accuracy": 1.0,
+      "mean_cognitive_load": 35.34,
+      "mean_latency_ms": 126.9,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "GSI only",
+      "condition": "control",
+      "arm": "TF-IDF",
+      "n_sessions": 30,
+      "mean_time_to_info": 58.53,
+      "median_time_to_info": 50.86,
+      "accuracy": 1.0,
+      "mean_cognitive_load": 46.97,
+      "mean_latency_ms": 188.37,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "GSI only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "n_sessions": 30,
+      "mean_time_to_info": 69.1,
+      "median_time_to_info": 71.04,
+      "accuracy": 0.9,
+      "mean_cognitive_load": 48.44,
+      "mean_latency_ms": 192.26,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "GSI only",
+      "condition": "cma",
+      "arm": "CMA",
+      "n_sessions": 30,
+      "mean_time_to_info": 50.1,
+      "median_time_to_info": 40.21,
+      "accuracy": 1.0,
+      "mean_cognitive_load": 38.46,
+      "mean_latency_ms": 148.86,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "GSI only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "n_sessions": 30,
+      "mean_time_to_info": 48.08,
+      "median_time_to_info": 40.32,
+      "accuracy": 1.0,
+      "mean_cognitive_load": 36.33,
+      "mean_latency_ms": 127.01,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "control",
+      "arm": "TF-IDF",
+      "n_sessions": 30,
+      "mean_time_to_info": 57.67,
+      "median_time_to_info": 46.98,
+      "accuracy": 1.0,
+      "mean_cognitive_load": 46.66,
+      "mean_latency_ms": 187.89,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "n_sessions": 30,
+      "mean_time_to_info": 68.95,
+      "median_time_to_info": 65.0,
+      "accuracy": 0.9,
+      "mean_cognitive_load": 48.63,
+      "mean_latency_ms": 190.87,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "cma",
+      "arm": "CMA",
+      "n_sessions": 30,
+      "mean_time_to_info": 52.04,
+      "median_time_to_info": 42.66,
+      "accuracy": 1.0,
+      "mean_cognitive_load": 38.39,
+      "mean_latency_ms": 145.34,
+      "mean_queries": 2.53
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "n_sessions": 30,
+      "mean_time_to_info": 48.84,
+      "median_time_to_info": 41.36,
+      "accuracy": 1.0,
+      "mean_cognitive_load": 35.57,
+      "mean_latency_ms": 125.02,
+      "mean_queries": 2.53
+    }
+  ],
+  "pct_change": [
+    {
+      "variant": "Full GDT",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "time_to_info",
+      "control_mean": 58.694,
+      "bm25_mean": 68.789,
+      "pct_change": 17.2,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "accuracy",
+      "control_mean": 1.0,
+      "bm25_mean": 0.9,
+      "pct_change": -10.0,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "cognitive_load",
+      "control_mean": 46.921,
+      "bm25_mean": 48.918,
+      "pct_change": 4.26,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "latency_ms",
+      "control_mean": 189.494,
+      "bm25_mean": 191.058,
+      "pct_change": 0.83,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "time_to_info",
+      "control_mean": 58.694,
+      "bm25_mean": NaN,
+      "pct_change": -12.61,
+      "cma_mean": 51.296,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "accuracy",
+      "control_mean": 1.0,
+      "bm25_mean": NaN,
+      "pct_change": 0.0,
+      "cma_mean": 1.0,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "cognitive_load",
+      "control_mean": 46.921,
+      "bm25_mean": NaN,
+      "pct_change": -17.86,
+      "cma_mean": 38.541,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "latency_ms",
+      "control_mean": 189.494,
+      "bm25_mean": NaN,
+      "pct_change": -22.8,
+      "cma_mean": 146.287,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "time_to_info",
+      "control_mean": 58.694,
+      "bm25_mean": NaN,
+      "pct_change": -16.85,
+      "cma_mean": NaN,
+      "gdt_mean": 48.803
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "accuracy",
+      "control_mean": 1.0,
+      "bm25_mean": NaN,
+      "pct_change": 0.0,
+      "cma_mean": NaN,
+      "gdt_mean": 1.0
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "cognitive_load",
+      "control_mean": 46.921,
+      "bm25_mean": NaN,
+      "pct_change": -24.68,
+      "cma_mean": NaN,
+      "gdt_mean": 35.343
+    },
+    {
+      "variant": "Full GDT",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "latency_ms",
+      "control_mean": 189.494,
+      "bm25_mean": NaN,
+      "pct_change": -33.03,
+      "cma_mean": NaN,
+      "gdt_mean": 126.899
+    },
+    {
+      "variant": "GSI only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "time_to_info",
+      "control_mean": 58.527,
+      "bm25_mean": 69.099,
+      "pct_change": 18.06,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "GSI only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "accuracy",
+      "control_mean": 1.0,
+      "bm25_mean": 0.9,
+      "pct_change": -10.0,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "GSI only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "cognitive_load",
+      "control_mean": 46.967,
+      "bm25_mean": 48.444,
+      "pct_change": 3.15,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "GSI only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "latency_ms",
+      "control_mean": 188.373,
+      "bm25_mean": 192.261,
+      "pct_change": 2.06,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "GSI only",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "time_to_info",
+      "control_mean": 58.527,
+      "bm25_mean": NaN,
+      "pct_change": -14.4,
+      "cma_mean": 50.097,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "GSI only",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "accuracy",
+      "control_mean": 1.0,
+      "bm25_mean": NaN,
+      "pct_change": 0.0,
+      "cma_mean": 1.0,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "GSI only",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "cognitive_load",
+      "control_mean": 46.967,
+      "bm25_mean": NaN,
+      "pct_change": -18.11,
+      "cma_mean": 38.463,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "GSI only",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "latency_ms",
+      "control_mean": 188.373,
+      "bm25_mean": NaN,
+      "pct_change": -20.97,
+      "cma_mean": 148.865,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "GSI only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "time_to_info",
+      "control_mean": 58.527,
+      "bm25_mean": NaN,
+      "pct_change": -17.86,
+      "cma_mean": NaN,
+      "gdt_mean": 48.075
+    },
+    {
+      "variant": "GSI only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "accuracy",
+      "control_mean": 1.0,
+      "bm25_mean": NaN,
+      "pct_change": 0.0,
+      "cma_mean": NaN,
+      "gdt_mean": 1.0
+    },
+    {
+      "variant": "GSI only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "cognitive_load",
+      "control_mean": 46.967,
+      "bm25_mean": NaN,
+      "pct_change": -22.64,
+      "cma_mean": NaN,
+      "gdt_mean": 36.334
+    },
+    {
+      "variant": "GSI only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "latency_ms",
+      "control_mean": 188.373,
+      "bm25_mean": NaN,
+      "pct_change": -32.58,
+      "cma_mean": NaN,
+      "gdt_mean": 127.01
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "time_to_info",
+      "control_mean": 57.666,
+      "bm25_mean": 68.947,
+      "pct_change": 19.56,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "accuracy",
+      "control_mean": 1.0,
+      "bm25_mean": 0.9,
+      "pct_change": -10.0,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "cognitive_load",
+      "control_mean": 46.661,
+      "bm25_mean": 48.632,
+      "pct_change": 4.23,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "bm25",
+      "arm": "BM25",
+      "metric": "latency_ms",
+      "control_mean": 187.886,
+      "bm25_mean": 190.869,
+      "pct_change": 1.59,
+      "cma_mean": NaN,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "time_to_info",
+      "control_mean": 57.666,
+      "bm25_mean": NaN,
+      "pct_change": -9.76,
+      "cma_mean": 52.038,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "accuracy",
+      "control_mean": 1.0,
+      "bm25_mean": NaN,
+      "pct_change": 0.0,
+      "cma_mean": 1.0,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "cognitive_load",
+      "control_mean": 46.661,
+      "bm25_mean": NaN,
+      "pct_change": -17.73,
+      "cma_mean": 38.386,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "cma",
+      "arm": "CMA",
+      "metric": "latency_ms",
+      "control_mean": 187.886,
+      "bm25_mean": NaN,
+      "pct_change": -22.64,
+      "cma_mean": 145.342,
+      "gdt_mean": NaN
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "time_to_info",
+      "control_mean": 57.666,
+      "bm25_mean": NaN,
+      "pct_change": -15.3,
+      "cma_mean": NaN,
+      "gdt_mean": 48.842
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "accuracy",
+      "control_mean": 1.0,
+      "bm25_mean": NaN,
+      "pct_change": 0.0,
+      "cma_mean": NaN,
+      "gdt_mean": 1.0
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "cognitive_load",
+      "control_mean": 46.661,
+      "bm25_mean": NaN,
+      "pct_change": -23.76,
+      "cma_mean": NaN,
+      "gdt_mean": 35.572
+    },
+    {
+      "variant": "JEPA only",
+      "condition": "gdt",
+      "arm": "GDT",
+      "metric": "latency_ms",
+      "control_mean": 187.886,
+      "bm25_mean": NaN,
+      "pct_change": -33.46,
+      "cma_mean": NaN,
+      "gdt_mean": 125.024
+    }
+  ]
+}

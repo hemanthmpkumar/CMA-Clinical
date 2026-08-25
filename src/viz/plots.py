@@ -58,15 +58,21 @@ def plot_consort_flow(df: pd.DataFrame, out_dir: Path):
     n_vignettes = df["vignette_id"].nunique()
     n_sessions = len(df)
     n_per_cond = n_sessions // len(ARMS)
+    # For the representative CONSORT diagram we show the vignette sizes used
+    # in the scaling experiments explicitly (3, 30, and 300) rather than a
+    # single numeric value.
+    # Do not display numeric vignette/session counts in the CONSORT boxes;
+    # keep the diagram generic across stages.
+    display_vignettes = ""
 
     boxes = [
-        (f"Assessed for eligibility\n{n_vignettes} clinical EHR vignettes", 5, 9, 3.2, 1.0),
-        (f"Randomized\n{n_vignettes} vignettes, four-arm crossover", 5, 7.3, 3.2, 0.9),
-        (f"Control (TF-IDF)\nn = {n_per_cond} sessions", 1.5, 5.3, 2.3, 0.9),
-        (f"BM25 baseline\nn = {n_per_cond} sessions", 4.0, 5.3, 2.3, 0.9),
-        (f"CMA condition\nn = {n_per_cond} sessions", 6.5, 5.3, 2.3, 0.9),
-        (f"GDT condition\nn = {n_per_cond} sessions", 9.0, 5.3, 2.3, 0.9),
-        (f"Analysed\nN = {n_sessions} sessions ({n_per_cond} per condition)", 5, 2.5, 4.2, 1.0),
+        ("Assessed for eligibility", 5, 9, 3.2, 1.0),
+        ("Randomized, four-arm crossover", 5, 7.3, 3.2, 0.9),
+        ("Control (TF-IDF)", 1.5, 5.3, 2.3, 0.9),
+        ("BM25 baseline", 4.0, 5.3, 2.3, 0.9),
+        ("CMA condition", 6.5, 5.3, 2.3, 0.9),
+        ("GDT condition", 9.0, 5.3, 2.3, 0.9),
+        ("Analysed", 5, 2.5, 4.2, 1.0),
     ]
     for text, x, y, w, h in boxes:
         box = FancyBboxPatch((x - w / 2, y - h / 2), w, h,
@@ -138,7 +144,6 @@ def plot_accuracy_comparison(df: pd.DataFrame, out_dir: Path):
     ax.set_ylim(0, 1)
     ax.set_ylabel("Mean accuracy")
     ax.set_xlabel("Condition")
-    ax.set_title("Accuracy by condition")
     for i, v in enumerate(means):
         ax.text(i, v + 0.02, f"{v:.3f}", ha="center", va="bottom", fontsize=10, weight="bold")
     fig.tight_layout()
