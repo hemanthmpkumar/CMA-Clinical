@@ -19,7 +19,7 @@ import numpy as np
 import scipy.sparse as sp
 from sklearn.feature_extraction.text import CountVectorizer
 
-from .base import BaseRetriever
+from .base import BaseRetriever, build_tfidf
 
 
 class BM25Retriever(BaseRetriever):
@@ -33,10 +33,19 @@ class BM25Retriever(BaseRetriever):
         doc_texts = [rec["text"] for rec in corpus]
         # Same tokenizer/vocabulary as the TF-IDF baseline so the comparison
         # isolates the weighting scheme (BM25 vs tf-idf), not the feature space.
-        self.vectorizer = CountVectorizer(
-            max_df=0.85, min_df=2, stop_words="english", max_features=4000
-        )
-        self.doc_counts = self.vectorizer.fit_transform(doc_texts)
+        try:
+            self.vectorizer = CountVectorizer(
+                max_df=0.85, min_df=2, stop_words="english", max_features=4000
+            )
+            self.vectorizer.fit(doc_texts)
+        except ValueError as exc:
+            if "no terms remain" not in str(exc):
+                raise
+            self.vectorizer = CountVectorizer(
+                max_df=1.0, min_df=1, stop_words="english", max_features=4000
+            )
+            self.vectorizer.fit(doc_texts)
+        self.doc_counts = self.vectorizer.transform(doc_texts)
         self.doc_counts = self.doc_counts.astype(np.float32)
 
         n_docs = len(self.corpus)

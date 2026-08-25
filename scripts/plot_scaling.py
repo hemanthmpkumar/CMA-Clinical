@@ -5,7 +5,7 @@ scripts/plot_scaling.py
 Generate the manuscript figures for each vignette scale produced by
 `scripts/run_scaling_study.py`.
 
-For every scale N (default 1 10 100 1000 10000) it loads:
+For every scale N (default 10 100 1000) it loads:
     outputs/scaling/<N>/results.csv       - per-session benchmark rows
     outputs/scaling/<N>/statistics.json   - statistical analysis (analyze.py)
 
@@ -30,9 +30,11 @@ sys.path.insert(0, str(ROOT))
 
 from src.viz.plots import (  # noqa: E402
     ensure_dirs,
+    plot_ablation,
     plot_accuracy_comparison,
     plot_cma_components,
     plot_consort_flow,
+    plot_gdt_vs_benchmarks,
     plot_intent_trajectory,
     plot_latency,
     plot_subgroup_forest,
@@ -40,7 +42,7 @@ from src.viz.plots import (  # noqa: E402
     plot_tlx,
 )
 
-DEFAULT_SCALES = [1, 10, 100, 1000, 10000]
+DEFAULT_SCALES = [10, 100, 1000]
 
 
 def plot_scale(scale: int, out_root: Path):
@@ -62,7 +64,7 @@ def plot_scale(scale: int, out_root: Path):
     n_sessions = int(stats.get("n_sessions", len(df)))
     n_vignettes = int(stats.get("n_vignettes", df["vignette_id"].nunique()))
     print(f"[{scale}] {n_vignettes} vignettes / {n_sessions} sessions "
-          f"({n_sessions // 3} per condition) -> {out_dir}")
+          f"({n_sessions // 4} per condition) -> {out_dir}")
 
     plot_consort_flow(df, out_dir)
     plot_time_distribution(df, out_dir)
@@ -71,6 +73,12 @@ def plot_scale(scale: int, out_root: Path):
     plot_tlx(df, out_dir)
     plot_latency(df, out_dir)
     plot_subgroup_forest(stats, out_dir)
+    plot_gdt_vs_benchmarks(stats, out_dir)
+    ablation_report = scale_dir / "ablation" / "ablation_report.json"
+    if ablation_report.exists():
+        report = json.loads(ablation_report.read_text(encoding="utf-8"))
+        plot_ablation(report, out_dir)
+        print(f"[{scale}] ablation_four_arm.png rendered")
     plot_cma_components(out_dir)
 
     return out_dir
@@ -79,7 +87,8 @@ def plot_scale(scale: int, out_root: Path):
 def main():
     ap = argparse.ArgumentParser(description="Generate figures for each scaling-study scale")
     ap.add_argument("--scales", type=int, nargs="*", default=None,
-                    help=f"Vignette scales to plot (default: {' '.join(map(str, DEFAULT_SCALES))})")
+                    help=f"Session scales to plot (default: {' '.join(map(str, DEFAULT_SCALES))}). "
+                         "Each scale S maps to S * 3 vignettes (outputs/scaling/<S>/).")
     ap.add_argument("--out-root", type=Path, default=ROOT / "outputs/scaling",
                     help="Directory containing outputs/scaling/<N>/ scale results.")
     args = ap.parse_args()

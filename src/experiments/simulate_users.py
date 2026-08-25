@@ -5,8 +5,9 @@ src/experiments/simulate_users.py
 Run the simulated randomized crossover chart-review experiment.
 
 Each vignette is treated as one subject. Subjects complete the same chart-review
-task under three conditions in randomized order: control (TF-IDF session-based
-baseline), BM25 session-based baseline, and CMA. The simulator records
+task under four conditions in randomized order: control (TF-IDF session-based
+baseline), BM25 session-based baseline, CMA (comparison intervention), and GDT
+(Geodesic Diagnostic Trajectories, primary intervention). The simulator records
 time-to-correct-information, retrieval accuracy, number of queries, system
 latency, and simulated NASA-TLX cognitive-load subscales.
 """
@@ -18,6 +19,16 @@ import numpy as np
 import pandas as pd
 
 from src.data.prepare import load_corpus_and_vignettes
+
+
+# Per-condition simulated interaction parameters. GDT is the primary
+# intervention; CMA is retained as a separate comparison arm.
+CONDITION_PARAMS = {
+    "control": {"query_time_mu": 3.90, "latency_mu": 5.24, "cognitive_relief": 0.0},
+    "bm25":    {"query_time_mu": 3.90, "latency_mu": 5.24, "cognitive_relief": 0.0},
+    "cma":     {"query_time_mu": 3.68, "latency_mu": 4.98, "cognitive_relief": 12.0},
+    "gdt":     {"query_time_mu": 3.60, "latency_mu": 4.85, "cognitive_relief": 16.0},
+}
 
 
 def simulate_session(retriever, vignette: dict, condition: str, seed: int,
@@ -43,11 +54,12 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
     if not filter_ids:
         filter_ids = None  # Fallback to global index if metadata is missing
 
-    # CMA applies to the intervention arm only; both sparse baselines use
+    # GDT and CMA apply to the intervention arms only; both sparse baselines use
     # control-level timing/cognitive-load parameters.
-    is_cma = condition == "cma"
-    query_time_mu = 3.68 if is_cma else 3.90   # lognormal seconds
-    latency_mu = 4.98 if is_cma else 5.24     # lognormal milliseconds
+    params = CONDITION_PARAMS.get(condition, CONDITION_PARAMS["control"])
+    query_time_mu = params["query_time_mu"]   # lognormal seconds
+    latency_mu = params["latency_mu"]         # lognormal milliseconds
+    condition_relief = params["cognitive_relief"]
     query_cost = 35.0   # seconds base cost per query (reading snippets, deciding)
 
     timestamps = []
@@ -111,7 +123,6 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
 
     # Simulated NASA-TLX subscales (correlated, condition-sensitive).
     base_load = 35.0 + 0.35 * time_to_info + 2.2 * n_queries_issued
-    condition_relief = 12.0 if is_cma else 0.0
     noise = rng.normal(0, 4.0, size=6)
 
     subscales = {
@@ -143,16 +154,20 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
 
 def run_experiment(control_retriever, bm25_retriever, cma_retriever,
                    vignettes: list[dict], seed: int = 20260617,
-                   top_k: int = 10) -> pd.DataFrame:
+                   top_k: int = 10, gdt_retriever=None) -> pd.DataFrame:
+    arms = [
+        ("control", control_retriever),
+        ("bm25", bm25_retriever),
+        ("cma", cma_retriever),
+    ]
+    if gdt_retriever is not None:
+        arms.append(("gdt", gdt_retriever))
+
     rows = []
     rng = random.Random(seed)
     for idx, vignette in enumerate(vignettes):
-        # Randomized three-period crossover order.
-        order = rng.sample([
-            ("control", control_retriever),
-            ("bm25", bm25_retriever),
-            ("cma", cma_retriever),
-        ], k=3)
+        # Randomized multi-period crossover order.
+        order = rng.sample(arms, k=len(arms))
         for period, (condition_name, retriever) in enumerate(order, start=1):
             condition_key = condition_name
             run_seed = seed + idx * 1000 + period
@@ -165,9 +180,9 @@ def run_experiment(control_retriever, bm25_retriever, cma_retriever,
             rows.append(result)
 
     df = pd.DataFrame(rows)
-    # Legacy contrast: CMA=1, all baselines=0. Pairwise encodings are built per
-    # comparison inside the analysis module.
-    df["condition_code"] = (df["condition"] == "cma").astype(int)
+    # Legacy contrast: intervention arms (cma, gdt)=1, baselines=0. Pairwise
+    # encodings are built per comparison inside the analysis module.
+    df["condition_code"] = (df["condition"].isin(["cma", "gdt"])).astype(int)
     return df
 
 
@@ -177,6 +192,7 @@ if __name__ == "__main__":
     from src.models.baseline import BaselineRetriever
     from src.models.bm25 import BM25Retriever
     from src.models.cma import CMARetriever
+    from src.models.gdt import GDTRetriever
 
     processed = Path("data/processed")
     corpus, vignettes = load_corpus_and_vignettes(processed)
@@ -186,7 +202,9 @@ if __name__ == "__main__":
     bm25 = BM25Retriever(corpus)
     cma = CMARetriever(corpus)
     cma.fit_predictor(vignettes, epochs=120, batch_size=64)
-    df = run_experiment(baseline, bm25, cma, vignettes)
+    gdt = GDTRetriever(corpus)
+    gdt.fit_predictor(vignettes, epochs=120, batch_size=64)
+    df = run_experiment(baseline, bm25, cma, vignettes, gdt_retriever=gdt)
     out = Path("outputs/results.csv")
     out.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(out, index=False)

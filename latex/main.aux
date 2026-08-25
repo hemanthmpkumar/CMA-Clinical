@@ -2,241 +2,299 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\citation{salton83}
-\citation{robertson1995,robertson1976}
-\citation{topol2019}
-\citation{bronstein2017,lopez2021,nickel2017_poincare}
+\citation{croskerry2003}
+\citation{bronstein2017,lopez2021}
 \citation{lecun2022,assran2023_ijepa}
-\citation{cma2026}
+\citation{johnson2016_mimic3,pollard2018_mimic4,johnson2019_mimic_cxr,johnson2023_mimiciv_note,moody2022_mimic4wdb}
+\citation{kleinrock1975,gross2008}
+\citation{zamani20}
+\citation{topol2019,croskerry2003}
+\citation{bronstein2017,lopez2021}
+\citation{lecun2022,assran2023_ijepa}
+\citation{cma2026,cma2026_clinical}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{2}{Introduction}{section.1}{}}
 \citation{miotto2016}
 \citation{rajkomar2018}
+\citation{choi2016_doctorai}
 \citation{shickel2017}
-\citation{esteva19}
+\citation{li2020_behrt}
+\citation{shang2019_gbert}
+\citation{rasmy2021_medbert}
 \citation{huang2019_clinicalbert}
 \citation{lee2020_biobert}
 \citation{alsentzer2019}
-\citation{weng19}
-\citation{singhal23}
-\citation{bronstein2017}
-\citation{nickel2017_poincare}
-\citation{lopez2021,zhao23}
-\citation{lecun2022}
-\citation{assran2023_ijepa}
-\citation{grill20}
-\citation{hidasi2015}
-\citation{wu2019_session}
-\citation{khattab20}
-\citation{iyyer20,zamani20}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Background and Related Work}{3}{section.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Deep learning for EHRs.}{3}{section*.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Clinical NLP and BERT.}{3}{section*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Large language and foundation models in medicine.}{3}{section*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Geometric, Riemannian, and SPD representations.}{3}{section*.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Self-supervised and JEPA-style predictive learning.}{3}{section*.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Session-based search and intent/context drift.}{3}{section*.6}\protected@file@percent }
-\citation{cma2026}
-\citation{chapman09,wang18,ouztzn25,campagner25,kwon24,zhou00,yue24,su26,yu25,mesinovic26,zhang26,liu26,chen26,zhang21,manthena24,liu25,woo25,sharma25,jayasurya26,ghosh00,vahdani25,lee20,hons24,thorlund20,mao20,chevance20,schwamm20,quarta25}
-\citation{zhou22,yao25,urooj25,chen25,nazi24,chow25,AlSaad2024Multimodal,Nagarajan2024Economics,Zhang2025Revolutionizing,yang25,mcduff25,mehandru24,zhou25,zhou25a}
-\citation{logan2026,agweyu25,ying00,chen25a}
-\citation{limaye20,association25,ordez26,haick26,nouis25}
-\citation{oord18,hong25,papachappa26,bakas26,al20,cma2026a}
-\@writefile{toc}{\contentsline {paragraph}{Novelty statement.}{4}{section*.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Clinical machine learning and EHR-based prediction.}{4}{section*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Biomedical language models and clinical text mining.}{4}{section*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Large language models and generative clinical AI.}{4}{section*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Trustworthy AI, fairness, and governance in healthcare.}{4}{section*.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Geometric learning, self-supervision, and anticipatory retrieval.}{4}{section*.12}\protected@file@percent }
-\citation{johnson2016_mimic3}
-\citation{pollard2018_mimic4}
-\citation{pollard2018_eicu}
-\citation{muller2021_hirid}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Methods}{5}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Study Design}{5}{subsection.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Study Setting}{5}{subsection.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Data Sources}{5}{subsection.3.3}\protected@file@percent }
+\citation{jiang2023_nyutron}
+\citation{yang2022_gatortron}
+\citation{singhal2023_medpalm}
+\citation{wornow2023_foundation}
+\citation{fallahpour2025_ehrmamba}
+\citation{guo2026_porter}
+\citation{wornow2023_foundation}
+\citation{wornow2023_foundation}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{3}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{3}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Clinical Representation and Intent Tracking in EHRs}{3}{subsection.2.1}\protected@file@percent }
 \citation{salton83}
 \citation{robertson1995,robertson1976}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Benchmark Case Selection}{6}{subsection.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Randomization and Blinding}{6}{subsection.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Intervention Description}{6}{subsection.3.6}\protected@file@percent }
-\citation{lopez2021,bronstein2017}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}CMA Architecture and Formalization}{7}{subsection.3.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{SPD intent representation.}{7}{section*.13}\protected@file@percent }
-\newlabel{eq:spdintent}{{1}{7}{SPD intent representation}{equation.1}{}}
-\@writefile{toc}{\contentsline {paragraph}{Riemannian intent trajectory.}{7}{section*.14}\protected@file@percent }
-\newlabel{eq:geodesic}{{2}{7}{Riemannian intent trajectory}{equation.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Geodesic Shift Interference (GSI) gate.}{7}{section*.15}\protected@file@percent }
-\newlabel{eq:gsr}{{3}{7}{Geodesic Shift Interference (GSI) gate}{equation.3}{}}
-\newlabel{eq:gate}{{4}{7}{Geodesic Shift Interference (GSI) gate}{equation.4}{}}
+\citation{khattab20}
+\citation{santhanam2022_colbertv2}
+\citation{karpukhin2020_dpr}
+\citation{xiong2021_ance}
+\citation{shurrab2026_ehrragp}
+\citation{lewis2020_rag}
+\citation{asai2024_selfrag}
+\citation{liu2025_rag_biomed}
+\citation{iyyer20}
+\citation{vakulenko2021_rewrite}
+\citation{hidasi2015}
+\citation{wu2019_session}
+\citation{kang2018_sasrec}
+\citation{zamani20}
+\citation{gao2022_convsurvey}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Information Retrieval and Context Dynamics}{4}{subsection.2.2}\protected@file@percent }
+\citation{papachappa2026_siweaver}
+\citation{bronstein2017}
+\citation{bronstein2021_gdl}
+\citation{pennec2006_spd}
+\citation{lopez2021}
+\citation{huang2017_spdnet}
+\citation{arsigny2007_logeuclidean}
+\citation{nickel2017_poincare}
+\citation{chami2019_hgcn}
+\citation{lecun2022}
+\citation{assran2023_ijepa}
+\citation{bardes2024_vjepa}
+\citation{assran2025_vjepa2}
+\citation{murlabadia2026_vjepa21}
+\citation{cui2026_jepa_theory}
+\citation{grill20}
+\citation{cma2026,cma2026_clinical}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Geometric and Manifold Learning in Clinical Decision Support}{5}{subsection.2.3}\protected@file@percent }
+\citation{musen2014_cds,sutton2020_cds}
+\citation{croskerry2003}
+\citation{goddard2012}
+\citation{sweller1988_cogl}
+\citation{topol2019}
+\citation{zhu2026_aicare}
+\citation{kleinrock1975,gross2008}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Clinical Decision Support, Cognitive Load, and Operational Analytics}{6}{subsection.2.4}\protected@file@percent }
+\citation{alsentzer2019}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methods: The GDT Framework}{7}{section.3}\protected@file@percent }
+\newlabel{sec:methods}{{3}{7}{Methods: The GDT Framework}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Diagnostic State Space on $\mathcal  {S}_d^+$}{7}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:statespace}{{3.1}{7}{Diagnostic State Space on $\mathcal {S}_d^+$}{subsection.3.1}{}}
+\newlabel{eq:spdintent}{{1}{7}{Diagnostic State Space on $\mathcal {S}_d^+$}{equation.1}{}}
+\newlabel{eq:manifold}{{2}{7}{Diagnostic State Space on $\mathcal {S}_d^+$}{equation.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Riemannian metric tensor.}{7}{section*.1}\protected@file@percent }
+\newlabel{eq:metric}{{3}{7}{Riemannian metric tensor}{equation.3}{}}
+\newlabel{eq:geodesic}{{4}{7}{Riemannian metric tensor}{equation.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Diagnostic uncertainty and trajectory velocity.}{8}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Geodesic Shift Interference (GSI) Gate and Context Contamination Bounds}{8}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:gsigate}{{3.2}{8}{Geodesic Shift Interference (GSI) Gate and Context Contamination Bounds}{subsection.3.2}{}}
+\newlabel{eq:gsr}{{5}{8}{Geodesic Shift Interference (GSI) Gate and Context Contamination Bounds}{equation.5}{}}
+\newlabel{eq:gate}{{6}{8}{Geodesic Shift Interference (GSI) Gate and Context Contamination Bounds}{equation.6}{}}
+\newlabel{prop:interf}{{3.1}{8}{Context Interference Bound under Geodesic Jump}{proposition.3.1}{}}
+\newlabel{eq:interfbound}{{7}{8}{Context Interference Bound under Geodesic Jump}{equation.7}{}}
+\newlabel{thm:contam}{{3.2}{9}{Curvature-Gated Contamination Decay}{proposition.3.2}{}}
+\newlabel{eq:decay}{{8}{9}{Curvature-Gated Contamination Decay}{equation.8}{}}
+\newlabel{eq:contam}{{9}{9}{Curvature-Gated Contamination Decay}{equation.9}{}}
+\newlabel{cor:closure}{{3.3}{9}{}{proposition.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Optimal Control Prefetching Engine}{9}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:control}{{3.3}{9}{Optimal Control Prefetching Engine}{subsection.3.3}{}}
+\newlabel{eq:ocost}{{10}{9}{Optimal Control Prefetching Engine}{equation.10}{}}
+\citation{lecun2022,assran2023_ijepa}
 \citation{assran2023_ijepa,grill20}
-\@writefile{toc}{\contentsline {paragraph}{JEPA next-intent predictor and prefetch.}{8}{section*.16}\protected@file@percent }
-\newlabel{eq:pred}{{5}{8}{JEPA next-intent predictor and prefetch}{equation.5}{}}
-\newlabel{eq:jepa}{{6}{8}{JEPA next-intent predictor and prefetch}{equation.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Prefetch ranking.}{8}{section*.17}\protected@file@percent }
-\newlabel{eq:prefetch}{{7}{8}{Prefetch ranking}{equation.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}Data Collection Procedures}{9}{subsection.3.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.9}Outcome Measures}{9}{subsection.3.9}\protected@file@percent }
+\newlabel{eq:odynamics}{{11}{10}{Optimal Control Prefetching Engine}{equation.11}{}}
+\newlabel{eq:oconstraints}{{12}{10}{Optimal Control Prefetching Engine}{equation.12}{}}
+\newlabel{eq:oloss}{{13}{10}{Optimal Control Prefetching Engine}{equation.13}{}}
+\newlabel{eq:hjb}{{14}{10}{Optimal Control Prefetching Engine}{equation.14}{}}
+\newlabel{eq:opolicy}{{15}{10}{Optimal Control Prefetching Engine}{equation.15}{}}
+\@writefile{toc}{\contentsline {paragraph}{Learning the optimal policy with a JEPA-style predictor.}{10}{section*.3}\protected@file@percent }
+\newlabel{eq:pred}{{16}{10}{Learning the optimal policy with a JEPA-style predictor}{equation.16}{}}
+\citation{salton83}
+\citation{robertson1995,robertson1976}
+\citation{cma2026}
+\newlabel{eq:jepa}{{17}{11}{Learning the optimal policy with a JEPA-style predictor}{equation.17}{}}
+\newlabel{eq:prefetch}{{18}{11}{Learning the optimal policy with a JEPA-style predictor}{equation.18}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Study Design and Evaluation Protocol}{11}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:design}{{3.4}{11}{Study Design and Evaluation Protocol}{subsection.3.4}{}}
 \citation{johnson2016_mimic3}
 \citation{pollard2018_mimic4}
+\citation{johnson2023_mimiciv_note}
+\citation{johnson2019_mimic_cxr}
+\citation{moody2022_mimic4wdb}
 \citation{pollard2018_eicu}
 \citation{muller2021_hirid}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.10}Statistical Analysis}{10}{subsection.3.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.11}Data Provenance and Privacy}{10}{subsection.3.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.12}Reporting Guidelines}{10}{subsection.3.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{11}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Benchmark Case and Data Characteristics}{11}{subsection.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Benchmark flow for the CMA clinical retrieval study. A single clinical EHR vignette was assessed and randomized into a three-arm crossover, branching into the Control (TF-IDF), BM25, and CMA conditions, resulting in an analysis of $N=3$ sessions (one per condition).}}{11}{figure.1}\protected@file@percent }
-\newlabel{fig:benchmark_flow}{{1}{11}{Benchmark flow for the CMA clinical retrieval study. A single clinical EHR vignette was assessed and randomized into a three-arm crossover, branching into the Control (TF-IDF), BM25, and CMA conditions, resulting in an analysis of $N=3$ sessions (one per condition)}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Primary Outcomes}{11}{subsection.4.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Task completion rate by condition. Control and CMA both achieved a perfect 1.000 completion rate on the benchmark case.}}{12}{figure.2}\protected@file@percent }
-\newlabel{fig:accuracy}{{2}{12}{Task completion rate by condition. Control and CMA both achieved a perfect 1.000 completion rate on the benchmark case}{figure.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Time-to-correct-information by condition. CMA resolves the task in 98.1~s versus 118.2~s (Control) and 118.4~s (BM25).}}{12}{figure.3}\protected@file@percent }
-\newlabel{fig:time_distribution}{{3}{12}{Time-to-correct-information by condition. CMA resolves the task in 98.1~s versus 118.2~s (Control) and 118.4~s (BM25)}{figure.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Secondary Outcomes}{12}{subsection.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces NASA-TLX cognitive load subscales. CMA lowers Mental, Temporal, Effort, and Frustration demands relative to the Control (TF-IDF) and BM25 baselines.}}{13}{figure.4}\protected@file@percent }
-\newlabel{fig:tlx}{{4}{13}{NASA-TLX cognitive load subscales. CMA lowers Mental, Temporal, Effort, and Frustration demands relative to the Control (TF-IDF) and BM25 baselines}{figure.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Scaling Study}{13}{subsection.4.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Query latency by condition. CMA achieves the lowest latency (141.6~ms) versus Control (178.9~ms) and BM25 (210.5~ms).}}{14}{figure.5}\protected@file@percent }
-\newlabel{fig:latency}{{5}{14}{Query latency by condition. CMA achieves the lowest latency (141.6~ms) versus Control (178.9~ms) and BM25 (210.5~ms)}{figure.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Scaling study results (means; time columns in seconds). Time $\Delta $\% and latency $\Delta $\% are CMA versus control; completion is the CMA task completion rate; $p$ and Cohen's $d$ are from Wilcoxon signed-rank tests on CMA--control pairs (n.a.\ where $N=1$).}}{14}{table.1}\protected@file@percent }
-\newlabel{tab:scaling}{{1}{14}{Scaling study results (means; time columns in seconds). Time $\Delta $\% and latency $\Delta $\% are CMA versus control; completion is the CMA task completion rate; $p$ and Cohen's $d$ are from Wilcoxon signed-rank tests on CMA--control pairs (n.a.\ where $N=1$)}{table.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Subgroup Analyses}{15}{subsection.4.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Subgroup forest plot of the median \% reduction in time-to-correct-information at scale 10{,}000 (30{,}000 sessions). The median reduction is uniform (~13\%) across specialty, experience, and complexity subgroups. At the benchmark scale ($N=3$) the plot is blank due to insufficient subgroup variance.}}{15}{figure.6}\protected@file@percent }
-\newlabel{fig:subgroup}{{6}{15}{Subgroup forest plot of the median \% reduction in time-to-correct-information at scale 10{,}000 (30{,}000 sessions). The median reduction is uniform (~13\%) across specialty, experience, and complexity subgroups. At the benchmark scale ($N=3$) the plot is blank due to insufficient subgroup variance}{figure.6}{}}
-\citation{cma2026}
-\citation{hidasi2015,wu2019_session}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Component Ablation}{16}{subsection.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{16}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Main Findings}{16}{subsection.5.1}\protected@file@percent }
-\citation{haq25,jandoubi25,shanmugam26,hoche25,sorka25,johnson25,fontin24,arora25,sanchez22,perkonigg21,klang26,li25a,wang18a,cicceri21}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Comparison with Previous Studies}{17}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Mechanisms and Explanations}{17}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Clinical deployment landscape.}{17}{section*.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Strengths}{17}{subsection.5.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Schematic of intent trajectories on SPD manifold. Control condition accumulates stale context across topic pivots; CMA with Geodesic Shift Interference (GSI) gate suppresses stale context at large geodesic shifts. JEPA-driven predictive prefetch forecasts next-intent embeddings. Larger benefit for multi-pivot tasks confirms mechanism.}}{18}{figure.7}\protected@file@percent }
-\newlabel{fig:intent_trajectory}{{7}{18}{Schematic of intent trajectories on SPD manifold. Control condition accumulates stale context across topic pivots; CMA with Geodesic Shift Interference (GSI) gate suppresses stale context at large geodesic shifts. JEPA-driven predictive prefetch forecasts next-intent embeddings. Larger benefit for multi-pivot tasks confirms mechanism}{figure.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Continuum Memory Architecture (CMA) component overview. Session intent is encoded as SPD matrix representations. Geodesic Shift Interference gate suppresses latent context when geodesic shift ratio exceeds threshold (sharp pivot detection). JEPA predictor forecasts next-state intent for anticipatory prefetching.}}{18}{figure.8}\protected@file@percent }
-\newlabel{fig:cma_components}{{8}{18}{Continuum Memory Architecture (CMA) component overview. Session intent is encoded as SPD matrix representations. Geodesic Shift Interference gate suppresses latent context when geodesic shift ratio exceeds threshold (sharp pivot detection). JEPA predictor forecasts next-state intent for anticipatory prefetching}{figure.8}{}}
-\citation{romeo15}
-\citation{hasanzadeh93,chen24}
-\citation{amann20,lekadir25}
+\citation{hart1988}
 \citation{moher09}
-\citation{li25}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Novelty and Contribution}{19}{subsection.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Safety, Bias, and Oversight}{19}{subsection.5.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Reporting Standards and Limitations}{19}{subsection.5.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.8}Clinical and Operational Implications}{19}{subsection.5.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Data Sources and Case Selection}{12}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:data}{{3.5}{12}{Data Sources and Case Selection}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Outcome Measures}{12}{subsection.3.6}\protected@file@percent }
+\newlabel{sec:outcomes}{{3.6}{12}{Outcome Measures}{subsection.3.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Automated benchmark.}{12}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Simulation-based validation.}{12}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}Statistical Analysis}{12}{subsection.3.7}\protected@file@percent }
+\newlabel{sec:stats}{{3.7}{12}{Statistical Analysis}{subsection.3.7}{}}
+\newlabel{eq:lme}{{19}{12}{Statistical Analysis}{equation.19}{}}
+\citation{johnson2016_mimic3}
+\citation{pollard2018_mimic4}
+\citation{johnson2023_mimiciv_note}
+\citation{johnson2019_mimic_cxr}
+\citation{pollard2018_eicu}
+\citation{muller2021_hirid}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{13}{section.4}\protected@file@percent }
+\newlabel{sec:results}{{4}{13}{Results}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Benchmark Cohort and Data Characteristics}{13}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:benchmark}{{4.1}{13}{Benchmark Cohort and Data Characteristics}{subsection.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Benchmark flow for the randomized four-arm crossover pipeline.}}{13}{figure.caption.6}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:benchmark_flow}{{1}{13}{Benchmark flow for the randomized four-arm crossover pipeline}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Primary Outcomes}{14}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:primary}{{4.2}{14}{Primary Outcomes}{subsection.4.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Task completion rate by condition across scales. GDT and CMA maintain high completion while the TF-IDF control and BM25 have lower completion.}}{14}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:accuracy}{{2}{14}{Task completion rate by condition across scales. GDT and CMA maintain high completion while the TF-IDF control and BM25 have lower completion}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Time-to-correct-information distribution by condition across scales. GDT resolves tasks faster than Control, BM25, and CMA.}}{14}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:time_distribution}{{3}{14}{Time-to-correct-information distribution by condition across scales. GDT resolves tasks faster than Control, BM25, and CMA}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Secondary Outcomes}{14}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:secondary}{{4.3}{14}{Secondary Outcomes}{subsection.4.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces NASA-TLX cognitive load subscales across scales. GDT lowers Mental, Temporal, Effort, and Frustration demands relative to the baselines.}}{15}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:tlx}{{4}{15}{NASA-TLX cognitive load subscales across scales. GDT lowers Mental, Temporal, Effort, and Frustration demands relative to the baselines}{figure.caption.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Query latency by condition across scales. GDT achieves the lowest latency versus Control and BM25.}}{15}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:latency}{{5}{15}{Query latency by condition across scales. GDT achieves the lowest latency versus Control and BM25}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Scaling Study}{15}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:scaling}{{4.4}{15}{Scaling Study}{subsection.4.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Scaling study results (means; time columns in seconds). Time $\Delta $\% , latency $\Delta $\% and cognitive-load $\Delta $\% are GDT versus control; completion is the GDT task completion rate; $p$ and Cohen's $d$ are from Wilcoxon signed-rank tests on GDT--control pairs. ``Pooled'' combines all three scales (3{,}330 sessions per condition).}}{16}{table.caption.11}\protected@file@percent }
+\newlabel{tab:scaling}{{1}{16}{Scaling study results (means; time columns in seconds). Time $\Delta $\% , latency $\Delta $\% and cognitive-load $\Delta $\% are GDT versus control; completion is the GDT task completion rate; $p$ and Cohen's $d$ are from Wilcoxon signed-rank tests on GDT--control pairs. ``Pooled'' combines all three scales (3{,}330 sessions per condition)}{table.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Component Ablation}{16}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:ablation}{{4.5}{16}{Component Ablation}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Simulation-Based Workflow Validation}{16}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:clinician}{{4.6}{16}{Simulation-Based Workflow Validation}{subsection.4.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Cumulative scaling study results across session scales (10, 100, 1{,}000) for all four arms: time-to-correct-information, cognitive load, latency, and queries. GDT (purple) maintains the lowest values on all metrics; the advantage persists and grows as the corpus and cohort scale.}}{17}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:scaling_trends}{{6}{17}{Cumulative scaling study results across session scales (10, 100, 1{,}000) for all four arms: time-to-correct-information, cognitive load, latency, and queries. GDT (purple) maintains the lowest values on all metrics; the advantage persists and grows as the corpus and cohort scale}{figure.caption.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Percentage change versus the TF-IDF control for BM25, CMA, and GDT across session scales. GDT's advantage on time-to-information, cognitive load, and latency is monotonically maintained as the scale grows.}}{17}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:scaling_pct_change}{{7}{17}{Percentage change versus the TF-IDF control for BM25, CMA, and GDT across session scales. GDT's advantage on time-to-information, cognitive load, and latency is monotonically maintained as the scale grows}{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Task accuracy per arm across session scales. GDT achieves the highest completion at every scale; the gap over the TF-IDF control widens at larger scales.}}{18}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:scaling_accuracy}{{8}{18}{Task accuracy per arm across session scales. GDT achieves the highest completion at every scale; the gap over the TF-IDF control widens at larger scales}{figure.caption.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Four-arm component ablation across scales. Removing the GSI gate (JEPA-only) raises time-to-information and lowers completion; disabling prefetch (GSI-only) leaves metrics near Full GDT.}}{18}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:ablation}{{9}{18}{Four-arm component ablation across scales. Removing the GSI gate (JEPA-only) raises time-to-information and lowers completion; disabling prefetch (GSI-only) leaves metrics near Full GDT}{figure.caption.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Geodesic intent trajectories on the SPD manifold $\mathcal  {S}_d^+$ across scales.}}{18}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:intent_trajectory}{{10}{18}{Geodesic intent trajectories on the SPD manifold $\mathcal {S}_d^+$ across scales}{figure.caption.16}{}}
+\citation{kleinrock1975,gross2008}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Geodesic Diagnostic Trajectories (GDT) component overview (representative scale). component behavior and layout are consistent across scales.}}{19}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:cma_components}{{11}{19}{Geodesic Diagnostic Trajectories (GDT) component overview (representative scale). component behavior and layout are consistent across scales}{figure.caption.17}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Simulation-based workflow validation. SUS = System Usability Scale proxy; time-on-task in seconds; TLX = NASA-TLX composite (0--100). Premature closure = simulated agent committed to a disposition decision ignoring a seeded decoy finding within 2 minutes in high-acuity handover scenarios.}}{19}{table.caption.18}\protected@file@percent }
+\newlabel{tab:pilot}{{2}{19}{Simulation-based workflow validation. SUS = System Usability Scale proxy; time-on-task in seconds; TLX = NASA-TLX composite (0--100). Premature closure = simulated agent committed to a disposition decision ignoring a seeded decoy finding within 2 minutes in high-acuity handover scenarios}{table.caption.18}{}}
+\citation{croskerry2003}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Operational Throughput and Decision Economics}{20}{subsection.4.7}\protected@file@percent }
+\newlabel{sec:operational}{{4.7}{20}{Operational Throughput and Decision Economics}{subsection.4.7}{}}
+\@writefile{toc}{\contentsline {paragraph}{Model.}{20}{section*.19}\protected@file@percent }
+\newlabel{eq:erlang}{{20}{20}{Model}{equation.20}{}}
+\newlabel{eq:mmc}{{21}{20}{Model}{equation.21}{}}
+\@writefile{toc}{\contentsline {paragraph}{Parameterization.}{20}{section*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Results.}{20}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{ICU handover throughput.}{20}{section*.23}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Operational throughput impact of the 23.2\% chart-review reduction under an $\text  {M/M}/c$ model of the ED decision queue ($\lambda =6$ patients/hour, $c=3$ clinicians, base $\rho =0.833$). $W_q$ = queueing wait; $W$ = time in system (decision LOS); $L$ = mean patients in the decision system; turnover = $\lambda /L$.}}{21}{table.caption.22}\protected@file@percent }
+\newlabel{tab:queue}{{3}{21}{Operational throughput impact of the 23.2\% chart-review reduction under an $\text {M/M}/c$ model of the ED decision queue ($\lambda =6$ patients/hour, $c=3$ clinicians, base $\rho =0.833$). $W_q$ = queueing wait; $W$ = time in system (decision LOS); $L$ = mean patients in the decision system; turnover = $\lambda /L$}{table.caption.22}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{21}{section.5}\protected@file@percent }
+\newlabel{sec:discussion}{{5}{21}{Discussion}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Main Findings}{21}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Mechanisms}{21}{subsection.5.2}\protected@file@percent }
+\citation{croskerry2003}
+\citation{goddard2012}
+\citation{hidasi2015,wu2019_session,iyyer20}
+\citation{assran2023_ijepa}
+\citation{mandel2016}
+\citation{topol2019,amann20,lekadir25}
+\citation{chen24}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Mitigating Cognitive Errors During High-Acuity Handovers}{22}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Comparison with Prior Work}{22}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Enterprise EHR Scalability, Interoperability, and Governance}{22}{subsection.5.5}\protected@file@percent }
+\citation{johnson2016_mimic3}
+\citation{pollard2018_mimic4}
+\citation{johnson2023_mimiciv_note}
+\citation{johnson2019_mimic_cxr}
+\citation{moody2022_mimic4wdb}
+\citation{pollard2018_eicu}
+\citation{muller2021_hirid}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Strengths and Limitations}{23}{subsection.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.7}Conclusion}{23}{subsection.5.7}\protected@file@percent }
 \bibstyle{unsrtnat}
 \bibdata{references}
-\bibcite{salton83}{{1}{1983}{{Salton and McGill}}{{}}}
-\bibcite{robertson1995}{{2}{1995}{{Robertson et~al.}}{{Robertson, Walker, Jones, Hancock-Beaulieu, and Gatford}}}
-\bibcite{robertson1976}{{3}{1976}{{Robertson and Sparck~Jones}}{{}}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.9}Future Research}{20}{subsection.5.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{20}{section.6}\protected@file@percent }
-\bibcite{topol2019}{{4}{2019}{{Topol}}{{}}}
-\bibcite{bronstein2017}{{5}{2017}{{Learning et~al.}}{{Learning, beyond Euclidean~data, of~publication July, and July}}}
-\bibcite{lopez2021}{{6}{2021}{{Lopez}}{{}}}
-\bibcite{nickel2017_poincare}{{7}{2017}{{Nickel and Kiela}}{{}}}
-\bibcite{lecun2022}{{8}{2022}{{LeCun}}{{}}}
-\bibcite{assran2023_ijepa}{{9}{2023}{{Assran et~al.}}{{Assran, Duval, Misra, Bojanowski, Vincent, Rabbat, LeCun, and Ballas}}}
-\bibcite{cma2026}{{10}{2026}{{Papachappa et~al.}}{{Papachappa, Kumar, and Badam}}}
-\bibcite{miotto2016}{{11}{2016}{{Miotto}}{{}}}
-\bibcite{rajkomar2018}{{12}{2018}{{Rajkomar}}{{}}}
-\bibcite{shickel2017}{{13}{2017}{{Shickel et~al.}}{{Shickel, Tighe, and Bihorac}}}
-\bibcite{esteva19}{{14}{2019}{{Esteva}}{{}}}
-\bibcite{huang2019_clinicalbert}{{15}{2019}{{Huang et~al.}}{{Huang, Altosaar, and Ranganath}}}
-\bibcite{lee2020_biobert}{{16}{2020}{{Yoon et~al.}}{{Yoon, Kim, Kim, Lee, Kang, Kim, Wren, and on~May}}}
-\bibcite{alsentzer2019}{{17}{2019}{{Alsentzer et~al.}}{{Alsentzer, Murphy, Boag, Weng, Jindi, Naumann, and McDermott}}}
-\bibcite{weng19}{{18}{2019}{{Weng and Szolovits}}{{}}}
-\bibcite{singhal23}{{19}{2023}{{Singhal et~al.}}{{Singhal, Azizi, Tu, Wei, Chung, Scales, Tanwani, Cole-Lewis, Pfohl, January, Payne, Seneviratne, Gamble, Kelly, and Babiker}}}
-\bibcite{zhao23}{{20}{2023}{{Zhao et~al.}}{{Zhao, Lopez, Strube, and Taha}}}
-\bibcite{grill20}{{21}{2020}{{Grill et~al.}}{{Grill, Strub, Tallec, Richemond, Buchatskaya, Doersch, Pires, Guo, Azar, Piot, Kavukcuoglu, and Valko}}}
-\bibcite{hidasi2015}{{22}{2015}{{Hidasi et~al.}}{{Hidasi, Karatzoglou, Baltrunas, and Tikk}}}
-\bibcite{wu2019_session}{{23}{2019}{{Wu et~al.}}{{Wu, Tang, Zhu, Wang, Xie, and Tan}}}
-\bibcite{khattab20}{{24}{2020}{{Khattab and Zaharia}}{{}}}
-\bibcite{iyyer20}{{25}{2020}{{Iyyer}}{{}}}
-\bibcite{zamani20}{{26}{2020}{{Zamani et~al.}}{{Zamani, Mitra, Chen, Lueck, Diaz, Bennett, Craswell, and Dumais}}}
-\bibcite{chapman09}{{27}{2009}{{Chapman}}{{}}}
-\bibcite{wang18}{{28}{2018}{{Wang}}{{}}}
-\bibcite{ouztzn25}{{29}{2025}{{Çerağ Oğuztüzün}}{{}}}
-\bibcite{campagner25}{{30}{2025}{{Campagner}}{{}}}
-\bibcite{kwon24}{{31}{2024}{{Kwon et~al.}}{{Kwon, iunn Ong, Kang, Moon, Lee, Hwang, Sohn, Sim, Lee, and Yeo}}}
-\bibcite{zhou00}{{32}{}{{Zhou et~al.}}{{Zhou, Liu, Gu, Zou, Huang, Wu, Li, Chen, Zhou, Liu, Hua, Mao, Wu, Zheng, Clifton, Li, Luo, and Clifton}}}
-\bibcite{yue24}{{33}{2024}{{Yue et~al.}}{{Yue, Xing, Chen, and Fu}}}
-\bibcite{su26}{{34}{2026}{{Su et~al.}}{{Su, Guo, Yang, Wang, Coenen, Hussain, and Huang}}}
-\bibcite{yu25}{{35}{2025}{{Yu et~al.}}{{Yu, Feng, Lu, Cai, and Zhou}}}
-\bibcite{mesinovic26}{{36}{2026}{{Mesinovic et~al.}}{{Mesinovic, Buhlan, and Zhu}}}
-\bibcite{zhang26}{{37}{2026}{{Zhang and Li}}{{}}}
-\bibcite{liu26}{{38}{2026}{{Liu et~al.}}{{Liu, Mohiuddin, Schoeffler, Renduchintala, Nayak, Vemu, Vedak, Black, Havlik, Ogunmola, Ma, Dhatt, and Chen}}}
-\bibcite{chen26}{{39}{2026}{{Chen et~al.}}{{Chen, Metelski, Qi, Xia, Lee, Brown, Riley, Wang, Capps, Tang, Song, Kong, Feng, Zeng, Liu, Ma, Jiang, Geng, Yuan, You, Wen, Wei, Fu, Zhao, Yang, Huang, Zhang, Xiong, Koyejo, Xing, Yu, and Yao}}}
-\bibcite{zhang21}{{40}{2021}{{Zhang et~al.}}{{Zhang, Dullerud, Seyyed-Kalantari, Morris, Joshi, and Ghassemi}}}
-\bibcite{manthena24}{{41}{2024}{{Manthena et~al.}}{{Manthena, of~Alberta, and of~Alberta}}}
-\bibcite{liu25}{{42}{2025}{{Liu}}{{}}}
-\bibcite{woo25}{{43}{2025}{{Woo}}{{}}}
-\bibcite{sharma25}{{44}{2025}{{SHARMA}}{{}}}
-\bibcite{jayasurya26}{{45}{2026}{{Jayasurya and information}}{{}}}
-\bibcite{ghosh00}{{46}{}{{Ghosh et~al.}}{{Ghosh, Ashraf, Singh, Saeed, Saha, Chen, and Khan}}}
-\bibcite{vahdani25}{{47}{2025}{{Vahdani et~al.}}{{Vahdani, Shariatnia, Rajpurkar, and Pareek}}}
-\bibcite{lee20}{{48}{2020}{{Lee}}{{}}}
-\bibcite{hons24}{{49}{2024}{{Hons}}{{}}}
-\bibcite{thorlund20}{{50}{2020}{{Thorlund}}{{}}}
-\bibcite{mao20}{{51}{2020}{{Mao}}{{}}}
-\bibcite{chevance20}{{52}{2020}{{Chevance}}{{}}}
-\bibcite{schwamm20}{{53}{2020}{{Schwamm}}{{}}}
-\bibcite{quarta25}{{54}{2025}{{Quarta et~al.}}{{Quarta, Calimeri, and online January}}}
-\bibcite{zhou22}{{55}{2022}{{Zhou et~al.}}{{Zhou, Pujara, Ren, Chen, Cheng, Le, Chi, Zhou, Mishra, and Zheng}}}
-\bibcite{yao25}{{56}{2025}{{Yao et~al.}}{{Yao, Zhang, Huang, Zhang, Wang, Fang, Zhu, Jing, Liu, Li, and Tao}}}
-\bibcite{urooj25}{{57}{2025}{{Urooj et~al.}}{{Urooj, Fayaz, Ali, and Kim}}}
-\bibcite{chen25}{{58}{2025{}}{{Chen et~al.}}{{Chen, Xiang, Lu, Liu, and Shi}}}
-\bibcite{nazi24}{{59}{2024}{{Nazi and Peng}}{{}}}
-\bibcite{chow25}{{60}{2025}{{Chow and Li}}{{}}}
-\bibcite{AlSaad2024Multimodal}{{61}{2024}{{AlSaad et~al.}}{{AlSaad, Abd-alrazaq, Boughorbel, Ahmed, Renault, Damseh, and Sheikh}}}
-\bibcite{Nagarajan2024Economics}{{62}{2024}{{Nagarajan et~al.}}{{Nagarajan, Kondo, Salas, Sezgin, Yao, Klotzman, Godambe, Khan, Limon, Stephenson, Taraman, Walton, Ehwerhemuepha, Pandit, Pandita, Weiss, Golden, Gold, Henderson, Shippy, Celi, Hogan, Oermann, Sanger, and Martel}}}
-\bibcite{Zhang2025Revolutionizing}{{63}{2025}{{Zhang et~al.}}{{Zhang, Meng, Yan, Ji, Liu, Xu, Zhang, Liu, Wang, Wang, Gao, geng-shuo Wang, Shao, Wang, Li, Zheng, Yang, and Tang}}}
-\bibcite{yang25}{{64}{2025}{{Yang et~al.}}{{Yang, Xiao, Liu, Deng, Huang, Liang, Dong, Yuan, Yao, Guo, Xu, Yang, and Road}}}
-\bibcite{mcduff25}{{65}{2025}{{McDuff}}{{}}}
-\bibcite{mehandru24}{{66}{2024}{{Mehandru}}{{}}}
-\bibcite{zhou25}{{67}{2025{}}{{Zhou}}{{}}}
-\bibcite{zhou25a}{{68}{2025{}}{{Zhou}}{{}}}
-\bibcite{logan2026}{{69}{2026}{{Logan}}{{}}}
-\bibcite{agweyu25}{{70}{2025}{{Agweyu}}{{}}}
-\bibcite{ying00}{{71}{}{{Ying et~al.}}{{Ying, Lia, and Fu}}}
-\bibcite{chen25a}{{72}{2025{}}{{Chen et~al.}}{{Chen, Zhang, Li, Wang, Liu, Huang, Zhao, and Lia}}}
-\bibcite{limaye20}{{73}{2020}{{Limaye}}{{}}}
-\bibcite{association25}{{74}{2025}{{Association}}{{}}}
-\bibcite{ordez26}{{75}{2026}{{Ordóñez}}{{}}}
-\bibcite{haick26}{{76}{2026}{{Haick and May}}{{}}}
-\bibcite{nouis25}{{77}{2025}{{Nouis et~al.}}{{Nouis, Uren, and Jariwala}}}
-\bibcite{oord18}{{78}{2018}{{van~den Oord et~al.}}{{van~den Oord, Li, and Vinyals}}}
-\bibcite{hong25}{{79}{2025}{{Hong et~al.}}{{Hong, Shi, Li, and Chen}}}
-\bibcite{papachappa26}{{80}{2026}{{Papachappa}}{{}}}
-\bibcite{bakas26}{{81}{2026}{{Bakas et~al.}}{{Bakas, Li, Shah, and Columbia}}}
-\bibcite{al20}{{82}{2020}{{Chen}}{{}}}
-\bibcite{cma2026a}{{83}{2019}{{Forecasting et~al.}}{{Forecasting, Papachappa, Kumar, and Badam}}}
-\bibcite{johnson2016_mimic3}{{84}{2016}{{Johnson et~al.}}{{Johnson, Pollard, Shen, Lehman, Feng, Ghassemi, Moody, Szolovits, Celi, and Mark}}}
-\bibcite{pollard2018_mimic4}{{85}{2023}{{Johnson et~al.}}{{Johnson, Bulgarelli, Shen, Gayles, Shammout, Horng, Pollard, Hao, Moody, Gow, Lehman, Celi, and Mark}}}
-\bibcite{pollard2018_eicu}{{86}{2018}{{Pollard et~al.}}{{Pollard, Johnson, Raffa, Celi, Mark, and Badawi}}}
-\bibcite{muller2021_hirid}{{87}{2021}{{Faltys et~al.}}{{Faltys, Zimmermann, Lyu, H{\"u}ser, Hyland, R{\"a}tsch, and Merz}}}
-\bibcite{haq25}{{88}{2025}{{Haq et~al.}}{{Haq, Mhamed, Al-Harbi, Osman, Ha, and Liu}}}
-\bibcite{jandoubi25}{{89}{2025}{{Jandoubi and Akhloufi}}{{}}}
-\bibcite{shanmugam26}{{90}{2026}{{Shanmugam et~al.}}{{Shanmugam, Rajendran, Natarajan, and Karri}}}
-\bibcite{hoche25}{{91}{2025}{{Hoche}}{{}}}
-\bibcite{sorka25}{{92}{2025}{{Sorka}}{{}}}
-\bibcite{johnson25}{{93}{2025}{{Johnson et~al.}}{{Johnson, Shaham, Eisen, Waxman, Devons, Ginder, Hong, Sayeed, Reis, Dagan, and Services}}}
-\bibcite{fontin24}{{94}{2024}{{Fontin et~al.}}{{Fontin, Honerlaw, Murray, Galloway, Heise, Connatser, Davies, Gosian, Maripuri, Russo, Sangar, Tanukonda, Zielinski, Dubreuil, and Zimolzak}}}
-\bibcite{arora25}{{95}{2025}{{Arora et~al.}}{{Arora, Mortagy, Dwarshuis, Wang, Holder, Gupta, Kamaleswaran, and Yang}}}
-\bibcite{sanchez22}{{96}{2022}{{Sanchez et~al.}}{{Sanchez, Voisey, Xia, ONeil, Tsaftaris, JP, AQ, Causal, May, July, Category, science, and Areas}}}
-\bibcite{perkonigg21}{{97}{2021}{{Perkonigg}}{{}}}
-\bibcite{klang26}{{98}{2026}{{Klang}}{{}}}
-\bibcite{li25a}{{99}{2025}{{Li et~al.}}{{Li, Chen, Duan, Wu, Yu, Chiu, Ni, Xu, Li, Yuille, Jin, Shi, and Tang}}}
-\bibcite{wang18a}{{100}{2018}{{Wang et~al.}}{{Wang, Ostropolets, Mulgrave, Blei, and Hripcsak}}}
-\bibcite{cicceri21}{{101}{2021}{{Cicceri}}{{}}}
-\bibcite{romeo15}{{102}{2015}{{Romeo}}{{}}}
-\bibcite{hasanzadeh93}{{103}{1993}{{Hasanzadeh}}{{}}}
-\bibcite{chen24}{{104}{2024}{{Chen et~al.}}{{Chen, Wang, Hong, Jiang, and Zhou}}}
-\bibcite{amann20}{{105}{2020}{{Amann}}{{}}}
-\bibcite{lekadir25}{{106}{2025}{{Lekadir et~al.}}{{Lekadir, Glocker, Cintas, Langlotz, Weicken, Prior, Kaissis, Tsakou, Kalpathy-Cramer, Mongan, Kushibar, Riklund, Marias, and training}}}
-\bibcite{moher09}{{107}{2009}{{Moher et~al.}}{{Moher, Liberati, Tetzlaff, and Altman}}}
-\bibcite{li25}{{108}{2025}{{Li}}{{}}}
-\gdef \@abspage@last{29}
+\bibcite{croskerry2003}{{1}{2003}{{Croskerry}}{{}}}
+\bibcite{bronstein2017}{{2}{2017}{{Learning et~al.}}{{Learning, beyond Euclidean~data, of~publication July, and July}}}
+\bibcite{lopez2021}{{3}{2021}{{Lopez et~al.}}{{Lopez, Pozzetti, Trettel, Strube, and Wienhard}}}
+\bibcite{lecun2022}{{4}{2022}{{LeCun}}{{}}}
+\bibcite{assran2023_ijepa}{{5}{2023}{{Assran et~al.}}{{Assran, Duval, Misra, Bojanowski, Vincent, Rabbat, LeCun, and Ballas}}}
+\bibcite{johnson2016_mimic3}{{6}{2016}{{Johnson et~al.}}{{Johnson, Pollard, Shen, Lehman, Feng, Ghassemi, Moody, Szolovits, Celi, and Mark}}}
+\bibcite{pollard2018_mimic4}{{7}{2023{}}{{Johnson et~al.}}{{Johnson, Bulgarelli, Shen, Gayles, Shammout, Horng, Pollard, Hao, Moody, Gow, Lehman, Celi, and Mark}}}
+\bibcite{johnson2019_mimic_cxr}{{8}{2019}{{Johnson et~al.}}{{Johnson, Pollard, Berkowitz, Greenbaum, Lungren, Deng, Mark, and Horng}}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Data Sources, Reproducibility, and Code}{24}{appendix.A}\protected@file@percent }
+\newlabel{sec:appendix}{{A}{24}{Data Sources, Reproducibility, and Code}{appendix.A}{}}
+\bibcite{johnson2023_mimiciv_note}{{9}{2023{}}{{Johnson et~al.}}{{Johnson, Pollard, Horng, Celi, and Mark}}}
+\bibcite{moody2022_mimic4wdb}{{10}{2022}{{Moody et~al.}}{{Moody, Hao, Gow, Pollard, Zong, and Mark}}}
+\bibcite{kleinrock1975}{{11}{1975}{{Kleinrock}}{{}}}
+\bibcite{gross2008}{{12}{2008}{{Gross et~al.}}{{Gross, Shortle, Thompson, and Harris}}}
+\bibcite{zamani20}{{13}{2020}{{Zamani et~al.}}{{Zamani, Mitra, Chen, Lueck, Diaz, Bennett, Craswell, and Dumais}}}
+\bibcite{topol2019}{{14}{2019}{{Topol}}{{}}}
+\bibcite{cma2026}{{15}{2026}{{Papachappa et~al.}}{{Papachappa, Kumar, and Badam}}}
+\bibcite{cma2026_clinical}{{16}{2026}{{Manchabale~Papachappa}}{{}}}
+\bibcite{miotto2016}{{17}{2016}{{Miotto et~al.}}{{Miotto, Li, Kidd, and Dudley}}}
+\bibcite{rajkomar2018}{{18}{2018}{{Rajkomar et~al.}}{{Rajkomar, Oren, Chen, Dai, Hajaj, Hardt, Liu, Liu, Marcus, Sun, Sundberg, Yee, Zhang, Zhang, Flores, Duggan, Irvine, Le, Litsch, Mossin, Tansuwan, Wang, Wexler, Wilson, Ludwig, Volchenboum, Chou, Pearson, Madabushi, Shah, Butte, Howell, Cui, Corrado, and Dean}}}
+\bibcite{choi2016_doctorai}{{19}{2016}{{Choi et~al.}}{{Choi, Bahadori, Schuetz, Stewart, and Sun}}}
+\bibcite{shickel2017}{{20}{2017}{{Shickel et~al.}}{{Shickel, Tighe, and Bihorac}}}
+\bibcite{li2020_behrt}{{21}{2020}{{Li et~al.}}{{Li, Rao, Solares, Hassaine, Ramakrishnan, Canoy, Zhu, Rahimi, and Salimi-Khorshidi}}}
+\bibcite{shang2019_gbert}{{22}{2019}{{Shang et~al.}}{{Shang, Ma, Xiao, and Sun}}}
+\bibcite{rasmy2021_medbert}{{23}{2021}{{Rasmy et~al.}}{{Rasmy, Xiang, Xie, Tao, and Zhi}}}
+\bibcite{huang2019_clinicalbert}{{24}{2019}{{Huang et~al.}}{{Huang, Altosaar, and Ranganath}}}
+\bibcite{lee2020_biobert}{{25}{2020}{{Lee et~al.}}{{Lee, Yoon, Kim, Kim, Kim, So, and Kang}}}
+\bibcite{alsentzer2019}{{26}{2019}{{Alsentzer et~al.}}{{Alsentzer, Murphy, Boag, Weng, Jindi, Naumann, and McDermott}}}
+\bibcite{jiang2023_nyutron}{{27}{2023}{{Jiang et~al.}}{{Jiang, Liu, Tsai, Furth, Vaid, Bhargava, and et~al.}}}
+\bibcite{yang2022_gatortron}{{28}{2022}{{Yang et~al.}}{{Yang, Chen, PourNejatian, Shin, Smith, Parisien, Compas, Martin, Costa, Flores, Zhang, Magoc, Harle, Lipori, Mitchell, Hogan, Shenkman, Bian, and Wu}}}
+\bibcite{singhal2023_medpalm}{{29}{2023}{{Singhal et~al.}}{{Singhal, Azizi, Tu, Mahdavi, Wei, Chung, Scales, and et~al.}}}
+\bibcite{wornow2023_foundation}{{30}{2023}{{Wornow et~al.}}{{Wornow, Xu, Thapa, Patel, Steinberg, Fleming, Pfeffer, Fries, and Shah}}}
+\bibcite{fallahpour2025_ehrmamba}{{31}{2025}{{Fallahpour et~al.}}{{Fallahpour, Alinoori, Ye, Cao, Afkanpour, and Krishnan}}}
+\bibcite{guo2026_porter}{{32}{2026}{{Guo et~al.}}{{Guo, Yan, Vettese, and Sung}}}
+\bibcite{salton83}{{33}{1983}{{Salton and McGill}}{{}}}
+\bibcite{robertson1995}{{34}{1995}{{Robertson et~al.}}{{Robertson, Walker, Jones, Hancock-Beaulieu, and Gatford}}}
+\bibcite{robertson1976}{{35}{1976}{{Robertson and Sparck~Jones}}{{}}}
+\bibcite{khattab20}{{36}{2020}{{Khattab and Zaharia}}{{}}}
+\bibcite{santhanam2022_colbertv2}{{37}{2022}{{Santhanam et~al.}}{{Santhanam, Khattab, Saad-Falcon, Potts, and Zaharia}}}
+\bibcite{karpukhin2020_dpr}{{38}{2020}{{Karpukhin et~al.}}{{Karpukhin, O{\u {g}}uz, Min, Lewis, Wu, Edunov, Chen, and Yih}}}
+\bibcite{xiong2021_ance}{{39}{2021}{{Xiong et~al.}}{{Xiong, Xiong, Li, Tang, Liu, Bennett, Ahmed, and Overwijk}}}
+\bibcite{shurrab2026_ehrragp}{{40}{2026}{{Shurrab et~al.}}{{Shurrab, Al-Omari, El~Samad, and Shamout}}}
+\bibcite{lewis2020_rag}{{41}{2020}{{Lewis et~al.}}{{Lewis, Perez, Piktus, Petroni, Karpukhin, Goyal, K{\"u}ttler, Lewis, Yih, Rockt{\"a}schel, Riedel, and Kiela}}}
+\bibcite{asai2024_selfrag}{{42}{2024}{{Asai et~al.}}{{Asai, Wu, Wang, Sil, and Hajishirzi}}}
+\bibcite{liu2025_rag_biomed}{{43}{2025}{{Liu et~al.}}{{Liu, McCoy, and Wright}}}
+\bibcite{iyyer20}{{44}{2020}{{Iyyer}}{{}}}
+\bibcite{vakulenko2021_rewrite}{{45}{2021}{{Vakulenko et~al.}}{{Vakulenko, Longpre, Tu, and Anantha}}}
+\bibcite{hidasi2015}{{46}{2015}{{Hidasi et~al.}}{{Hidasi, Karatzoglou, Baltrunas, and Tikk}}}
+\bibcite{wu2019_session}{{47}{2019}{{Wu et~al.}}{{Wu, Tang, Zhu, Wang, Xie, and Tan}}}
+\bibcite{kang2018_sasrec}{{48}{2018}{{Kang and McAuley}}{{}}}
+\bibcite{gao2022_convsurvey}{{49}{2022}{{Gao et~al.}}{{Gao, Aliannejadi, Zamani, Stringam, Dalton, Vtyurina, and Savenkov}}}
+\bibcite{papachappa2026_siweaver}{{50}{2026}{{Papachappa}}{{}}}
+\bibcite{bronstein2021_gdl}{{51}{2021}{{Bronstein et~al.}}{{Bronstein, Bruna, Cohen, and Veli{\v {c}}kovi{\'c}}}}
+\bibcite{pennec2006_spd}{{52}{2006}{{Pennec et~al.}}{{Pennec, Fillard, and Ayache}}}
+\bibcite{huang2017_spdnet}{{53}{2017}{{Huang and Van~Gool}}{{}}}
+\bibcite{arsigny2007_logeuclidean}{{54}{2006}{{Arsigny et~al.}}{{Arsigny, Fillard, Pennec, and Ayache}}}
+\bibcite{nickel2017_poincare}{{55}{2017}{{Nickel and Kiela}}{{}}}
+\bibcite{chami2019_hgcn}{{56}{2019}{{Chami et~al.}}{{Chami, Ying, R{\'e}, and Leskovec}}}
+\bibcite{bardes2024_vjepa}{{57}{2024}{{Bardes et~al.}}{{Bardes, Garrido, Ponce, Chen, Rabbat, LeCun, Assran, and Ballas}}}
+\bibcite{assran2025_vjepa2}{{58}{2025}{{Assran et~al.}}{{Assran, Bardes, Fan, Garrido, Howes, Rabbat, and Ballas}}}
+\bibcite{murlabadia2026_vjepa21}{{59}{2026}{{Mur-Labadia et~al.}}{{Mur-Labadia, Muckley, Bar, Assran, Sinha, Rabbat, LeCun, Ballas, and Bardes}}}
+\bibcite{cui2026_jepa_theory}{{60}{2026}{{Cui et~al.}}{{Cui, Zhang, Wen, and Wang}}}
+\bibcite{grill20}{{61}{2020}{{Grill et~al.}}{{Grill, Strub, Tallec, Richemond, Buchatskaya, Doersch, Pires, Guo, Azar, Piot, Kavukcuoglu, and Valko}}}
+\bibcite{musen2014_cds}{{62}{2014}{{Musen et~al.}}{{Musen, Middleton, and Greenes}}}
+\bibcite{sutton2020_cds}{{63}{2020}{{Sutton et~al.}}{{Sutton, Pincock, Baumgart, Sadowski, Fedorak, and Kroeker}}}
+\bibcite{goddard2012}{{64}{2012}{{Goddard et~al.}}{{Goddard, Roudsari, and Wyatt}}}
+\bibcite{sweller1988_cogl}{{65}{1988}{{Sweller}}{{}}}
+\bibcite{zhu2026_aicare}{{66}{2026}{{Zhu et~al.}}{{Zhu, Sui, Wang, Hu, Gu, Qi, Wu, Wang, Wei, Tang, Cui, Wang, Yu, Harrison, Gao, and Ma}}}
+\bibcite{pollard2018_eicu}{{67}{2018}{{Pollard et~al.}}{{Pollard, Johnson, Raffa, Celi, Mark, and Badawi}}}
+\bibcite{muller2021_hirid}{{68}{2021}{{Faltys et~al.}}{{Faltys, Zimmermann, Lyu, H{\"u}ser, Hyland, R{\"a}tsch, and Merz}}}
+\bibcite{hart1988}{{69}{1988}{{Hart and Staveland}}{{}}}
+\bibcite{moher09}{{70}{2009}{{Moher et~al.}}{{Moher, Liberati, Tetzlaff, and Altman}}}
+\bibcite{mandel2016}{{71}{2016}{{Mandel et~al.}}{{Mandel, Kreda, Mandl, Kohane, and Ramoni}}}
+\bibcite{amann20}{{72}{2020}{{Amann et~al.}}{{Amann, Blasimme, Vayena, Frey, Madai, and the Precise4Q~consortium}}}
+\bibcite{lekadir25}{{73}{2025}{{Lekadir et~al.}}{{Lekadir, Glocker, Cintas, Langlotz, Weicken, Prior, Kaissis, Tsakou, Kalpathy-Cramer, Mongan, Kushibar, Riklund, Marias, and training}}}
+\bibcite{chen24}{{74}{2024}{{Chen et~al.}}{{Chen, Wang, Hong, Jiang, and Zhou}}}
+\gdef \@abspage@last{30}

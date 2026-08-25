@@ -1,0 +1,13 @@
+variant,condition,arm,n_sessions,mean_time_to_info,median_time_to_info,accuracy,mean_cognitive_load,mean_latency_ms,mean_queries
+Full GDT,control,TF-IDF,3000,76.69,70.22,0.944,50.2,189.3,3.02
+Full GDT,bm25,BM25,3000,77.16,70.3,0.94,50.3,189.45,3.02
+Full GDT,cma,CMA,3000,67.2,61.08,0.944,41.65,146.42,3.02
+Full GDT,gdt,GDT,3000,58.71,57.81,0.995,37.9,128.25,3.02
+GSI only,control,TF-IDF,3000,76.49,70.13,0.944,50.22,189.54,3.02
+GSI only,bm25,BM25,3000,77.02,70.44,0.94,50.3,189.56,3.02
+GSI only,cma,CMA,3000,67.26,61.39,0.944,41.65,146.67,3.02
+GSI only,gdt,GDT,3000,58.81,57.81,0.995,37.87,128.48,3.02
+JEPA only,control,TF-IDF,3000,76.66,70.54,0.944,50.28,189.73,3.02
+JEPA only,bm25,BM25,3000,76.96,70.69,0.94,50.24,189.25,3.02
+JEPA only,cma,CMA,3000,67.18,61.35,0.944,41.64,146.06,3.02
+JEPA only,gdt,GDT,3000,65.18,58.18,0.939,38.86,128.4,3.02

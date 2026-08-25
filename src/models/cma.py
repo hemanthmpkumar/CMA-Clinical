@@ -24,10 +24,10 @@ import scipy.sparse as sp
 import torch
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from .base import BaseRetriever
+from .base import BaseRetriever, build_tfidf
 from .gsi_gate import GSIGate
 from .jepa import JEPAPredictor
-from .spd_encoder import SPDEncoder
+from .spd_encoder import SPDEncoder, pick_device
 
 
 SPD_DIM = 16  # yields n_latent = 136 log-Euclidean coordinates
@@ -46,6 +46,7 @@ class CMARetriever(BaseRetriever):
                  spd_dim: int = SPD_DIM,
                  encoder_hidden_dim: int = 512,
                  encoder_pretrain_epochs: int = 50,
+                 encoder_pretrain_max_docs: Optional[int] = 100000,
                  encoder_finetune_epochs: int = 100,
                  encoder_lr: float = 1e-3,
                  predictor: Optional[JEPAPredictor] = None,
@@ -63,6 +64,7 @@ class CMARetriever(BaseRetriever):
         self.context_weight = context_weight
         self.semantic_candidate_k = semantic_candidate_k
         self.encoder_pretrain_epochs = encoder_pretrain_epochs
+        self.encoder_pretrain_max_docs = encoder_pretrain_max_docs
         self.encoder_finetune_epochs = encoder_finetune_epochs
 
         # Suppress noisy BLAS/numpy warnings on some Apple-Silicon builds.
@@ -74,11 +76,8 @@ class CMARetriever(BaseRetriever):
         # Encode corpus with TF-IDF. Allow reusing a pre-fitted vectorizer
         # so hyper-parameter searches do not refit the vocabulary.
         if vectorizer is None:
-            self.vectorizer = TfidfVectorizer(
-                max_df=0.85, min_df=2, stop_words="english", max_features=4000,
-                sublinear_tf=True
-            )
-            doc_tfidf = self.vectorizer.fit_transform(doc_texts)
+            self.vectorizer = build_tfidf(doc_texts)
+            doc_tfidf = self.vectorizer.transform(doc_texts)
         else:
             self.vectorizer = vectorizer
             doc_tfidf = self.vectorizer.transform(doc_texts)
@@ -91,10 +90,23 @@ class CMARetriever(BaseRetriever):
                 input_dim=n_features,
                 hidden_dim=encoder_hidden_dim,
                 spd_dim=spd_dim,
-                device=torch.device("mps" if torch.backends.mps.is_available() else "cpu"),
+                device=pick_device("auto"),
             )
             if encoder_pretrain_epochs > 0:
-                self.encoder.fit(doc_tfidf, epochs=encoder_pretrain_epochs,
+                # The autoencoder pretrain is only a warm start; the full corpus
+                # is still encoded afterwards. Subsampling documents keeps the
+                # O(batch^2 * dim) pairwise-cosine pretrain tractable on large
+                # corpora (e.g. 546K MIMIC-IV notes).
+                pretrain_rows = doc_tfidf
+                if (encoder_pretrain_max_docs
+                        and doc_tfidf.shape[0] > encoder_pretrain_max_docs):
+                    rng = np.random.RandomState(seed)
+                    idx = rng.choice(doc_tfidf.shape[0],
+                                     size=encoder_pretrain_max_docs, replace=False)
+                    pretrain_rows = doc_tfidf[idx]
+                    print(f"  SPD pretrain subsampled to {len(idx)} documents "
+                          f"(of {doc_tfidf.shape[0]})")
+                self.encoder.fit(pretrain_rows, epochs=encoder_pretrain_epochs,
                                   batch_size=256, lr=encoder_lr, seed=seed)
         else:
             self.encoder = encoder
@@ -328,6 +340,7 @@ class CMARetriever(BaseRetriever):
             "spd_dim": self.spd_dim,
             "encoder_hidden_dim": 512,
             "encoder_pretrain_epochs": 0,  # already trained; skip retraining
+            "encoder_pretrain_max_docs": None,
             "encoder_finetune_epochs": 0,
             "encoder_lr": 1e-3,
             "predictor": self.predictor,

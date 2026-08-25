@@ -125,13 +125,13 @@ class TestHumanAnnotationAnalysis(unittest.TestCase):
     def test_analyze_trust(self):
         df = pd.DataFrame({
             "vignette_id": ["V001", "V001", "V002", "V002", "V003", "V003"],
-            "condition": ["control", "cma", "control", "cma", "control", "cma"],
+            "condition": ["control", "gdt", "control", "gdt", "control", "gdt"],
             "trust": [3, 5, 4, 6, 2, 5],
         })
         result = human_annotation_analysis(df)
-        self.assertIn("trust", result)
-        self.assertIn("summary", result["trust"])
-        self.assertIn("cohens_d", result["trust"])
+        self.assertIn("gdt_trust", result)
+        self.assertIn("summary", result["gdt_trust"])
+        self.assertIn("cohens_d", result["gdt_trust"])
 
 
 if __name__ == "__main__":
