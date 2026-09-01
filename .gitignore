@@ -4,6 +4,8 @@ data/Processed/
 data/processed_spd_test/
 data/raw/
 data/processed/
+data/scaling/
+data/scaling_prepared/
 data/.DS_Store
 /models/
 models_spd_test*/

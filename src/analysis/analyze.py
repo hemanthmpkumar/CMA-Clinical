@@ -2,12 +2,13 @@
 """
 src/analysis/analyze.py
 
-Statistical analysis of the CMA three-arm crossover experiment.
+Statistical analysis of the four-arm crossover experiment.
 
 Conditions:
   - control : session-based TF-IDF baseline (classic sparse retrieval)
   - bm25    : session-based BM25 baseline (stronger classical sparse retrieval)
-  - cma     : Continuum Memory Architecture (intervention)
+  - cma     : Continuum Memory Architecture (comparison intervention)
+  - gdt     : Geodesic Diagnostic Trajectories (primary intervention)
 
 Primary analyses:
   1. Time-to-correct-information: paired Wilcoxon signed-rank + mixed-effects
@@ -17,7 +18,8 @@ Primary analyses:
   3. Secondary outcomes: NASA-TLX, latency, perceived usefulness via paired
      tests and effect sizes (Cohen's d).
 
-Pairwise contrasts: CMA vs Control (primary), CMA vs BM25, BM25 vs Control.
+Pairwise contrasts: GDT vs Control (primary), CMA vs Control, GDT vs CMA,
+GDT vs BM25, CMA vs BM25, BM25 vs Control.
 
 Outputs:
   outputs/primary_results.csv    - key summary statistics
@@ -44,7 +46,26 @@ try:
 except ImportError:  # pragma: no cover
     GEE = None
 
-CONDITIONS = ["control", "bm25", "cma"]
+CONDITIONS = ["control", "bm25", "cma", "gdt"]
+
+# GDT is the primary intervention. CMA is a benchmark (alongside TF-IDF and
+# BM25), not a co-intervention: it is compared against GDT but never treated
+# as a competing treatment in the primary analysis.
+PRIMARY_ARM = "gdt"
+BENCHMARKS = ["control", "bm25", "cma"]
+
+# Intervention arms used for the primary (vs control) contrasts.
+INTERVENTION_ARMS = ["gdt"]
+
+# All pairwise contrasts evaluated for each outcome.
+CONTRASTS = [
+    ("control", "gdt"),
+    ("control", "cma"),
+    ("gdt", "cma"),
+    ("gdt", "bm25"),
+    ("cma", "bm25"),
+    ("control", "bm25"),
+]
 
 
 def cohens_d(x, y):
@@ -53,24 +74,55 @@ def cohens_d(x, y):
     return float(diff.mean() / diff.std(ddof=1)) if diff.std(ddof=1) > 0 else 0.0
 
 
-def summarize(df: pd.DataFrame, outcome: str, group_col: str = "condition") -> dict:
-    grp = df.groupby(group_col)[outcome]
-    result = {}
-    for cond in CONDITIONS:
-        if cond in grp.groups:
-            result[f"{cond}_mean"] = round(float(grp.mean().get(cond, np.nan)), 3)
-            result[f"{cond}_median"] = round(float(grp.median().get(cond, np.nan)), 3)
-            result[f"{cond}_std"] = round(float(grp.std().get(cond, np.nan)), 3)
-    if "control" in grp.groups and "cma" in grp.groups:
-        ctrl = grp.mean().get("control", np.nan)
-        cma = grp.mean().get("cma", np.nan)
-        result["pct_change_mean"] = round(float((cma - ctrl) / ctrl * 100), 2)
-    if "control" in grp.groups and "bm25" in grp.groups:
-        ctrl = grp.mean().get("control", np.nan)
-        bm = grp.mean().get("bm25", np.nan)
-        result["bm25_pct_change_mean"] = round(float((bm - ctrl) / ctrl * 100), 2)
-    return result
+import numpy as np
+import pandas as pd
 
+def safe_pct_change(target: float, control: float) -> float:
+    """Calculates percentage change, safely returning np.nan on zero or missing values."""
+    if pd.isna(target) or pd.isna(control) or control == 0:
+        return np.nan
+    return round(float((target - control) / control * 100), 2)
+
+def summarize(
+    df: pd.DataFrame, 
+    outcome: str, 
+    group_col: str = "condition", 
+    conditions: list = None
+) -> dict:
+    if outcome not in df.columns or group_col not in df.columns:
+        return {}
+
+    grp = df.groupby(group_col)[outcome]
+    
+    # Pre-compute group aggregations ONCE for speed
+    means = grp.mean()
+    medians = grp.median()
+    stds = grp.std()
+    
+    result = {}
+    
+    # Default to all present groups if conditions are not explicitly passed
+    target_conditions = conditions if conditions is not None else list(means.index)
+    
+    for cond in target_conditions:
+        if cond in means.index:
+            m_val = means[cond]
+            med_val = medians[cond]
+            s_val = stds[cond]
+            
+            result[f"{cond}_mean"] = round(float(m_val), 3) if pd.notna(m_val) else np.nan
+            result[f"{cond}_median"] = round(float(med_val), 3) if pd.notna(med_val) else np.nan
+            result[f"{cond}_std"] = round(float(s_val), 3) if pd.notna(s_val) else np.nan
+
+    # Compute percentage changes safely relative to control for all benchmarks
+    # and the primary arm (CMA is now a benchmark, not an intervention).
+    ctrl_mean = means.get("control", np.nan)
+
+    for cond in list(BENCHMARKS) + [PRIMARY_ARM]:
+        if cond != "control" and cond in means.index:
+            result[f"{cond}_pct_change_mean"] = safe_pct_change(means.get(cond), ctrl_mean)
+
+    return result
 
 def paired_stats(df: pd.DataFrame, outcome: str, arm_a: str, arm_b: str) -> Optional[dict]:
     """Paired Wilcoxon signed-rank + Cohen's d between two arms."""
@@ -92,23 +144,10 @@ def paired_stats(df: pd.DataFrame, outcome: str, arm_a: str, arm_b: str) -> Opti
     }
 
 
-def primary_time_analysis(df: pd.DataFrame) -> dict:
-    """Paired analysis of time-to-correct-information across the three arms."""
-    summary = summarize(df, "time_to_info")
-
-    contrasts = {}
-    for arm_a, arm_b in [("control", "cma"), ("bm25", "cma"), ("control", "bm25")]:
-        ps = paired_stats(df, "time_to_info", arm_a, arm_b)
-        if ps is not None:
-            ps["median_pct_change"] = round(
-                float(np.median((ps["median_difference"] / np.median(
-                    df[df["condition"] == arm_a]["time_to_info"])) * 100)), 2
-            )
-        contrasts[f"{arm_a}_vs_{arm_b}"] = ps
-
-    # Mixed-effects model on log time for the primary contrast (CMA vs Control).
-    sub = df[df["condition"].isin(["control", "cma"])].copy()
-    sub["condition_code"] = (sub["condition"] == "cma").astype(int)
+def mixed_model_contrast(df: pd.DataFrame, arm: str) -> dict:
+    """Mixed-effects model on log time for <arm> vs control."""
+    sub = df[df["condition"].isin(["control", arm])].copy()
+    sub["condition_code"] = (sub["condition"] == arm).astype(int)
     sub["log_time"] = np.log1p(sub["time_to_info"])
     X = sm.add_constant(sub[["condition_code", "period"]])
     vignette_dummies = pd.get_dummies(sub["specialty"], prefix="spec", drop_first=True)
@@ -119,27 +158,47 @@ def primary_time_analysis(df: pd.DataFrame) -> dict:
     try:
         model = MixedLM(sub["log_time"], X, groups=sub["vignette_id"])
         fit = model.fit(reml=False)
-        beta_cma = float(fit.params["condition_code"])
+        beta = float(fit.params["condition_code"])
         ci_low, ci_high = fit.conf_int().loc["condition_code"].values
-        me_result = {
-            "cma_beta_log_time": round(beta_cma, 4),
-            "cma_beta_95ci": [round(float(ci_low), 4), round(float(ci_high), 4)],
+        return {
+            f"{arm}_beta_log_time": round(beta, 4),
+            f"{arm}_beta_95ci": [round(float(ci_low), 4), round(float(ci_high), 4)],
             "pvalue": float(fit.pvalues["condition_code"]),
-            "interpretation_pct": round((np.exp(beta_cma) - 1) * 100, 2),
+            "interpretation_pct": round((np.exp(beta) - 1) * 100, 2),
         }
     except Exception as exc:
-        me_result = {"error": str(exc)}
+        return {"error": str(exc)}
+
+
+def primary_time_analysis(df: pd.DataFrame) -> dict:
+    """Paired analysis of time-to-correct-information across the four arms."""
+    summary = summarize(df, "time_to_info")
+
+    contrasts = {}
+    for arm_a, arm_b in CONTRASTS:
+        ps = paired_stats(df, "time_to_info", arm_a, arm_b)
+        if ps is not None:
+            denom = float(np.median(df[df["condition"] == arm_a]["time_to_info"]))
+            if denom > 0:
+                ps["median_pct_change"] = round(
+                    float(np.median((ps["median_difference"] / denom) * 100)), 2
+                )
+            else:
+                ps["median_pct_change"] = np.nan
+        contrasts[f"{arm_a}_vs_{arm_b}"] = ps
+
+    mixed_effects = {arm: mixed_model_contrast(df, arm) for arm in INTERVENTION_ARMS}
 
     return {
         "summary": summary,
         "paired_test": "wilcoxon_signed_rank",
         "contrasts": contrasts,
-        "mixed_effects_log_time": me_result,
+        "mixed_effects_log_time": mixed_effects,
     }
 
 
 def accuracy_analysis(df: pd.DataFrame) -> dict:
-    """Paired binary accuracy across the three arms."""
+    """Paired binary accuracy across the four arms."""
     wide = df.pivot(index="vignette_id", columns="condition", values="accuracy").dropna()
     acc = {}
     for cond in CONDITIONS:
@@ -147,7 +206,7 @@ def accuracy_analysis(df: pd.DataFrame) -> dict:
             acc[f"{cond}_accuracy"] = round(float(wide[cond].astype(int).mean()), 3)
 
     contrasts = {}
-    for arm_a, arm_b in [("control", "cma"), ("bm25", "cma"), ("control", "bm25")]:
+    for arm_a, arm_b in CONTRASTS:
         if arm_a not in wide.columns or arm_b not in wide.columns:
             contrasts[f"{arm_a}_vs_{arm_b}"] = None
             continue
@@ -168,33 +227,39 @@ def accuracy_analysis(df: pd.DataFrame) -> dict:
             "mcnemar_pvalue": float(m_p),
         }
 
-    # Cluster-robust GEE for the primary contrast (CMA vs Control).
-    gee_result = None
+    # Cluster-robust GEE for each intervention vs control.
+    gee_results = {}
     if GEE is not None:
-        try:
-            sub = df[df["condition"].isin(["control", "cma"])].copy()
-            sub["condition_code"] = (sub["condition"] == "cma").astype(int)
-            X = sm.add_constant(sub[["condition_code", "period"]])
-            spec_dummies = pd.get_dummies(sub["specialty"], prefix="spec", drop_first=True)
-            if not spec_dummies.empty:
-                X = pd.concat([X, spec_dummies], axis=1)
-            X = X.astype(float)
-            model = GEE(sub["accuracy"], X, groups=sub["vignette_id"],
-                        family=Binomial(), cov_struct=Exchangeable())
-            fit = model.fit()
-            or_cma = float(np.exp(fit.params["condition_code"]))
-            gee_result = {
-                "cma_odds_ratio": round(or_cma, 3),
-                "pvalue": float(fit.pvalues["condition_code"]),
-                "converged": bool(fit.converged),
-            }
-        except Exception as exc:
-            gee_result = {"error": str(exc)}
+        for arm in INTERVENTION_ARMS:
+            gee_results[arm] = None
+            try:
+                sub = df[df["condition"].isin(["control", arm])].copy()
+                # Only fit the model if there is variance in accuracy
+                if sub["accuracy"].nunique() > 1:
+                    sub["condition_code"] = (sub["condition"] == arm).astype(int)
+                    X = sm.add_constant(sub[["condition_code", "period"]])
+                    spec_dummies = pd.get_dummies(sub["specialty"], prefix="spec", drop_first=True)
+                    if not spec_dummies.empty:
+                        X = pd.concat([X, spec_dummies], axis=1)
+                    X = X.astype(float)
+                    model = GEE(sub["accuracy"], X, groups=sub["vignette_id"],
+                                family=Binomial(), cov_struct=Exchangeable())
+                    fit = model.fit()
+                    or_arm = float(np.exp(fit.params["condition_code"]))
+                    gee_results[arm] = {
+                        f"{arm}_odds_ratio": round(or_arm, 3),
+                        "pvalue": float(fit.pvalues["condition_code"]),
+                        "converged": bool(fit.converged),
+                    }
+                else:
+                    gee_results[arm] = {"error": "Perfect separation: no variance in accuracy"}
+            except Exception as exc:
+                gee_results[arm] = {"error": str(exc)}
 
     return {
         **acc,
         "contrasts": contrasts,
-        "gee_logistic": gee_result,
+        "gee_logistic": gee_results,
     }
 
 
@@ -202,7 +267,7 @@ def secondary_analyses(df: pd.DataFrame) -> dict:
     out = {}
     for outcome in ["cognitive_load", "latency_ms", "n_queries_issued"]:
         contrasts = {}
-        for arm_a, arm_b in [("control", "cma"), ("bm25", "cma"), ("control", "bm25")]:
+        for arm_a, arm_b in CONTRASTS:
             contrasts[f"{arm_a}_vs_{arm_b}"] = paired_stats(df, outcome, arm_a, arm_b)
         out[outcome] = {
             "summary": summarize(df, outcome),
@@ -211,8 +276,8 @@ def secondary_analyses(df: pd.DataFrame) -> dict:
     return out
 
 
-def subgroup_analyses(df: pd.DataFrame) -> dict:
-    """Compute CMA effect within subgroups for forest plot (primary contrast)."""
+def subgroup_analyses(df: pd.DataFrame, arm: str = "gdt") -> dict:
+    """Compute <arm> effect within subgroups for the forest plot (vs control)."""
     subgroups = {}
     for col in ["specialty", "experience_group", "complexity"]:
         groups = {}
@@ -222,7 +287,10 @@ def subgroup_analyses(df: pd.DataFrame) -> dict:
             wide = sub.pivot(index="vignette_id", columns="condition", values="time_to_info").dropna()
             if len(wide) < 3:
                 continue
-            pct_change = ((wide["control"] - wide["cma"]) / wide["control"] * 100)
+
+            # Prevent division by zero
+            denom = wide["control"].replace(0, np.nan)
+            pct_change = ((wide["control"] - wide[arm]) / denom * 100)
             groups[str(name)] = {
                 "n": int(len(wide)),
                 "median_pct_change": round(float(pct_change.median()), 2),
@@ -243,14 +311,73 @@ def human_annotation_analysis(df: pd.DataFrame) -> dict:
         if len(wide) < 3:
             continue
         control = wide["control"].values
-        cma = wide["cma"].values
-        stat, p = wilcoxon(control, cma, zero_method="zsplit")
-        out[outcome] = {
-            "summary": summarize(df, outcome),
-            "wilcoxon_pvalue": float(p),
-            "cohens_d": round(cohens_d(cma, control), 3),
-        }
+        for arm in INTERVENTION_ARMS:
+            if arm not in wide.columns:
+                continue
+            arm_vals = wide[arm].values
+            stat, p = wilcoxon(control, arm_vals, zero_method="zsplit")
+            out[f"{arm}_{outcome}"] = {
+                "summary": summarize(df, outcome),
+                "wilcoxon_pvalue": float(p),
+                "cohens_d": round(cohens_d(arm_vals, control), 3),
+            }
     return out
+
+
+def gdt_vs_benchmark_analysis(df: pd.DataFrame) -> dict:
+    """Paired GDT vs each benchmark (control, BM25, CMA) across outcomes.
+
+    GDT is the primary intervention; control/BM25/CMA are benchmarks. For each
+    benchmark we report the paired comparison so manuscript figures can show
+    all three benchmark-vs-GDT contrasts side by side.
+    """
+    result = {}
+    metrics = ["time_to_info", "cognitive_load", "latency_ms", "n_queries_issued", "accuracy"]
+    for outcome in metrics:
+        if outcome not in df.columns:
+            continue
+        bench_outcomes = {}
+        for bench in BENCHMARKS:
+            ps = paired_stats(df, outcome, bench, "gdt")
+            if ps is None:
+                bench_outcomes[bench] = None
+                continue
+            if outcome == "accuracy":
+                wide = df.pivot(index="vignette_id", columns="condition",
+                                values="accuracy").dropna()
+                if {"gdt", bench}.issubset(wide.columns) and len(wide) > 2:
+                    g = wide["gdt"].astype(int)
+                    b = wide[bench].astype(int)
+                    ps["accuracy_delta"] = round(float((g - b).mean() * 100), 2)
+                    discord = int(((g != b).sum()))
+                    ps["n_discordant"] = discord
+                    better = int(((b == 0) & (g == 1)).sum())
+                    worse = int(((b == 1) & (g == 0)).sum())
+                    ps["n_gdt_better"] = better
+                    ps["n_gdt_worse"] = worse
+                    if better + worse > 0:
+                        stat = (abs(better - worse) - 1) ** 2 / (better + worse)
+                        ps["mcnemar_pvalue"] = float(stats.chi2.sf(stat, 1))
+                    else:
+                        ps["mcnemar_pvalue"] = 1.0
+                else:
+                    ps["accuracy_delta"] = None
+                bench_outcomes[bench] = ps
+                continue
+            denom = float(np.median(df[df["condition"] == bench][outcome]))
+            if denom and denom > 0:
+                ps["median_pct_change_vs_bench"] = round(
+                    float(np.median((ps["median_difference"] / denom) * 100)), 2
+                ) if ps.get("median_difference") is not None else None
+                ps["mean_pct_change_vs_bench"] = round(
+                    float((ps.get("mean_difference", 0.0) / denom) * 100), 2
+                )
+            else:
+                ps["median_pct_change_vs_bench"] = None
+                ps["mean_pct_change_vs_bench"] = None
+            bench_outcomes[bench] = ps
+        result[outcome] = bench_outcomes
+    return result
 
 
 def main():
@@ -279,8 +406,10 @@ def main():
     primary = primary_time_analysis(df)
     accuracy = accuracy_analysis(df)
     secondary = secondary_analyses(df)
-    subgroups = subgroup_analyses(df)
+    subgroups = subgroup_analyses(df, arm="gdt")
+    subgroups_cma = subgroup_analyses(df, arm="cma")
     human = human_annotation_analysis(df)
+    gdt_vs_bench = gdt_vs_benchmark_analysis(df)
 
     all_stats = {
         "n_sessions": int(len(df)),
@@ -291,34 +420,39 @@ def main():
         "secondary": secondary,
         "human_annotations": human,
         "subgroups": subgroups,
+        "subgroups_cma": subgroups_cma,
+        "gdt_vs_benchmarks": gdt_vs_bench,
     }
 
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "statistics.json").write_text(json.dumps(all_stats, indent=2), encoding="utf-8")
 
-    # Human-readable primary table (primary contrast: CMA vs Control).
+    # Human-readable primary table: GDT vs each benchmark (control, BM25, CMA).
     rows = []
-    for outcome in ["time_to_info", "accuracy", "cognitive_load", "latency_ms", "n_queries_issued", "trust"]:
+    for outcome in ["time_to_info", "accuracy", "cognitive_load", "latency_ms", "n_queries_issued"]:
         if outcome not in df.columns:
             continue
         row = {"outcome": outcome, **summarize(df, outcome)}
+        for bench in BENCHMARKS:
+            if bench == "control":
+                continue
+            ctrl = gdt_vs_bench.get(outcome, {}).get(bench, {}) or {}
+            row[f"gdt_vs_{bench}_p"] = round(float(ctrl.get("wilcoxon_pvalue", np.nan)), 4)
+            row[f"gdt_vs_{bench}_d"] = round(float(ctrl.get("cohens_d", np.nan)), 3)
+        # Primary (GDT vs Control) contrast on the row as well.
         if outcome == "time_to_info":
-            ctrl = primary["contrasts"].get("control_vs_cma", {}) or {}
-            row["pvalue_wilcoxon"] = round(float(ctrl.get("wilcoxon_pvalue", np.nan)), 4)
-            row["cohens_d"] = round(float(ctrl.get("cohens_d", np.nan)), 3)
+            ctrl = primary["contrasts"].get("control_vs_gdt", {}) or {}
+            row["control_vs_gdt_p"] = round(float(ctrl.get("wilcoxon_pvalue", np.nan)), 4)
+            row["control_vs_gdt_d"] = round(float(ctrl.get("cohens_d", np.nan)), 3)
         elif outcome == "accuracy":
-            ctrl = accuracy["contrasts"].get("control_vs_cma", {}) or {}
-            row["pvalue_wilcoxon"] = round(float(ctrl.get("mcnemar_pvalue", np.nan)), 4)
-            row["cohens_d"] = np.nan
-        elif outcome == "trust":
-            h = human.get(outcome, {})
-            row["pvalue_wilcoxon"] = round(float(h.get("wilcoxon_pvalue", np.nan)), 4)
-            row["cohens_d"] = round(float(h.get("cohens_d", np.nan)), 3)
+            ctrl = accuracy["contrasts"].get("control_vs_gdt", {}) or {}
+            row["control_vs_gdt_p"] = round(float(ctrl.get("mcnemar_pvalue", np.nan)), 4)
+            row["control_vs_gdt_d"] = np.nan
         else:
-            ctrl = secondary.get(outcome, {}).get("contrasts", {}).get("control_vs_cma", {}) or {}
-            row["pvalue_wilcoxon"] = round(float(ctrl.get("wilcoxon_pvalue", np.nan)), 4)
-            row["cohens_d"] = round(float(ctrl.get("cohens_d", np.nan)), 3)
+            ctrl = secondary.get(outcome, {}).get("contrasts", {}).get("control_vs_gdt", {}) or {}
+            row["control_vs_gdt_p"] = round(float(ctrl.get("wilcoxon_pvalue", np.nan)), 4)
+            row["control_vs_gdt_d"] = round(float(ctrl.get("cohens_d", np.nan)), 3)
         rows.append(row)
     summary_df = pd.DataFrame(rows)
     summary_df.to_csv(out_dir / "primary_results.csv", index=False)
@@ -326,14 +460,25 @@ def main():
     print("Analysis complete.")
     print(f"  Sessions: {all_stats['n_sessions']} ({all_stats['n_per_condition']})")
     print(f"  Vignettes: {all_stats['n_vignettes']}")
-    p = primary["contrasts"].get("control_vs_cma", {}) or {}
-    print(f"  Time-to-info CMA vs Control median pct change: {p.get('median_pct_change')}%, p={p.get('wilcoxon_pvalue'):.4f}")
-    print(f"  Accuracy: {accuracy.get('control_accuracy')} control / {accuracy.get('bm25_accuracy')} bm25 / {accuracy.get('cma_accuracy')} cma")
-    print(f"  Cognitive load CMA vs Control pct change: {secondary['cognitive_load']['summary'].get('pct_change_mean')}%")
-    print(f"  Latency CMA vs Control pct change: {secondary['latency_ms']['summary'].get('pct_change_mean')}%")
+    p = primary["contrasts"].get("control_vs_gdt", {}) or {}
+    mpc = p.get("median_pct_change")
+    wp = p.get("wilcoxon_pvalue")
+    mpc_s = f"{mpc}%" if mpc is not None else "n/a"
+    wp_s = f"{wp:.4f}" if wp is not None else "n/a"
+    print(f"  Time-to-info GDT vs Control median pct change: {mpc_s}, p={wp_s}")
+    print(f"  Accuracy: {accuracy.get('control_accuracy')} control / "
+          f"{accuracy.get('bm25_accuracy')} bm25 / {accuracy.get('cma_accuracy')} cma / "
+          f"{accuracy.get('gdt_accuracy')} gdt")
+    for arm in INTERVENTION_ARMS:
+        pct = secondary["cognitive_load"]["summary"].get(f"{arm}_pct_change_mean")
+        print(f"  Cognitive load {arm} vs Control pct change: {pct}%")
+        lat = secondary["latency_ms"]["summary"].get(f"{arm}_pct_change_mean")
+        print(f"  Latency {arm} vs Control pct change: {lat}%")
     if human:
         for k, v in human.items():
-            print(f"  {k}: control={v['summary']['control_mean']} cma={v['summary']['cma_mean']} d={v['cohens_d']}")
+            arm_key = k.split("_")[0]
+            arm_mean = v["summary"].get(f"{arm_key}_mean")
+            print(f"  {k}: control={v['summary'].get('control_mean')} {arm_key}={arm_mean} d={v['cohens_d']}")
     print(f"Outputs: {out_dir / 'statistics.json'}, {out_dir / 'primary_results.csv'}")
     print("\nNext step: python src/viz/plots.py")
 

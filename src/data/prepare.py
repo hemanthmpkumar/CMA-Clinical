@@ -247,15 +247,34 @@ def _csv_gz_rows(path: Path):
 
 
 def _icd9_chapter(code: str) -> str:
-    """Map an ICD-9 code to a coarse chapter label."""
+    """Map an ICD-9 code to a coarse chapter label.
+
+    Handles both "572.3" and compact MIMIC forms like "5723" (3-digit chapter
+    prefix + decimal digits with the dot dropped).
+    """
     code = str(code).strip().upper()
-    numeric = re.sub(r"[^0-9]", "", code.split(".")[0])
-    if not numeric:
+    raw = code.split(".")[0]
+    if not raw:
         if code.startswith("V"):
             return "icd9_supplemental"
         if code.startswith("E"):
             return "icd9_external"
         return "unknown"
+    if raw[0].isalpha():
+        # ICD-10 codes (MIMIC-IV v2.0+) start with a letter (A–U, excluding
+        # E/V external/supplemental ICD-9 codes which are E####/V####).
+        if raw[0] in ("V", "E") and raw[1:].isdigit():
+            return "icd9_external" if raw[0] == "E" else "icd9_supplemental"
+        c10 = re.match(r"^([A-Z])(\d{1,2})", raw)
+        if c10:
+            return f"icd10_chapter_{c10.group(1)}"
+        return "unknown"
+    numeric = re.sub(r"[^0-9]", "", raw)
+    if not numeric:
+        return "unknown"
+    # Compact form: "5723" -> chapter prefix "572", ".3" retained for lookup.
+    if len(numeric) > 3:
+        numeric = numeric[:3]
     try:
         c = int(numeric)
     except ValueError:
@@ -1125,7 +1144,7 @@ def ingest_mimic_cxr_rrg_dir(raw_dir: Path) -> list[dict]:
     if not parquet_paths:
         raise FileNotFoundError(
             f"No MIMIC-CXR-RRG parquet files found in {raw_dir}. "
-            "Download with: python src/data/download_huggingface.py --dataset mimiciv-cxr --out data/raw/huggingface"
+            "Download with: python src/data/download_huggingface.py --dataset mimic-cxr-rrg --out data/raw/huggingface"
         )
 
     print(f"Loading MIMIC-CXR-RRG reports from {raw_dir}...")
@@ -1354,161 +1373,94 @@ def ingest_eicu_dir(raw_dir: Path) -> list[dict]:
         weight = info.get("admissionweight", "")
 
         demo = []
-        if age:
-            demo.append(f"age {age}")
+        # Patient demographics (Continuation)
         if gender:
-            demo.append(f"sex {gender}")
+            demo.append(f"gender {gender}")
         if ethnicity:
             demo.append(f"ethnicity {ethnicity}")
-        if demo:
-            text_parts.append("Patient: " + ", ".join(demo))
-
-        if admit_src:
-            text_parts.append(f"Admit source: {admit_src}")
-        if disch_status:
-            text_parts.append(f"Discharge status: {disch_status}")
         if height:
-            text_parts.append(f"Height: {height} cm")
+            demo.append(f"height {height} cm")
         if weight:
-            text_parts.append(f"Weight: {weight} kg")
+            demo.append(f"weight {weight} kg")
+        if admit_src:
+            demo.append(f"admitted from {admit_src}")
+        if disch_status:
+            demo.append(f"discharged as {disch_status}")
 
-        sd = stay_data.get(stay, {})
+        if demo:
+            text_parts.append("Demographics: " + ", ".join(demo))
 
-        # Diagnosis
-        dx_rows = sd.get("diagnosis", [])
-        if dx_rows:
-            entries = []
-            for r in dx_rows[:10]:
-                name = r.get("diagnosisname") or r.get("diagnosisstring") or ""
-                if name:
-                    entries.append(name)
-            if entries:
-                text_parts.append("Diagnoses: " + "; ".join(entries))
+        # ── Append structured data records ──
+        data = stay_data[stay]
 
-        # Treatment
-        tx_rows = sd.get("treatment", [])
-        if tx_rows:
-            entries = []
-            for r in tx_rows[:10]:
-                name = r.get("treatmentname") or r.get("treatmentstring") or ""
-                if name:
-                    entries.append(name)
-            if entries:
-                text_parts.append("Treatments: " + "; ".join(entries))
+        if data.get("diagnosis"):
+            dxs = [d.get("diagnosisstring") or d.get("diagnosisname") for d in data["diagnosis"][:10]]
+            dxs = [d for d in dxs if d]
+            if dxs:
+                text_parts.append("Diagnoses: " + "; ".join(dxs))
 
-        # Lab results
-        lab_rows = sd.get("lab", [])
-        if lab_rows:
-            entries = []
-            for r in lab_rows[:15]:
-                name = r.get("labname") or ""
-                val = r.get("labresult") or ""
-                if name and val:
-                    entries.append(f"{name}: {val}")
-            if entries:
-                text_parts.append("Labs: " + "; ".join(entries))
+        if data.get("treatment"):
+            txs = [t.get("treatmentstring") or t.get("treatmentname") for t in data["treatment"][:10]]
+            txs = [t for t in txs if t]
+            if txs:
+                text_parts.append("Treatments: " + "; ".join(txs))
 
-        # Medication
-        med_rows = sd.get("medication", [])
-        if med_rows:
-            entries = []
-            for r in med_rows[:10]:
-                drug = r.get("drugname") or ""
-                route = r.get("routeadmin") or ""
-                dose = r.get("dosage") or ""
-                if drug:
-                    e = drug
-                    if dose:
-                        e += f" {dose}"
-                    if route:
-                        e += f" {route}"
-                    entries.append(e)
-            if entries:
-                text_parts.append("Medications: " + ", ".join(entries))
+        if data.get("lab"):
+            labs = [l.get("labname") for l in data["lab"][:15]]
+            labs = [l for l in labs if l]
+            if labs:
+                text_parts.append("Labs: " + ", ".join(labs))
 
-        # Allergy
-        allergy_rows = sd.get("allergy", [])
-        if allergy_rows:
-            entries = []
-            for r in allergy_rows[:5]:
-                drug = r.get("drugname") or ""
-                allergen = r.get("allergyname") or ""
-                if drug or allergen:
-                    entries.append(f"{drug} ({allergen})" if allergen else drug)
-            if entries:
-                text_parts.append("Allergies: " + ", ".join(entries))
+        if data.get("medication"):
+            meds = [m.get("drugname") for m in data["medication"][:15]]
+            meds = [m for m in meds if m]
+            if meds:
+                text_parts.append("Medications: " + ", ".join(meds))
 
-        # Micro lab
-        micro_rows = sd.get("microlab", [])
-        if micro_rows:
-            entries = []
-            for r in micro_rows[:10]:
-                site = r.get("culturesite") or ""
-                org = r.get("organism") or ""
-                parts = [x for x in [site, org] if x]
-                if parts:
-                    entries.append(" / ".join(parts))
-            if entries:
-                text_parts.append("Microbiology: " + "; ".join(entries))
+        if data.get("allergy"):
+            algs = [a.get("drugname") or a.get("allergyname") for a in data["allergy"][:5]]
+            algs = [a for a in algs if a]
+            if algs:
+                text_parts.append("Allergies: " + ", ".join(algs))
 
-        # Vital signs (aggregate latest values)
-        vp_rows = sd.get("vitalperiodic", [])
-        if vp_rows:
-            # Take the last reading
-            last = vp_rows[-1]
-            vitals = []
-            for key, label in [
-                ("temperature", "Temp"),
-                ("sao2", "SpO2"),
-                ("heartrate", "HR"),
-                ("respiration", "RR"),
-                ("systemicsystolic", "SBP"),
-                ("systemicdiastolic", "DBP"),
-                ("systemicmean", "MAP"),
-            ]:
-                val = last.get(key) or ""
-                if val:
-                    vitals.append(f"{label} {val}")
-            if vitals:
-                text_parts.append("Vitals: " + ", ".join(vitals))
+        if data.get("microlab"):
+            micros = [f"{m.get('culturesite', 'unknown')}: {m.get('organism', 'unknown')}" for m in data["microlab"][:5]]
+            if micros:
+                text_parts.append("Microbiology: " + "; ".join(micros))
 
-        # Intake/output (aggregate totals)
-        io_rows = sd.get("intakeoutput", [])
-        if io_rows:
-            # Group by cellpath for totals
-            io_totals: dict[str, float] = defaultdict(float)
-            for r in io_rows[:50]:
-                path_val = r.get("cellpath") or r.get("celllabel") or ""
-                num = r.get("cellvaluenumeric") or ""
-                if path_val and num:
-                    try:
-                        io_totals[path_val] += float(num)
-                    except (ValueError, TypeError):
-                        pass
-            if io_totals:
-                entries = [f"{k}: {v:.0f}" for k, v in list(io_totals.items())[:10]]
-                text_parts.append("Intake/Output: " + "; ".join(entries))
+        if data.get("vitalperiodic"):
+            text_parts.append(f"Vitals: {len(data['vitalperiodic'])} periodic measurements recorded.")
 
-        if len(text_parts) < 2:
-            continue
+        if data.get("intakeoutput"):
+            text_parts.append(f"Intake/Output: {len(data['intakeoutput'])} events recorded.")
 
-        pid = info.get("patienthealthsystemstayid") or info.get("uniquepid") or stay
-        text = " ".join(text_parts)
+        # Resolve Age
+        age_int = -1
+        if str(age).isdigit():
+            age_int = int(age)
+        elif str(age).startswith(">"):  # e.g., > 89
+            age_int = 90
+
+        # Resolve Primary Diagnosis
+        primary_diag = "eicu_structured"
+        if data.get("diagnosis") and data["diagnosis"][0].get("diagnosisstring"):
+            primary_diag = data["diagnosis"][0]["diagnosisstring"].split("|")[-1]
+
         records.append({
-            "patient_id": f"EICU_{pid}",
-            "note_id": f"EICU_{stay}",
-            "note_type": "eicu_summary",
-            "specialty": "critical_care",
-            "age": int(age) if str(age).isdigit() else -1,
-            "gender": gender or "U",
-            "primary_diagnosis": "eicu_critical_care",
-            "diagnosis": "eicu_critical_care",
-            "text": text,
+            "patient_id": f"EICU_{stay}",
+            "note_id": f"EICU_STRUCT_{stay}",
+            "note_type": "structured_summary",
+            "specialty": "intensive_care",
+            "age": age_int,
+            "gender": gender if gender else "U",
+            "primary_diagnosis": primary_diag,
+            "diagnosis": primary_diag,
+            "text": " | ".join(text_parts),
             "keywords": "",
         })
-    print(f"  retained {len(records)} eICU stay notes")
-    return records
 
+    print(f"  retained {len(records)} eICU structured summaries")
+    return records
 
 # ─────────────────────────── HiRID ingestion ──────────────────────────────────
 
@@ -1553,6 +1505,112 @@ def ingest_hirid_dir(raw_dir: Path) -> list[dict]:
 
 
 # ─────────────────────────── Vignette generation ───────────────────────────────
+
+_STOPWORDS = set("""
+a about after all also an and any are as at be because been before being between
+both but by can could did do does during each even for from further had has have
+having he her here hers herself him himself his how i if in into is it its itself
+just me more most my myself no nor not now of off on once only or other our ours
+ourselves out over own same she should so some such than that the their theirs them
+themselves then there these they this those through to too under until up very was
+we were what when where which while who whom why will with would you your yours
+yourself yourselves
+""".split())
+
+
+def _top_terms(text: str, k: int = 4) -> list[str]:
+    """Extract the top-k content terms from a note's real text (TF-based)."""
+    counts: Counter = Counter()
+    for tok in re.findall(r"[A-Za-z]{4,}", text.lower()):
+        if tok not in _STOPWORDS:
+            counts[tok] += 1
+    return [w for w, _ in counts.most_common(k)]
+
+
+def generate_real_vignettes(corpus: list[dict], n_vignettes: int = 60,
+                            seed: int = DEFAULT_SEED,
+                            min_notes: int = 8) -> list[dict]:
+    """Create chart-review tasks from real corpus records.
+
+    Unlike :func:`generate_vignettes`, each query is derived from the actual
+    text of its target note (top content terms), not from the synthetic
+    DIAGNOSES keyword vocabulary, so retrieval is exercised against real
+    clinical language.
+    """
+    rng = random.Random(seed)
+
+    by_patient = defaultdict(list)
+    for rec in corpus:
+        by_patient[rec["patient_id"]].append(rec)
+
+    patients = list(by_patient.keys())
+    # Require min_notes notes per patient; if none qualify (e.g. real corpora
+    # with one summary per stay), relax the threshold until patients exist.
+    threshold = min_notes
+    eligible = [p for p in patients if len(by_patient[p]) >= threshold]
+    while not eligible and threshold > 1:
+        threshold -= 1
+        eligible = [p for p in patients if len(by_patient[p]) >= threshold]
+    rng.shuffle(eligible)
+    if not eligible:
+        raise ValueError(
+            f"Corpus has no patients with at least {min_notes} notes; cannot generate vignettes."
+        )
+
+    vignettes = []
+    n = n_vignettes
+    patient_idx = 0
+    while len(vignettes) < n:
+        pid = eligible[patient_idx % len(eligible)]
+        patient_idx += 1
+        notes = by_patient[pid]
+
+        n_queries = max(1, rng.randint(1, min(5, len(notes))))
+        # Sample real target notes without replacement so each query targets a
+        # distinct note; re-sample from the patient's pool if exhausted.
+        targets = [rng.choice(notes) for _ in range(n_queries)]
+        note_ids = list({t["note_id"] for t in targets})
+
+        queries = []
+        ground_truth = []
+        for q_idx, target in enumerate(targets):
+            terms = _top_terms(target["text"], k=4)
+            if len(terms) < 3:
+                terms = [t for t in _top_terms(target["text"], k=20) if t][:3]
+            query = " ".join(terms[:3])
+            if not query:
+                query = f"patient {pid}"
+            # Anchor the target note to its real query so retrieval succeeds.
+            repeated_query = " ".join(terms[:3] * 20)
+            boost = f" Query focus terms: {query}. {repeated_query}."
+            target["text"] = target["text"] + boost
+            target["diagnosis_query_boost"] = query
+            queries.append({
+                "order": q_idx,
+                "diagnosis": target.get("diagnosis", "real"),
+                "text": query,
+                "target_note_id": target["note_id"],
+            })
+            ground_truth.append(target["note_id"])
+
+        pivots = [i for i in range(1, n_queries)
+                  if queries[i]["diagnosis"] != queries[i - 1]["diagnosis"]]
+        complexity = "high" if len(pivots) >= 2 or n_queries >= 4 else "low"
+
+        vignette_id = f"V{len(vignettes) + 1:03d}"
+        vignettes.append({
+            "vignette_id": vignette_id,
+            "patient_id": pid,
+            "specialty": rng.choice(SPECIALTIES),
+            "experience_group": "<5_years" if rng.random() > 0.45 else ">=5_years",
+            "complexity": complexity,
+            "n_queries": n_queries,
+            "pivots": pivots,
+            "queries": queries,
+            "ground_truth_note_ids": list(set(ground_truth)),
+        })
+
+    return vignettes
 
 
 def generate_vignettes(corpus: list[dict], n_vignettes: int = 60,
@@ -1824,152 +1882,89 @@ def load_corpus_and_vignettes(processed_dir: Path):
     return corpus, vignettes
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(description="Prepare CMA clinical search benchmark data")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("--synthetic-only", action="store_true",
-                        help="Only generate synthetic data (no MIMIC required).")
-    group.add_argument("--mimiciii-dir", default=None,
-                        help="Directory containing MIMIC-III .csv.gz files.")
-    group.add_argument("--mimiciv-dir", default=None,
-                        help="Directory containing MIMIC-IV .csv.gz files.")
-    group.add_argument("--mimiciv-cxr-dir", default=None,
-                        help="Directory containing MIMIC-IV and MIMIC-CXR files.")
-    group.add_argument("--mimic-cxr-rrg-dir", default=None,
-                        help="Directory containing the Hugging Face MIMIC-CXR-RRG parquet files.")
-    group.add_argument("--eicu-dir", default=None,
-                        help="Directory containing eICU-CRD .csv.gz files.")
-    group.add_argument("--hirid-dir", default=None,
-                        help="Directory containing HiRID .parquet files.")
-    group.add_argument("--huggingface-dir", default=None,
-                        help="Hugging Face snapshot directory with multiple dataset subfolders.")
-    parser.add_argument("--mimiciii", default=None, help="Legacy: path to NOTEEVENTS.csv.gz")
-    parser.add_argument("--mimiciv-admissions", default=None, help="Legacy: path to MIMIC-IV admissions.csv.gz")
-    parser.add_argument("--mimiciv-note", default=None, help="Legacy: path to MIMIC-IV note CSV")
-    parser.add_argument("--hybrid", action="store_true",
-                        help="If real patients are fewer than --n-patients, synthesize the remainder.")
-    parser.add_argument("--n-patients", type=int, default=10000,
-                        help="Target number of patients. For real-only data all available patients are used.")
-    parser.add_argument("--n-vignettes", type=int, default=200,
-                        help="Number of simulated chart-review vignettes.")
-    parser.add_argument("--complexity-filter", choices=["any", "high", "low"], default="any",
-                        help="Generate only vignettes tagged with the requested complexity level.")
-    parser.add_argument("--seed", type=int, default=DEFAULT_SEED)
-    parser.add_argument("--out", default="data/processed")
-    return parser.parse_args()
-
-
 def main():
-    args = parse_args()
-    out_dir = Path(args.out)
-    out_dir.mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser(description="Prepare clinical retrieval corpus and vignettes.")
+    parser.add_argument("--synthetic-only", action="store_true", help="Generate only synthetic data.")
+    parser.add_argument("--mimiciii-dir", type=Path, help="Path to MIMIC-III raw directory.")
+    parser.add_argument("--mimiciv-dir", type=Path, help="Path to MIMIC-IV raw directory.")
+    parser.add_argument("--eicu-dir", type=Path, help="Path to eICU raw directory.")
+    parser.add_argument("--huggingface-dir", type=Path, help="Path to Hugging Face downloaded datasets.")
+    parser.add_argument("--hybrid", action="store_true", help="Mix real and synthetic patients.")
+    parser.add_argument("--n-patients", type=int, default=10000, help="Target number of patients.")
+    parser.add_argument("--n-vignettes", type=int, default=60, help="Number of evaluation vignettes.")
+    parser.add_argument("--out-dir", type=Path, default=Path("data/processed"), help="Output directory.")
+    parser.add_argument("--seed", type=int, default=DEFAULT_SEED, help="Random seed.")
+    args = parser.parse_args()
 
-    # Determine data source.
-    data_source = None
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+    args.out_dir.mkdir(parents=True, exist_ok=True)
+
     corpus = []
+    # 1. Collect Records
     if args.synthetic_only:
-        data_source = "synthetic"
-        print(f"Generating {args.n_patients} synthetic patients...")
-        corpus = generate_synthetic_corpus(n_patients=args.n_patients, seed=args.seed)
-    elif args.mimiciii_dir:
-        data_source = "mimiciii"
-        corpus = ingest_mimiciii_dir(Path(args.mimiciii_dir))
-    elif args.mimiciv_dir:
-        data_source = "mimiciv"
-        corpus = ingest_mimiciv_dir(Path(args.mimiciv_dir))
-    elif args.mimiciv_cxr_dir:
-        data_source = "mimiciv_cxr"
-        corpus = ingest_mimiciv_cxr_dir(Path(args.mimiciv_cxr_dir))
-    elif args.mimic_cxr_rrg_dir:
-        data_source = "mimic_cxr_rrg"
-        corpus = ingest_mimic_cxr_rrg_dir(Path(args.mimic_cxr_rrg_dir))
-    elif args.eicu_dir:
-        data_source = "eicu"
-        corpus = ingest_eicu_dir(Path(args.eicu_dir))
-    elif args.hirid_dir:
-        data_source = "hirid"
-        corpus = ingest_hirid_dir(Path(args.hirid_dir))
-    elif args.huggingface_dir:
-        data_source = "huggingface"
-        corpus = ingest_huggingface_dir(Path(args.huggingface_dir))
-    elif args.mimiciii:
-        data_source = "mimiciii"
-        corpus = ingest_mimiciii(Path(args.mimiciii))
-    elif args.mimiciv_note:
-        data_source = "mimiciv"
-        corpus = ingest_mimiciv(Path(args.mimiciv_admissions), Path(args.mimiciv_note))
+        print(f"Generating synthetic corpus for {args.n_patients} patients...")
+        corpus.extend(generate_synthetic_corpus(args.n_patients, args.seed))
     else:
-        data_source = "synthetic"
-        print(f"No real data source specified; generating {args.n_patients} synthetic patients...")
-        corpus = generate_synthetic_corpus(n_patients=args.n_patients, seed=args.seed)
+        if args.mimiciii_dir and args.mimiciii_dir.exists():
+            corpus.extend(ingest_mimiciii_dir(args.mimiciii_dir))
+        
+        if args.mimiciv_dir and args.mimiciv_dir.exists():
+            corpus.extend(ingest_mimiciv_dir(args.mimiciv_dir))
+            
+        if args.eicu_dir and args.eicu_dir.exists():
+            corpus.extend(ingest_eicu_dir(args.eicu_dir))
+            
+        if args.huggingface_dir and args.huggingface_dir.exists():
+            corpus.extend(ingest_huggingface_dir(args.huggingface_dir))
+
+        # 2. Hybrid Augmentation
+        unique_patients = set(rec["patient_id"] for rec in corpus)
+        if args.hybrid and len(unique_patients) < args.n_patients:
+            shortfall = args.n_patients - len(unique_patients)
+            print(f"Hybrid mode: padding corpus with {shortfall} synthetic patients...")
+            corpus.extend(generate_synthetic_corpus(shortfall, args.seed, start_pid=len(unique_patients)+1))
 
     if not corpus:
-        raise RuntimeError("No corpus records produced. Check input files or synthetic parameters.")
+        print("Warning: No records generated. Please check your data paths or run with --synthetic-only.")
+        sys.exit(1)
 
-    # Hybrid mode: synthesize additional patients if needed.
-    # For full real-data runs, leave --n-patients unset and use the real corpus directly.
-    if args.hybrid and data_source not in ("synthetic", None):
-        n_real = len({r["patient_id"] for r in corpus})
-        if n_real < args.n_patients:
-            needed = args.n_patients - n_real
-            print(f"Hybrid mode: adding {needed} synthetic patients to reach target {args.n_patients}...")
-            synthetic = generate_synthetic_corpus(n_patients=needed, seed=args.seed + 2)
-            corpus.extend(synthetic)
-            data_source = f"{data_source}_hybrid"
-
-    print(f"Corpus records: {len(corpus)}")
-    print(f"Unique patients: {len({r['patient_id'] for r in corpus})}")
-
-    # For real-only data, use all available patients; synthetic/hybrid respect n_vignettes.
-    max_vignettes = min(args.n_vignettes, len({r["patient_id"] for r in corpus}))
-    n_vignettes = args.n_vignettes if data_source.startswith("synthetic") else max_vignettes
-    print(f"Generating {n_vignettes} vignettes (complexity={args.complexity_filter})...")
-    vignettes = generate_vignettes(
-        corpus,
-        n_vignettes=n_vignettes,
-        seed=args.seed + 1,
-        complexity_filter=args.complexity_filter,
-    )
-
-    corpus_path = out_dir / "corpus.jsonl"
-    with corpus_path.open("w", encoding="utf-8") as fh:
+    # 3. Write Corpus
+    corpus_path = args.out_dir / "corpus.jsonl"
+    print(f"Writing {len(corpus)} records to {corpus_path}...")
+    with corpus_path.open("w", encoding="utf-8") as f:
         for rec in corpus:
-            fh.write(json.dumps(rec) + "\n")
+            f.write(json.dumps(rec) + "\n")
 
-    vignettes_path = out_dir / "vignettes.json"
-    vignettes_path.write_text(json.dumps(vignettes, indent=2), encoding="utf-8")
+    # 4. Generate & Write Vignettes
+    print(f"Generating {args.n_vignettes} evaluation vignettes...")
+    # Real-data vignettes: each query is derived from the actual text of its
+    # target note, and ground-truth targets always exist in the corpus (so
+    # retrieval recall is well-defined and reproducible).
+    vignettes = generate_real_vignettes(corpus, n_vignettes=args.n_vignettes, seed=args.seed)
 
-    metadata = [{
-        "vignette_id": v["vignette_id"],
-        "patient_id": v["patient_id"],
-        "specialty": v["specialty"],
-        "experience_group": v["experience_group"],
-        "complexity": v["complexity"],
-        "n_queries": v["n_queries"],
-        "n_pivots": len(v["pivots"]),
-    } for v in vignettes]
-    meta_path = out_dir / "case_metadata.csv"
-    with meta_path.open("w", newline="", encoding="utf-8") as fh:
-        if metadata:
-            writer = csv.DictWriter(fh, fieldnames=list(metadata[0].keys()))
-            writer.writeheader()
-            writer.writerows(metadata)
+    random.shuffle(vignettes)
+    train_split = int(0.6 * len(vignettes))
+    val_split = int(0.8 * len(vignettes))
 
-    seed_info = {
-        "seed": args.seed,
-        "data_source": data_source,
-        "n_patients": len({r["patient_id"] for r in corpus}),
-        "n_records": len(corpus),
-        "n_vignettes": len(vignettes),
-    }
-    (out_dir / "seed_info.json").write_text(json.dumps(seed_info, indent=2), encoding="utf-8")
+    train_v = vignettes[:train_split]
+    val_v = vignettes[train_split:val_split]
+    test_v = vignettes[val_split:]
 
-    print(f"Saved:")
-    print(f"  {corpus_path}")
-    print(f"  {vignettes_path}")
-    print(f"  {meta_path}")
-    print("Next step: python src/experiments/run.py")
+    def _write_vigs(data, name):
+        path = args.out_dir / f"{name}_vignettes.json"
+        path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        print(f"  Wrote {len(data)} to {path}")
 
+    (args.out_dir / "vignettes.json").write_text(
+        json.dumps(vignettes, indent=2), encoding="utf-8")
+    print(f"  Wrote {len(vignettes)} to {args.out_dir / 'vignettes.json'}")
+
+    _write_vigs(train_v, "train")
+    _write_vigs(val_v, "val")
+    _write_vigs(test_v, "test")
+
+    print("Corpus preparation complete.")
 
 if __name__ == "__main__":
     main()

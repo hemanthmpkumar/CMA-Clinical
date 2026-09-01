@@ -36,6 +36,32 @@ import torch
 import torch.nn as nn
 
 
+def pick_device(preferred: Union[str, torch.device] = "auto") -> torch.device:
+    """Select a device whose ops are actually implemented on this platform.
+
+    ``torch.linalg.eigh`` (used for the log-Euclidean SPD mapping) is not
+    implemented on Apple's MPS backend, so we probe it and fall back to CPU
+    rather than crashing at fit time.
+    """
+    if str(preferred) == "auto":
+        candidates = ["mps", "cuda", "cpu"]
+    else:
+        candidates = [str(preferred)]
+    for name in candidates:
+        dev = torch.device(name)
+        if name == "cpu":
+            return dev
+        try:
+            if not getattr(torch.backends, name).is_available():
+                continue
+            probe = torch.eye(3, device=dev)
+            torch.linalg.eigh(probe)
+            return dev
+        except (NotImplementedError, RuntimeError, AttributeError):
+            continue
+    return torch.device("cpu")
+
+
 class SPDEncoder(nn.Module):
     """Neural TF-IDF -> SPD(log-Euclidean) encoder/decoder."""
 
@@ -235,6 +261,10 @@ class SPDEncoder(nn.Module):
         optimizer = torch.optim.Adam(self.parameters(), lr=lr)
         n = tfidf_matrix.shape[0]
 
+        # Small dense matrices (256 x 4000) run faster single-threaded; thread
+        # oversubscription across the (CPU) eigen-decomposition path can stall
+        # large fits on many-core machines.
+        torch.set_num_threads(min(torch.get_num_threads(), 4))
         print(f"  Training SPD encoder (input_dim={self.input_dim}, "
               f"spd_dim={self.spd_dim}, latent={self.n_latent}) on {n} documents...")
 

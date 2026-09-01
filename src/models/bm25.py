@@ -19,7 +19,7 @@ import numpy as np
 import scipy.sparse as sp
 from sklearn.feature_extraction.text import CountVectorizer
 
-from .base import BaseRetriever
+from .base import BaseRetriever, build_tfidf
 
 
 class BM25Retriever(BaseRetriever):
@@ -33,10 +33,19 @@ class BM25Retriever(BaseRetriever):
         doc_texts = [rec["text"] for rec in corpus]
         # Same tokenizer/vocabulary as the TF-IDF baseline so the comparison
         # isolates the weighting scheme (BM25 vs tf-idf), not the feature space.
-        self.vectorizer = CountVectorizer(
-            max_df=0.85, min_df=2, stop_words="english", max_features=4000
-        )
-        self.doc_counts = self.vectorizer.fit_transform(doc_texts)
+        try:
+            self.vectorizer = CountVectorizer(
+                max_df=0.85, min_df=2, stop_words="english", max_features=4000
+            )
+            self.vectorizer.fit(doc_texts)
+        except ValueError as exc:
+            if "no terms remain" not in str(exc):
+                raise
+            self.vectorizer = CountVectorizer(
+                max_df=1.0, min_df=1, stop_words="english", max_features=4000
+            )
+            self.vectorizer.fit(doc_texts)
+        self.doc_counts = self.vectorizer.transform(doc_texts)
         self.doc_counts = self.doc_counts.astype(np.float32)
 
         n_docs = len(self.corpus)
@@ -46,7 +55,7 @@ class BM25Retriever(BaseRetriever):
         self.idf = np.log(1.0 + (n_docs - df + 0.5) / (df + 0.5))
 
     def search(self, query: str, session_history: list[str], top_k: int = 10,
-               **kwargs) -> list[tuple[str, float]]:
+               filter_ids: set = None, **kwargs) -> list[tuple[str, float]]:
         # Uniform session expansion with the most recent prior queries.
         if self.window_size > 1:
             prior = session_history[-(self.window_size - 1):]
@@ -74,6 +83,11 @@ class BM25Retriever(BaseRetriever):
         term_scores = numer / denom
 
         scores = np.bincount(rows, weights=term_scores, minlength=len(self.corpus))
+        # Apply patient-level filtering
+        if filter_ids is not None:
+            mask = np.array([nid not in filter_ids for nid in self.note_ids])
+            scores[mask] = -np.inf
+
         ranked = np.argsort(scores)[::-1]
         return [(self.note_ids[i], float(scores[i])) for i in ranked[:top_k]]
 

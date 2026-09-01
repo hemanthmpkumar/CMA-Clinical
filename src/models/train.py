@@ -2,7 +2,7 @@
 """
 src/models/train.py
 
-Train (fit + tune) the baseline, BM25 and CMA retrievers.
+Train (fit + tune) the baseline, BM25, CMA and GDT retrievers.
 
 Training here means:
   1. Splitting vignettes into train / validation / test sets.
@@ -23,6 +23,7 @@ import json
 import sys
 import warnings
 from pathlib import Path
+from typing import Optional
 
 import joblib
 import numpy as np
@@ -37,6 +38,7 @@ from src.experiments.simulate_users import simulate_session
 from src.models.baseline import BaselineRetriever
 from src.models.bm25 import BM25Retriever
 from src.models.cma import CMARetriever
+from src.models.gdt import GDTRetriever
 
 
 def load_jsonl(path: Path) -> list[dict]:
@@ -45,6 +47,29 @@ def load_jsonl(path: Path) -> list[dict]:
 
 def load_vignettes(path: Path) -> list[dict]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def validate_targets(corpus: list[dict], vignettes: list[dict], name: str) -> None:
+    """Fail fast if any vignette target note is missing from the corpus.
+
+    A stale vignette file (e.g. generated against an older corpus) silently
+    yields zero recall for every retriever, so reject it loudly at train time.
+    """
+    corpus_ids = {rec["note_id"] for rec in corpus}
+    missing = set()
+    for v in vignettes:
+        for q in v.get("queries", []):
+            t = q.get("target_note_id")
+            if t and t not in corpus_ids:
+                missing.add(t)
+    if missing:
+        sample = sorted(missing)[:5]
+        raise ValueError(
+            f"[{name}] {len(missing)} vignette target note_id(s) are not in the "
+            f"corpus (e.g. {sample}). The vignettes were generated against a "
+            f"different corpus. Regenerate them, e.g. via "
+            f"`python src/data/prepare.py ... --n-vignettes N`."
+        )
 
 
 def evaluate(retriever, vignettes: list[dict], condition: str, seed: int = 20260620):
@@ -116,8 +141,9 @@ def tune_baseline(corpus: list[dict], train_v: list, val_v: list):
     print("\nTuning baseline retriever...")
     best = None
     best_score = -1e9
+    retriever = BaselineRetriever(corpus, window_size=3)
     for window in [3, 5, 10, 20, 50]:
-        retriever = BaselineRetriever(corpus, window_size=window)
+        retriever.window_size = window
         metrics = evaluate_retrieval(retriever, val_v)
         # Partial-credit retrieval score: prefer more targets inside top-10,
         # with MRR as a tie-breaker for ranking quality within the window.
@@ -130,7 +156,8 @@ def tune_baseline(corpus: list[dict], train_v: list, val_v: list):
             best = (window, metrics)
     window, _ = best
     print(f"Best baseline: window_size={window}")
-    return BaselineRetriever(corpus, window_size=window), {"window_size": window, "val_score": float(best_score)}
+    retriever.window_size = window
+    return retriever, {"window_size": window, "val_score": float(best_score)}
 
 
 def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
@@ -138,9 +165,10 @@ def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
     print("\nTuning BM25 retriever...")
     best = None
     best_score = -1e9
-    
+
+    retriever = BM25Retriever(corpus, window_size=3)
     for window in [3, 5, 10, 20, 50]:
-        retriever = BM25Retriever(corpus, window_size=window)
+        retriever.window_size = window
         # Evaluate as a standard static retriever using partial-credit IR metrics
         metrics = evaluate_retrieval(retriever, val_v)
         
@@ -157,14 +185,16 @@ def tune_bm25(corpus: list[dict], train_v: list, val_v: list):
             
     window, best_metrics = best
     print(f"Best BM25: window_size={window}")
-    
-    return BM25Retriever(corpus, window_size=window), {
+    retriever.window_size = window
+
+    return retriever, {
         "window_size": window, 
         "val_score": float(best_score)
     }
 
 #def tune_cma(corpus: list[dict], train_v: list, val_v: list):
-def tune_cma(corpus: list[dict], train_v: list, val_v: list, baseline_retriever): ### Changes (Aniruddha)
+def tune_cma(corpus: list[dict], train_v: list, val_v: list, baseline_retriever,
+             pretrain_max_docs: Optional[int] = 100000): ### Changes (Aniruddha)
     """Tune CMA retriever hyper-parameters on the validation set."""
     print("\nTuning CMA retriever...")
     # Small but informative grid for CPU-friendly tuning on the synthetic benchmark.
@@ -183,7 +213,7 @@ def tune_cma(corpus: list[dict], train_v: list, val_v: list, baseline_retriever)
     # Hyper-parameter search only changes the gate/search behavior, not the
     # learned latent dynamics, so the expensive components can be shared.
     print("  Fitting CMA latent projection and JEPA predictor on training vignettes...")
-    base_retriever = CMARetriever(corpus)
+    base_retriever = CMARetriever(corpus, encoder_pretrain_max_docs=pretrain_max_docs)
     base_retriever.fit_predictor(train_v, epochs=120, batch_size=64)
 
     for thr, disc, pre_w, ctx in configs:
@@ -232,12 +262,85 @@ def tune_cma(corpus: list[dict], train_v: list, val_v: list, baseline_retriever)
     }
 
 
+def tune_gdt(corpus: list[dict], train_v: list, val_v: list, baseline_retriever,
+             pretrain_max_docs: Optional[int] = 100000):
+    """Tune GDT gate/search hyper-parameters on the validation set.
+
+    The GDT gate is controlled by the geodesic-shift-ratio threshold (kappa_0),
+    the gate temperature, the curvature-gated lexical inclusion boundary, and
+    the prefetch weight. The learned latent components (SPD encoder + JEPA
+    predictor) are trained once and shared across the grid, as in tune_cma.
+    """
+    print("\nTuning GDT retriever...")
+    configs = list(itertools.product(
+        [0.9, 1.0, 1.1],         # curvature_threshold (kappa_0)
+        [0.4, 0.6],              # gate_temperature
+        [0.5, 0.75],             # gate_lexical_include
+        [0.3, 0.5],              # prefetch_weight
+    ))
+    best = None
+    best_score = -1e9
+    tune_train = train_v[: min(len(train_v), 30)]
+
+    print("  Fitting GDT latent projection and JEPA predictor on training vignettes...")
+    base_retriever = GDTRetriever(corpus, encoder_pretrain_max_docs=pretrain_max_docs)
+    base_retriever.fit_predictor(train_v, epochs=120, batch_size=64)
+
+    for thr, tau, glex, pre_w in configs:
+        retriever = base_retriever.copy_with_hyperparams(
+            curvature_threshold=thr,
+            gate_temperature=tau,
+            gate_lexical_include=glex,
+            prefetch_weight=pre_w,
+        )
+        baseline_for_compare = evaluate(baseline_retriever, tune_train, "control")
+        gdt = evaluate(retriever, tune_train, "gdt")
+        if baseline_for_compare["mean_time"] > 0:
+            reduction = (baseline_for_compare["mean_time"] - gdt["mean_time"]) / baseline_for_compare["mean_time"]
+        else:
+            reduction = 0.0
+        score = reduction + (gdt["mean_acc"] - baseline_for_compare["mean_acc"]) - 0.05 * gdt["mean_queries"]
+        print(f"  thr={thr:.2f} tau={tau:.1f} glex={glex:.2f} pre={pre_w:.1f} -> "
+              f"reduction={reduction*100:5.1f}%, accuracy={gdt['mean_acc']:.3f}, score={score:.3f}")
+        if score > best_score:
+            best_score = score
+            best = (thr, tau, glex, pre_w)
+
+    thr, tau, glex, pre_w = best
+    print(f"\nBest GDT config: kappa0={thr}, temperature={tau}, "
+          f"lexical_include={glex}, prefetch={pre_w}")
+
+    retriever = base_retriever.copy_with_hyperparams(
+        curvature_threshold=thr,
+        gate_temperature=tau,
+        gate_lexical_include=glex,
+        prefetch_weight=pre_w,
+    )
+    metrics = evaluate(retriever, val_v, "gdt")
+    print(f"Validation GDT metrics: accuracy={metrics['mean_acc']:.3f}, "
+          f"mean_time={metrics['mean_time']:.1f}s")
+    return retriever, {
+        "curvature_threshold": thr,
+        "gate_temperature": tau,
+        "gate_lexical_include": glex,
+        "prefetch_weight": pre_w,
+        "train_score": float(best_score),
+        "val_accuracy": float(metrics["mean_acc"]),
+        "val_mean_time": float(metrics["mean_time"]),
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Train baseline and CMA retrievers")
     parser.add_argument("--corpus", default="data/processed/corpus.jsonl")
     parser.add_argument("--train", default="data/processed/train_vignettes.json")
     parser.add_argument("--val", default="data/processed/val_vignettes.json")
     parser.add_argument("--out-dir", default="models")
+    parser.add_argument("--pretrain-max-docs", type=int, default=100000,
+                        help="Cap the SPD autoencoder pretrain to this many "
+                             "documents (subsample). Default 100000; set 0 for "
+                             "no cap. The full corpus is still encoded after "
+                             "pretraining.")
     args = parser.parse_args()
 
     out_dir = Path(args.out_dir)
@@ -248,20 +351,44 @@ def main():
     train_v = load_vignettes(Path(args.train))
     val_v = load_vignettes(Path(args.val))
     print(f"  corpus: {len(corpus)} records, train vignettes: {len(train_v)}, val vignettes: {len(val_v)}")
+    validate_targets(corpus, train_v, "train")
+    validate_targets(corpus, val_v, "val")
 
     baseline, baseline_cfg = tune_baseline(corpus, train_v, val_v)
     # cma, cma_cfg = tune_cma(corpus, train_v, val_v)
     bm25, bm25_cfg = tune_bm25(corpus, train_v, val_v)  ### Changes (Aniruddha)
-    cma, cma_cfg = tune_cma(corpus, train_v, val_v, baseline)  ### Changes (Aniruddha)
+    cma, cma_cfg = tune_cma(corpus, train_v, val_v, baseline,
+                            pretrain_max_docs=args.pretrain_max_docs)  ### Changes (Aniruddha)
+    gdt, gdt_cfg = tune_gdt(corpus, train_v, val_v, baseline,
+                            pretrain_max_docs=args.pretrain_max_docs)
 
     joblib.dump(baseline, out_dir / "baseline.pkl")
     joblib.dump(bm25, out_dir / "bm25.pkl")
     joblib.dump(cma, out_dir / "cma.pkl")
+    joblib.dump(gdt, out_dir / "gdt.pkl")
+
+    # Lightweight artifacts with only the reusable trained components (the full
+    # retriever pickles embed the entire corpus and are gigabytes). The scaling
+    # study reloads these to build per-scale indexes without retraining.
+    cma_components = {
+        "vectorizer": cma.vectorizer,
+        "encoder": cma.encoder,
+        "predictor": cma.predictor,
+    }
+    joblib.dump(cma_components, out_dir / "cma_components.pkl")
+
+    gdt_components = {
+        "vectorizer": gdt.vectorizer,
+        "encoder": gdt.encoder,
+        "predictor": gdt.predictor,
+    }
+    joblib.dump(gdt_components, out_dir / "gdt_components.pkl")
 
     config = {
         "baseline": baseline_cfg,
         "bm25": bm25_cfg,
         "cma": cma_cfg,
+        "gdt": gdt_cfg,
     }
     (out_dir / "config.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
 
@@ -269,6 +396,9 @@ def main():
     print(f"  {out_dir / 'baseline.pkl'}")
     print(f"  {out_dir / 'bm25.pkl'}")
     print(f"  {out_dir / 'cma.pkl'}")
+    print(f"  {out_dir / 'gdt.pkl'}")
+    print(f"  {out_dir / 'cma_components.pkl'}")
+    print(f"  {out_dir / 'gdt_components.pkl'}")
     print(f"  {out_dir / 'config.json'}")
     print("\nNext step: python src/experiments/run.py --use-trained")
 

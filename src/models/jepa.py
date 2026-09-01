@@ -115,7 +115,12 @@ class JEPAPredictor:
         self.spd_dim = spd_dim
 
         torch.manual_seed(seed)
-        self.device = torch.device(device)
+        torch.set_num_threads(10)
+        if str(device) == "auto":
+            from .spd_encoder import pick_device
+            self.device = pick_device("auto")
+        else:
+            self.device = torch.device(device)
 
         self.log_euclidean_w = log_euclidean_weights(spd_dim, self.device)
 
@@ -193,8 +198,10 @@ class JEPAPredictor:
         Y = self._l2_normalize(Y)
 
         dataset = torch.utils.data.TensorDataset(X, Y)
-        loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True)
-
+        loader = torch.utils.data.DataLoader(
+            dataset, batch_size=batch_size, shuffle=True, num_workers=0
+        )
+        print(f"Running JEPA on device: {self.device} with {torch.get_num_threads()} CPU threads.")
         self.online.train()
         for epoch in range(epochs):
             epoch_loss = 0.0
@@ -213,6 +220,13 @@ class JEPAPredictor:
                     pred_var = pred.var(dim=0).mean()
 
                 loss = ((pred - target) ** 2 * self.log_euclidean_w).sum(dim=1).mean()
+
+                # VICReg-style variance-preservation term: reward per-dimension
+                # std of predictions within the batch. Without it the online
+                # network collapses to a near-constant output (pred_var -> 0).
+                if pred.shape[0] >= 2:
+                    std = pred.std(dim=0) + 1e-4
+                    loss = loss - 0.1 * std.mean()
 
                 self.optimizer.zero_grad()
                 loss.backward()

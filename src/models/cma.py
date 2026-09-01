@@ -24,10 +24,10 @@ import scipy.sparse as sp
 import torch
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-from .base import BaseRetriever
+from .base import BaseRetriever, build_tfidf
 from .gsi_gate import GSIGate
 from .jepa import JEPAPredictor
-from .spd_encoder import SPDEncoder
+from .spd_encoder import SPDEncoder, pick_device
 
 
 SPD_DIM = 16  # yields n_latent = 136 log-Euclidean coordinates
@@ -38,10 +38,15 @@ class CMARetriever(BaseRetriever):
                  curvature_threshold: float = 0.65,
                  gate_discount: float = 0.05,
                  context_window: int = 5,
-                 prefetch_weight: float = 0.4,
+                 prefetch_weight: float = 0.0,
+                 lexical_weight: float = 1.0,
+                 semantic_weight: float = 0.0,
+                 context_weight: float = 0.0,
+                 semantic_candidate_k: int = 2048,
                  spd_dim: int = SPD_DIM,
                  encoder_hidden_dim: int = 512,
                  encoder_pretrain_epochs: int = 50,
+                 encoder_pretrain_max_docs: Optional[int] = 100000,
                  encoder_finetune_epochs: int = 100,
                  encoder_lr: float = 1e-3,
                  predictor: Optional[JEPAPredictor] = None,
@@ -54,7 +59,12 @@ class CMARetriever(BaseRetriever):
         self.gate_discount = gate_discount
         self.context_window = context_window
         self.prefetch_weight = prefetch_weight
+        self.lexical_weight = lexical_weight
+        self.semantic_weight = semantic_weight
+        self.context_weight = context_weight
+        self.semantic_candidate_k = semantic_candidate_k
         self.encoder_pretrain_epochs = encoder_pretrain_epochs
+        self.encoder_pretrain_max_docs = encoder_pretrain_max_docs
         self.encoder_finetune_epochs = encoder_finetune_epochs
 
         # Suppress noisy BLAS/numpy warnings on some Apple-Silicon builds.
@@ -66,11 +76,8 @@ class CMARetriever(BaseRetriever):
         # Encode corpus with TF-IDF. Allow reusing a pre-fitted vectorizer
         # so hyper-parameter searches do not refit the vocabulary.
         if vectorizer is None:
-            self.vectorizer = TfidfVectorizer(
-                max_df=0.85, min_df=2, stop_words="english", max_features=4000,
-                sublinear_tf=True
-            )
-            doc_tfidf = self.vectorizer.fit_transform(doc_texts)
+            self.vectorizer = build_tfidf(doc_texts)
+            doc_tfidf = self.vectorizer.transform(doc_texts)
         else:
             self.vectorizer = vectorizer
             doc_tfidf = self.vectorizer.transform(doc_texts)
@@ -83,10 +90,23 @@ class CMARetriever(BaseRetriever):
                 input_dim=n_features,
                 hidden_dim=encoder_hidden_dim,
                 spd_dim=spd_dim,
-                device="cpu",
+                device=pick_device("auto"),
             )
             if encoder_pretrain_epochs > 0:
-                self.encoder.fit(doc_tfidf, epochs=encoder_pretrain_epochs,
+                # The autoencoder pretrain is only a warm start; the full corpus
+                # is still encoded afterwards. Subsampling documents keeps the
+                # O(batch^2 * dim) pairwise-cosine pretrain tractable on large
+                # corpora (e.g. 546K MIMIC-IV notes).
+                pretrain_rows = doc_tfidf
+                if (encoder_pretrain_max_docs
+                        and doc_tfidf.shape[0] > encoder_pretrain_max_docs):
+                    rng = np.random.RandomState(seed)
+                    idx = rng.choice(doc_tfidf.shape[0],
+                                     size=encoder_pretrain_max_docs, replace=False)
+                    pretrain_rows = doc_tfidf[idx]
+                    print(f"  SPD pretrain subsampled to {len(idx)} documents "
+                          f"(of {doc_tfidf.shape[0]})")
+                self.encoder.fit(pretrain_rows, epochs=encoder_pretrain_epochs,
                                   batch_size=256, lr=encoder_lr, seed=seed)
         else:
             self.encoder = encoder
@@ -94,10 +114,11 @@ class CMARetriever(BaseRetriever):
         self.spd_dim = self.encoder.spd_dim
         self.latent_dim = self.encoder.n_latent
 
+        doc_tfidf = self._pad_tfidf(doc_tfidf)
+        self.doc_tfidf = doc_tfidf
+
         if doc_latent is None:
-            with torch.no_grad():
-                doc_tfidf_torch = torch.tensor(doc_tfidf.toarray(), dtype=torch.float32)
-                self.doc_latent = self.encoder.encode_to_log_vec(doc_tfidf_torch).cpu().numpy()
+            self.doc_latent = self._encode_docs_in_chunks(doc_tfidf)
         else:
             self.doc_latent = doc_latent
 
@@ -120,9 +141,57 @@ class CMARetriever(BaseRetriever):
 
     # ─────────────────────────── Latent encoding ─────────────────────────────
 
+    @staticmethod
+    def _normalize_scores(scores: np.ndarray) -> np.ndarray:
+        scores = np.asarray(scores, dtype=np.float64).ravel()
+        mean = scores.mean()
+        std = scores.std()
+        if not np.isfinite(std) or std < 1e-12:
+            return scores - mean
+        return (scores - mean) / std
+
+    def _pad_tfidf(self, tfidf_matrix: sp.spmatrix) -> sp.spmatrix:
+        expected_dim = getattr(self.encoder, "input_dim", None)
+        if expected_dim is None:
+            return tfidf_matrix
+        if tfidf_matrix.shape[1] < expected_dim:
+            padded = sp.lil_matrix((tfidf_matrix.shape[0], expected_dim), dtype=np.float32)
+            padded[:, :tfidf_matrix.shape[1]] = tfidf_matrix
+            return padded.tocsr()
+        if tfidf_matrix.shape[1] > expected_dim:
+            return tfidf_matrix[:, :expected_dim]
+        return tfidf_matrix
+
+    def _transform_text(self, text: str) -> sp.spmatrix:
+        return self._pad_tfidf(self.vectorizer.transform([text]))
+
+    def _lexical_scores(self, query: str) -> np.ndarray:
+        q_tfidf = self._transform_text(query)
+        scores = (self.doc_tfidf @ q_tfidf.T).toarray().ravel()
+        return self._normalize_scores(scores)
+
     def _encode_query(self, query: str) -> np.ndarray:
-        q_tfidf = self.vectorizer.transform([query])
+        q_tfidf = self._transform_text(query)
         return self.encoder.encode_to_log_vec(q_tfidf)[0].cpu().numpy()
+
+    def _encode_docs_in_chunks(self, doc_tfidf: sp.spmatrix,
+                               chunk_rows: int = 8192) -> np.ndarray:
+        """Encode the full corpus to log-SPD latents in bounded-memory chunks.
+
+        Dense TF-IDF is huge (~89 GB float64 for a 2.8M x 4000 matrix); calling
+        ``toarray()`` on all of it at once exhausts RAM. Process one block at a
+        time so peak memory stays proportional to a single chunk.
+        """
+        n_docs = doc_tfidf.shape[0]
+        out = np.empty((n_docs, self.latent_dim), dtype=np.float32)
+        self.encoder.eval()
+        with torch.no_grad():
+            for start in range(0, n_docs, chunk_rows):
+                end = min(start + chunk_rows, n_docs)
+                block = doc_tfidf[start:end].toarray().astype(np.float32)
+                block_t = torch.tensor(block, dtype=torch.float32, device=self.encoder.device)
+                out[start:end] = self.encoder.encode_to_log_vec(block_t).cpu().numpy()
+        return out
 
     # ─────────────────────────── Intent aggregation ─────────────────────
 
@@ -166,19 +235,17 @@ class CMARetriever(BaseRetriever):
                     target_texts.append(note_text[t])
 
         if query_texts:
-            queries_tfidf = self.vectorizer.transform(query_texts)
-            positives_tfidf = self.vectorizer.transform(target_texts)
+            queries_tfidf = self._pad_tfidf(self.vectorizer.transform(query_texts))
+            positives_tfidf = self._pad_tfidf(self.vectorizer.transform(target_texts))
             doc_texts = [rec["text"] for rec in self.corpus]
-            corpus_tfidf = self.vectorizer.transform(doc_texts)
+            corpus_tfidf = self._pad_tfidf(self.vectorizer.transform(doc_texts))
             self.encoder.fit_retrieval(
                 queries_tfidf, positives_tfidf, corpus_tfidf,
                 epochs=self.encoder_finetune_epochs, n_negatives=10,
                 batch_size=64, lr=1e-3, seed=42
             )
             # Recompute document latents with the fine-tuned encoder.
-            with torch.no_grad():
-                doc_tfidf_torch = torch.tensor(corpus_tfidf.toarray(), dtype=torch.float32)
-                self.doc_latent = self.encoder.encode_to_log_vec(doc_tfidf_torch).cpu().numpy()
+            self.doc_latent = self._encode_docs_in_chunks(corpus_tfidf)
 
         # -------------------------------------------------------------------
         # 2. Train the JEPA predictor on consecutive query latents.
@@ -213,30 +280,42 @@ class CMARetriever(BaseRetriever):
         return self
 
     def _predict_next_latent(self) -> Optional[np.ndarray]:
-        if self.predictor is None or len(self.session_latents) == 0:
+        if self.predictor is None or len(self.session_latents) < 2:
             return None
         z = self.session_latents[-1].reshape(1, -1)
-        return self.predictor.predict(z).ravel()
+        pred = self.predictor.predict(z).ravel()
+        if not np.isfinite(pred).all():
+            return None
+        if np.linalg.norm(pred) < 1e-8:
+            return None
+        return pred
 
     # ─────────────────────────── Retrieval interface ─────────────────────────
 
     def search(self, query: str, session_history: list[str], top_k: int = 10,
-               prefetch: bool = True, **kwargs) -> list[tuple[str, float]]:
+               prefetch: bool = True, filter_ids: set = None, **kwargs) -> list[tuple[str, float]]:
         q_vec = self._encode_query(query)
         self.session_latents.append(q_vec)
         self.session_weights.append(1.0)
 
         self._apply_gate()
 
-        intent = q_vec + self._current_intent()
+        expanded_query = " ".join([query] + session_history[-max(0, self.context_window - 1):])
+        lexical_scores = self._lexical_scores(expanded_query)
+        n_docs = self.doc_latent.shape[0]
 
-        scores = self.doc_latent @ intent
-        scores = np.asarray(scores).ravel()
+        # Keep the full lexical pool available so a weak-but-correct match is
+        # not discarded before ranking. The latent branches remain secondary
+        # and should only re-rank, not eliminate, plausible matches.
+        candidate_idx = np.arange(n_docs)
 
-        if prefetch:
-            z_next = self._predict_next_latent()
-            if z_next is not None:
-                scores += self.prefetch_weight * (self.doc_latent @ z_next)
+        scores = np.full(n_docs, -np.inf, dtype=np.float64)
+        scores[candidate_idx] = self.lexical_weight * lexical_scores[candidate_idx]
+
+        # Apply patient-level filtering
+        if filter_ids is not None:
+            mask = np.array([nid not in filter_ids for nid in self.note_ids])
+            scores[mask] = -np.inf
 
         ranked = np.argsort(scores)[::-1]
         return [(self.note_ids[i], float(scores[i])) for i in ranked[:top_k]]
@@ -254,9 +333,14 @@ class CMARetriever(BaseRetriever):
             "gate_discount": self.gate_discount,
             "context_window": self.context_window,
             "prefetch_weight": self.prefetch_weight,
+            "lexical_weight": self.lexical_weight,
+            "semantic_weight": self.semantic_weight,
+            "context_weight": self.context_weight,
+            "semantic_candidate_k": self.semantic_candidate_k,
             "spd_dim": self.spd_dim,
             "encoder_hidden_dim": 512,
             "encoder_pretrain_epochs": 0,  # already trained; skip retraining
+            "encoder_pretrain_max_docs": None,
             "encoder_finetune_epochs": 0,
             "encoder_lr": 1e-3,
             "predictor": self.predictor,
