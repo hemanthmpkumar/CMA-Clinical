@@ -1,0 +1,377 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \def\href#1#2{#2} \def\path#1{#1}\fi
+
+\bibitem{assran2023_ijepa}
+M.~Assran, Q.~Duval, I.~Misra, P.~Bojanowski, P.~Vincent, M.~Rabbat, Y.~LeCun,
+  N.~Ballas, Self-supervised learning from images with a joint-embedding
+  predictive architecture (i-jepa)., in: CVPR, 2023.
+
+\bibitem{lecun2022}
+Y.~LeCun, A path towards autonomous machine intelligence., OpenReview (2022).
+
+\bibitem{sweller1988_cogl}
+J.~Sweller, Cognitive load during problem solving: Effects on learning,
+  Cognitive Science 12~(2) (1988) 257--285.
+
+\bibitem{cma2026}
+H.~M. Papachappa, A.~Kumar, N.~Badam, Riemannian intent manifolds for
+  session-based search: A joint embedding predictive architecture for intent
+  forecasting (2026).
+
+\bibitem{cma2026_clinical}
+H.~Manchabale~Papachappa, Continuum memory architecture (cma) for clinical
+  search: A simulation-based evaluation of intent-aware retrieval using complex
+  public clinical data (2026).
+\newblock \href {https://doi.org/10.2139/ssrn.7197862}
+  {\path{doi:10.2139/ssrn.7197862}}.
+
+\bibitem{robertson1995}
+S.~E. Robertson, S.~Walker, S.~Jones, M.~M. Hancock-Beaulieu, M.~Gatford, Okapi
+  at trec-3, in: Proceedings of the Third Text REtrieval Conference (TREC-3),
+  1995.
+
+\bibitem{salton83}
+G.~Salton, M.~J. McGill, Introduction to Modern Information Retrieval,
+  McGraw-Hill, 1983.
+
+\bibitem{johnson2016_mimic3}
+A.~E.~W. Johnson, T.~J. Pollard, L.~Shen, L.-w.~H. Lehman, M.~Feng,
+  M.~Ghassemi, B.~Moody, P.~Szolovits, L.~A. Celi, R.~G. Mark, Mimic-iii, a
+  freely accessible critical care database, Scientific Data 3 (2016) 160035.
+\newblock \href {https://doi.org/10.1038/sdata.2016.35}
+  {\path{doi:10.1038/sdata.2016.35}}.
+
+\bibitem{pollard2018_mimic4}
+A.~E.~W. Johnson, L.~Bulgarelli, L.~Shen, A.~Gayles, A.~Shammout, S.~Horng,
+  T.~J. Pollard, S.~Hao, B.~Moody, B.~Gow, L.-w.~H. Lehman, L.~A. Celi, R.~G.
+  Mark, Mimic-iv, a freely accessible electronic health record dataset,
+  Scientific Data 10~(1) (2023) 1.
+\newblock \href {https://doi.org/10.1038/s41597-022-01899-x}
+  {\path{doi:10.1038/s41597-022-01899-x}}.
+
+\bibitem{pollard2018_eicu}
+T.~J. Pollard, A.~E.~W. Johnson, J.~D. Raffa, L.~A. Celi, R.~G. Mark,
+  O.~Badawi, The eicu collaborative research database, a freely available
+  multi-center database for critical care research, Scientific Data 5 (2018)
+  180178.
+\newblock \href {https://doi.org/10.1038/sdata.2018.178}
+  {\path{doi:10.1038/sdata.2018.178}}.
+
+\bibitem{muller2021_hirid}
+M.~Faltys, M.~Zimmermann, X.~Lyu, M.~H{\"u}ser, S.~Hyland, G.~R{\"a}tsch,
+  T.~Merz, Hirid, a high time-resolution icu dataset (version 1.1.1) (2021).
+
+\bibitem{kleinrock1975}
+L.~Kleinrock, Queueing Systems, Volume 1: Theory, Wiley-Interscience, 1975.
+
+\bibitem{topol2019}
+E.~J. Topol, High-performance medicine: the convergence of human and artificial
+  intelligence, Nature Medicine (2019).
+
+\bibitem{pennec2006_spd}
+X.~Pennec, P.~Fillard, N.~Ayache, A riemannian framework for tensor computing,
+  International Journal of Computer Vision 66~(1) (2006) 41--66.
+
+\bibitem{arsigny2007_logeuclidean}
+V.~Arsigny, P.~Fillard, X.~Pennec, N.~Ayache, Log-euclidean metrics for fast
+  and simple calculus on diffusion tensors, Magnetic Resonance in Medicine
+  56~(2) (2006) 411--421.
+
+\bibitem{bronstein2017}
+G.~D. Learning, G.~beyond Euclidean~data, D.~of~publication July, I.~S. P.~M.
+  July, Geometric deep learning: Going beyond euclidean data., IEEE Signal
+  Processing Magazine (2017).
+
+\bibitem{bronstein2021_gdl}
+M.~M. Bronstein, J.~Bruna, T.~Cohen, P.~Veli{\v{c}}kovi{\'c}, Geometric deep
+  learning: Grids, groups, graphs, geodesics, and gauges, arXiv preprint
+  arXiv:2104.13478 (2021).
+
+\bibitem{huang2017_spdnet}
+Z.~Huang, L.~Van~Gool, A riemannian network for spd matrix learning, in: AAAI
+  Conference on Artificial Intelligence, 2017.
+
+\bibitem{lopez2021}
+F.~Lopez, B.~Pozzetti, S.~Trettel, M.~Strube, A.~Wienhard,
+  \href{https://proceedings.mlr.press/v139/lopez21a.html}{Symmetric spaces for
+  graph embeddings: A finsler-riemannian approach}, in: M.~Meila, T.~Zhang
+  (Eds.), Proceedings of the 38th International Conference on Machine Learning,
+  Vol. 139 of Proceedings of Machine Learning Research, PMLR, 2021, pp.
+  7090--7101.
+\newline\urlprefix\url{https://proceedings.mlr.press/v139/lopez21a.html}
+
+\bibitem{oord2018_cpc}
+A.~van~den Oord, Y.~Li, O.~Vinyals, Representation learning with contrastive
+  predictive coding, arXiv preprint arXiv:1807.03748 (2018).
+
+\bibitem{bardes2024_vjepa}
+A.~Bardes, Q.~Garrido, J.~Ponce, X.~Chen, M.~Rabbat, Y.~LeCun, M.~Assran,
+  N.~Ballas, Revisiting feature prediction for learning visual representations
+  from video, arXiv preprint arXiv:2404.08471 (2024).
+
+\bibitem{assran2025_vjepa2}
+M.~Assran, A.~Bardes, D.~Fan, Q.~Garrido, R.~Howes, M.~Rabbat, N.~Ballas,
+  V-jepa 2: Self-supervised video models enable understanding, prediction and
+  planning, arXiv preprint arXiv:2506.09985 (2025).
+
+\bibitem{murlabadia2026_vjepa21}
+L.~Mur-Labadia, M.~Muckley, A.~Bar, M.~Assran, K.~Sinha, M.~Rabbat, Y.~LeCun,
+  N.~Ballas, A.~Bardes, V-jepa 2.1: Unlocking dense features in video
+  self-supervised learning, arXiv preprint arXiv:2603.14482 (2026).
+
+\bibitem{cui2026_jepa_theory}
+J.~Cui, Q.~Zhang, H.~Wen, Y.~Wang, A generalization theory for jepa-based world
+  models (2026).
+
+\bibitem{grill20}
+J.-B. Grill, F.~Strub, C.~Tallec, P.~H. Richemond, E.~Buchatskaya, C.~Doersch,
+  B.~A. Pires, Z.~D. Guo, M.~G. Azar, B.~Piot, K.~Kavukcuoglu, M.~Valko,
+  Bootstrap your own latent - a new approach to self-supervised learning., in:
+  NeurIPS, 2020.
+
+\bibitem{hidasi2015}
+B.~Hidasi, A.~Karatzoglou, L.~Baltrunas, D.~Tikk, Session-based recommendations
+  with recurrent neural networks., in: ICLR, 2015.
+
+\bibitem{kang2018_sasrec}
+W.-C. Kang, J.~McAuley, Self-attentive sequential recommendation, in:
+  Proceedings of ICDM, 2018.
+
+\bibitem{wu2019_session}
+S.~Wu, Y.~Tang, Y.~Zhu, L.~Wang, X.~Xie, T.~Tan, Session-based recommendation
+  with graph neural networks., in: AAAI, 2019.
+
+\bibitem{vakulenko2021_rewrite}
+S.~Vakulenko, S.~Longpre, Z.~Tu, R.~Anantha, Question rewriting for
+  conversational question answering, in: Proceedings of WSDM, 2021.
+
+\bibitem{gao2022_convsurvey}
+Y.~Gao, M.~Aliannejadi, H.~Zamani, P.~Stringam, J.~Dalton, A.~Vtyurina,
+  D.~Savenkov, Conversational information seeking: An introduction to the
+  topic, approaches, and future directions, ACM SIGIR Forum 56~(1) (2022).
+
+\bibitem{iyyer20}
+C.~Q. L. Y. C. C. M. Q. W. B. C.~M. Iyyer, Open-retrieval conversational
+  question answering., in: SIGIR, 2020.
+
+\bibitem{zamani20}
+H.~Zamani, B.~Mitra, E.~Chen, G.~Lueck, F.~Diaz, P.~N. Bennett, N.~Craswell,
+  S.~T. Dumais, Analyzing and learning from user interactions for search
+  clarification., in: SIGIR, 2020.
+
+\bibitem{karpukhin2020_dpr}
+V.~Karpukhin, B.~O{\u{g}}uz, S.~Min, P.~Lewis, L.~Wu, S.~Edunov, D.~Chen, W.-t.
+  Yih, Dense passage retrieval for open-domain question answering, in:
+  Proceedings of EMNLP, 2020.
+
+\bibitem{xiong2021_ance}
+L.~Xiong, C.~Xiong, Y.~Li, K.-F. Tang, J.~Liu, P.~Bennett, J.~Ahmed,
+  A.~Overwijk, Approximate nearest neighbor negative contrastive learning for
+  dense text retrieval, in: International Conference on Learning
+  Representations (ICLR), 2021.
+
+\bibitem{khattab20}
+O.~Khattab, M.~Zaharia, Colbert: Efficient and effective passage search via
+  contextualized late interaction over bert., in: SIGIR, 2020.
+
+\bibitem{santhanam2022_colbertv2}
+K.~Santhanam, O.~Khattab, J.~Saad-Falcon, C.~Potts, M.~Zaharia, Colbertv2:
+  Effective and efficient retrieval via lightweight late interaction, in:
+  Proceedings of NAACL-HLT, 2022, pp. 3715--3734.
+
+\bibitem{papachappa2026_siweaver}
+H.~M. Papachappa,
+  \href{References/Semantic_Intent_Weaver_A_Context-Aware_Search_Algorithm_for_Ambiguous_Query_Resolution.pdf}{Semantic
+  intent weaver: A context-aware search algorithm for ambiguous query
+  resolution}, in: 2026 9th International Conference on Computational
+  Intelligence in Data Science (ICCIDS), IEEE, 2026, pp. 1--5.
+\newblock \href {https://doi.org/10.1109/ICCIDS69108.2026.11407681}
+  {\path{doi:10.1109/ICCIDS69108.2026.11407681}}.
+\newline\urlprefix\url{References/Semantic_Intent_Weaver_A_Context-Aware_Search_Algorithm_for_Ambiguous_Query_Resolution.pdf}
+
+\bibitem{nadkarni2011_nlp}
+P.~M. Nadkarni, L.~Ohno-Machado, W.~W. Chapman, Natural language processing: an
+  introduction, Journal of the American Medical Informatics Association 18~(5)
+  (2011) 544--551.
+\newblock \href {https://doi.org/10.1136/amiajnl-2011-000464}
+  {\path{doi:10.1136/amiajnl-2011-000464}}.
+
+\bibitem{shickel2017}
+B.~Shickel, P.~J. Tighe, A.~Bihorac, Deep ehr: A survey of recent advances in
+  deep learning techniques for electronic health record (ehr) analysis., IEEE
+  Journal of Biomedical and Health Informatics (2017).
+
+\bibitem{choi2016_doctorai}
+E.~Choi, M.~T. Bahadori, A.~Schuetz, W.~F. Stewart, J.~Sun, Doctor ai:
+  Predicting clinical events via recurrent neural networks, in: Machine
+  Learning for Healthcare, 2016.
+
+\bibitem{miotto2016}
+R.~Miotto, L.~Li, B.~A. Kidd, J.~T. Dudley,
+  \href{https://doi.org/10.1038/srep26094}{Deep patient: An unsupervised
+  representation to predict the future of patients from the electronic health
+  records}, Scientific Reports 6~(1) (2016) 26094.
+\newblock \href {https://doi.org/10.1038/srep26094}
+  {\path{doi:10.1038/srep26094}}.
+\newline\urlprefix\url{https://doi.org/10.1038/srep26094}
+
+\bibitem{huang2019_clinicalbert}
+K.~Huang, J.~Altosaar, R.~Ranganath, Clinicalbert: Modeling clinical notes and
+  predicting hospital readmission., arXiv preprint (2019).
+
+\bibitem{lee2020_biobert}
+J.~Lee, W.~Yoon, S.~Kim, D.~Kim, S.~Kim, C.~H. So, J.~Kang, Biobert: a
+  pre-trained biomedical language representation model for biomedical text
+  mining., Bioinformatics (2020).
+\newblock \href {https://doi.org/10.1093/bioinformatics/btz682}
+  {\path{doi:10.1093/bioinformatics/btz682}}.
+
+\bibitem{li2020_behrt}
+Y.~Li, S.~Rao, J.~R.~A. Solares, A.~Hassaine, R.~Ramakrishnan, D.~Canoy,
+  Y.~Zhu, K.~Rahimi, G.~Salimi-Khorshidi, Behrt: Transformer for electronic
+  health records, Scientific Reports 10 (2020) 7155.
+
+\bibitem{rasmy2021_medbert}
+L.~Rasmy, Y.~Xiang, Z.~Xie, C.~Tao, D.~Zhi, Med-bert: Pretrained contextualized
+  embeddings on large-scale structured electronic health records for disease
+  prediction, npj Digital Medicine 4 (2021) 86.
+
+\bibitem{jiang2023_nyutron}
+L.~Y. Jiang, X.~Liu, N.~Tsai, A.~Furth, A.~Vaid, A.~Bhargava, et~al., Health
+  system-scale language models are all-purpose prediction engines, Nature
+  619~(7969) (2023) 357--362.
+
+\bibitem{singhal2023_medpalm}
+K.~Singhal, S.~Azizi, T.~Tu, S.~S. Mahdavi, J.~Wei, H.~W. Chung, N.~Scales,
+  et~al., Large language models encode clinical knowledge, Nature 620~(7972)
+  (2023) 172--180.
+
+\bibitem{kwon2024_clinical_reasoners}
+T.~Kwon, W.~Lee, J.~Kang, Large language models are clinical reasoners:
+  Reasoning-aware diagnosis via prompting, in: Proceedings of the AAAI
+  Conference on Artificial Intelligence, Vol.~38, 2024, pp. 13210--13218.
+
+\bibitem{wornow2023_foundation}
+M.~Wornow, Y.~Xu, R.~Thapa, B.~Patel, E.~Steinberg, S.~Fleming, M.~A. Pfeffer,
+  J.~Fries, N.~H. Shah, The shaky foundations of large language models and
+  foundation models for electronic health records, npj Digital Medicine 6
+  (2023) 135.
+
+\bibitem{fallahpour2025_ehrmamba}
+A.~Fallahpour, M.~Alinoori, W.~Ye, X.~Cao, A.~Afkanpour, A.~Krishnan, Ehrmamba:
+  Towards generalizable and scalable foundation models for electronic health
+  records, in: Proceedings of the 4th Machine Learning for Health Symposium,
+  Vol. 259 of Proceedings of Machine Learning Research, PMLR, 2025, pp.
+  291--307.
+
+\bibitem{guo2026_porter}
+L.~L. Guo, A.~P. Yan, E.~Vettese, L.~Sung, Porter: Language-grounded event
+  representations for portable structured ehr foundation models (2026).
+
+\bibitem{shurrab2026_ehrragp}
+S.~Shurrab, M.~Al-Omari, D.~El~Samad, F.~E. Shamout, Ehr-ragp:
+  Retrieval-augmented prototype-guided foundation model for electronic health
+  records (2026).
+
+\bibitem{liu2025_rag_biomed}
+S.~Liu, A.~B. McCoy, A.~Wright, Improving large language model applications in
+  biomedicine with retrieval-augmented generation: a systematic review,
+  meta-analysis, and clinical development guidelines, Journal of the American
+  Medical Informatics Association 32~(4) (2025) 605--615.
+\newblock \href {https://doi.org/10.1093/jamia/ocaf008}
+  {\path{doi:10.1093/jamia/ocaf008}}.
+
+\bibitem{croskerry2003}
+P.~Croskerry, The importance of cognitive errors in diagnosis and strategies to
+  minimize them, Academic Medicine 78~(8) (2003) 775--780.
+
+\bibitem{goddard2012}
+K.~Goddard, A.~Roudsari, J.~C. Wyatt, Automation bias: a systematic review of
+  frequency, effect mediators, and mitigators, Journal of the American Medical
+  Informatics Association 19~(1) (2012) 121--127.
+
+\bibitem{musen2014_cds}
+M.~A. Musen, B.~Middleton, R.~A. Greenes, Clinical decision-support systems,
+  in: Biomedical Informatics, Springer, London, 2014, pp. 643--674.
+
+\bibitem{sutton2020_cds}
+R.~T. Sutton, D.~Pincock, D.~C. Baumgart, D.~C. Sadowski, R.~N. Fedorak, K.~I.
+  Kroeker, An overview of clinical decision support systems: Benefits, risks,
+  and strategies for success, NPJ Digital Medicine 3 (2020) 17.
+
+\bibitem{schulz2010_consort}
+K.~F. Schulz, D.~G. Altman, D.~Moher, Consort 2010 statement: updated
+  guidelines for reporting parallel group randomised trials, BMC Medicine 8~(1)
+  (2010) 18.
+\newblock \href {https://doi.org/10.1186/1741-7015-8-18}
+  {\path{doi:10.1186/1741-7015-8-18}}.
+
+\bibitem{moher09}
+D.~Moher, A.~Liberati, J.~Tetzlaff, D.~G. Altman, Preferred reporting items for
+  systematic reviews and meta-analyses: the prisma statement, bmj (2009).
+
+\bibitem{hart1988}
+S.~G. Hart, L.~E. Staveland, Development of nasa-tlx (task load index): Results
+  of empirical and theoretical research, in: Advances in Psychology, Vol.~52,
+  Elsevier, 1988, pp. 139--183.
+
+\bibitem{brooke1996}
+J.~Brooke, Sus: A "quick and dirty" usability scale, in: Usability Evaluation
+  in Industry, Taylor \& Francis, London, 1996, pp. 189--194.
+
+\bibitem{mandel2016}
+J.~C. Mandel, D.~A. Kreda, K.~D. Mandl, I.~S. Kohane, R.~B. Ramoni, Smart on
+  fhir: a standards-based, interoperable apps platform for electronic health
+  records, Journal of the American Medical Informatics Association 23~(5)
+  (2016) 899--908.
+
+\bibitem{lee2020_continual}
+C.~S. Lee, A.~Y. Lee, Clinical applications of continual learning machine
+  learning models, The Lancet Digital Health 2~(6) (2020) e279--e281.
+\newblock \href {https://doi.org/10.1016/S2589-7500(20)30102-3}
+  {\path{doi:10.1016/S2589-7500(20)30102-3}}.
+
+\bibitem{chen24}
+F.~Chen, L.~Wang, J.~Hong, J.~Jiang, L.~Zhou, Unmasking bias in artificial
+  intelligence: a systematic review of bias detection and mitigation strategies
+  in electronic health record-based models, Journal of the American Medical
+  Informatics Association (2024).
+
+\bibitem{amann20}
+J.~Amann, A.~Blasimme, E.~Vayena, D.~Frey, V.~I. Madai, the
+  Precise4Q~consortium,
+  \href{https://doi.org/10.1186/s12911-020-01332-6}{Explainability for
+  artificial intelligence in healthcare: a multidisciplinary perspective}, BMC
+  Medical Informatics and Decision Making 20~(1) (2020) 310.
+\newblock \href {https://doi.org/10.1186/s12911-020-01332-6}
+  {\path{doi:10.1186/s12911-020-01332-6}}.
+\newline\urlprefix\url{https://doi.org/10.1186/s12911-020-01332-6}
+
+\bibitem{lekadir25}
+K.~Lekadir, B.~Glocker, C.~Cintas, C.~P. Langlotz, E.~Weicken, F.~Prior,
+  G.~Kaissis, G.~Tsakou, J.~Kalpathy-Cramer, J.~Mongan, K.~Kushibar,
+  K.~Riklund, K.~Marias, A.~training, Future-ai: international consensus
+  guideline for trustworthy and deployable artificial intelligence in
+  healthcare, BMJ (2025).
+
+\bibitem{zhu2026_aicare}
+Y.~Zhu, D.~Sui, Z.~Wang, X.~Hu, L.~Gu, Y.~Qi, T.~Wu, L.~Wang, Y.~Wei, W.~Tang,
+  Z.~Cui, Y.~Wang, L.~Yu, E.~M. Harrison, J.~Gao, L.~Ma, Augmenting clinical
+  decision-making with an interactive and interpretable ai copilot: A
+  real-world user study with clinicians in nephrology and obstetrics, in:
+  Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems,
+  ACM, 2026.
+
+\bibitem{gross2008}
+D.~Gross, J.~F. Shortle, J.~M. Thompson, C.~M. Harris, Fundamentals of Queueing
+  Theory, 4th Edition, Wiley, 2008.
+
+\bibitem{robertson1976}
+S.~E. Robertson, K.~Sparck~Jones, Relevance weighting of search terms, Journal
+  of the American Society for Information Science 27~(3) (1976) 129--146.
+
+\end{thebibliography}

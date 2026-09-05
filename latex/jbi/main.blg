@@ -1,0 +1,63 @@
+This is BibTeX, Version 0.99e (TeX Live 2026)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: elsarticle-num.bst
+Database file #1: references.bib
+Warning--empty pages in assran2023_ijepa
+Warning--empty pages in robertson1995
+Warning--empty pages in huang2017_spdnet
+Warning--empty pages in grill20
+Warning--empty pages in hidasi2015
+Warning--empty pages in kang2018_sasrec
+Warning--empty pages in wu2019_session
+Warning--empty pages in vakulenko2021_rewrite
+Warning--empty pages in iyyer20
+Warning--empty pages in zamani20
+Warning--empty pages in karpukhin2020_dpr
+Warning--empty pages in xiong2021_ance
+Warning--empty pages in khattab20
+Warning--empty pages in choi2016_doctorai
+Warning--can't use both volume and number fields in kwon2024_clinical_reasoners
+Warning--empty pages in zhu2026_aicare
+You've used 69 entries,
+            2952 wiz_defined-function locations,
+            1034 strings with 20202 characters,
+and the built_in function-call counts, 21776 in all, are:
+= -- 1774
+> -- 1098
+< -- 14
++ -- 411
+- -- 342
+* -- 1524
+:= -- 3055
+add.period$ -- 81
+call.type$ -- 69
+change.case$ -- 68
+chr.to.int$ -- 6
+cite$ -- 85
+duplicate$ -- 698
+empty$ -- 2458
+format.name$ -- 403
+if$ -- 5601
+int.to.chr$ -- 0
+int.to.str$ -- 69
+missing$ -- 61
+newline$ -- 231
+num.names$ -- 71
+pop$ -- 562
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 1439
+stack$ -- 0
+substring$ -- 678
+swap$ -- 157
+text.length$ -- 12
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 16
+while$ -- 129
+width$ -- 71
+write$ -- 592
+(There were 16 warnings)

@@ -1,0 +1,239 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[numbers]{natbib}
+\usepackage{xcolor}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+
+\title{Supplementary Material for Review\\
+\large Geodesic Diagnostic Trajectories (GDT):\\
+A Differential Geometry Framework for Adaptive Decision Support\\
+and Operational Optimization in EHR Systems}
+\author{Hemanth Manchabale Papachappa \and Aniriuddha Ganguly}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+% ─────────────────────────────────────────────────────────────
+\section{Extended Proof of Proposition~1}
+\label{sec:proof_extended}
+
+The proof in the main manuscript establishes the bound via the triangle inequality
+in a single step. We provide here a more detailed derivation that clarifies the
+role of each term and examines the tightness of the bound.
+
+\subsection{Setup and Notation}
+Let $\xi \in \mathbb{R}^d$ with $\|\xi\| = 1$ be the unit vector spanning the
+stale-topic subspace. The orthogonal projector is $P_\xi = \xi\xi^\top$. The
+gated embedding is:
+\begin{equation}
+  \tilde{e}_t = (1 - g_t)\,h_{t-1} + g_t\,e_t,
+  \quad g_t = \sigma\!\left(\frac{\kappa_t - \kappa_0}{\tau}\right) \in (0,1).
+  \label{eq:gate_supp}
+\end{equation}
+
+\subsection{Formal Statement}
+\begin{proposition}[Context Interference Bound --- Extended]
+\label{prop:interference_extended}
+Under the parameterization in Eq.~\eqref{eq:gate_supp}:
+\begin{equation}
+  \|P_\xi\,\tilde{e}_t\| \leq (1-g_t)\,\|P_\xi h_{t-1}\| + g_t\,\|P_\xi e_t\|.
+  \label{eq:bound_supp}
+\end{equation}
+Equality holds if and only if $P_\xi h_{t-1}$ and $P_\xi e_t$ are co-aligned,
+i.e., $P_\xi h_{t-1} = \lambda P_\xi e_t$ for some $\lambda \geq 0$.
+\end{proposition}
+
+\begin{proof}
+By the linearity of $P_\xi$ and the triangle inequality on $\mathbb{R}^d$:
+\begin{align}
+  \|P_\xi\,\tilde{e}_t\|
+  &= \|P_\xi\bigl[(1-g_t)h_{t-1} + g_t e_t\bigr]\| \nonumber \\
+  &= \|(1-g_t)P_\xi h_{t-1} + g_t P_\xi e_t\| \nonumber \\
+  &\leq (1-g_t)\|P_\xi h_{t-1}\| + g_t\|P_\xi e_t\|.
+\end{align}
+The equality condition for the triangle inequality requires $P_\xi h_{t-1}$ and
+$P_\xi e_t$ to point in the same direction, i.e., $P_\xi h_{t-1} = \lambda P_\xi e_t$
+with $\lambda \geq 0$.
+\end{proof}
+
+\subsection{Tightness Analysis}
+When $g_t \to 1$ (full pivot suppression), the bound reduces to $\|P_\xi e_t\|$,
+the projection of the \emph{current} query's embedding onto the stale-topic
+subspace. This quantity is empirically small when the query encoder successfully
+represents the new topic. In our benchmark, the mean value of $\|P_\xi e_t\|$ at
+gate-triggered turns was $0.042 \pm 0.019$ normalized units, confirming that the
+bound is tight and the post-gate interference is practically negligible.
+
+When $g_t \to 0$ (no pivot, history trusted), the bound reduces to
+$\|P_\xi h_{t-1}\|$, which equals the interference from the unmodified history
+embedding---consistent with the gate being ``closed.''
+
+\subsection{Empirical Verification Detail}
+For each of the 1,074 gate-triggered turns across 31 vignettes, we computed:
+\begin{itemize}
+  \item \textbf{Actual interference:} $A_t = \|P_\xi \tilde{e}_t\|$, where
+        $\xi$ was taken as the top eigenvector of the prior turn's SPD matrix
+        $S_{t-1}$ (the principal direction of the stale intent).
+  \item \textbf{Bound value:} $B_t = (1-g_t)\|P_\xi h_{t-1}\| + g_t\|P_\xi e_t\|$.
+  \item \textbf{Margin:} $M_t = B_t - A_t \geq 0$ (positive in all 1,074 cases).
+\end{itemize}
+Summary statistics: $\min(M_t) = 0.003$, $\max(M_t) = 0.089$, $\bar{M} = 0.031$,
+$\sigma(M) = 0.018$ normalized units. The bound was never violated.
+
+% ─────────────────────────────────────────────────────────────
+\section{Hyperparameter Settings}
+\label{sec:hyperparams}
+
+\begin{table}[h]
+\centering
+\caption{GDT hyperparameters used in all reported experiments.}
+\label{tab:hyperparams}
+\begin{tabular}{llll}
+\toprule
+\textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Notes} \\
+\midrule
+Embedding dimension    & $d$       & 128    & Post-projection (ClinicalBERT: 768-d) \\
+Sliding window         & $k$       & 5      & Turns for covariance computation \\
+Regularization         & $\lambda$ & $10^{-4}$ & Ensures SPD condition \\
+Gate threshold         & $\kappa_0$& 1.2    & Pivot detection threshold \\
+Gate temperature       & $\tau$    & 0.3    & Sigmoid sharpness \\
+Confidence scale       & $\alpha$  & 2.0    & Prefetch decay after pivot \\
+JEPA predictor         & ---       & 3-layer MLP & Hidden dim 256, ReLU \\
+Momentum coefficient   & $m$       & 0.996  & Exponential moving average \\
+Prefetch top-$k$       & ---       & 10     & Documents retrieved per turn \\
+Learning rate          & ---       & $3\times10^{-4}$ & AdamW, cosine schedule \\
+Batch size             & ---       & 32     & Sessions per batch \\
+Training epochs        & ---       & 50     & Early stopping (patience 5) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────
+\section{Dataset Details}
+\label{sec:datasets}
+
+\begin{table}[h]
+\centering
+\caption{Clinical datasets used in vignette construction.}
+\label{tab:datasets}
+\begin{tabular}{lllll}
+\toprule
+\textbf{Dataset} & \textbf{Version} & \textbf{Size} & \textbf{Specialty mix} & \textbf{Access} \\
+\midrule
+MIMIC-III & v1.4  & 46,520 admissions & ICU (mixed) & PhysioNet \\
+MIMIC-IV  & v2.2  & 65,366 admissions & ICU + ED    & PhysioNet \\
+eICU      & v2.0  & 200,859 admissions & ICU        & PhysioNet \\
+HiRID     & v1.1.1& 33,905 admissions & ICU        & PhysioNet \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent The 31 test vignettes were distributed as follows across specialty areas:
+critical care ($n{=}11$, 35\%), emergency medicine ($n{=}8$, 26\%), hospital
+medicine ($n{=}7$, 23\%), internal medicine ($n{=}5$, 16\%). Each vignette required
+a minimum of 3 abrupt topic pivots (median 4, range 3--7).
+
+% ─────────────────────────────────────────────────────────────
+\section{Full Statistical Results}
+\label{sec:stats_full}
+
+\begin{table}[h]
+\centering
+\caption{Complete pairwise comparison results (Wilcoxon signed-rank, two-tailed).}
+\label{tab:stats}
+\begin{tabular}{llrrl}
+\toprule
+\textbf{Contrast} & \textbf{Outcome} & \textbf{$p$-value} & \textbf{Cohen's $d$} & \textbf{Interpretation} \\
+\midrule
+GDT vs.\ TF-IDF & Latency     & $<0.001$ & $-4.12$ & Large effect \\
+GDT vs.\ BM25   & Latency     & $<0.001$ & $-4.10$ & Large effect \\
+GDT vs.\ CMA    & Latency     & $<0.001$ & $-0.87$ & Moderate effect \\
+CMA vs.\ TF-IDF & Latency     & $<0.001$ & $-3.91$ & Large effect \\
+BM25 vs.\ TF-IDF& Latency     & $0.68$   & $+0.01$ & Negligible \\
+\midrule
+GDT vs.\ TF-IDF & NASA-TLX    & $0.003$  & $-0.55$ & Medium effect \\
+GDT vs.\ BM25   & NASA-TLX    & $0.007$  & $-0.52$ & Medium effect \\
+GDT vs.\ CMA    & NASA-TLX    & $0.041$  & $-0.19$ & Small effect \\
+CMA vs.\ TF-IDF & NASA-TLX    & $0.007$  & $-0.49$ & Medium effect \\
+\midrule
+All contrasts    & Time        & $\geq 0.35$ & $\leq 0.03$ & Non-significant \\
+All contrasts    & Task compl. & N/A      & N/A     & 0\% all arms \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────
+\section{M/M/c Queueing Model --- Sensitivity Analysis}
+\label{sec:queueing_supp}
+
+The main text reports a 4.1-minute per-reviewer reduction under one specific
+parameter setting ($c{=}10$, $\lambda_q{=}8$ queries/min). Table~\ref{tab:queueing_sensitivity}
+provides the full sensitivity analysis.
+
+\begin{table}[h]
+\centering
+\caption{Projected per-reviewer time savings (minutes per 4-hour shift) under
+varying M/M/c parameters. GDT vs.\ TF-IDF; $\mu_q$ computed from observed
+mean latencies.}
+\label{tab:queueing_sensitivity}
+\begin{tabular}{rrrrr}
+\toprule
+\textbf{Reviewers ($c$)} & \textbf{$\lambda_q$ (q/min)} & \textbf{$\rho/c$} & \textbf{$\Delta W$ (ms)} & \textbf{Savings (min/shift)} \\
+\midrule
+5  & 4  & 0.52 & $-47.1$ & 1.9 \\
+5  & 8  & 0.61 & $-49.8$ & 2.4 \\
+10 & 8  & 0.48 & $-50.8$ & 4.1 \\
+10 & 16 & 0.59 & $-52.3$ & 5.0 \\
+20 & 16 & 0.47 & $-51.0$ & 4.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The projected savings are robust across the parameter range, varying between 1.9
+and 5.0 minutes per reviewer per shift. The offered load $\rho/c < 1$ in all
+reported scenarios, confirming system stability under the M/M/c assumptions.
+
+% ─────────────────────────────────────────────────────────────
+\section{Ablation: Gate Threshold Sensitivity}
+\label{sec:gate_sensitivity}
+
+To assess sensitivity to the gate threshold $\kappa_0$, we swept $\kappa_0 \in
+\{1.0, 1.2, 1.5, 1.8\}$ on the held-out vignettes while holding all other
+hyperparameters fixed.
+
+\begin{table}[h]
+\centering
+\caption{Latency and trigger rate as a function of gate threshold $\kappa_0$.}
+\label{tab:gate_sensitivity}
+\begin{tabular}{rrrr}
+\toprule
+$\kappa_0$ & \textbf{Mean Latency (ms)} & \textbf{Trigger Rate (\%)} & \textbf{$\Delta$ vs.\ TF-IDF} \\
+\midrule
+1.0 & 136.1 & 41.2 & $-$28.0\% \\
+1.2 & 138.2 & 34.7 & $-$26.9\% \\
+1.5 & 140.8 & 26.3 & $-$25.5\% \\
+1.8 & 143.1 & 18.9 & $-$24.3\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Results are stable across the range. $\kappa_0{=}1.2$ was selected as the
+default because it balances trigger sensitivity (34.7\% of transitions, consistent
+with our estimate of multi-pivot frequency in clinical sessions) against latency.
+Lower thresholds trigger more aggressively and reduce latency slightly but may
+suppress context during within-topic refinements.
+
+\bibliographystyle{unsrtnat}
+\bibliography{../references}
+
+\end{document}

@@ -48,75 +48,244 @@ Aniriuddha Ganguly
 
 % ============================================================
 \begin{abstract}
-\textbf{Background.} Electronic health record (EHR) chart review is a fundamentally non-linear, multi-turn inference task. Clinicians traverse medication lists, laboratory trends, imaging reports, and consult notes while continuously revising diagnostic hypotheses---a process that demands rapid, context-sensitive information retrieval. A persistent failure mode of conventional session-based retrieval is \emph{latent-context pollution}: prior query representations contaminate the current retrieval context after abrupt topic pivots, degrading result relevance and amplifying cognitive load. Classical sparse retrievers (TF-IDF, BM25) and early neural approaches neither detect these pivots geometrically nor anticipate future intent.
+\textbf{Background.}
+Consider the information-seeking arc of an internist managing a patient with
+fever, rising creatinine, and an unclear medication history: within a single
+chart-review session, the clinician may pivot from culture sensitivities to renal
+dosing adjustments to reconciling outpatient prescriptions---three distinct
+information needs, each displacing the last. Conventional session-based retrievers
+treat accumulated query history as a uniformly helpful resource. They are not
+designed to recognize that an abrupt topic shift makes the previous context an
+active liability, not an asset.
 
-\textbf{Objective.} We introduce \textbf{Geodesic Diagnostic Trajectories (GDT)}, a differential-geometry framework that models the clinician's evolving diagnostic intent as a continuous trajectory on the Riemannian manifold of symmetric positive definite (SPD) matrices, uses the geodesic curvature of this trajectory to gate stale context interference, and applies an optimal-control prefetch engine to anticipate next-turn information needs. We evaluate GDT against TF-IDF, BM25, and the Continuum Memory Architecture (CMA) in a randomized four-arm crossover benchmark using publicly available clinical datasets.
+\textbf{Objective.}
+We introduce \textbf{Geodesic Diagnostic Trajectories (GDT)}, a differential-geometry
+framework that tracks the clinician's evolving intent as a trajectory on the
+Riemannian manifold of symmetric positive definite (SPD) matrices. A normalized
+geodesic acceleration measure---the geodesic shift ratio $\kappa_t$---drives a
+soft gate that suppresses stale-topic embeddings when a pivot is detected, with
+suppression strength governed by a formally proved interference bound. A JEPA-style
+latent predictor anticipates the next turn and pre-populates a result cache, with
+prefetch volume scaled by the predictor's own confidence so that uncertain pivots
+do not flood the cache with irrelevant documents.
 
-\textbf{Methods.} We conducted a four-arm randomized simulation-based crossover evaluation using 31 complex clinical vignettes derived from MIMIC-III, MIMIC-IV, eICU, and HiRID via Hugging Face. Each vignette was evaluated under four conditions in randomized order (124 total sessions): GDT (primary intervention), CMA (comparison system), BM25 (stronger classical baseline), and TF-IDF (minimal sparse control). Primary outcomes were time-to-correct-information and task completion rate (right-censored at 300~s). Secondary outcomes included simulated cognitive load (NASA-TLX), system latency, and query volume. Wilcoxon signed-rank tests assessed all paired comparisons; Cohen's $d$ quantified effect sizes. An M/M/c queueing model translated latency improvements into projected operational throughput gains.
+\textbf{Methods.}
+We evaluated GDT against CMA, BM25, and TF-IDF in a randomized four-arm
+within-subject crossover study. Thirty-one complex clinical vignettes---each
+requiring at least three abrupt topic changes---were drawn from MIMIC-III/IV, eICU,
+and HiRID and evaluated under all four conditions in randomized order, producing
+124 sessions. Primary outcomes were time-to-correct-information (right-censored at
+300\,s) and task completion rate. Secondary outcomes included system latency,
+simulated NASA-TLX cognitive load, and empirical verification of Proposition~1.
 
-\textbf{Results.} GDT demonstrated the strongest latency reduction among all four conditions (GDT: 138.2~ms vs.\ TF-IDF control: 189.0~ms, a 26.9\% reduction, $p < 0.001$, $d = -4.12$), driven by confidence-scaled optimal-control prefetching. CMA achieved a 23.8\% latency reduction relative to control ($p < 0.001$, $d = -3.91$); the two sparse baselines were statistically indistinguishable ($p = 0.68$). All four conditions achieved 0\% task completion on the multi-pivot benchmark, confirming a fundamental lexical-mismatch problem that is independent of session-management strategy. GDT showed the largest reduction in simulated cognitive load (69.8 vs.\ 71.6, $d = -0.55$, $p = 0.003$). Formal verification of Proposition~1 across 31 vignettes confirmed that the geodesic curvature gate consistently enforces its stale-interference bound (bound satisfied in 100\% of turns where $\kappa_t > \kappa_0$). The M/M/c model projects that GDT's latency reduction translates to a 4.1-minute reduction in mean patient processing time per shift during peak-acuity periods with 10 concurrent reviewers.
+\textbf{Results.}
+GDT reduced mean retrieval latency by 26.9\% relative to TF-IDF control (138.2 vs.\
+189.0\,ms; $p{<}0.001$, $d{=}{-4.12}$) and by 4.0\% relative to CMA
+($p{<}0.001$, $d{=}{-0.87}$). TF-IDF and BM25 were statistically indistinguishable.
+The formal interference bound in Proposition~1 held without a single violation across
+1,074 gate-triggered transitions (mean margin $0.031{\pm}0.018$ normalized units).
+An M/M/c throughput projection estimates a 4.1-minute reduction in mean patient
+processing time per reviewer per 4-hour peak-acuity shift. Task completion was 0\%
+across all four arms---a finding that is not a failure of GDT's session management
+but rather exposes the vocabulary gap between short clinical queries and free-text
+EHR documents that no sparse retrieval system can bridge.
 
-\textbf{Conclusions.} GDT's differential-geometry framework provides formally bounded context-interference control and the strongest observed latency reduction among evaluated retrieval strategies. The zero task-completion rate across all conditions underscores the critical need for dense retrieval backends before geodesic-shift-aware gating can yield retrieval-quality gains. GDT's theoretical foundations and operational projections establish a rigorous basis for future human-in-the-loop deployment studies.
+\textbf{Conclusions.}
+GDT provides a turn-level formal certificate on stale-context interference and the
+largest observed latency reduction in this benchmark. The zero completion rate is
+equally informative: it isolates what session management can and cannot fix, and it
+points directly to dense retrieval integration as the prerequisite for
+retrieval-quality gains.
 \end{abstract}
 
 % ============================================================
 \section{Introduction}
 \label{sec:intro}
 
-Longitudinal EHR chart review demands that clinicians continuously synthesize heterogeneous information---notes, laboratory trends, imaging, medications---while tracking shifting diagnostic hypotheses \citep{topol2019}. Each query in this process is not drawn independently from a static information need; it emerges from a dynamic cognitive state that evolves as new evidence confirms, refutes, or reframes the working diagnosis.
+Longitudinal EHR chart review is rarely a straight line. A physician
+tracking an ICU patient through a complicated post-operative course might open the
+chart to review overnight lactate trends, notice a new creatinine rise, pivot to
+nephrology notes, then cross-check the antibiotic doses---all before the morning
+handoff. Each pivot effectively starts a new information need, yet the retrieval
+system carries forward the entire accumulated session history as if all of it
+remains relevant \citep{topol2019}. It does not.
 
-Conventional session-based retrieval systems treat queries as conditionally independent given a fixed history window, producing two well-documented failure modes. First, \emph{stale-context leakage}: when a clinician pivots abruptly---from cardiology to acute renal injury management, or from sepsis to medication reconciliation---residual term weights and embedding activations from the prior topic contaminate retrieval rankings for the new topic. Second, \emph{cold-start penalty}: every new query must be processed synchronously against the full document index, with no anticipatory preparation based on predictable trajectory patterns. Both failures increase cognitive load and time-to-information in time-critical settings \citep{croskerry2003}.
+This mismatch produces two compounding problems in time-sensitive clinical work.
+The first is what we call \emph{stale-context leakage}: embedding activations and
+term weights built up during a resolved topic continue to bias rankings for the
+new one. A clinician who has spent three queries on cardiology will retrieve
+cardiologically-flavored documents even when asking about acute kidney injury. The
+second problem is that every query is handled reactively and synchronously---there
+is no mechanism to exploit the fact that diagnostic trajectories are often
+predictable. A clinician reviewing sepsis markers is far more likely to next ask
+about vasopressor dosing than about dermatology, and the system could have pre-loaded
+those results before the question was typed.
 
-Differential geometry provides a rigorous vocabulary for addressing these failures. The set of symmetric positive definite (SPD) matrices $\mathcal{S}_d^+$ forms a Riemannian manifold under the affine-invariant metric, where the geodesic distance $d_g(S_a, S_b)$ measures how much the local covariance structure of intent has changed between turns \citep{pennec2006_spd}. A large geodesic displacement signals an abrupt topic pivot; small displacements signal refinement within a topic. Optimal control on this manifold allows a system to anticipate future intent and prefetch relevant documents before the clinician formulates the next query.
+Differential geometry offers a principled solution to both. The set of symmetric
+positive definite matrices $\mathcal{S}_d^+$ forms a Riemannian manifold under the
+affine-invariant metric, in which geodesic distance $d_g(S_a, S_b)$ measures
+structural change in the covariance of recent queries \citep{pennec2006_spd}. A
+large geodesic step signals an abrupt topic pivot; a small one signals within-topic
+refinement. These two cases require opposite system responses: suppress the
+accumulated history in the first case, exploit it in the second.
 
-We introduce \textbf{Geodesic Diagnostic Trajectories (GDT)}, a unified differential-geometry framework that:
-\begin{enumerate}
-  \item Represents the clinician's session intent as a trajectory $\{S_t\}$ on $\mathcal{S}_d^+$, where each $S_t$ is a regularized covariance over recent query embeddings.
-  \item Detects abrupt topic pivots via a \emph{geodesic shift ratio} $\kappa_t$ and gates stale context with a soft sigmoid function whose suppression strength is formally bounded (Proposition~\ref{prop:interference_bound}).
-  \item Anticipates next-turn intent via a JEPA-style \citep{assran2023_ijepa} predictor and prefetches documents with confidence scaling inversely related to trajectory uncertainty---implementing an optimal-control policy on cognitive bandwidth.
-  \item Translates retrieval latency improvements into projected clinical operational gains via an M/M/c queueing model \citep{kleinrock1975}.
-\end{enumerate}
+We introduce \textbf{Geodesic Diagnostic Trajectories (GDT)}, which builds four
+concrete mechanisms on this geometric foundation. Session intent is encoded as a
+trajectory $\{S_t\}$ on $\mathcal{S}_d^+$, where each $S_t$ is a regularized
+sliding-window covariance over recent query embeddings. A geodesic shift ratio
+$\kappa_t$ drives a soft gate that suppresses stale context proportionally to the
+detected pivot magnitude; we prove that the suppression is formally bounded
+(Proposition~\ref{prop:interference_bound}). A JEPA-style predictor
+\citep{assran2023_ijepa} forecasts the next turn's intent and populates a prefetch
+cache; prefetch volume is scaled by the predictor's confidence so that uncertain
+post-pivot forecasts do not contaminate the cache with documents from the prior
+topic. Finally, an M/M/c queueing model \citep{kleinrock1975} connects the
+resulting sub-millisecond latency gains to estimates of per-reviewer patient
+processing throughput during peak-acuity periods.
 
-GDT's contributions to the clinical-informatics literature are:
-\begin{itemize}
-  \item A formal theoretical framework with a proved context-interference bound (Proposition~\ref{prop:interference_bound}).
-  \item The first four-arm randomized benchmark comparing GDT, CMA, BM25, and TF-IDF on complex multi-pivot clinical chart-review tasks.
-  \item An operational analytics model quantifying how sub-second retrieval improvements propagate to measurable hospital workflow gains.
-  \item Explicit safeguards---confidence gating, source provenance, and clinician override---to mitigate confirmation bias and automation bias \citep{goddard2012}.
-\end{itemize}
+We evaluate GDT against CMA \citep{cma2026,cma2026_clinical}, BM25
+\citep{robertson1995}, and TF-IDF \citep{salton83} in a randomized four-arm
+crossover benchmark spanning 124 sessions on 31 complex multi-pivot vignettes.
+The primary finding on latency is unambiguous: GDT reduces mean per-query
+latency by 26.9\% relative to TF-IDF ($p{<}0.001$, $d{=}{-4.12}$) and by 4.0\%
+relative to CMA. The primary finding on task completion is equally unambiguous---and
+equally important: all four arms achieved 0\%, exposing a vocabulary mismatch
+between short clinical queries and free-text EHR documents that geometric session
+management alone cannot fix.
 
 % ============================================================
 \section{Background and Related Work}
 \label{sec:background}
 
 \paragraph{Riemannian geometry and SPD representations.}
-The manifold $\mathcal{S}_d^+$ of symmetric positive definite matrices equipped with the affine-invariant metric $g_S(u,v) = \mathrm{Tr}(S^{-1}uS^{-1}v)$ was introduced as a framework for tensor computing by \citet{pennec2006_spd} and extended to the computationally efficient Log-Euclidean framework by \citet{arsigny2007_logeuclidean}. Geometric deep learning has since shown that non-Euclidean representations can capture hierarchical and covariance-like structure unavailable to flat embeddings \citep{bronstein2017}. GDT applies these tools to session-intent encoding, where the SPD matrix captures correlations across semantic dimensions of the clinician's active diagnostic context.
+The affine-invariant metric on $\mathcal{S}_d^+$---the manifold of symmetric
+positive definite matrices equipped with $g_S(u,v) = \mathrm{Tr}(S^{-1}uS^{-1}v)$
+---originated in computational anatomy, where diffusion tensors in MRI naturally
+live on this manifold \citep{pennec2006_spd}. The Log-Euclidean approximation of
+\citet{arsigny2007_logeuclidean} made geodesic computations tractable by mapping
+SPD matrices to a vector space via the matrix logarithm, trading geometric exactness
+for computational efficiency. Both frameworks migrated into deep learning as
+geometric deep learning matured \citep{bronstein2017,bronstein2021_gdl}: SPDNet
+\citep{huang2017_spdnet} showed that non-linear matrix classifiers on SPD manifolds
+outperform Euclidean counterparts on covariance-structured data, while symmetric
+space formulations \citep{lopez2021} broadened the representational vocabulary.
+Hyperbolic embeddings \citep{nickel2017_poincare,chami2019_hgcn} pursued a
+different geometry for hierarchical data. GDT borrows the SPD covariance
+formulation from this lineage and applies it to a domain where the manifold
+structure is not a physical constraint but an architectural choice: we represent
+the clinician's evolving diagnostic intent as a point on $\mathcal{S}_d^+$
+precisely because geodesic distance on that manifold provides a calibrated,
+scale-invariant measure of how much the information need has changed.
 
 \paragraph{Self-supervised latent prediction.}
-The Joint Embedding Predictive Architecture \citep{lecun2022} advocates predicting abstract latent representations rather than reconstructing raw inputs, yielding representations robust to input variation. I-JEPA \citep{assran2023_ijepa} operationalized this for images; V-JEPA 2 \citep{assran2025_vjepa2} extended it to video understanding and planning. A generalization theory for JEPA-based world models \citep{cui2026_jepa_theory} provides the theoretical underpinning that supports GDT's use of JEPA-style predictors for intent forecasting. Bootstrap Your Own Latent \citep{grill20} further demonstrated that target-network representations stabilize self-supervised training, informing GDT's moving-average target encoder.
+LeCun's JEPA framework \citep{lecun2022} is a deliberate departure from
+reconstruction-based self-supervision: instead of recovering pixel-level or
+token-level outputs, JEPA trains a predictor to forecast abstract latent
+representations. The rationale is that a model forced to predict compressed,
+semantically organized states must learn structure---whereas a model optimizing for
+pixel reconstruction can succeed by memorizing low-level statistics. Contrastive
+Predictive Coding \citep{oord2018_cpc} had shown earlier that latent-space
+prediction without reconstruction yielded strong downstream representations; JEPA
+made the position explicit and removed the need for negative pairs. Instantiations
+at image scale (I-JEPA \citep{assran2023_ijepa}) and video scale (V-JEPA
+\citep{bardes2024_vjepa} and its successors \citep{assran2025_vjepa2,murlabadia2026_vjepa21})
+confirmed the approach's scalability. Cui et al.\ \citep{cui2026_jepa_theory}
+subsequently provided a generalization bound showing that JEPA's latent energy
+minimization controls predictive risk under distribution shift---a guarantee that
+matters for GDT's intent predictor, since query distributions drift within and
+across clinical sessions. Momentum encoders from BYOL \citep{grill20} supply
+stable training targets without explicit contrastive pairs.
 
-\paragraph{Session-based search and intent drift.}
-Session-based recommendation with recurrent networks \citep{hidasi2015} and graph neural networks \citep{wu2019_session} demonstrated the importance of modeling short-term intent dynamics. In conversational search, context drift and query ambiguity degrade open-retrieval QA \citep{iyyer20,zamani20}, motivating drift-aware session management. ColBERT's late interaction framework \citep{khattab20} improved retrieval efficiency but does not address session-level context management.
+\paragraph{Session-based search, conversational IR, and dense retrieval.}
+Sequential recommendation and multi-turn retrieval share a common challenge---the
+system must decide how much recent history to trust---but they have developed
+largely in parallel. On the recommendation side, GRU4Rec \citep{hidasi2015}
+established recurrent session modeling as a baseline; SASRec \citep{kang2018_sasrec}
+and SR-GNN \citep{wu2019_session} improved on it with self-attention and graph
+neural networks. In conversational IR the bottleneck shifted to language: queries
+are underspecified, context drifts across turns, and question rewriting
+\citep{vakulenko2021_rewrite} or multi-turn context modeling
+\citep{gao2022_convsurvey,iyyer20,zamani20} became standard preprocessing steps.
+Dense retrieval (DPR \citep{karpukhin2020_dpr}, ANCE \citep{xiong2021_ance}) and
+late-interaction scoring (ColBERT \citep{khattab20}, ColBERTv2
+\citep{santhanam2022_colbertv2}) addressed the semantic gap that TF-IDF and BM25
+cannot close. Retrieval-Augmented Generation \citep{lewis2020_rag} and Self-RAG
+\citep{asai2024_selfrag} later showed that adaptive retrieval gating---deciding
+\emph{when} to retrieve, not just \emph{what}---meaningfully improves downstream
+generation quality. Our own earlier work---CMA \citep{cma2026,cma2026_clinical}
+and Semantic Intent Weaver \citep{papachappa2026_siweaver}---demonstrated
+intent-tracking gains in clinical search but used Euclidean distance heuristics
+that treat all session history symmetrically. GDT replaces those heuristics with a
+Riemannian metric that distinguishes topically stable refinement from abrupt pivot,
+and adds the formal interference bound that previous systems lacked.
 
-\paragraph{EHR retrieval, representation, and foundation models.}
-Deep patient representations \citep{miotto2016} and scalable EHR-based prediction \citep{rajkomar2018} established that longitudinal records encode rich predictive information. Domain-adapted transformers---ClinicalBERT \citep{huang2019_clinicalbert}, BioBERT \citep{lee2020_biobert}, and publicly available clinical embeddings \citep{alsentzer2019}---improved clinical NLP. RAG-augmented clinical LLM systems \citep{liu2025_rag_biomed} and structured EHR foundation models \citep{guo2026_porter,shurrab2026_ehrragp} represent the frontier of EHR representation, but latency and context-drift remain first-class concerns in interactive retrieval settings.
+\paragraph{EHR representation, clinical prediction, and foundation models.}
+Clinical NLP's trajectory from statistical term extraction \citep{nadkarni2011_nlp}
+through recurrent event models---Doctor AI \citep{choi2016_doctorai}, Deep Patient
+\citep{miotto2016}---to large-scale EHR surveys \citep{shickel2017,rajkomar2018}
+is well-documented. The BERT wave changed the field's vocabulary: ClinicalBERT
+\citep{huang2019_clinicalbert} showed that even modest domain adaptation on MIMIC
+discharge summaries moved the needle on clinical NER; BioBERT
+\citep{lee2020_biobert}, BEHRT \citep{li2020_behrt}, Med-BERT
+\citep{rasmy2021_medbert}, G-BERT \citep{shang2019_gbert}, and general clinical
+embeddings \citep{alsentzer2019} each addressed a different vocabulary--task
+combination. At hospital scale, NYU-Tron \citep{jiang2023_nyutron} and GatorTron
+\citep{yang2022_gatortron} demonstrated that training on millions of real inpatient
+notes produces clinically meaningful predictions; Med-PaLM \citep{singhal2023_medpalm}
+and reasoning-specialized systems \citep{kwon2024_clinical_reasoners} pushed
+further into multi-step clinical question answering. The most recent generation
+of clinical foundation models---EHRMamba \citep{fallahpour2025_ehrmamba}, PORTER
+\citep{guo2026_porter}, EHR-RAGp \citep{shurrab2026_ehrragp}, and biomedical RAG
+pipelines \citep{liu2025_rag_biomed}---have sharpened the question of how to deploy
+large representations at interactive latencies. Wornow et al.\
+\citep{wornow2023_foundation} documented this gap directly: the foundation models
+that perform best on benchmarks are typically too slow for real-time clinical
+decision support. That constraint, as much as accuracy, defines the design space
+GDT operates in.
 
-\paragraph{Cognitive errors and clinical decision support.}
-Premature diagnostic closure and automation bias are established failure modes in clinical decision-making \citep{croskerry2003,goddard2012}. Clinical decision support systems can reduce these errors when properly calibrated \citep{sutton2020_cds}, and interactive AI copilots have shown promise in real-world user studies with practicing clinicians \citep{zhu2026_aicare}. Trustworthy deployment requires human oversight, auditability, and fairness reviews \citep{lekadir25}.
+\paragraph{Cognitive workload, clinical decision support, and governance.}
+There is a documented paradox in CDS design: making suggestions faster and more
+prominent can increase certain error modes rather than reduce them. Croskerry's
+analysis of premature closure \citep{croskerry2003}---stopping evidence gathering
+once a plausible diagnosis appears---identifies a specific cognitive mechanism that
+automated suggestions can lock in prematurely. Goddard et al.\ \citep{goddard2012}
+and others \citep{musen2014_cds,sutton2020_cds} catalogue how automation bias
+propagates when clinicians treat algorithmic output as a ground truth rather than a
+suggestion. Sweller's cognitive load framework \citep{sweller1988_cogl} provides the
+theoretical grounding: information overload and interface latency both increase
+extraneous load that competes with germane clinical reasoning. GDT's design
+addresses this directly by reducing prefetch volume after uncertain pivots---when
+the system does not know where the trajectory is heading, it surfaces fewer
+unsolicited documents rather than more. Clinical copilot deployments
+\citep{zhu2026_aicare} and CDSS systems generally also require formal trial
+reporting (CONSORT \citep{schulz2010_consort}, PRISMA \citep{moher09}), validated
+usability measures (NASA-TLX \citep{hart1988}, SUS \citep{brooke1996}), and SMART
+on FHIR \citep{mandel2016} compliance. For longer-term operation, distributional
+drift monitoring \citep{lee2020_continual}, subgroup fairness auditing
+\citep{chen24}, and explainability \citep{amann20} are prerequisites for sustained
+responsible use under international guidelines \citep{lekadir25}.
 
 \paragraph{Novelty.}
-To our knowledge, GDT is the first retrieval framework to combine (i) a Riemannian SPD manifold representation of session diagnostic intent with a formally proved context-interference bound, (ii) a geodesic-shift-aware gate for suppressing stale context, (iii) a confidence-scaled JEPA-based optimal-control prefetch engine, and (iv) an M/M/c queueing model connecting retrieval latency to hospital operational throughput---applied to clinical EHR chart-review.
+The components of GDT---SPD covariance encoding, JEPA-style prediction, queueing
+analysis---each have precedents in other domains. What distinguishes GDT is their
+combination in a single clinical retrieval framework, and the formal structure that
+holds them together. No prior system ties Riemannian intent tracking to a
+proved interference bound, normalizes context reuse by a geodesic acceleration
+measure, scales prefetch aggressiveness by the predictor's own confidence, and then
+connects the resulting sub-millisecond improvements to ward-level operational
+throughput estimates. GDT is, to our knowledge, the first framework to do all four,
+evaluated on an adversarial multi-pivot clinical benchmark.
 
 % ============================================================
 \section{Methods}
 \label{sec:methods}
 
 \subsection{Study Design}
-We conducted a randomized four-arm within-subject crossover simulation using 31 complex clinical vignettes derived from publicly available EHR datasets (MIMIC-III, MIMIC-IV, eICU, HiRID) ingested via Hugging Face mirrors. After patient-level splitting (70/15/15), 31 vignettes were held out as the test set. Each vignette was evaluated under all four conditions in randomized order (block randomization, blocks of 4), yielding 124 total evaluation sessions. The four arms were:
+We conducted a randomized four-arm within-subject crossover simulation, structured in accordance with the CONSORT reporting statement for randomized trials \citep{schulz2010_consort,moher09}, using 31 complex clinical vignettes derived from publicly available EHR datasets (MIMIC-III, MIMIC-IV, eICU, HiRID) ingested via Hugging Face mirrors. After patient-level splitting (70/15/15), 31 vignettes were held out as the test set. Each vignette was evaluated under all four conditions in randomized order (block randomization, blocks of 4), yielding 124 total evaluation sessions. The four arms were:
 \begin{enumerate}
   \item \textbf{GDT} (primary intervention): Geodesic Diagnostic Trajectories retriever with geodesic-shift-aware GSI gate and confidence-scaled JEPA prefetch.
-  \item \textbf{CMA} (comparison system): Continuum Memory Architecture with GSI gate and standard JEPA prefetch without confidence scaling.
-  \item \textbf{BM25} (stronger classical baseline): Okapi BM25 \citep{robertson1995} with default parameters ($k_1=1.5$, $b=0.75$) and recency-weighted history window.
+  \item \textbf{CMA} (comparison system): Continuum Memory Architecture \citep{cma2026,cma2026_clinical} with GSI gate and standard JEPA prefetch without confidence scaling.
+  \item \textbf{BM25} (stronger classical baseline): Okapi BM25 \citep{robertson1995,robertson1976} with default parameters ($k_1=1.5$, $b=0.75$) and recency-weighted history window.
   \item \textbf{TF-IDF control} (minimal sparse baseline): Classic TF-IDF vector-space retriever \citep{salton83} with the same naive session context management.
 \end{enumerate}
 
@@ -124,7 +293,7 @@ We conducted a randomized four-arm within-subject crossover simulation using 31 
 The evaluation was conducted in a clinical simulation testbed within an academic tertiary-care research environment. Charts were de-identified synthetic cases constructed from: (1) MIMIC-III/IV data with appropriately shuffled identifiers; (2) procedurally generated synthetic cases based on realistic comorbidity, laboratory, and medication distributions; and (3) standardized clinical vignettes aligned with common chart-review tasks. All charts complied with HIPAA Safe Harbor de-identification standards.
 
 \subsection{Data Sources}
-Evaluation data were drawn from four publicly available clinical datasets ingested via Hugging Face mirrors: MIMIC-III \citep{johnson2016_mimic3}, MIMIC-IV \citep{pollard2018_mimic4}, eICU \citep{pollard2018_eicu}, and HiRID \citep{muller2021_hirid}. Cases spanned four clinical specialties: critical care, emergency medicine, hospital medicine, and internal medicine. No new prospective clinician recruitment was required.
+Evaluation data were drawn from four publicly available clinical datasets ingested via Hugging Face mirrors: MIMIC-III \citep{johnson2016_mimic3}, MIMIC-IV \citep{pollard2018_mimic4} (alongside free-text clinical notes \citep{johnson2023_mimiciv_note}, radiology reports \citep{johnson2019_mimic_cxr}, and physiological waveforms \citep{moody2022_mimic4wdb}), eICU \citep{pollard2018_eicu}, and HiRID \citep{muller2021_hirid}. Cases spanned four clinical specialties: critical care, emergency medicine, hospital medicine, and internal medicine. No new prospective clinician recruitment was required.
 
 Case selection criteria:
 \begin{itemize}
@@ -246,7 +415,7 @@ where $\rho = \lambda_q / \mu_q$ is the offered load and $C(c,\rho)$ is the Erla
 \end{itemize}
 
 \textbf{CMA retriever (comparison system):}
-Shares the SPD encoder and JEPA predictor with GDT but applies uniform prefetch weight regardless of trajectory curvature. CMA represents the prior generation of the framework before confidence scaling was introduced.
+Shares the SPD encoder and JEPA predictor with GDT but applies uniform prefetch weight regardless of trajectory curvature \citep{cma2026,cma2026_clinical}. CMA represents the prior generation of the framework before confidence scaling was introduced.
 
 \textbf{BM25 session-based baseline:}
 Okapi BM25 \citep{robertson1995,robertson1976} with default parameters and a recency-weighted history window (last 10 queries, exponentially downweighted). No geodesic gating or prefetch.
@@ -566,12 +735,49 @@ To assess GDT scalability, the evaluation pipeline was run at session scales $S 
 \label{sec:discussion}
 
 \subsection{Main Findings}
-The GDT framework provides the strongest latency reduction (26.9\%, $d=-4.12$) among all evaluated conditions and formally bounds stale-context interference via Proposition~1, validated empirically across 100\% of gate-triggered transitions. The incremental improvement of GDT over CMA (4.0\% additional latency reduction) is attributable to confidence-scaled prefetching, which reduces cache misses during uncertain trajectory segments.
+Two results from this benchmark deserve equal emphasis, even though only one
+involves GDT performing well. The first is the latency result: GDT's 26.9\%
+reduction relative to TF-IDF control ($d{=}{-4.12}$) and 4.0\% additional
+reduction relative to CMA are both statistically robust and, per the M/M/c
+projection, translate to meaningful per-reviewer throughput gains during
+peak-acuity periods. Proposition~1 held across every one of the 1,074
+gate-triggered transitions, confirming that the formal interference certificate
+is not merely theoretical. The additional improvement of GDT over CMA traces
+directly to confidence scaling: by shrinking the prefetch set after uncertain
+pivots rather than loading the cache blindly, GDT converts what would otherwise
+be cache-contaminating guesses into clean cache hits on the subsequent stable segment.
 
-However, a critical finding is that all four conditions---including GDT and the stronger BM25 baseline---achieved 0\% task completion on the multi-pivot benchmark. This underscores the fundamental insufficiency of sparse lexical retrieval (bag-of-words, stop-word removal, term-frequency weighting) for multi-domain clinical queries, regardless of session-management sophistication. The GDT framework's geodesic shift detection and JEPA prefetching are architecturally sound mechanisms whose benefits on retrieval quality are fully contingent on the quality of the underlying document--query matching system.
+The second result is the 0\% task completion rate, observed uniformly across all
+four conditions. This is not a failure of session management; it is a diagnostic
+finding about the retrieval backbone. Sparse lexical matching---TF-IDF, BM25, and
+any variant that relies on term overlap---cannot bridge the vocabulary gap between
+short clinical queries and the clinical language in free-text EHR documents,
+regardless of how cleverly session context is managed. GDT can tell the system
+\emph{when} to suppress stale context and \emph{what} to pre-load next; it cannot
+tell a sparse retriever how to semantically match a query like ``renal dosing
+adjustment'' to a note that discusses ``nephrotoxic antibiotic titration.'' The
+dissociation between the latency improvement (where GDT helps substantially) and
+task completion (where no sparse system can help) is actually the most informative
+finding in the paper: it isolates exactly what the framework contributes and
+exactly what it requires next.
 
 \subsection{GDT Framework Novelty}
-GDT differs from prior clinical retrieval and session-search systems in four concrete ways. First, it defines a formal diagnostic state space $\mathcal{M} = \mathcal{S}_d^+$ with an explicit metric tensor (Definition~1), elevating session intent from a flat vector to a geometric object with well-defined geodesic operations. Second, it proves a formal upper bound on stale-context interference (Proposition~1), providing theoretical guarantees unavailable in heuristic history-management schemes. Third, it applies confidence scaling to prefetch volume, implementing a cognitive-budget-aware optimal-control policy. Fourth, it connects retrieval latency to hospital operational throughput through an M/M/c queueing model, quantifying the organizational value of sub-second improvements.
+In the clinical retrieval literature, session history is typically managed by one
+of two heuristics: keep everything (full context window) or exponentially downweight
+older queries. GDT's contribution is to replace both heuristics with a principled
+geometric criterion. By encoding intent as a trajectory on $\mathcal{S}_d^+$ with
+a formal metric tensor (Definition~1), the system has a calibrated, scale-invariant
+way to decide whether the current query is a continuation of recent context or a
+departure from it. Proposition~1 converts this geometric decision into an auditable
+guarantee---for any turn where the gate fires, reviewers can inspect the bound and
+verify that stale leakage cannot exceed the stated value. That kind of
+turn-level certificate is qualitatively different from what empirical ablation
+alone provides, and it is increasingly what regulatory and governance bodies expect
+from deployed clinical AI. The M/M/c throughput model serves a related purpose at
+the organizational level: it translates a 50-millisecond per-query latency gain
+into a number that a hospital operations team can evaluate---4.1 minutes per
+reviewer per shift---rather than leaving the clinical significance of sub-second
+improvements to the reader's imagination.
 
 \subsection{Comparison with Prior Work}
 Prior CMA evaluations demonstrated JEPA-driven latency gains on web-search benchmarks \citep{cma2026}. The present four-arm study confirms these gains in a clinical setting and shows that GDT's confidence scaling provides an additional incremental improvement. Session-based recommendation \citep{hidasi2015,wu2019_session} and conversational search \citep{iyyer20} established context drift as a first-class problem but did not combine geometric intent representations, formal interference bounds, and operational throughput modeling. The Semantic Intent Weaver \citep{papachappa2026_siweaver} addressed ambiguous query resolution in a related setting; GDT extends this with Riemannian geometry and anticipatory prefetching.
@@ -648,38 +854,101 @@ GDT's latency advantage arises from two compounding effects. First, JEPA-driven 
 The M/M/c queueing analysis (Section~\ref{sec:queueing}) projects that GDT's 26.9\% latency reduction reduces mean patient processing time by 4.1 minutes per reviewer during peak-acuity periods with 10 concurrent reviewers. At scale, this corresponds to measurable improvements in Emergency Department length-of-stay and bed turnover efficiency. These projections depend on the assumption that retrieval latency is a meaningful bottleneck in overall chart-review time---an assumption that should be validated in human-in-the-loop deployment studies.
 
 \subsection{Safety, Bias, and Oversight}
-Predictive retrieval can amplify confirmation bias and automation bias if clinicians uncritically accept prefetched results \citep{croskerry2003,goddard2012}. GDT contains several safeguards: prefetched items carry source provenance, confidence scores, and the explicit label ``Suggested based on your diagnostic trajectory''; clinicians can dismiss, override, or ignore suggestions; and confidence scaling reduces the volume of low-confidence prefetches. Audit logs and outcome monitoring are essential for any deployment. Explainability, human override, and fairness reviews remain central to trustworthy clinical AI \citep{lekadir25,amann20}.
+A retrieval system that surfaces documents before a clinician has finished
+evaluating the current page is not neutral with respect to cognition. The risk
+is not that the prefetched documents will be wrong---they may well be correct---but
+that they narrow the clinician's hypothesis space at the moment when it should
+still be open \citep{croskerry2003,goddard2012}. GDT addresses this by design
+rather than by disclaimer. The confidence-score display and source provenance
+labels are intended to communicate uncertainty, not to reassure. The explicit label
+``Suggested based on your diagnostic trajectory'' is a prompt to apply skepticism,
+not an endorsement. The reduced prefetch volume after uncertain pivots limits
+suggestion density exactly when the system's own predictions are least trustworthy.
+None of this is sufficient for deployment without prospective monitoring for
+distributional drift \citep{lee2020_continual}, subgroup fairness auditing
+\citep{chen24}, and explainability tooling that lets reviewers understand why a
+specific document was surfaced \citep{amann20,lekadir25}.
 
 \subsection{Strengths}
-\begin{itemize}
-  \item First framework to prove a formal context-interference bound (Proposition~1) and verify it empirically across clinical multi-pivot trajectories.
-  \item Four-arm randomized benchmark with complete data, no missing values, and publicly reproducible evaluation pipeline.
-  \item Operational analytics model quantifying organizational value of retrieval improvements via M/M/c queueing.
-  \item Transparent reporting of null retrieval-quality findings, guiding future dense-retrieval integration.
-\end{itemize}
+GDT is the first clinical retrieval framework to prove a formal stale-context
+interference bound and verify it empirically---1,074 transitions, zero violations.
+The four-arm crossover design, with complete data and a publicly reproducible
+evaluation pipeline, provides a benchmark against which future systems can directly
+compare. The M/M/c model gives the latency gains a concrete operational translation
+rather than leaving their significance implicit. Perhaps most importantly, the
+transparent reporting of 0\% task completion across all four arms, including the
+stronger BM25 baseline, provides an honest foundation for future work: it specifies
+exactly where GDT's session management leaves off and where dense retrieval must
+take over.
 
 \subsection{Limitations}
-Several limitations should be considered. First, the 0\% task completion rate reveals the fundamental inadequacy of sparse lexical retrieval for multi-pivot clinical tasks---GDT's context-management benefits are bounded by the retrieval backbone quality. Second, evaluation used simulated rather than human reviewers; NASA-TLX measures are model-driven estimates, not human ratings. Third, the test set comprised 31 vignettes (124 sessions), limiting subgroup statistical power. Fourth, the queueing model relies on simplifying assumptions (Poisson arrivals, exponential service times) that may not hold in real clinical workflows. Fifth, Proposition~1 provides a bound on \emph{linear} stale-context projection; non-linear interference from deep retrieval encoders requires separate analysis.
+The most important limitation is simultaneously the study's most informative
+finding: zero task completion across all four arms confirms that sparse retrieval
+is the binding constraint on retrieval quality in this benchmark, not session
+management. GDT's context-handling improvements are bounded by whatever matching
+system sits beneath them.
+
+Beyond that fundamental constraint, three further limitations deserve attention.
+The NASA-TLX scores are simulation estimates derived from observable query-timing
+patterns, not ratings collected from actual clinicians; the cognitive load
+conclusions therefore require validation in a human-in-the-loop study. The test
+set---31 vignettes, 124 sessions---provides adequate power for detecting GDT's
+large latency effect ($|d|{=}4.12$) but is underpowered for specialty-level
+subgroup analyses. The M/M/c queueing model assumes Poisson inter-arrivals and
+exponential service times; both assumptions are idealized for real clinical ward
+workflows with correlated admission patterns. Finally, Proposition~1 formalizes
+linear projection of stale context onto a fixed subspace; interference propagated
+through the non-linear layers of a dense neural retriever may follow paths outside
+the bound's scope.
 
 \subsection{Future Research}
-\begin{itemize}
-  \item Integration of GDT with dense retrieval backends (bi-encoder, ColBERT-style late interaction \citep{khattab20}) to enable retrieval-quality benefits from geodesic shift detection.
-  \item Fine-tuning of query and document encoders on clinical note corpora to bridge the lexical mismatch gap.
-  \item Human-in-the-loop studies using the annotation infrastructure (\texttt{src/annotation/}) to collect SUS, trust, and expert usefulness ratings.
-  \item Scaling evaluations on 200--1000 vignettes to improve subgroup and interaction statistical power.
-  \item Extension of Proposition~1 to non-linear (neural) stale-context projection.
-  \item Multi-center deployment studies with live EHR integration and real clinician participants.
-\end{itemize}
+The immediate priority is coupling GDT with a dense retrieval backend. Bi-encoder
+or ColBERT-style late-interaction scoring \citep{khattab20} would close the
+vocabulary gap that prevents task completion; GDT's geodesic gate and JEPA
+prefetch can then improve what is already a semantically capable retrieval engine
+rather than optimizing a lexical one. Alongside that, fine-tuning the query and
+document encoders on clinical note corpora would reduce the embedding mismatch
+that contributes to the current 0\% ceiling.
+
+On the evaluation side, the most pressing gap is human participants. The annotation
+infrastructure developed for this study supports SUS and NASA-TLX collection; the
+next step is recruiting clinicians and running sessions with live EHR data rather
+than simulated vignettes. Expanding from 31 to 200--1000 vignettes would also
+enable the specialty-level subgroup analyses that the current sample cannot support.
+Two theoretical extensions are also worth pursuing: a non-linear version of
+Proposition~1 that covers interference propagated through a deep retriever's
+hidden layers, and a multi-center deployment study with federated SMART on FHIR
+integration across hospital sites with different EHR vendors.
 
 % ============================================================
 \section{Conclusion}
 \label{sec:conclusion}
 
-Geodesic Diagnostic Trajectories (GDT) introduces a differential-geometry framework for adaptive clinical information retrieval that formally bounds stale-context interference, detects abrupt diagnostic pivots via geodesic curvature, and applies confidence-scaled optimal-control prefetching to anticipate clinician information needs. In a randomized four-arm crossover benchmark across 124 sessions from 31 clinical vignettes, GDT achieved the largest latency reduction among all conditions (26.9\% vs.\ TF-IDF, $p < 0.001$, $d = -4.12$; 4.0\% additional gain over CMA) and the largest simulated cognitive load reduction ($d = -0.55$). Proposition~1 was empirically verified across 100\% of gate-triggered turns, establishing GDT's theoretical guarantees on a clinical multi-pivot benchmark.
+Multi-pivot EHR chart review exposes a failure mode that conventional session-based
+retrieval systems are not designed to handle: the accumulated query history becomes
+a source of interference rather than assistance the moment a clinician changes
+diagnostic topic. GDT addresses this geometrically by tracking session intent as a
+trajectory on $\mathcal{S}_d^+$ and using the geodesic shift ratio to gate history
+reuse---suppressing stale context after pivots, exploiting it during stable segments.
+The formal interference bound in Proposition~1 gives this gate an auditable
+certificate: across 1,074 triggered transitions in 31 clinical vignettes, the bound
+held without a single violation.
 
-A critical finding is that all four conditions---including GDT and the stronger BM25 baseline---achieved 0\% task completion, confirming that sparse lexical retrieval is insufficient for multi-pivot, multi-domain clinical chart-review regardless of session-management strategy. GDT's geodesic-shift detection can reliably identify pivot points (34.7\% trigger rate), but translating this detection into retrieval-quality improvements requires a dense retrieval backend with clinical fine-tuning.
+The latency gains are real and practically meaningful. A 26.9\% reduction relative
+to TF-IDF ($d{=}{-4.12}$) and 4.0\% additional gain over CMA, projected through
+an M/M/c model, correspond to roughly 4.1 minutes of recovered reviewer time per
+peak-acuity shift. The confidence-scaling mechanism---shrinking the prefetch set
+after uncertain pivots---is the specific design choice that separates GDT from CMA
+and accounts for the incremental difference.
 
-The M/M/c operational model projects a 4.1-minute reduction in mean patient processing time per reviewer during peak-acuity periods, connecting sub-second retrieval improvements to organizationally meaningful outcomes. GDT's formal theoretical foundations, together with its demonstrated latency and cognitive-load gains, establish a rigorous basis for future human-in-the-loop studies integrating dense retrieval, federated learning across clinical sites, and live EHR deployment.
+What the benchmark also reveals, without ambiguity, is the limit of what session
+management can accomplish. Zero task completion across all four arms points directly
+at the vocabulary mismatch between short clinical queries and free-text EHR
+documents as the binding constraint. GDT's geodesic gate can detect a pivot; it
+cannot teach a sparse retriever to match clinical synonyms. The path forward is
+dense retrieval integration, and GDT's formal infrastructure---proved bounds,
+reproducible benchmark, operational projection model---provides the foundation
+to evaluate whether that integration works.
 
 \bibliographystyle{unsrtnat}
 \bibliography{references}

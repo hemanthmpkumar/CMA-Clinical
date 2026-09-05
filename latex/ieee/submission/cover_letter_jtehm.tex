@@ -1,0 +1,91 @@
+\documentclass[11pt]{letter}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue}
+
+\signature{Hemanth Manchabale Papachappa \\ Aniriuddha Ganguly}
+\address{}
+\date{September 2026}
+
+\begin{document}
+
+\begin{letter}{
+  Editor-in-Chief \\
+  IEEE Journal of Translational Engineering in Health and Medicine (JTEHM) \\
+  IEEE Engineering in Medicine and Biology Society
+}
+
+\opening{Dear Editor-in-Chief,}
+
+We submit for your consideration the manuscript \textbf{``Geodesic Diagnostic
+Trajectories (GDT): A Differential Geometry Framework for Adaptive Decision
+Support and Operational Optimization in EHR Systems''} by Hemanth Manchabale
+Papachappa and Aniriuddha Ganguly, for review as a regular article in
+\textit{IEEE Journal of Translational Engineering in Health and Medicine}.
+
+\textbf{Clinical problem and translational motivation.} Chart review in electronic
+health record (EHR) systems is a multi-pivot, cognitively demanding task. A
+physician tracking a critically ill patient may cycle through culture results,
+renal dosing adjustments, and anticoagulation orders within a single session---each
+pivot rendering the prior retrieval context a source of interference rather than
+assistance. Standard session-based retrievers accumulate this stale context without
+detection, degrading result relevance at the moment clinical decision speed matters
+most. GDT is our direct engineering response to this failure mode, designed to move
+from academic benchmark toward real-time clinical deployment.
+
+\textbf{Technical contribution.} GDT encodes the clinician's evolving diagnostic
+intent as a trajectory on the Riemannian manifold $\mathcal{S}_d^+$ of symmetric
+positive definite (SPD) matrices. A geodesic shift ratio $\kappa_t$ quantifies
+abrupt topic pivots relative to recent trajectory pace; a soft gate driven by
+$\kappa_t$ suppresses stale context with suppression strength bounded by a formally
+proved proposition (Proposition~1). A JEPA-style latent predictor anticipates the
+next query and populates a prefetch cache; prefetch volume is scaled by trajectory
+confidence so that uncertain post-pivot forecasts do not contaminate the cache.
+An M/M/c queueing model connects the resulting latency gains to ward-level
+operational throughput estimates.
+
+\textbf{Clinical benchmark and key findings.} We evaluated GDT against CMA, BM25,
+and TF-IDF in a randomized four-arm within-subject crossover study spanning 124
+sessions on 31 multi-pivot clinical vignettes from MIMIC-III/IV, eICU, and HiRID.
+GDT reduced mean retrieval latency by 26.9\% relative to TF-IDF control
+($p{<}0.001$, $d{=}{-4.12}$). Proposition~1 held across all 1,074 gate-triggered
+transitions without exception. The M/M/c projection estimates a 4.1-minute
+reduction in per-reviewer patient processing time during peak-acuity shifts.
+Equally important is the finding that all four conditions achieved 0\% task
+completion---an honest diagnostic result that isolates the vocabulary mismatch
+inherent in sparse lexical retrieval and identifies dense retrieval integration as
+the necessary next step.
+
+\textbf{Fit for JTEHM.} This manuscript aligns directly with JTEHM's mission of
+translational engineering for health and medicine. The contributions span three
+translational dimensions: (1) a theoretical framework with a proved interference
+bound---the kind of formal guarantee that regulatory bodies and clinical governance
+committees increasingly expect from deployed CDS; (2) a simulation benchmark that
+makes the system's limitations explicit rather than obscuring them; and (3) an
+operational analytics model that translates sub-second engineering improvements
+into workflow metrics meaningful to hospital administrators. The paper also
+discusses concrete deployment prerequisites---SMART on FHIR integration,
+NASA-TLX human-subject validation, fairness auditing---situating it firmly in the
+translational rather than purely algorithmic literature.
+
+\textbf{Confirmations.}
+\begin{itemize}
+  \item This work has not been published and is not under consideration elsewhere.
+  \item All authors have approved the manuscript and agree with the submission.
+  \item All datasets used (MIMIC-III/IV, eICU, HiRID) are publicly available and
+        de-identified; no new protected health information was collected.
+  \item The evaluation pipeline will be shared on GitHub upon acceptance.
+  \item There are no conflicts of interest to disclose (see accompanying statement).
+\end{itemize}
+
+We believe GDT's combination of formal theoretical foundations, transparent
+reporting of null retrieval-quality findings, and operational throughput modeling
+makes it a timely and relevant contribution to JTEHM's readership. We look forward
+to the editors' and reviewers' feedback.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}

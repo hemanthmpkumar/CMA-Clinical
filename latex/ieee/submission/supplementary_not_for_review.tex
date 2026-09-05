@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\lstset{basicstyle=\small\ttfamily, breaklines=true,
+        frame=single, backgroundcolor=\color{gray!8}}
+
+\title{Supplementary Material --- Not for Review\\
+\large Data Access Instructions and Open Science Commitments\\
+Geodesic Diagnostic Trajectories (GDT)}
+\author{Hemanth Manchabale Papachappa \and Aniriuddha Ganguly}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+
+\noindent\textit{This document contains administrative and logistics information
+for journal handling. It is not subject to peer review.}
+
+\bigskip
+
+% ─────────────────────────────────────────────────────────────
+\section{Data Availability Statement}
+
+All datasets used in this study are publicly available:
+
+\begin{itemize}
+  \item \textbf{MIMIC-III} (v1.4): \url{https://physionet.org/content/mimiciii/}
+  \item \textbf{MIMIC-IV} (v2.2): \url{https://physionet.org/content/mimiciv/}
+  \item \textbf{eICU Collaborative Research Database} (v2.0):
+        \url{https://physionet.org/content/eicu-crd/}
+  \item \textbf{HiRID} (v1.1.1): \url{https://physionet.org/content/hirid/}
+\end{itemize}
+
+Access requires PhysioNet account registration and signing of the respective
+data use agreements. No new data were generated in this study.
+
+% ─────────────────────────────────────────────────────────────
+\section{Code and Reproducibility Commitment}
+
+Upon acceptance of this manuscript, the authors commit to:
+
+\begin{enumerate}
+  \item Release all evaluation code, model weights, and configuration files on
+        GitHub under a permissive open-source license (MIT).
+  \item Deposit a static archive of the released code on Zenodo, linked from the
+        published manuscript.
+  \item Maintain a public issue tracker for reproducibility questions for a
+        minimum of two years following publication.
+\end{enumerate}
+
+The repository URL will be: \texttt{https://github.com/[to-be-disclosed-post-review]}\\
+(Disclosed upon acceptance to preserve double-blind review integrity.)
+
+% ─────────────────────────────────────────────────────────────
+\section{Open Science Framework Pre-registration}
+
+Pre-registered analysis plan is deposited at the Open Science Framework (OSF).
+The OSF record includes:
+\begin{itemize}
+  \item Pre-specified primary and secondary outcomes (as reported in Section~IV
+        of the manuscript)
+  \item Pre-specified statistical analysis plan (Wilcoxon signed-rank tests,
+        $\alpha{=}0.05$, Cohen's $d$)
+  \item Pre-specified four-arm crossover design parameters
+  \item Date of pre-registration: prior to data analysis
+\end{itemize}
+
+OSF URL: \texttt{https://osf.io/[to-be-disclosed-post-review]}
+
+% ─────────────────────────────────────────────────────────────
+\section{Author Contributions (CRediT Taxonomy)}
+
+\begin{itemize}
+  \item \textbf{Hemanth Manchabale Papachappa:} Conceptualization, Methodology,
+        Software, Formal Analysis, Investigation, Data Curation, Writing --
+        Original Draft, Writing -- Review \& Editing, Visualization.
+  \item \textbf{Aniriuddha Ganguly:} Conceptualization, Writing -- Review \&
+        Editing, Supervision, Project Administration.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────
+\section{Ethical Statement}
+
+This study used exclusively de-identified, publicly available datasets. No
+new human subjects were enrolled and no new clinical data were collected. No
+IRB approval was required for this study design. The study complies with the
+Declaration of Helsinki in spirit, and with HIPAA Safe Harbor de-identification
+standards as implemented by the respective dataset custodians.
+
+% ─────────────────────────────────────────────────────────────
+\section{Article Processing Charge (APC) Statement}
+
+JTEHM is a fully open-access IEEE journal. The authors confirm awareness of the
+applicable APC and their intention to pay upon acceptance, subject to any
+applicable waivers or institutional agreements.
+
+\end{document}

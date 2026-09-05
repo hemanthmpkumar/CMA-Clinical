@@ -3,44 +3,46 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: unsrtnat.bst
 Database file #1: references.bib
-You've used 41 entries,
+Warning--can't use both volume and number fields in kwon2024_clinical_reasoners
+You've used 80 entries,
             2481 wiz_defined-function locations,
-            778 strings with 14012 characters,
-and the built_in function-call counts, 17792 in all, are:
-= -- 1171
-> -- 1519
-< -- 14
-+ -- 552
-- -- 470
-* -- 1568
-:= -- 3081
-add.period$ -- 137
-call.type$ -- 41
-change.case$ -- 80
-chr.to.int$ -- 41
-cite$ -- 41
-duplicate$ -- 786
-empty$ -- 1422
-format.name$ -- 519
-if$ -- 3618
-int.to.chr$ -- 1
-int.to.str$ -- 42
-missing$ -- 36
-newline$ -- 224
-num.names$ -- 123
-pop$ -- 405
+            965 strings with 22786 characters,
+and the built_in function-call counts, 35378 in all, are:
+= -- 2395
+> -- 2912
+< -- 29
++ -- 1057
+- -- 896
+* -- 3075
+:= -- 6007
+add.period$ -- 262
+call.type$ -- 80
+change.case$ -- 158
+chr.to.int$ -- 79
+cite$ -- 81
+duplicate$ -- 1613
+empty$ -- 2870
+format.name$ -- 992
+if$ -- 7284
+int.to.chr$ -- 2
+int.to.str$ -- 81
+missing$ -- 70
+newline$ -- 423
+num.names$ -- 242
+pop$ -- 797
 preamble$ -- 1
-purify$ -- 41
+purify$ -- 80
 quote$ -- 0
-skip$ -- 442
+skip$ -- 928
 stack$ -- 0
-substring$ -- 374
-swap$ -- 111
-text.length$ -- 3
+substring$ -- 858
+swap$ -- 275
+text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 278
-warning$ -- 0
-while$ -- 109
+type$ -- 551
+warning$ -- 1
+while$ -- 222
 width$ -- 0
-write$ -- 542
+write$ -- 1045
+(There was 1 warning)

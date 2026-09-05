@@ -1,0 +1,17 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% Removed the 'helvet' package which caused the font rendering issue
+
+\begin{document}
+
+\begin{center}
+    \Large\textbf{Graphical Abstract Caption}
+\end{center}
+\vspace{1em}
+
+\noindent\textbf{Caption:}\\
+This graphical abstract illustrates the Geodesic Diagnostic Trajectories (GDT) framework for clinical EHR retrieval. \textbf{Left:} Standard retrieval systems suffer from ``stale context pollution'' when clinicians make abrupt diagnostic query pivots during a chart review (e.g., shifting abruptly from sepsis markers to renal dosing). \textbf{Center:} GDT solves this by modeling search intents on a Riemannian manifold ($\mathcal{S}_d^+$). It utilizes a Geometric Subspace Interference (GSI) gate ($\kappa_t$) to explicitly suppress outdated context, and a Joint Embedding Predictive Architecture (JEPA) for predictive prefetching. \textbf{Right:} Empirical results demonstrate that GDT reduces retrieval latency by 26.9\% (achieving 138~ms) compared to traditional TF-IDF and BM25 baselines. Furthermore, the framework successfully verifies formal interference bounds (Proposition 1) across 100\% of simulated transitions, translating to an estimated 4.1 minutes saved per clinical reviewer per 4-hour shift.
+
+\end{document}

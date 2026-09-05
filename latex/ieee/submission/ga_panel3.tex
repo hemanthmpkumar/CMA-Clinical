@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage[paperwidth=4.2in,paperheight=4.2in,margin=0.1in]{geometry}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\definecolor{armcontrol}{RGB}{150,150,150}
+\definecolor{armbm25}{RGB}{220,170,40}
+\definecolor{armcma}{RGB}{80,160,100}
+\definecolor{armgdt}{RGB}{140,80,220}
+\definecolor{boxblue}{RGB}{45,90,150}
+\pagestyle{empty}
+\begin{document}
+\begin{center}
+\vspace*{\fill}
+\begin{tikzpicture}[font=\sffamily]
+% Title
+\node[font=\large\bfseries] at (3.5, 3.8) {Results};
+
+\begin{axis}[
+    at={(-0.3, 0.2)},
+    width=8.5cm, height=4.5cm,
+    ybar,
+    bar width=18pt,
+    bar shift=0pt, % <--- THE CRITICAL FIX: prevents pgfplots from group-shifting multiple addplots
+    every axis plot/.append style={bar shift=0pt}, 
+    xmin=0.2, xmax=4.8,
+    xtick={1, 2, 3, 4},
+    xticklabels={TF-IDF, BM25, CMA, GDT},
+    x tick label style={rotate=25, anchor=north east, inner sep=2pt},
+    nodes near coords={\pgfmathprintnumber\pgfplotspointmeta},
+    nodes near coords align={vertical},
+    every node near coord/.append style={font=\footnotesize},
+    ymin=100, ymax=240,
+    ylabel={Latency (ms)},
+    ylabel style={font=\small, yshift=-1ex},
+    tick label style={font=\footnotesize},
+    axis lines*=left,
+    ymajorgrids=true,
+    grid style=dashed
+]
+% Because these are 4 separate \addplot commands, pgfplots was trying to shift them 
+% as if they were a clustered bar chart. bar shift=0pt centers them perfectly on x=1,2,3,4.
+\addplot[fill=armcontrol, draw=black!70] coordinates {(1,189)};
+\addplot[fill=armbm25, draw=black!70] coordinates {(2,189)};
+\addplot[fill=armcma, draw=black!70] coordinates {(3,144)};
+\addplot[fill=armgdt, draw=black!70] coordinates {(4,138)};
+
+\node[anchor=south, font=\footnotesize, armgdt, fill=white, draw=armgdt, rounded corners, inner sep=2pt] at (axis cs:4, 175) {--26.9\%};
+\end{axis}
+
+\node[align=left, font=\small, anchor=north] at (3.5, -1.3) {
+    \textbf{\textcolor{armcma}{\large \checkmark}} \textbf{Prop 1 Verified:}\\
+    \hspace{4mm}100\% of 1,074 transitions\\[2mm]
+    \textbf{\textcolor{boxblue}{\large $\circlearrowright$}} \textbf{4.1 min saved}\\
+    \hspace{4mm}per reviewer/shift
+};
+\end{tikzpicture}
+\vspace*{\fill}
+\end{center}
+\end{document}
