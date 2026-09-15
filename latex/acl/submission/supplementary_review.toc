@@ -1,0 +1,10 @@
+\contentsline {section}{\numberline {1}Extended Proof of Proposition~1}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Setup and Notation}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Formal Statement}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Tightness Analysis}{2}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Empirical Verification Detail}{2}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Hyperparameter Settings}{3}{section.2}%
+\contentsline {section}{\numberline {3}Dataset Details}{3}{section.3}%
+\contentsline {section}{\numberline {4}Full Statistical Results}{3}{section.4}%
+\contentsline {section}{\numberline {5}M/M/c Queueing Model --- Sensitivity Analysis}{3}{section.5}%
+\contentsline {section}{\numberline {6}Ablation: Gate Threshold Sensitivity}{4}{section.6}%

@@ -12,3 +12,4 @@ datasets>=2.14
 pyarrow>=14.0
 torch>=2.0
 geoopt>=0.5
+sentence-transformers>=2.0

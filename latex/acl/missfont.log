@@ -1,0 +1,7 @@
+mktextfm pcrr8t
+mktextfm pcrr8t
+mktextfm pcrr8t
+mktexpk --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 ectt0900
+mktextfm pcrr8t
+mktextfm pcrr8t
+mktextfm pcrr8t

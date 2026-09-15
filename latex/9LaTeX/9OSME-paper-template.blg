@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: 9OSME-paper-template.aux
+The style file: osmebibstyle.bst
+Database file #1: osmerefs.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 3 entries,
+            3566 wiz_defined-function locations,
+            755 strings with 6280 characters,
+and the built_in function-call counts, 1685 in all, are:
+= -- 139
+> -- 69
+< -- 1
++ -- 23
+- -- 22
+* -- 120
+:= -- 245
+add.period$ -- 11
+call.type$ -- 3
+change.case$ -- 20
+chr.to.int$ -- 3
+cite$ -- 3
+duplicate$ -- 124
+empty$ -- 134
+format.name$ -- 30
+if$ -- 352
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 30
+newline$ -- 21
+num.names$ -- 11
+pop$ -- 61
+preamble$ -- 1
+purify$ -- 26
+quote$ -- 0
+skip$ -- 58
+stack$ -- 0
+substring$ -- 37
+swap$ -- 70
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 16
+warning$ -- 0
+while$ -- 7
+width$ -- 4
+write$ -- 43

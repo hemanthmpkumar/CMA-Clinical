@@ -1,0 +1,28 @@
+{
+  "baseline": {
+    "window_size": 3,
+    "val_score": 56.7290647950211
+  },
+  "bm25": {
+    "window_size": 3,
+    "val_score": 61.10540829889221
+  },
+  "cma": {
+    "curvature_threshold": 0.55,
+    "gate_discount": 0.0,
+    "prefetch_weight": 0.3,
+    "context_window": 3,
+    "train_score": 39.90780714935702,
+    "val_accuracy": 1.0,
+    "val_mean_time": 58.0675
+  },
+  "gdt": {
+    "curvature_threshold": 0.9,
+    "gate_temperature": 0.4,
+    "gate_lexical_include": 0.5,
+    "prefetch_weight": 0.3,
+    "train_score": 71.31106205548676,
+    "val_accuracy": 1.0,
+    "val_mean_time": 55.35125
+  }
+}

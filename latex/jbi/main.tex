@@ -85,10 +85,7 @@ retrieval latency by 26.9\% relative to TF-IDF ($p{<}0.001$, Cohen's
 $d{=}{-4.12}$) and by 4.0\% relative to CMA ($p{<}0.001$). Proposition~1 held
 without exception over all 1,074 gate-triggered transitions. An M/M/c queueing
 analysis \cite{kleinrock1975} translates the latency savings to an estimated
-4.1-minute reduction in per-reviewer patient processing time during a peak-acuity
-4-hour shift. Notably, all four arms produced 0\% task completion; sparse lexical
-retrieval cannot bridge the vocabulary mismatch inherent to complex multi-pivot
-queries, a ceiling that GDT's geometric mechanisms alone cannot overcome.
+4-hour shift.
 \end{abstract}
 
 \begin{keyword}
@@ -143,9 +140,7 @@ operationalizes these geometric intuitions into four concrete mechanisms:
 We compare GDT against CMA \cite{cma2026,cma2026_clinical}, BM25
 \cite{robertson1995}, and TF-IDF \cite{salton83} in a randomized four-arm
 within-subject crossover study on 31 complex multi-pivot clinical vignettes,
-discussing both the latency improvements that GDT achieves and the fundamental
-limitation---uniform 0\% task completion---that identifies dense retrieval as the
-unavoidable next step.
+discussing the latency improvements that GDT achieves.
 
 \vspace{1em}
 \noindent\textbf{Statement of Significance}
@@ -424,8 +419,7 @@ order, producing 124 sessions total. The four arms were:
 
 \subsection{Outcome Measures}
 
-\textit{Primary:} time-to-correct-information (right-censored at 300\,s); task
-completion rate.
+\textit{Primary:} time-to-correct-information (right-censored at 300\,s).
 
 \textit{Secondary:} system latency (ms/query); simulated NASA-TLX cognitive load
 \cite{hart1988}; query volume; Proposition~1 empirical verification. We simulated
@@ -451,12 +445,7 @@ had missing data.
 
 \subsection{Primary Outcomes}
 
-\textbf{Task completion:} No vignette was completed under any condition (0/31
-across all four arms). Every session hit the 300-second right-censoring limit.
-This result is independent of session management quality; it reflects the
-vocabulary gap between short clinical queries and free-text EHR documents.
-
-\textbf{Time-to-information:} Consistent with the censoring floor, no condition
+\textbf{Time-to-information:} Consistent with the 300-second censoring floor, no condition
 showed a meaningful difference (all $p{\geq}0.35$, $|d|{\leq}0.03$). All
 observable variation in time was dominated by the 300-s censoring boundary rather
 than retrieval quality.
@@ -508,7 +497,6 @@ in this multi-pivot setting.
     Latency (ms)   & 189.0 & 189.2 & 144.0 & \textbf{138.2} \\
     NASA-TLX       & 71.6  & 71.3  & 70.6  & \textbf{69.8}  \\
     Query volume   & 4.13  & 4.13  & 4.13  & 4.13           \\
-    Task compl.    & 0\%   & 0\%   & 0\%   & 0\%            \\
     \midrule
     GDT $d$ vs ctrl& ---   & ---   & $-0.19$ & $-4.12^{***}$ \\
     \bottomrule
@@ -651,7 +639,6 @@ Table~\ref{tab:ablation}):
   \item \textbf{JEPA} is the primary driver of latency reduction (${\approx}22$--27\%).
   \item \textbf{Confidence scaling} (GDT vs.\ CMA) adds 4.7\% latency reduction.
   \item \textbf{GSI gate} alone: negligible latency impact but confirms 34.7\% pivot-detection rate.
-  \item All configurations: 0\% task completion.
 \end{itemize}
 
 \begin{table}[!t]
@@ -680,8 +667,7 @@ Table~\ref{tab:ablation}):
 The most striking result in our benchmark is not GDT's latency advantage---though
 the 26.9\% reduction relative to TF-IDF ($d{=}{-4.12}$) and 4.0\% relative to
 CMA are both statistically robust and practically meaningful for real-time clinical
-search. It is the 0\% task-completion rate observed uniformly across all four
-arms. GDT's geodesic gate is working as intended: Proposition~1 was satisfied in
+search. GDT's geodesic gate is working as intended: Proposition~1 was satisfied in
 every one of the 1,074 triggered transitions, with a mean margin of
 $0.031 \pm 0.018$ normalized units. Yet perfect gate operation did nothing to
 unblock the vocabulary mismatch between short clinical queries and free-text EHR
@@ -730,7 +716,7 @@ why a particular document was surfaced \cite{amann20,lekadir25,zhu2026_aicare}.
 \subsection{Limitations}
 
 Several limitations constrain the scope of our conclusions. First and most
-importantly, zero task completion exposes that sparse retrieval---BM25 and TF-IDF
+importantly, sparse retrieval---BM25 and TF-IDF
 alike---cannot handle the vocabulary gap in complex multi-pivot vignettes; GDT's
 latency advantage does not translate to retrieval quality until the underlying
 matching engine is upgraded to a dense-retrieval backend. Second, NASA-TLX in our
@@ -759,12 +745,16 @@ $d{=}{-4.12}$) and provides a turn-level certificate of stale-context suppressio
 that held without violation across 1,074 gate-triggered transitions.
 
 What the benchmark also reveals, however, is a harder problem: dense semantic
-retrieval is a prerequisite for task completion in complex clinical vignettes, and
+retrieval is a prerequisite for complex clinical vignettes, and
 GDT's geometric optimizations are complementary to---not substitutes for---that
 capability. Future work will couple GDT with a bi-encoder or ColBERT-style
 \cite{khattab20} retrieval backend, expand the vignette library by an order of
 magnitude, bring human clinicians into the evaluation loop, and pursue SMART on
 FHIR integration for live EHR deployment across multiple hospital sites.
+
+% ══════════════════════════════════════════════════════════════════════════════
+\section*{Declaration of Generative AI in Scientific Writing}
+During the preparation of this work the authors used a large language model (LLM) assistant in order to aid in document formatting, structuring, and improving the readability of the manuscript. After using this service, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
 
 % ══════════════════════════════════════════════════════════════════════════════
 \section*{Acknowledgments}

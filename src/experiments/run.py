@@ -38,6 +38,7 @@ from src.models.baseline import BaselineRetriever
 from src.models.bm25 import BM25Retriever
 from src.models.cma import CMARetriever
 from src.models.gdt import GDTRetriever
+from src.models.biencoder import BiEncoderRetriever
 
 
 def parse_args():
@@ -68,12 +69,35 @@ def main():
         bm25 = joblib.load(models_dir / "bm25.pkl")
         cma = joblib.load(models_dir / "cma.pkl")
         gdt = joblib.load(models_dir / "gdt.pkl")
+        
+        # Dense model
+        biencoder_path = models_dir / "biencoder.pkl"
+        if biencoder_path.exists():
+            biencoder = joblib.load(biencoder_path)
+        else:
+            # We don't really need to load it from disk since we can just rebuild it, but let's be safe.
+            # We'll need the corpus.
+            print("  Bi-encoder cache not found, will build if corpus is available...")
+            biencoder = None
+
         test_path = processed_dir / "test_vignettes.json"
         if not test_path.exists():
             raise FileNotFoundError(
                 f"{test_path} not found. Run src/data/split.py and src/models/train.py first."
             )
         vignettes = json.loads(test_path.read_text(encoding="utf-8"))
+        
+        if biencoder is None:
+            # Quick rebuild if corpus is available
+            corpus_path = processed_dir / "corpus.jsonl"
+            if corpus_path.exists():
+                print("Building Dense Semantic Retriever (Bi-Encoder) on the fly...")
+                with open(corpus_path, "r", encoding="utf-8") as fh:
+                    corpus = [json.loads(line) for line in fh]
+                biencoder = BiEncoderRetriever(corpus)
+            else:
+                biencoder = None
+                
         print(f"  Loaded test vignettes: {len(vignettes)}")
     else:
         print("Loading processed data...")
@@ -88,10 +112,13 @@ def main():
         cma.fit_predictor(vignettes, epochs=120, batch_size=64)
         gdt = GDTRetriever(corpus)
         gdt.fit_predictor(vignettes, epochs=120, batch_size=64)
+        
+        print("Building Dense Semantic Retriever (Bi-Encoder)...")
+        biencoder = BiEncoderRetriever(corpus)
 
-    print("Running simulated four-arm crossover experiment...")
+    print("Running simulated crossover experiment with Dense Retrieval...")
     df = run_experiment(baseline, bm25, cma, vignettes, seed=args.seed, top_k=args.top_k,
-                        gdt_retriever=gdt)
+                        gdt_retriever=gdt, biencoder_retriever=biencoder)
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)

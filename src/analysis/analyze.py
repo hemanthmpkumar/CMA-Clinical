@@ -46,13 +46,13 @@ try:
 except ImportError:  # pragma: no cover
     GEE = None
 
-CONDITIONS = ["control", "bm25", "cma", "gdt"]
+CONDITIONS = ["control", "bm25", "cma", "gdt", "biencoder"]
 
 # GDT is the primary intervention. CMA is a benchmark (alongside TF-IDF and
 # BM25), not a co-intervention: it is compared against GDT but never treated
 # as a competing treatment in the primary analysis.
 PRIMARY_ARM = "gdt"
-BENCHMARKS = ["control", "bm25", "cma"]
+BENCHMARKS = ["control", "bm25", "cma", "biencoder"]
 
 # Intervention arms used for the primary (vs control) contrasts.
 INTERVENTION_ARMS = ["gdt"]
@@ -65,6 +65,10 @@ CONTRASTS = [
     ("gdt", "bm25"),
     ("cma", "bm25"),
     ("control", "bm25"),
+    ("gdt", "biencoder"),
+    ("control", "biencoder"),
+    ("cma", "biencoder"),
+    ("bm25", "biencoder"),
 ]
 
 

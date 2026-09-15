@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\definecolor{reviewerblue}{RGB}{30,80,160}
+\definecolor{responsegreen}{RGB}{30,120,60}
+\definecolor{changedgold}{RGB}{180,120,10}
+
+\newenvironment{reviewercomment}[1]{%
+  \vspace{0.5em}\noindent
+  \textcolor{reviewerblue}{\rule{\linewidth}{1.5pt}}\\[0.2em]
+  \noindent\textcolor{reviewerblue}{\textbf{Reviewer #1 Comment:}}\\
+}{%
+  \vspace{0.2em}\noindent\textcolor{reviewerblue}{\rule{\linewidth}{1.5pt}}\vspace{0.5em}
+}
+
+\newenvironment{authorresponse}{%
+  \vspace{0.5em}\noindent
+  \textcolor{responsegreen}{\rule{\linewidth}{1.5pt}}\\[0.2em]
+  \noindent\textcolor{responsegreen}{\textbf{Author Response:}}\\
+}{%
+  \vspace{0.2em}\noindent\textcolor{responsegreen}{\rule{\linewidth}{1.5pt}}\vspace{1em}
+}
+
+\title{Author Response to Reviewer Comments\\
+\large Manuscript JTEHM-2026-XXXX\\
+\normalsize ``Geodesic Diagnostic Trajectories (GDT): A Differential Geometry
+Framework for Adaptive Decision Support and Operational Optimization in EHR
+Systems''}
+\author{Hemanth Manchabale Papachappa \and Aniriuddha Ganguly}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\noindent We thank the Associate Editor and all reviewers for their careful reading
+and constructive feedback. We address each comment below. Changes to the manuscript
+are highlighted in \textcolor{changedgold}{\textbf{gold}} in the tracked-changes
+version submitted alongside this response. Section and line number references are
+to the revised manuscript.
+
+\bigskip
+\noindent\rule{\textwidth}{0.4pt}
+
+% ─────────────────────────────────────────────────────────────
+\section*{Associate Editor Summary}
+
+\begin{reviewercomment}{AE}
+[Associate Editor comments will appear here upon receiving reviews.]
+\end{reviewercomment}
+
+\begin{authorresponse}
+[Author response to AE will be written here.]
+\end{authorresponse}
+
+% ─────────────────────────────────────────────────────────────
+\section*{Reviewer 1}
+
+\begin{reviewercomment}{1}
+[Reviewer 1 comments will appear here upon receiving reviews.]
+\end{reviewercomment}
+
+\begin{authorresponse}
+[Author response to Reviewer 1 will be written here.]
+\end{authorresponse}
+
+% ─────────────────────────────────────────────────────────────
+\section*{Reviewer 2}
+
+\begin{reviewercomment}{2}
+[Reviewer 2 comments will appear here upon receiving reviews.]
+\end{reviewercomment}
+
+\begin{authorresponse}
+[Author response to Reviewer 2 will be written here.]
+\end{authorresponse}
+
+% ─────────────────────────────────────────────────────────────
+\section*{Summary of All Changes}
+
+\noindent For convenience, we summarize all changes made to the manuscript below.
+Changes are keyed to reviewer comments listed above.
+
+\begin{enumerate}
+  \item[\textbf{R1.1}] [To be filled in after reviews received]
+  \item[\textbf{R1.2}] [To be filled in after reviews received]
+  \item[\textbf{R2.1}] [To be filled in after reviews received]
+\end{enumerate}
+
+\bigskip
+\noindent\textit{This file is a template to be completed upon receipt of reviewer
+comments. No reviews have been received at the time of initial submission.}
+
+\end{document}

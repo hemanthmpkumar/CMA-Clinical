@@ -34,6 +34,7 @@ ARMS = [
     ("control", "Control (TF-IDF)", "#E74C3C"),
     ("bm25", "BM25", "#F39C12"),
     ("cma", "CMA", "#27AE60"),
+    ("biencoder", "Bi-Encoder", "#3498DB"),
     ("gdt", "GDT", "#8E44AD"),
 ]
 
@@ -140,7 +141,7 @@ def plot_accuracy_comparison(df: pd.DataFrame, out_dir: Path):
         colors.append(color)
 
     fig, ax = plt.subplots(figsize=(7, 5))
-    sns.barplot(x=labels, y=means, palette=colors, ax=ax)
+    sns.barplot(x=labels, y=means, hue=labels, palette=dict(zip(labels, colors)), ax=ax, legend=False)
     ax.set_ylim(0, 1)
     ax.set_ylabel("Mean accuracy")
     ax.set_xlabel("Condition")
@@ -263,9 +264,9 @@ def plot_gdt_vs_benchmarks(stats: dict, out_dir: Path):
         raise ValueError("statistics.json is missing 'gdt_vs_benchmarks'; "
                          "re-run analyze.py")
 
-    bench_colors = {"control": "#E74C3C", "bm25": "#F39C12", "cma": "#27AE60"}
-    bench_labels = {"control": "TF-IDF", "bm25": "BM25", "cma": "CMA"}
-    benchmark_order = ["control", "bm25", "cma"]
+    bench_colors = {"control": "#E74C3C", "bm25": "#F39C12", "cma": "#27AE60", "biencoder": "#3498DB"}
+    bench_labels = {"control": "TF-IDF", "bm25": "BM25", "cma": "CMA", "biencoder": "Bi-Encoder"}
+    benchmark_order = ["control", "bm25", "cma", "biencoder"]
 
     # Continuous outcomes: median % change of GDT vs each benchmark.
     metrics = [
@@ -341,9 +342,9 @@ def plot_ablation(report: dict, out_dir: Path):
     main comparison figures.
     """
     bench_colors = {"control": "#E74C3C", "bm25": "#F39C12", "cma": "#27AE60",
-                    "gdt": "#8E44AD"}
-    bench_labels = {"control": "TF-IDF", "bm25": "BM25", "cma": "CMA", "gdt": "GDT"}
-    arm_order = ["control", "bm25", "cma", "gdt"]
+                    "gdt": "#8E44AD", "biencoder": "#3498DB"}
+    bench_labels = {"control": "TF-IDF", "bm25": "BM25", "cma": "CMA", "gdt": "GDT", "biencoder": "Bi-Encoder"}
+    arm_order = ["control", "bm25", "cma", "biencoder", "gdt"]
 
     summary = report.get("summary", [])
     variants = []

@@ -1,0 +1,248 @@
+\begin{thebibliography}{99}
+\newcommand{\enquote}[1]{``#1''}
+\newcommand{\doi}[1]{doi:#1}
+
+\bibitem[Amann et~al.~20]{amann20}
+Julia Amann, Alessandro Blasimme, Effy Vayena, Dietmar Frey, Vince~I. Madai,
+  and the Precise4Q~consortium.
+\newblock \enquote{Explainability for artificial intelligence in healthcare: a
+  multidisciplinary perspective.}
+\newblock \emph{BMC Medical Informatics and Decision Making} 20:1 (2020), 310.
+\newblock \doi{10.1186/s12911-020-01332-6}.
+\newblock Available online (\url{https://doi.org/10.1186/s12911-020-01332-6}).
+
+\bibitem[Arsigny et~al.~06]{arsigny2007_logeuclidean}
+Vincent Arsigny, Pierre Fillard, Xavier Pennec, and Nicholas Ayache.
+\newblock \enquote{Log-Euclidean Metrics for Fast and Simple Calculus on
+  Diffusion Tensors.}
+\newblock \emph{Magnetic Resonance in Medicine} 56:2 (2006), 411--421.
+
+\bibitem[Assran et~al.~23]{assran2023_ijepa}
+Mahmoud Assran, Quentin Duval, Ishan Misra, Piotr Bojanowski, Pascal Vincent,
+  Michael Rabbat, Yann LeCun, and Nicolas Ballas.
+\newblock \enquote{Self-Supervised Learning from Images with a Joint-Embedding
+  Predictive Architecture (I-JEPA).}
+\newblock In \emph{CVPR}, 2023.
+
+\bibitem[Assran et~al.~25]{assran2025_vjepa2}
+Mahmoud Assran, Adrien Bardes, David Fan, Quentin Garrido, Russell Howes,
+  Michael Rabbat, and Nicolas Ballas.
+\newblock \enquote{V-JEPA 2: Self-Supervised Video Models Enable Understanding,
+  Prediction and Planning.}
+\newblock \emph{arXiv preprint arXiv:2506.09985}.
+
+\bibitem[Croskerry~03]{croskerry2003}
+Pat Croskerry.
+\newblock \enquote{The importance of cognitive errors in diagnosis and
+  strategies to minimize them.}
+\newblock \emph{Academic Medicine} 78:8 (2003), 775--780.
+
+\bibitem[Cui et~al.~26]{cui2026_jepa_theory}
+Jingyi Cui, Qi~Zhang, Hongwei Wen, and Yisen Wang.
+\newblock \enquote{A Generalization Theory for JEPA-Based World Models.}, 2026.
+
+\bibitem[Faltys et~al.~21]{muller2021_hirid}
+Martin Faltys, Marc Zimmermann, Xinrui Lyu, Matthias H{\"u}ser, Stephanie
+  Hyland, Gunnar R{\"a}tsch, and Tobias Merz.
+\newblock \enquote{HiRID, a high time-resolution ICU dataset (version 1.1.1).},
+  2021.
+
+\bibitem[Goddard et~al.~12]{goddard2012}
+Kate Goddard, Abdul Roudsari, and Jeremy~C. Wyatt.
+\newblock \enquote{Automation bias: a systematic review of frequency, effect
+  mediators, and mitigators.}
+\newblock \emph{Journal of the American Medical Informatics Association} 19:1
+  (2012), 121--127.
+
+\bibitem[Grill et~al.~20]{grill20}
+Jean-Bastien Grill, Florian Strub, Corentin Tallec, Pierre~H. Richemond, Elena
+  Buchatskaya, Carl Doersch, Bernardo~Avila Pires, Zhaohan~Daniel Guo,
+  Mohammad~Gheshlaghi Azar, Bilal Piot, Koray Kavukcuoglu, and Michal Valko.
+\newblock \enquote{Bootstrap Your Own Latent - A New Approach to
+  Self-Supervised Learning.}
+\newblock In \emph{NeurIPS}, 2020.
+
+\bibitem[Gross et~al.~08]{gross2008}
+Donald Gross, John~F. Shortle, James~M. Thompson, and Carl~M. Harris.
+\newblock \emph{Fundamentals of Queueing Theory}, Fourth edition.
+\newblock Wiley, 2008.
+
+\bibitem[Guo et~al.~26]{guo2026_porter}
+Lin~Lawrence Guo, Adam~Paul Yan, Emily Vettese, and Lillian Sung.
+\newblock \enquote{PORTER: Language-Grounded Event Representations for Portable
+  Structured EHR Foundation Models.}, 2026.
+
+\bibitem[Hart and Staveland~88]{hart1988}
+Sandra~G. Hart and Lowell~E. Staveland.
+\newblock \enquote{Development of NASA-TLX (Task Load Index): Results of
+  empirical and theoretical research.}
+\newblock In \emph{Advances in Psychology},  52,  52, pp.~139--183. Elsevier,
+  1988.
+
+\bibitem[Hidasi et~al.~15]{hidasi2015}
+Balazs Hidasi, Alexandros Karatzoglou, Linas Baltrunas, and Domonkos Tikk.
+\newblock \enquote{Session-based Recommendations with Recurrent Neural
+  Networks.}
+\newblock In \emph{ICLR}, 2015.
+
+\bibitem[Huang et~al.~19]{huang2019_clinicalbert}
+Kexin Huang, Jaan Altosaar, and Rajesh Ranganath.
+\newblock \enquote{ClinicalBERT: Modeling Clinical Notes and Predicting
+  Hospital Readmission.}
+\newblock arXiv preprint, 2019.
+
+\bibitem[Iyyer~20]{iyyer20}
+Chen Qu Liu Yang Cen Chen Minghui Qiu W. Bruce Croft~Mohit Iyyer.
+\newblock \enquote{Open-Retrieval Conversational Question Answering.}
+\newblock In \emph{SIGIR}, 2020.
+
+\bibitem[Johnson et~al.~16]{johnson2016_mimic3}
+Alistair E.~W. Johnson, Tom~J. Pollard, Lu~Shen, Li-wei~H. Lehman, Mengling
+  Feng, Mohammad Ghassemi, Benjamin Moody, Peter Szolovits, Leo~Anthony Celi,
+  and Roger~G. Mark.
+\newblock \enquote{MIMIC-III, a freely accessible critical care database.}
+\newblock \emph{Scientific Data} 3 (2016), 160035.
+\newblock \doi{10.1038/sdata.2016.35}.
+
+\bibitem[Johnson et~al.~23]{pollard2018_mimic4}
+Alistair E.~W. Johnson, Lucas Bulgarelli, Lu~Shen, Alvin Gayles, Ayad Shammout,
+  Steven Horng, Tom~J. Pollard, Sicheng Hao, Benjamin Moody, Brian Gow,
+  Li-wei~H. Lehman, Leo~Anthony Celi, and Roger~G. Mark.
+\newblock \enquote{MIMIC-IV, a freely accessible electronic health record
+  dataset.}
+\newblock \emph{Scientific Data} 10:1 (2023), 1.
+\newblock \doi{10.1038/s41597-022-01899-x}.
+
+\bibitem[Khattab and Zaharia~20]{khattab20}
+Omar Khattab and Matei Zaharia.
+\newblock \enquote{ColBERT: Efficient and Effective Passage Search via
+  Contextualized Late Interaction over BERT.}
+\newblock In \emph{SIGIR}, 2020.
+
+\bibitem[Kleinrock~75]{kleinrock1975}
+Leonard Kleinrock.
+\newblock \emph{Queueing Systems, Volume 1: Theory}.
+\newblock Wiley-Interscience, 1975.
+
+\bibitem[Learning et~al.~17]{bronstein2017}
+Geometric~Deep Learning, Going beyond Euclidean~data, Date of~publication July,
+  and IEEE Signal Processing~Magazine July.
+\newblock \enquote{Geometric Deep Learning: Going beyond Euclidean data.}
+\newblock IEEE Signal Processing Magazine, 2017.
+
+\bibitem[LeCun~22]{lecun2022}
+Yann LeCun.
+\newblock \enquote{A Path Towards Autonomous Machine Intelligence.}
+\newblock OpenReview, 2022.
+
+\bibitem[Lee et~al.~20]{lee2020_biobert}
+Jinhyuk Lee, Wonjin Yoon, Sungdong Kim, Donghyeon Kim, Sunkyu Kim, Chan~Ho So,
+  and Jaewoo Kang.
+\newblock \enquote{BioBERT: a pre-trained biomedical language representation
+  model for biomedical text mining.}
+\newblock \emph{Bioinformatics}.
+\newblock \doi{10.1093/bioinformatics/btz682}.
+
+\bibitem[Lekadir et~al.~25]{lekadir25}
+Karim Lekadir, Ben Glocker, Celia Cintas, Curtis~P Langlotz, Eva Weicken, Fred
+  Prior, Georgios Kaissis, Gianna Tsakou, Jayashree Kalpathy-Cramer, John
+  Mongan, Kaisar Kushibar, Katrine Riklund, Kostas Marias, and AI~training.
+\newblock \enquote{FUTURE-AI: international consensus guideline for trustworthy
+  and deployable artificial intelligence in healthcare.}
+\newblock \emph{BMJ}.
+
+\bibitem[Liu et~al.~25]{liu2025_rag_biomed}
+Siru Liu, Allison~B. McCoy, and Adam Wright.
+\newblock \enquote{Improving large language model applications in biomedicine
+  with retrieval-augmented generation: a systematic review, meta-analysis, and
+  clinical development guidelines.}
+\newblock \emph{Journal of the American Medical Informatics Association} 32:4
+  (2025), 605--615.
+\newblock \doi{10.1093/jamia/ocaf008}.
+
+\bibitem[Miotto et~al.~16]{miotto2016}
+Riccardo Miotto, Li~Li, Brian~A. Kidd, and Joel~T. Dudley.
+\newblock \enquote{Deep Patient: An Unsupervised Representation to Predict the
+  Future of Patients from the Electronic Health Records.}
+\newblock \emph{Scientific Reports} 6:1 (2016), 26094.
+\newblock \doi{10.1038/srep26094}.
+\newblock Available online (\url{https://doi.org/10.1038/srep26094}).
+
+\bibitem[Pennec et~al.~06]{pennec2006_spd}
+Xavier Pennec, Pierre Fillard, and Nicholas Ayache.
+\newblock \enquote{A Riemannian Framework for Tensor Computing.}
+\newblock \emph{International Journal of Computer Vision} 66:1 (2006), 41--66.
+
+\bibitem[Pollard et~al.~18]{pollard2018_eicu}
+Tom~J. Pollard, Alistair E.~W. Johnson, Jesse~D. Raffa, Leo~A. Celi, Roger~G.
+  Mark, and Omar Badawi.
+\newblock \enquote{The eICU Collaborative Research Database, a freely available
+  multi-center database for critical care research.}
+\newblock \emph{Scientific Data} 5 (2018), 180178.
+\newblock \doi{10.1038/sdata.2018.178}.
+
+\bibitem[Rajkomar et~al.~18]{rajkomar2018}
+Alvin Rajkomar, Eyal Oren, Kai Chen, Andrew~M. Dai, Nissan Hajaj, Michaela
+  Hardt, Peter~J. Liu, Xiaobing Liu, Jake Marcus, Mimi Sun, Patrik Sundberg,
+  Hector Yee, Kun Zhang, Yi~Zhang, Gerardo Flores, Gavin~E. Duggan, Jamie
+  Irvine, Quoc Le, Kurt Litsch, Alexander Mossin, Justin Tansuwan, De~Wang,
+  James Wexler, Jimbo Wilson, Dana Ludwig, Samuel~L. Volchenboum, Katherine
+  Chou, Michael Pearson, Srinivasan Madabushi, Nigam~H. Shah, Atul~J. Butte,
+  Michael~D. Howell, Claire Cui, Greg~S. Corrado, and Jeffrey Dean.
+\newblock \enquote{Scalable and accurate deep learning with electronic health
+  records.}
+\newblock \emph{npj Digital Medicine} 1:1 (2018), 18.
+\newblock \doi{10.1038/s41746-018-0029-1}.
+\newblock Available online (\url{https://doi.org/10.1038/s41746-018-0029-1}).
+
+\bibitem[Robertson et~al.~95]{robertson1995}
+Stephen~E. Robertson, Steve Walker, Susan Jones, Micheline~M. Hancock-Beaulieu,
+  and Mike Gatford.
+\newblock \enquote{Okapi at TREC-3.}
+\newblock In \emph{Proceedings of the Third Text REtrieval Conference
+  (TREC-3)}, 1995.
+
+\bibitem[Salton and McGill~83]{salton83}
+Gerard Salton and Michael~J. McGill.
+\newblock \emph{Introduction to Modern Information Retrieval}.
+\newblock McGraw-Hill, 1983.
+
+\bibitem[Shurrab et~al.~26]{shurrab2026_ehrragp}
+Saeed Shurrab, Mariam Al-Omari, Dana El~Samad, and Farah~E. Shamout.
+\newblock \enquote{EHR-RAGp: Retrieval-Augmented Prototype-Guided Foundation
+  Model for Electronic Health Records.}, 2026.
+
+\bibitem[Sweller~88]{sweller1988_cogl}
+John Sweller.
+\newblock \enquote{Cognitive Load During Problem Solving: Effects on Learning.}
+\newblock \emph{Cognitive Science} 12:2 (1988), 257--285.
+
+\bibitem[Topol~19]{topol2019}
+Eric~J. Topol.
+\newblock \enquote{High-performance medicine: the convergence of human and
+  artificial intelligence.}
+\newblock \emph{Nature Medicine}.
+
+\bibitem[Wu et~al.~19]{wu2019_session}
+Shu Wu, Yuyuan Tang, Yanqiao Zhu, Liang Wang, Xing Xie, and Tieniu Tan.
+\newblock \enquote{Session-based Recommendation with Graph Neural Networks.}
+\newblock In \emph{AAAI}, 2019.
+
+\bibitem[Zamani et~al.~20]{zamani20}
+Hamed Zamani, Bhaskar Mitra, Everest Chen, Gord Lueck, Fernando Diaz, Paul~N.
+  Bennett, Nick Craswell, and Susan~T. Dumais.
+\newblock \enquote{Analyzing and Learning from User Interactions for Search
+  Clarification.}
+\newblock In \emph{SIGIR}, 2020.
+
+\bibitem[Zhu et~al.~26]{zhu2026_aicare}
+Yinghao Zhu, Dehao Sui, Zixiang Wang, Xuning Hu, Lei Gu, Yifan Qi, Tianchen Wu,
+  Ling Wang, Yuan Wei, Wen Tang, Zhihan Cui, Yasha Wang, Lequan Yu, Ewen~M.
+  Harrison, Junyi Gao, and Liantao Ma.
+\newblock \enquote{Augmenting Clinical Decision-Making with an Interactive and
+  Interpretable AI Copilot: A Real-World User Study with Clinicians in
+  Nephrology and Obstetrics.}
+\newblock In \emph{Proceedings of the 2026 CHI Conference on Human Factors in
+  Computing Systems}. ACM, 2026.
+
+\end{thebibliography}

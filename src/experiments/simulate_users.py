@@ -46,14 +46,6 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
     rng = np.random.default_rng(seed)
     retriever.reset_session()
 
-    # Isolate the search space to the specific simulated patient
-    filter_ids = {doc["note_id"] for doc in retriever.corpus 
-                  if doc.get("vignette_id") == vignette["vignette_id"] 
-                  or doc.get("patient_id") == vignette.get("patient_id")}
-    
-    if not filter_ids:
-        filter_ids = None  # Fallback to global index if metadata is missing
-
     # GDT and CMA apply to the intervention arms only; both sparse baselines use
     # control-level timing/cognitive-load parameters.
     params = CONDITION_PARAMS.get(condition, CONDITION_PARAMS["control"])
@@ -74,13 +66,11 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
         latency_ms = float(rng.lognormal(mean=latency_mu, sigma=0.10))
         latencies.append(latency_ms)
 
-        # Pass the filter_ids mask to the retriever
         results = retriever.search(
             query_text, 
             session_history=session_history, 
             top_k=top_k, 
-            prefetch=True, 
-            filter_ids=filter_ids
+            prefetch=True
         )
         session_history.append(query_text)
         retrieved_ids = [note_id for note_id, _ in results]
@@ -97,15 +87,21 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
         timestamps.append(step_time)
 
     # Time-to-correct-info: cumulative time at the last query required to find all targets.
-    # A query sequence is successful if every target is found at or before its own query.
+    # A query sequence is successful if every target is eventually found.
     cumulative = np.cumsum(timestamps)
-    success = True
+    unique_targets = {q["target_note_id"] for q in vignette["queries"]}
+    found_targets = set()
     last_success_query = -1
-    for i, found in enumerate(all_targets_found):
-        if not found:
-            success = False
-        else:
-            last_success_query = max(last_success_query, i)
+
+    for i, q in enumerate(vignette["queries"]):
+        target_id = q["target_note_id"]
+        if all_targets_found[i]:
+            found_targets.add(target_id)
+        
+        if len(found_targets) == len(unique_targets) and last_success_query == -1:
+            last_success_query = i
+
+    success = len(found_targets) == len(unique_targets)
 
     if success:
         time_to_info = float(cumulative[last_success_query])
@@ -113,7 +109,7 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
         accuracy = 1
     else:
         # Penalty condition: count missing targets, add extra search time.
-        missing = sum(1 for f in all_targets_found if not f)
+        missing = len(unique_targets) - len(found_targets)
         time_to_info = float(cumulative[-1]) + missing * 45.0
         n_queries_issued = len(vignette["queries"])
         accuracy = 0
@@ -154,7 +150,7 @@ def simulate_session(retriever, vignette: dict, condition: str, seed: int,
 
 def run_experiment(control_retriever, bm25_retriever, cma_retriever,
                    vignettes: list[dict], seed: int = 20260617,
-                   top_k: int = 10, gdt_retriever=None) -> pd.DataFrame:
+                   top_k: int = 10, gdt_retriever=None, biencoder_retriever=None) -> pd.DataFrame:
     arms = [
         ("control", control_retriever),
         ("bm25", bm25_retriever),
@@ -162,6 +158,8 @@ def run_experiment(control_retriever, bm25_retriever, cma_retriever,
     ]
     if gdt_retriever is not None:
         arms.append(("gdt", gdt_retriever))
+    if biencoder_retriever is not None:
+        arms.append(("biencoder", biencoder_retriever))
 
     rows = []
     rng = random.Random(seed)

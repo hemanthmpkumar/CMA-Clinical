@@ -1,4 +1,5 @@
 .venv/
+.venv2/
 .pytest_cache/
 data/Processed/
 data/processed_spd_test/

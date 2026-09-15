@@ -1,0 +1,23 @@
+\begin{thebibliography}{99}
+\newcommand{\enquote}[1]{``#1''}
+\newcommand{\doi}[1]{doi:#1}
+
+\bibitem[Miura et~al.~15]{origami6}
+Koryo Miura, Toshikazu Kawasaki, Tomohiro Tachi, Ryuhei Uehara, Robert~J. Lang,
+  and Patsy Wang-Iverson, editors.
+\newblock \emph{Origami 6},  I: Mathematics.
+\newblock American Mathematical Society, 2015.
+
+\bibitem[Smith and Doe~17]{SmithDoe2017}
+John Smith and Jane Doe.
+\newblock \enquote{A Very Interesting Article.}
+\newblock \emph{Journal of Interesting Topics} 5:1 (2017), 10--15.
+
+\bibitem[Wang-Iverson et~al.~11]{origami5}
+Patsy Wang-Iverson, Robert~J. Lang, and Mark YIM, editors.
+\newblock \emph{Origami 5: Fifth International Meeting of Origami Science,
+  Mathematics, and Education}.
+\newblock A K Peters/CRC Press, 2011.
+\newblock \doi{10.1201/b10971}.
+
+\end{thebibliography}

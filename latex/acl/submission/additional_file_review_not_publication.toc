@@ -1,0 +1,6 @@
+\contentsline {section}{\numberline {1}Computational Environment}{2}{section.1}%
+\contentsline {section}{\numberline {2}Data Use Agreements}{2}{section.2}%
+\contentsline {section}{\numberline {3}Vignette Construction Protocol}{2}{section.3}%
+\contentsline {section}{\numberline {4}NASA-TLX Simulation Methodology}{2}{section.4}%
+\contentsline {section}{\numberline {5}BM25 and TF-IDF Implementation Details}{3}{section.5}%
+\contentsline {section}{\numberline {6}Code Repository Structure}{3}{section.6}%

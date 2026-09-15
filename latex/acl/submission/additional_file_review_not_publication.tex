@@ -1,0 +1,167 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\lstset{basicstyle=\small\ttfamily, breaklines=true,
+        frame=single, backgroundcolor=\color{gray!8}}
+
+\title{Additional File for Review --- Not for Publication\\
+\large Geodesic Diagnostic Trajectories (GDT)}
+\author{Hemanth Manchabale Papachappa \and Aniriuddha Ganguly}
+\date{September 2026}
+
+\begin{document}
+\maketitle
+
+\noindent\textit{This file contains reviewer-facing technical details that
+support assessment of reproducibility and methodological soundness. It is not
+intended for publication.}
+
+\tableofcontents
+\newpage
+
+% ─────────────────────────────────────────────────────────────
+\section{Computational Environment}
+
+\begin{itemize}
+  \item \textbf{Hardware:} MacBook Pro (Apple M-series), 36 GB unified memory
+  \item \textbf{OS:} macOS 15.x
+  \item \textbf{Python:} 3.12.4 (pyenv)
+  \item \textbf{Key libraries:} PyTorch 2.x, HuggingFace Transformers,
+        \texttt{rank\_bm25}, \texttt{scikit-learn}, \texttt{scipy},
+        \texttt{geomstats} (SPD manifold operations)
+  \item \textbf{ClinicalBERT:} \texttt{emilyalsentzer/Bio\_ClinicalBERT} from
+        HuggingFace Hub
+  \item \textbf{Random seeds:} All experiments seeded with $42$ for
+        reproducibility
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────
+\section{Data Use Agreements}
+
+All datasets are publicly available under standard data use agreements. The
+authors hold active agreements for MIMIC-III, MIMIC-IV, eICU, and HiRID via
+PhysioNet. No re-identification of patient data was performed; de-identified
+data were used exclusively. Synthetic vignette components generated from
+aggregate distributional statistics do not constitute protected health information
+under HIPAA Safe Harbor criteria.
+
+% ─────────────────────────────────────────────────────────────
+\section{Vignette Construction Protocol}
+
+Each of the 31 test vignettes was constructed by the following procedure:
+\begin{enumerate}
+  \item Select a hospitalization record from MIMIC-III/IV, eICU, or HiRID with
+        $\geq 3$ distinct diagnostic category transitions documented in progress
+        notes or orders.
+  \item Identify 3--7 ``pivot points'' in the clinical record where the
+        treating team's documented focus shifted to a new problem.
+  \item For each pivot point, construct a natural-language query representing
+        the information need at that moment (e.g., ``current creatinine trend
+        and eGFR trajectory'').
+  \item Define a gold-standard target document (the note or lab report that
+        best answers the query) from the de-identified record.
+  \item Construct a retrieval corpus of 500--2000 documents from the same
+        hospitalization plus background documents sampled from the full dataset.
+\end{enumerate}
+
+Two clinical informaticists reviewed all 31 vignettes for clinical plausibility
+and query naturalness. Inter-rater agreement on gold-standard document selection
+was $\kappa = 0.81$ (substantial agreement).
+
+% ─────────────────────────────────────────────────────────────
+\section{NASA-TLX Simulation Methodology}
+
+Because no human clinicians participated, NASA-TLX subscale scores were estimated
+from observable system events using the following mapping:
+
+\begin{table}[h]
+\centering
+\caption{NASA-TLX subscale proxy mapping used in simulation.}
+\begin{tabular}{lll}
+\toprule
+\textbf{Subscale} & \textbf{Observable proxy} & \textbf{Weight} \\
+\midrule
+Mental Demand    & Mean query complexity (token count) & 20\% \\
+Temporal Demand  & Mean latency / 300s budget & 20\% \\
+Effort           & Query reformulation rate & 20\% \\
+Frustration      & Failed retrievals / total queries & 20\% \\
+Performance      & Inverse of time-to-correct-info & 20\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These are explicitly labeled as \textit{proxy estimates}, not clinician
+self-report, throughout the manuscript. We use the term ``simulated NASA-TLX''
+consistently to prevent misinterpretation.
+
+% ─────────────────────────────────────────────────────────────
+\section{BM25 and TF-IDF Implementation Details}
+
+\begin{lstlisting}[language=Python, caption=BM25 session context implementation]
+from rank_bm25 import BM25Okapi
+import numpy as np
+
+class SessionBM25:
+    def __init__(self, k1=1.5, b=0.75, window=10, decay=0.9):
+        self.k1 = k1; self.b = b
+        self.window = window; self.decay = decay
+
+    def build_query(self, history):
+        # Recency-weighted query: concatenate last `window` queries
+        # with exponential downweighting of older tokens
+        weighted = []
+        for i, q in enumerate(history[-self.window:]):
+            weight = self.decay ** (len(history[-self.window:]) - i - 1)
+            weighted.extend(q.split() * max(1, int(weight * 10)))
+        return weighted
+
+    def retrieve(self, corpus, history, top_k=10):
+        bm25 = BM25Okapi(corpus)
+        query = self.build_query(history)
+        return bm25.get_top_n(query, corpus, n=top_k)
+\end{lstlisting}
+
+% ─────────────────────────────────────────────────────────────
+\section{Code Repository Structure}
+
+Upon acceptance, the following repository structure will be made public via GitHub:
+
+\begin{lstlisting}
+gdt-clinical-retrieval/
+├── src/
+│   ├── models/
+│   │   ├── gdt.py          # GDT retriever (SPD + GSI gate + JEPA)
+│   │   ├── cma.py          # CMA comparison system
+│   │   ├── bm25_session.py # Session-aware BM25 baseline
+│   │   └── tfidf_session.py
+│   ├── geometry/
+│   │   ├── spd_manifold.py # SPD covariance, geodesic distance
+│   │   └── logeuclidean.py # Log-Euclidean projection
+│   ├── jepa/
+│   │   ├── predictor.py    # Latent intent predictor
+│   │   └── confidence.py   # Confidence scaling
+│   ├── evaluation/
+│   │   ├── crossover.py    # Four-arm crossover trial logic
+│   │   ├── metrics.py      # Latency, NASA-TLX proxy, Prop.1 check
+│   │   └── queueing.py     # M/M/c model
+│   └── data/
+│       ├── mimic_loader.py
+│       ├── eicu_loader.py
+│       └── vignette_builder.py
+├── experiments/
+│   ├── run_crossover.py    # Main experiment entry point
+│   └── run_ablation.py
+├── configs/
+│   └── gdt_default.yaml    # All hyperparameters (Table S1)
+├── requirements.txt
+└── README.md
+\end{lstlisting}
+
+\end{document}

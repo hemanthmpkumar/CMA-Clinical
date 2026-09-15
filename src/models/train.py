@@ -223,18 +223,10 @@ def tune_cma(corpus: list[dict], train_v: list, val_v: list, baseline_retriever,
             prefetch_weight=pre_w,
             context_window=ctx,
         )
-        #baseline_for_compare = evaluate(retriever, tune_train, "control")
-        baseline_for_compare = evaluate(baseline_retriever, tune_train, "control") ### Changes (Aniruddha)
-        cma = evaluate(retriever, tune_train, "cma")
-        # Relative time reduction, plus accuracy reward.
-        if baseline_for_compare["mean_time"] > 0:
-            reduction = (baseline_for_compare["mean_time"] - cma["mean_time"]) / baseline_for_compare["mean_time"]
-        else:
-            reduction = 0.0
-        #score = reduction + cma["mean_acc"] - 0.05 * cma["mean_queries"]
-        score = reduction + (cma["mean_acc"] - baseline_for_compare["mean_acc"]) - 0.05 * cma["mean_queries"]  ### Changes (Aniruddha)  
+        metrics = evaluate_retrieval(retriever, tune_train)
+        score = metrics["recall_10"] * 100 + metrics["mrr"]
         print(f"  thr={thr:.2f} disc={disc:.1f} pre={pre_w:.1f} ctx={ctx:2d} -> "
-              f"reduction={reduction*100:5.1f}%, accuracy={cma['mean_acc']:.3f}, score={score:.3f}")
+              f"recall@10={metrics['recall_10']:.3f}, mrr={metrics['mrr']:.3f}, score={score:.3f}")
         if score > best_score:
             best_score = score
             best = (thr, disc, pre_w, ctx)
@@ -293,15 +285,10 @@ def tune_gdt(corpus: list[dict], train_v: list, val_v: list, baseline_retriever,
             gate_lexical_include=glex,
             prefetch_weight=pre_w,
         )
-        baseline_for_compare = evaluate(baseline_retriever, tune_train, "control")
-        gdt = evaluate(retriever, tune_train, "gdt")
-        if baseline_for_compare["mean_time"] > 0:
-            reduction = (baseline_for_compare["mean_time"] - gdt["mean_time"]) / baseline_for_compare["mean_time"]
-        else:
-            reduction = 0.0
-        score = reduction + (gdt["mean_acc"] - baseline_for_compare["mean_acc"]) - 0.05 * gdt["mean_queries"]
+        metrics = evaluate_retrieval(retriever, tune_train)
+        score = metrics["recall_10"] * 100 + metrics["mrr"]
         print(f"  thr={thr:.2f} tau={tau:.1f} glex={glex:.2f} pre={pre_w:.1f} -> "
-              f"reduction={reduction*100:5.1f}%, accuracy={gdt['mean_acc']:.3f}, score={score:.3f}")
+              f"recall@10={metrics['recall_10']:.3f}, mrr={metrics['mrr']:.3f}, score={score:.3f}")
         if score > best_score:
             best_score = score
             best = (thr, tau, glex, pre_w)
